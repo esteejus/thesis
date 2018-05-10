@@ -1,0 +1,209 @@
+%\documentclass[3p,twocolumn]{elsarticle}
+\documentclass[review]{elsarticle}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}%for left right graphic adjust
+\usepackage{amsmath}
+
+\graphicspath{ {images/} }
+
+\usepackage{lineno,hyperref}
+\modulolinenumbers[5]
+
+\journal{Journal of \LaTeX\ Templates}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Elsevier bibliography styles
+%%%%%%%%%%%%%%%%%%%%%%%
+%% To change the style, put a % in front of the second line of the current style and
+%% remove the % from the second line of the style you would like to use.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+%\bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+%\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+%\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+\bibliographystyle{elsarticle-num}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{frontmatter}
+
+%\title{Extending Dynamic Range of Generic Electronics for Time Projection Chambers (GET)}
+\title{Extending the Dynamic Range of Electronics in a Time Projection Chamber}
+%\title{Extending Dynamic Range of GET Electronics}
+
+%% Group authors per affiliation:
+%\author{Elsevier\fnref{myfootnote}}
+%\address{Radarweg 29, Amsterdam}
+%\fntext[myfootnote]{Since 1880.}
+
+%% or include affiliations in footnotes:
+\author[msu,nscl]{J. Estee}
+\author[msu,nscl]{W.G. Lynch}
+
+\address[msu]{Michigan State University, Dept. Physics and Astronomy }
+\address[nscl]{National Superconducting Cyclotron Laboratory}
+
+\begin{abstract}
+When applying Time Projection Chambers  (TPCs) to low and intermediate nuclear collisions one can face challenges in addressing large dynamic ranges in the energy losses of the detected particles. For recent experiments with the SAMURAI Pion-Reconstruction and Ion-Tracker (S$\pi$RIT) TPC, it was important to detect and analyze the small energy losses of relativistic pions as well as the large energy losses of, slow moving, heavy ions.  We illustrate how such large dynamic ranges can be handled in TPC with a wire plane readout  by effective use and knowledge the tails of the pad response function. By employing this technique, we are able to increase the signal to noise ratio by a factor of 2x.
+\end{abstract}
+
+\begin{keyword}
+\texttt{elsarticle.cls}\sep \LaTeX\sep Elsevier \sep template
+\MSC[2010] 00-01\sep  99-00
+\end{keyword}
+
+\end{frontmatter}
+
+\linenumbers
+
+\section{Introduction} 
+The challenges of measuring large dynamic ranges in the energy losses of detected particles is widespread and a several techniques have been employed to address this issue in TPCs. At the time of publication it is common for TPC electronics to have at best a signal to noise ratio of 1000:1. If the signal to noise ratio of at least 20:1 is required to measure minimum ionizing particles, (m.i.p.), around $\beta\gamma=0.4$ this means the maximum range we could expect would be 50x greater than m.i.p.  In heavy ion collisions (HIC) of 300 MeVA fixed target beam energies the range of particle velocities ranges from m.i.p. to ~0.1$\beta\gamma$. These velocities cover about 40x the dE/dx of m.i.p. Also the energy loss scales like $z^2$ for larger charged particles. Also, if the track enters the TPC at an obtuse angle, the deposited charge on one pad could be higher by a factor of about 4x.  It becomes clear the large dynamic range that must be covered in such intermediate HIC experiments. 
+A couple of TPC's such as the EOS TPC or the AT-TPC were able to circumvent the measuring of large energy deposits by lowering the gain in certain regions either by lowering the voltage on the anode wires or electronics gain settings. Of course the dE/dx resolution and accuracy of the momentum determination goes down for light particles as only a subset of the whole TPC can be used. Also there may be no dE/dx measurement for particles that avoid these regions. Here we illustrate how to expand the dynamic range without these drawbacks within the context of a standard multi-wire TPC. 
+
+\begin{figure}[ht]
+\label{fig:padwire}
+\includegraphics[width=\linewidth]{padwire}
+\caption{Cartoon graphic showing the 3 wire planes and a section of the pad plane. h3 =14 mm, h2 = 8 mm, h1 = 4 mm, d2 = 1 mm, d1 = 4 mm. The actual orientation is inverted from this picture but for ease of displaying this orientation fits best.}
+\end{figure}
+
+\paragraph{1.1 TPC Overview}
+\paragraph{Wire planes}
+As seen in figure \ref{fig:padwire} the S$\pi$RIT TPC consists of three wire grids above the two dimensional array of charge sensitive readout pads, the pad plane. The first two wire grids operate as a gate and a shielding, or ground grid, with 1 mm spacing and they are not important for the discussion of this paper. The wire grid closest to the pad plane is the high voltage anode wire grid consisting of 20 $\mu$m wires spaced at 4 mm apart and set at a height of 4 mm from the pad plane. In the near vicinity of these wires the avalanche of the preliminary electrons occurs. The electrons deposited from tracks in the detector gas are multiplied on the order of 2000  times and the slow moving ions moving away induce a signal on the read out pads below. The resulting distribution on the pad plane is fixed by the geometry of the anode wire grid and its distance from the pad plane. The anode wire planes were sectioned off into individual distribution boards power 14 independent sections. 12 sections of the anode wire plane was held at 1460 V. This setting was optimized to ensure the small signal of pions would at least have a signal to noise ratio of 20:1. Two of the sections were held to 1214 V, this was due to some high currents which at the time of experiment were not fully understood. The reduction in voltage resulted in a reduction of about 10x gain compared to the higher anode wire sections. We will return to these two sections of lower gain later to validate the method that will be described. 
+\paragraph{Pad plane} 
+The S$\pi$RIT TPC pad plane consists of a 2-dimensional plane of charge sensitive pads. Each pad being rectangular in shape with a dimension of .8 cm x 1.2 cm. It is laid out on a grid measuring 112 by 108 pads with a total area of 134 cm x 86 cm. For convenience we have chosen the +x axis to point to the right of beam, the -y axis as the direction pointing down into the drift volume, and the +z axis along the incoming beam. The avalanche wires run perpendicular to the beam axis along the x axis as seen in the figure \ref{fig:padwire}. 
+\paragraph{Generic Electronics for TPCs}
+Signals from the pads in the S$\pi$RIT TPC are amplified and digitized by the newly developed Generic Electronics for TPCs (GET) \cite{get}.  Short cables transmit the signals from the pads to the inputs of the AGET chips. Each AGET chip can service 64 pads and contains a Preamp (PA), and a Switched Capacitor Array (SCA) with a maximum of 512 time buckets sampling at 1 to 100 MHz. Four AGET chips are mounted on one AsAd (Asic and Adc) motherboard. The gain of each AGET can be configured as 0.12, 0.24, 1.0, or 10 pC over the whole dynamic range. Also the peaking times of the shaping amplifiers can be set to 69, 117, 232, 501, 720, or 1014 ns. The 12 bit ADC's on the AsAd boards deliver and effective 10.5 bit resolution. For the first series of experiments the gain was set to the highest setting, 0.12 pC, and the peaking time was set to 117 ns. At such a high gain, the pion signal was able to fully be measured. To put this gain setting into perspective, the minimum velocity that would cause saturated pads was $\beta\gamma\approx$ 0.2 for z=1 particles, $\beta\gamma\approx$ 0.6 for z=2 particles, and z$\geq$3 particles were always saturating. 
+
+\section{Pad Response Function}
+\paragraph{Experimental PRF}
+The fractional charge seen by each pad is referred to as the Pad Response Function (PRF). Some simple wire plane geometries have analytical expressions for the PRF which are well studied and may be looked up using a Gatti distribution \cite{blumrol}. Though theoretical PRF’s may be available, Blum and Rolandi still suggest an effective PRF may be required \cite{blumrol}. When analytical PRFs do not exist, an effective PRF may be calculated from experimental data. We postulate that the PRF is only a function of the total charge deposited on the wire Q and the displacement $\lambda$.
+
+\begin{figure}[h]
+\label{fig:av}
+\includegraphics[width=\linewidth]{defofavalanche}
+\caption{Cartoon graphic of avalanche event on an anode wire over one layer of pads. The estimate of the position of the avalanche is given by $\bar{x}$  the weighted mean. The position from the center to each pad to the $\bar{x}$ position is given as $\lambda_i$.}
+\end{figure}
+
+\begin{equation}\label{eq:1}
+\begin{split}
+PRF(\lambda_i) = \frac{q_i(\lambda_i)}{Q}\\
+where \ Q=\sum_i q_i\\
+and \   \lambda_i=x_i-\bar{x}\\
+\end{split}
+\end{equation}
+
+When calculating the effective PRF from experiment, we selected data that is not saturated, as this will only distort the shape of the PRF. Since the beam comes in along the z direction, the x direction gives the best momentum resolution and was the natural choice for clustering and calculating the PRF. 
+
+The PRF is given in equation \ref{eq:1} where i is the index over the pads and Q is the total charge within the layer. In figure \ref{fig:av}, the estimate for the avalanche position along the wire is given by the weighted mean position $\bar{x}$. Also seen is $\lambda_i$, defined as the difference, in position, of the center of the $i^{th}$ pad, $x_i$, to the mean position $\bar{x}$. 
+
+\begin{figure}[ht]
+\label{fig:expprf}
+\includegraphics[width=\linewidth]{expprf}
+\caption{Experimental pad response function. Constructed from total number of pads $>$=3. }
+\end{figure}
+
+Calculating the PRF in the way described above, the resulting experimental PRF for the S$\pi$RIT TPC is seen in figure \ref{fig:exprf}. The PRF obtained from a of the experimental data gives rise to a well behaved function.  It is this function we will be fitting the data to extend the saturated pads. 
+
+\paragraph{Method of Desaturaiton}
+
+Figure \ref{fig:satpad} shows a typical situation of saturated signals. This will be used as an example to explain the method of extrapolating the saturated pads, which I refer to in this paper as desaturation. When an avalanche causes an induced signal so large, the pads directly underneath collect the largest charge and typically would be saturated. These are represented as $q_{1'}$ and $q_{2'}$ in the figure \ref{fig:satpad}. The pads further away would experience smaller, non-saturated signals. 
+
+Though we don't know the charge of the saturated pads, we know that all the pads charges must satisfy the PRF distribution described in figure \ref{fig:expprf}. Thus, using these small non-saturated tails, we perform a $\chi^2$ fit to find the unknown charge on the saturated pads. 
+
+\begin{figure}[ht]
+\label{fig:satpad}
+\includegraphics[width=\linewidth]{saturated_pads}
+\end{figure}
+
+\section{Experimental data}
+
+Two sets of data will be discussed in this paper. The first set was a tuned cocktail beam consisting of (p,d,t,${}^3He$,${}^4He$,${}^6Li$,${}^7Li$) light charged particles which was injected into the TPC for calibration purposes. The cocktail beam was tuned to two different $\beta\rho$ settings and the momentum resolution was approximately 1\% as determined by the slits of the BigRIPS fragment separator of the Radioactive Isotope Beam Factory (RIBF) facility in RIKEN. A thick 21mm thick aluminum target was inserted for part of the lower $\beta\rho$ setting, further reducing the energy of the beam for a third calibration point. 
+
+In a typical cocktail event one particle enters the TPC volume at a time and mostly parallel to the pad plane. Thus, the cocktail beam data represents an ideal case for the momentum and dE/dx determination. Also the cocktail data does not suffer from inefficiencies related to high multiplicity events we see in the collision data. 
+
+\begin{figure}[ht]
+\label{fig:data}
+\includegraphics[width=\linewidth]{data}
+\caption{Pad plane projection for a collision event in the TPC. Highlighted by red arrows are two regions of anode wires which had a reduced voltage of 1214 V. The voltage of the rest of the TPC anode wires are 1460 V. The reduction in voltage reduces the gain by a factor of $\approx$10. }
+\end{figure}
+
+Shown in figure \ref{fig:data} is the typical pad plane response for a central nuclear collision of the system ${}^{}$Sn + ${}^{}$Sn. During the experiment two anode section voltages were turned down from 1460 V to 1214 V. The relative drop in gain is about 10. The anode sections which are lowered are denoted by the red arrows in figure \ref{fig:data}. 
+
+
+\section{Results}
+\paragraph{Low gain vs corrected high gain}
+
+As mentioned above, two anode sections, covering 12 layers of pads in total, had their gain lowered by approximately a factor of 10. The signals in this lowered gain region have effectively 10x the dynamic range as compared with the high gain regions. That is to say when a track would saturate pads in the high gain region, the signal in this low gain region is still preserved and can be measured. By comparing the $\frac{dE}{dx}$ values of the high gain sections with the low gain section we can determine whether the desaturation correction described above is successful. 
+
+\begin{figure}[ht]
+\label{fig:lowvshigh_raw}
+\includegraphics[width=\linewidth]{lowvshigh_raw_cuts}
+\caption{The uncorrected high gain dE/dx vs low gain dE/dx for ~??? events of collision data.  }
+\end{figure}
+ 
+It is clear from figure \ref{fig:lowvshigh_raw} the effect of saturation has on the high gain channels. The data starts to saturate and deviates from the y=x line around about 400 ADC/mm in the high gain channels and eventually plateaus.  After applying the desaturation correction the correlation between the high gain and low gain sections is significantly restored as seen in figure \ref{fig:lowvshigh_desat}. Judging by the corrected correlation plot we can believe the correction to at least about 900 ADC/mm. It seems the 1:1 correlation is mostly restored and the increase in dynamic range in the high gain pads is about a factor of 2x.
+
+\begin{figure}[ht]
+\label{fig:lowvshigh_desat}
+\includegraphics[width=\linewidth]{lowvshigh_desat}
+\caption{The corrected high gain dE/dx vs low gain dE/dx for ~??? events of collision data.  }
+\end{figure}
+
+\paragraph{Particle Identification (PID)}
+
+Comparing the low to high gain sections provides a direct comparison for determining the success of the extrapolation. The true goal of any correction would be to improve the PID. 
+\begin{figure}[h]
+\label{fig:cocktail_raw}
+\includegraphics[width=\linewidth]{cocktail_raw}
+\caption{Uncorrected cocktail data.}
+\end{figure}
+
+\begin{figure}[ht]
+\label{fig:data_desat}
+\includegraphics[width=\linewidth]{cocktail_desat}
+\caption{Corrected (desaturated) cocktail data.}
+\end{figure}
+
+Looking firstly at the ideal case of the cocktail beam in figures \ref{fig:cocktail_raw} and \ref{fig:cocktail_desat} we note the very clean pronounced PID lines of several particle species. Once can clearly see the three  energy settings set by the magnetic rigidity of the fragment separator leading to three "blobs" around 1700 and two near 900 [MeV/c/z]. The remainder portion of the PID lines result form the particle losing its initial energy by passing through the walls and other materials outside the main detector volume. Looking at the uncorrected data in figure \ref{fig:cocktail_raw} we can see the effects of saturation turn the PID lines from the expected values from theory, given by red lines, and all seem to tend towards some kind of plateau. When looking at the uncorrected collision data in figure \ref{fig:data_raw}, one can see the lines more complete an the issue of saturation. One can see the stark difference after applying the desaturation method in figures \ref{fig:cocktail_desat} and \ref{fig:data_desat}. Most notable is the difference between He and Li particle species which suffer the most from saturation. Perhaps the more subtle improvement of the lighter particles, (p,d,t), can also be seen in the PID values at lower momentum.
+ 
+
+\begin{figure}[ht]
+\label{fig:data_raw}
+\includegraphics[width=\linewidth]{data_raw}
+\caption{Uncorrected collision data.}
+\end{figure}
+
+\begin{figure}[ht]
+\label{fig:data_desat}
+\includegraphics[width=\linewidth]{data_desat}
+\caption{Corrected (desaturated) collision data.}
+\end{figure}
+
+
+\section{Conclusion}
+We have shown that one can easily construct the Pad Response Function from unsaturated experimental data. Using this function and applying a simple $\chi^2$ fit to the unsaturated tails of data, one can recover the saturated pad charge in the middle of the distribution. Simply because the true PRF is fixed by the anode wire geometry. We also demonstrated the success of this method by a direct comparison of dE/dx of the high gain sections, which we are extending, to the low gain sections which give the true unsaturated dE/dx value. In the end this simple method gives significant improvement to the PID of particles. The effect improves the dynamic range by a factor of at least 2x. 
+\section*{References}
+
+\bibliography{mybibfile}
+
+\end{document}

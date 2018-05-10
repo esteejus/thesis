@@ -3,3 +3,8 @@
 *.toc
 *.lof
 *.log
+*.out
+*.aux
+*.bst
+*.spl
+
