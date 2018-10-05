@@ -1,0 +1,36 @@
+\chapter{Time Projection Chamber}
+\section{Overview}
+
+\subsection{Field cage}
+
+\subsection{Wire planes}
+
+\section{Gas Properties of P10 Gas}
+
+\subsection{Drift velocity}
+
+\subsection{Avalanche process}
+
+Near the vicinity of the anode wires primary electrons under go acceleration and pick up kinetic energy. This kinetic energy can liberate secondary electrons in the gas which can then go on to also accelerate and liberate more secondary electrons resulting in an avalanche of electrons. Each electron in the avalanche process undergoes a random stochastic process where eventually they will terminate on the anode wire. Since the secondary electrons have no memory of the initial collision of the primary electrons, we can think of each secondary electrons as independent in the avalanche process. The total number of secondary electrons will give rise to the amplification factor, or gain, of the anode wires. 
+Using Garfield++ a simple 2D model of the wire plane structure was created. In this simplified model the wire planes lie within two parallel plates which model the pad plane and cathode \ref{table:gar_model}.
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+ Element & Voltage (V) & y distance (cm) \\
+\hline
+Pad plane    & 0 & 0 \\
+\hline
+Anode plane  & 1470 & -.4 \\
+\hline
+Ground plane & 0 & -.8 \\
+\hline
+Gating grid  & -171. & -1.4 \\
+\hline
+Cathode  & -6036.7 & -51.02 \\
+\hline
+\end{tabular}
+\caption{Geometry and voltages used in Garfiled++ model}
+\label{table:gar_model}
+\end{table}
+
