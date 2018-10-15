@@ -8,3 +8,8 @@
 *.bst
 *.spl
 *.gz
+*.dvi
+*.bll
+*.bib*
+*.blg
+*.bbl
