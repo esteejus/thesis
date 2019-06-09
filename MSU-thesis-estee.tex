@@ -32,10 +32,18 @@
 %
 % If you have large tables/figures that need to be in landscape mode, add the [lscape] option
 
+%IS THIS THE RIGHT BIB STYLE TO USE????!?!?!??!?!?!??!
+%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+\bibliographystyle{elsarticle-num}
+
 % This is standard fontenc/inputenc for pdflatex
 % If you use LuaLaTeX or XeLaTeX you should replace this with the fontspec package
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{float}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+
 %
 % If the thesis office requires Times, we'll give them Times
 % You can experiment with other font packages here if you like.
@@ -45,16 +53,31 @@
 % Load any extra packages here
 %
 % You must specify the title of your thesis, your name, the field of study (not department), and the year
-\title{The syntax and semantics of phonology}
-\author{Joe Linguist}
-\fieldofstudy{Linguistics} % This should be in sentence case
-\date{2017}
+\title{Constraining the High Density Nuclear Symmetry Energy with Pions}
+\author{Justin Estee}
+\fieldofstudy{Physics} % This should be in sentence case
+\date{2019}
 
 % If you want a dedication page, specify the text of the dedication here and uncomment the next command.
 %
 %\dedication{This thesis is dedicated to someone.}
 %
+
+%User defined commands
+\newcommand{\spirit}{S$\pi$RIT }
+
+\includeonly{
+%chapters/ch_intro,
+%chapters/ch_theory,
+chapters/ch_experiment,
+chapters/ch_data_analysis,
+%chapters/ch_data_analysis_2,
+%chapters/ch_results
+}
+
+
 \begin{document}
+
 
 % All the stuff before your actual chapters is called the front matter
 \frontmatter
@@ -101,15 +124,13 @@ Your acknowledgements here.
 % May violate thesis office rules
 %\addtocontents{toc}{\protect\renewcommand{\protect\cftchapterdotsep} {\cftnodots}}
 
-\include{chapters/ch_nucleareos}
-\include{chapters/ch_piontheory}
-\include{chapters/ch_embed}
-\include{chapters/ch_theorymodel}
-\include{chapters/ch_tpc}
-\include{chapters/ch_software}
+\include{chapters/ch_intro}
+\include{chapters/ch_theory}
 \include{chapters/ch_experiment}
-\include{chapters/ch_analysis}
+\include{chapters/ch_data_analysis}
+\include{chapters/ch_data_analysis_2}
 \include{chapters/ch_results}
+
 
 
 
@@ -153,5 +174,7 @@ Your acknowledgements here.
 % Remember that although the bibliography is single spaced, there needs to
 % be a blank line between entries. This is set by your bibliography package
 % If you are using natbib it is \bibsep; if using biblatex it's \bibitemsep
+\bibliography{mybibfile}
+
 \end{document}
 

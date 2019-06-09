@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1000"
+   height="1000"
+   viewBox="0 0 264.58333 264.58334"
+   version="1.1"
+   id="svg1372"
+   inkscape:version="0.92.4 (33fec40, 2019-01-16)"
+   sodipodi:docname="EmbedFlow.svg">
+  <defs
+     id="defs1366">
+    <symbol
+       id="Process">
+      <title
+         id="title7566">Process</title>
+      <desc
+         id="desc7568">Any processing function.</desc>
+      <rect
+         x="3.96875"
+         y="9.260417"
+         width="31.75"
+         height="21.166666"
+         style="stroke-width:0.52916664"
+         id="rect7570" />
+    </symbol>
+    <symbol
+       id="Decision">
+      <title
+         id="title7608">Decision</title>
+      <desc
+         id="desc7610">A decision or switching type operation.</desc>
+      <path
+         inkscape:connector-curvature="0"
+         d="m 3.96875,19.84375 15.875,-10.5833333 15.875,10.5833333 -15.875,10.583333 z"
+         style="stroke-width:0.52916664"
+         id="path7612" />
+    </symbol>
+    <symbol
+       id="InputOutput">
+      <title
+         id="title7573">Input/Output</title>
+      <desc
+         id="desc7575">General input/output functions.</desc>
+      <path
+         inkscape:connector-curvature="0"
+         d="M 9.2604167,9.2604167 H 35.71875 L 30.427083,30.427083 H 3.96875 Z"
+         style="stroke-width:0.52916664"
+         id="path7577" />
+    </symbol>
+    <symbol
+       id="LoopLimitBegin">
+      <title
+         id="title7816">Loop Limit Begin</title>
+      <desc
+         id="desc7818">Start of a loop.</desc>
+      <path
+         inkscape:connector-curvature="0"
+         d="M 3.96875,19.84375 9.2604167,9.2604167 H 30.427083 L 35.71875,19.84375 v 10.583333 h -31.75 z"
+         style="stroke-width:0.52916664"
+         id="path7820" />
+    </symbol>
+    <symbol
+       id="Preparation">
+      <title
+         id="title7594">Preparation</title>
+      <desc
+         id="desc7596">A preparation or setup process step. (ISO)</desc>
+      <path
+         inkscape:connector-curvature="0"
+         d="M 9.2604167,9.2604167 H 30.427083 L 35.71875,19.84375 30.427083,30.427083 H 9.2604167 L 3.96875,19.84375 Z"
+         style="stroke-width:0.52916664px"
+         id="path7598" />
+    </symbol>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.85512365"
+     inkscape:cx="627.38446"
+     inkscape:cy="543.65195"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata1369">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-32.41665)">
+    <use
+       id="use9820"
+       transform="matrix(1.2182561,0,0,0.71139417,63.921655,73.812781)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Process"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <use
+       id="use9848"
+       transform="translate(158.59772,196.36009)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Decision"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <use
+       id="use9904"
+       transform="matrix(1,0,0,0.39072165,26.753557,96.428946)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#InputOutput"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <use
+       id="use9904-6"
+       transform="matrix(1,0,0,0.39072164,30.812259,65.141396)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#InputOutput"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="50.751938"
+       y="71.836342"
+       id="text9946"><tspan
+         sodipodi:role="line"
+         x="50.751938"
+         y="71.836342"
+         style="font-size:3.52777767px;text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan9948">Experimental</tspan><tspan
+         sodipodi:role="line"
+         x="50.751938"
+         y="76.246063"
+         style="font-size:3.52777767px;text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan9952"> Data</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="46.434181"
+       y="103.16225"
+       id="text9946-5"><tspan
+         sodipodi:role="line"
+         x="46.434181"
+         y="103.16225"
+         style="font-size:3.52777767px;text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan9948-3">MC</tspan><tspan
+         sodipodi:role="line"
+         x="46.434181"
+         y="107.57197"
+         style="font-size:3.52777767px;text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan9952-5"> Data</tspan></text>
+    <use
+       id="use10036"
+       transform="matrix(1.0040218,0,0,0.59291402,-1.7704573,56.723591)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Preparation"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="10.371414"
+       y="67.246284"
+       id="text10054"><tspan
+         sodipodi:role="line"
+         id="tspan10052"
+         x="10.371414"
+         y="67.246284"
+         style="stroke-width:0.26458332">Loop over </tspan><tspan
+         sodipodi:role="line"
+         x="10.371414"
+         y="71.656006"
+         style="stroke-width:0.26458332"
+         id="tspan10056">each event</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 18.372095,74.732669 V 85.89073 h 16.408914"
+       id="path10066"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 40.907003,92.126117 H 34.781009 V 77.029916 h 9.407777"
+       id="path10068"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="87.601486"
+       y="84.427864"
+       id="text10089"><tspan
+         sodipodi:role="line"
+         id="tspan10087"
+         x="87.601486"
+         y="84.427864"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332">Mix ADC response</tspan><tspan
+         sodipodi:role="line"
+         x="88.042458"
+         y="88.837585"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10091">from MC event and </tspan><tspan
+         sodipodi:role="line"
+         x="87.601486"
+         y="93.247307"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10093">Embedding Data Event</tspan></text>
+    <use
+       id="use10135"
+       transform="matrix(1.0911401,0,0,0.38710552,110.45609,64.717786)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Process"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="132.27617"
+       y="71.610146"
+       id="text10170"><tspan
+         sodipodi:role="line"
+         id="tspan10168"
+         x="132.27617"
+         y="71.610146"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332">Pulse Shape Analysis</tspan><tspan
+         sodipodi:role="line"
+         x="132.27617"
+         y="76.019867"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10172">Exp. Data</tspan></text>
+    <use
+       id="use10135-0"
+       transform="matrix(1.0911401,0,0,0.38710553,110.18261,81.117461)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Process"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="132.0027"
+       y="87.791039"
+       id="text10170-6"><tspan
+         sodipodi:role="line"
+         id="tspan10168-2"
+         x="132.0027"
+         y="87.791039"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332">Pulse Shape Analysis</tspan><tspan
+         sodipodi:role="line"
+         x="132.0027"
+         y="92.20076"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10172-6">Mixed Data</tspan></text>
+    <use
+       id="use10135-0-1"
+       transform="matrix(1.0911401,0,0,0.38710553,110.18261,97.198193)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Process"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="132.0027"
+       y="104.09056"
+       id="text10170-6-8"><tspan
+         sodipodi:role="line"
+         id="tspan10168-2-7"
+         x="132.0027"
+         y="104.09056"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332">Pulse Shape Analysis</tspan><tspan
+         sodipodi:role="line"
+         x="132.0027"
+         y="108.50028"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10172-6-9">MC Data</tspan></text>
+    <use
+       id="use10255"
+       transform="matrix(1.2982058,0,0,1.050929,189.92316,168.84725)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Decision"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="190.3434"
+       y="84.231071"
+       id="text10269"><tspan
+         sodipodi:role="line"
+         id="tspan10267"
+         x="190.3434"
+         y="87.494263"
+         style="stroke-width:0.26458332" /></text>
+    <use
+       id="use10297"
+       transform="matrix(1.0023136,0,0,0.5650037,157.21831,101.62328)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Preparation"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="176.90312"
+       y="112.19055"
+       id="text10311"><tspan
+         sodipodi:role="line"
+         x="177.3441"
+         y="112.19055"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10313">For each hit in </tspan><tspan
+         sodipodi:role="line"
+         x="176.90312"
+         y="116.60027"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10716">Exp. data</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="202.99487"
+       y="188.98141"
+       id="text10317"><tspan
+         sodipodi:role="line"
+         id="tspan10315"
+         x="202.99487"
+         y="188.98141"
+         style="stroke-width:0.26458332">Is mixed data hit</tspan><tspan
+         sodipodi:role="line"
+         x="202.99487"
+         y="193.39114"
+         style="stroke-width:0.26458332"
+         id="tspan10319">same as MC hit?</tspan></text>
+    <use
+       id="use10333"
+       transform="matrix(1.0452092,0,0,0.23631217,142.10686,186.58674)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Process"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="147.20457"
+       y="192.4794"
+       id="text10366"><tspan
+         sodipodi:role="line"
+         id="tspan10364"
+         x="147.20457"
+         y="192.4794"
+         style="stroke-width:0.26458332">Tag hit as saturated</tspan></text>
+    <use
+       id="use10380"
+       transform="matrix(0.89276854,0,0,0.21333674,25.389532,187.24213)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Process"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="30.615856"
+       y="192.42413"
+       id="text10394"><tspan
+         sodipodi:role="line"
+         id="tspan10392"
+         x="30.615856"
+         y="192.42413"
+         style="stroke-width:0.26458332">Helix Track Task</tspan></text>
+    <use
+       id="use10506"
+       transform="matrix(0.83048719,0,0,0.2134101,97.036394,187.29591)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Process"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="101.81134"
+       y="192.67941"
+       id="text10520"><tspan
+         sodipodi:role="line"
+         id="tspan10518"
+         x="101.81134"
+         y="192.67941"
+         style="stroke-width:0.26458332">Clustering Task</tspan></text>
+    <use
+       id="use10534"
+       transform="translate(60.243753,172.28869)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Preparation"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="67.83551"
+       y="191.47607"
+       id="text10548"><tspan
+         sodipodi:role="line"
+         id="tspan10546"
+         x="67.83551"
+         y="191.47607"
+         style="stroke-width:0.26458332">For each hit in</tspan><tspan
+         sodipodi:role="line"
+         x="67.83551"
+         y="195.8858"
+         style="stroke-width:0.26458332"
+         id="tspan10550">a cluster</tspan><tspan
+         sodipodi:role="line"
+         x="67.83551"
+         y="200.29552"
+         style="stroke-width:0.26458332"
+         id="tspan10552" /></text>
+    <use
+       id="use10580"
+       transform="matrix(1.1682241,0,0,0.8733534,28.030471,200.85608)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Decision"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="42.625088"
+       y="217.20215"
+       id="text10594"><tspan
+         sodipodi:role="line"
+         x="42.625088"
+         y="217.20215"
+         style="stroke-width:0.26458332"
+         id="tspan10598">Is the hit</tspan><tspan
+         sodipodi:role="line"
+         x="42.625088"
+         y="221.61188"
+         style="stroke-width:0.26458332"
+         id="tspan10611">embedded?</tspan><tspan
+         sodipodi:role="line"
+         x="42.625088"
+         y="226.02159"
+         style="stroke-width:0.26458332"
+         id="tspan10600" /></text>
+    <use
+       id="use10625"
+       transform="matrix(0.82313872,0,0,0.25753854,81.096697,213.07614)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Process"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="86.988953"
+       y="219.07103"
+       id="text10639"><tspan
+         sodipodi:role="line"
+         id="tspan10637"
+         x="86.988953"
+         y="219.07103"
+         style="stroke-width:0.26458332">Track Fitting</tspan></text>
+    <use
+       id="use10667"
+       transform="matrix(1,0,0,0.68867587,117.95303,203.87748)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Preparation"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="126.63871"
+       y="217.53035"
+       id="text10681"><tspan
+         sodipodi:role="line"
+         x="126.63871"
+         y="217.53035"
+         style="stroke-width:0.26458332"
+         id="tspan10683">For each cluster</tspan><tspan
+         sodipodi:role="line"
+         x="126.63871"
+         y="221.94008"
+         style="stroke-width:0.26458332"
+         id="tspan10687">in a track?</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="170.02048"
+       y="215.0065"
+       id="text10691"><tspan
+         sodipodi:role="line"
+         id="tspan10689"
+         x="170.02048"
+         y="215.0065"
+         style="stroke-width:0.26458332">Is a cluster</tspan><tspan
+         sodipodi:role="line"
+         x="170.02048"
+         y="219.41623"
+         style="stroke-width:0.26458332"
+         id="tspan10693">embedded?</tspan></text>
+    <use
+       id="use10255-0"
+       transform="matrix(1.2982058,0,0,1.050929,151.27122,112.94271)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Decision"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="166.4623"
+       y="132.39417"
+       id="text10712"><tspan
+         sodipodi:role="line"
+         x="166.4623"
+         y="132.39417"
+         style="stroke-width:0.26458332"
+         id="tspan10778">If mixed hit a</tspan><tspan
+         sodipodi:role="line"
+         x="166.4623"
+         y="136.80389"
+         style="stroke-width:0.26458332"
+         id="tspan10782"> Exp. data hit?  </tspan></text>
+    <use
+       id="use10297-4"
+       transform="matrix(1.0023136,0,0,0.56500371,201.95691,135.1058)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Preparation"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="221.64171"
+       y="145.05423"
+       id="text10311-7"><tspan
+         sodipodi:role="line"
+         x="222.08269"
+         y="145.05423"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10313-6">For each hit in </tspan><tspan
+         sodipodi:role="line"
+         x="221.64171"
+         y="149.46396"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10716-5">MC data</tspan></text>
+    <use
+       id="use10297-6"
+       transform="matrix(1.4027616,0,0,0.56500371,147.92101,77.962688)"
+       style="fill:#aaccee;stroke:#000000"
+       xlink:href="#Preparation"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="176.0024"
+       y="88.529953"
+       id="text10311-9"><tspan
+         sodipodi:role="line"
+         x="176.44337"
+         y="88.529953"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10313-3">For each hit in </tspan><tspan
+         sodipodi:role="line"
+         x="176.0024"
+         y="92.939674"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan10716-7">Mixed data canditates</tspan></text>
+  </g>
+</svg>
