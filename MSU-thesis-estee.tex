@@ -48,7 +48,7 @@
 % If the thesis office requires Times, we'll give them Times
 % You can experiment with other font packages here if you like.
 % If you are using XeLaTeX or LuaLaTeX load the Times or Times New Roman font with \setmainfont
-\usepackage{newtxtext,newtxmath} 
+\usepackage{newtxtext,newtxmath,booktabs,siunitx} 
 %
 % Load any extra packages here
 %
@@ -60,24 +60,24 @@
 
 % If you want a dedication page, specify the text of the dedication here and uncomment the next command.
 %
-%\dedication{This thesis is dedicated to someone.}
+\dedication{This thesis is dedicated to someone.}
 %
 
 %User defined commands
 \newcommand{\spirit}{S$\pi$RIT }
-
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 \includeonly{
 %chapters/ch_intro,
 %chapters/ch_theory,
 chapters/ch_experiment,
 chapters/ch_data_analysis,
-%chapters/ch_data_analysis_2,
+chapters/ch_data_analysis_2,
 %chapters/ch_results
 }
 
 
 \begin{document}
-
+%\sisetup{quotient-mode=fraction} % Output a/b as \frac{a}{b}
 
 % All the stuff before your actual chapters is called the front matter
 \frontmatter

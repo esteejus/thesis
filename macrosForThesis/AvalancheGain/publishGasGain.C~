@@ -1,0 +1,12 @@
+#include "thesis_style.h"
+
+using namespace style;
+
+void publishgasplots()
+{
+
+  TFile *inf = new TFile("gasplots.root","UPDATE");
+  TGraph *e_drift = (TGraph *)inf->Get("e_driftvel");
+  style::save(e_drift,"test.png");
+
+}

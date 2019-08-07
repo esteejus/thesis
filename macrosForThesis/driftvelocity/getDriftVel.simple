@@ -1,0 +1,92 @@
+#include <iostream>
+#include "MediumMagboltz.hh"
+
+using namespace std;
+using namespace Garfield;
+
+int main(int argc, char *argv[])
+{
+  MediumMagboltz* gas = new MediumMagboltz();
+  gas->LoadGasFile("ar-90-ch4-10-exb.gas"); //for electrons
+  
+  //Drift velocity 
+  double vx;
+  double vy;
+  double vz;
+  
+  double E_x = 0;
+  double E_y = -120; //V/cm
+  double E_z = 0;
+
+  double B_x = 0; //Tesla
+  double B_y = .5;
+  double B_z = 0;
+
+  //From the Langevin equaiton I would expect:
+  //(+)y-drift due to Ey 
+  //ExB to be 0
+  //(+)y-drift due to (E.B)B_hat
+
+  cout<<"Case 1. of parallel E & B"<<endl;
+  gas->ElectronVelocity(E_x,E_y,E_z,B_x,B_y,B_z,vx,vy,vz); //convert cm/ns to cm/us
+  vx *= 1e3; //convert from cm/ns to cm/us
+  vy *= 1e3;
+  vz *= 1e3;
+  cout<<"Electric Field          Ex: "<<E_x<<"  Ey: "<<E_y<<"  Ez: "<<E_z<<endl;
+  cout<<"Magnetic Field          Bx: "<<B_x<<"  By: "<<B_y<<"  Bz: "<<B_z<<endl;
+  cout<<"Electron drift velocity vx: "<<vx<<" vy: "<<vy<<" vz: "<<vz<<endl;
+
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  E_x = -10;
+  E_y = -120;
+  E_z = 0;
+
+  B_x = 0;
+  B_y = .5;
+  B_z = 0;
+  
+
+  //Here I add a small Ex componet to the electric field
+  //From the Langevin equaiton I would expect:
+  //(+)y-drift due to Ey  (+)x-drift due to Ex
+  //ExB velocity to be (-)z-drift
+  //(+)y-drift due to (E.B)B_hat
+
+  cout<<endl;
+  cout<<"Case 2. Adding small Ex componet"<<endl;
+  gas->ElectronVelocity(E_x,E_y,E_z,B_x,B_y,B_z,vx,vy,vz); //convert cm/ns to cm/us
+  vx *= 1e3; //convert from cm/ns to cm/us
+  vy *= 1e3;
+  vz *= 1e3;
+  cout<<"Electric Field          Ex: "<<E_x<<"  Ey: "<<E_y<<"  Ez: "<<E_z<<endl;
+  cout<<"Magnetic Field          Bx: "<<B_x<<"  By: "<<B_y<<"  Bz: "<<B_z<<endl;
+  cout<<"Electron drift velocity vx: "<<vx<<" vy: "<<vy<<" vz: "<<vz<<endl;
+
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  E_x = -10;
+  E_y = -120;
+  E_z = 0;
+
+  B_x = 0;
+  B_y = 0;
+  B_z = 0;
+  
+  //From the Langevin equaiton I would expect:
+  //(+)y-drift due to Ey (+)x-drift due to Ex 
+  //ExB to be 0
+  //(E.B) term 0
+
+  cout<<endl;
+  cout<<"Case 3. Turn off By. "<<endl;
+  gas->ElectronVelocity(E_x,E_y,E_z,B_x,B_y,B_z,vx,vy,vz); //convert cm/ns to cm/us
+  vx *= 1e3; //convert from cm/ns to cm/us
+  vy *= 1e3;
+  vz *= 1e3;
+  cout<<"Electric Field          Ex: "<<E_x<<"  Ey: "<<E_y<<"  Ez: "<<E_z<<endl;
+  cout<<"Magnetic Field          Bx: "<<B_x<<"  By: "<<B_y<<"  Bz: "<<B_z<<endl;
+  cout<<"Electron drift velocity vx: "<<vx<<" vy: "<<vy<<" vz: "<<vz<<endl;
+
+  return 0;
+}

@@ -84,8 +84,14 @@ These are the typical data cuts we take to get clean PID. All of these cuts are 
  \epsilon_{(p,\theta,\phi)} = \frac{N(p,\theta,\phi)_{detected}}{N(p,\theta,\phi)_{total}}
  \end{equation}  
   
-  
-\subsection{Efficiency Corrected Spectra}
+  \subsection{Efficiency Correction}
+The efficiency is corrected only for bins of $\theta$ and not bins in $\phi$ to improve statistics. The efficiency function is calculated only for the angular data cut region shown later. The zero count region is not corrected for and will be corrected by doing a solid angle correction later. Figure~\ref{fig:eff} shows the "effective`` efficiency for the pion vs momentum. Effective means we just take the efficiency corrected spectra and divide by the non-efficiency corrected spectra. The efficiency itself depends on  three parameters ($p$,$\theta$,$\phi$) and we are reducing it down to one parameter plot vs $p$. 
+
+\begin{figure}
+\includegraphics[width=\textwidth]{effEff.png}
+ \caption{Effective efficiency for pions}
+ \label{fig:eff}
+\end{figure}
  
  
  \section{Correcting for the Integrated Solid Angle}
@@ -125,11 +131,27 @@ For this analysis I have not put in the angle rotation for the MC track coverage
  \label{eq:solid}
  \end{equation}
  
- This is done for each momentum bin, which is assigned a total angular coverage of $\Omega_p$, for each momentum value, $p$. It is a good assumption that in the COM system the $\pi$ distribution is nearly isotropic. Correcting for the areas of the solid angle coverage we correct the counts in each momentum bin, $N_p$, by ${4\pi/\Omega_p}$, since this is the inverse of the fraction of space we measure in the TPC. 
+ This is done for each momentum bin, which is assigned a total angular coverage of $\Omega_p$, for each momentum value, $p$. It is a good assumption that in the COM system the $\pi$ distribution is nearly isotropic. Correcting for the areas of the solid angle coverage we correct the counts in each momentum bin, $N_p$, by ${4\pi/\Omega_p}$, since this is the inverse of the fraction of space we measure in the TPC. Figure~\ref{fig:solid} shows this $d\Omega$ made for each momentum bin, as a fraction of $4\pi$. 
+  
+\begin{figure}[!hbt]
+\includegraphics[width=\textwidth]{omega.png}
+ \caption{Solid angle correction for each momentum bin.}
+ \label{fig:solid}
+\end{figure}
  
- \subsection{Solid Angle and Efficiency Corrected Spectra}
-
-
+ 
+ \subsection{Efficiency Corrected and Solid Angle Corrected Spectra}
+ Figure~\ref{fig:spectra} shows the efficiency corrected, and solid angle corrected, spectra. The efficiency corrected pion multiplicities are $\pi^- = .63$ and $\pi^+ = .12$ and the uncorrected multiplicities are $\pi^- = .63$ and $\pi^+ = .12$
+ 
+\begin{figure}[!hbt]
+\includegraphics[width=\textwidth]{spectra.png}
+\caption{Efficiency and solid angle corrected spectra.}
+\label{fig:spectra}
+\end{figure}
+ 
+ 
+ 
+ \clearpage
  
  \section{Calculation of Impact Parameter}
  I refer to Jon for details of how he gets the impact parameter from cross section measurements. What he and Genie has provided us is with a tool to calculate the impact parameter estimate from the multiplicity distribution. For a multiplicity cut of $>$ 50, this corresponds to an impact parameter range of 0 $<$ b $<$ 3.5 [fm] with an average of 2.4 [fm]. This is important for later where we will calculate the total number of participants for these numbers. The range in $b$ will help us to estimate our error bar on the total number of participants. 
@@ -232,10 +254,17 @@ In \cite{fopi}, the total pion multiplicity is defined as $M(\pi)=1.5(M(\pi^-)+M
 
 
 \subsection{Correction for $A_{part}$ Effect on $M(\pi)$}
+In \cite{fopi}, there is a small correction for the dependence of the multiplicity on the number of participants. I will leave it to the reader to read the paper. The function used to correct is given in Eq.~\ref{eq:corr}, where $\tau = .86$, the correction factor being, $f=1.05$. We must scale our answer by this estimate to get compare with the  ${}^{197}$Au + ${}^{197}$Au FOPI data. The only issue here is this scaling law is not for the beam energy we are at. This is for 1 AGeV but roughly speaking it should not depend so much on beam energy. 
 
+\begin{equation}
+f = \frac{256}{394 *.9}^{\tau -1}
+\label{eq:corr}
+\end{equation}
+
+
+Figure~\ref{fig:mult} shows the corrected (and uncorrected) pion multiplicity, as calculated from Table~\ref{tb:apart} and Table~\ref{tb:pionmult}, plotted against the FOPI data. The blue dotted curve is the fit from the published data, and the red line fit is with our new point added in. The trend is in good agreement with our measured data. The error bar on the scaled multiplicity is coming from the error bar in $A_{part}$ from the uncertainty in the range in impact parameters probed.
 
 \begin{figure}[!hbt]
-
 \begin{adjustbox}{max width=\linewidth,center}
 \centering
 \subfigure[With $A_{part}$ correction]{\includegraphics[width=0.5\textwidth]{multiplicitypion.png}}%
@@ -245,6 +274,8 @@ In \cite{fopi}, the total pion multiplicity is defined as $M(\pi)=1.5(M(\pi^-)+M
 \label{fig:mult}
 
 \end{figure}
+
+\clearpage
 
 \subsection{N/Z Effect for $\pi^-/\pi^+$}
 It is well known that the $\pi^-/\pi^+ \propto (n/z)^2$, at low energies. Because of this dependence we need to correct the ${}^{197}$Au + ${}^{197}$Au FOPI data (which has $N/Z= 1.49$), and extrapolate the  $\pi^-/\pi^+$ to $N/Z=1.56$, for the ${}^{132}$Sn~+~${}^{124}$Sn system. Plotted in Fig.~\ref{fig:nzdepend} is the N/Z dependence published in the FOPI data set \cite{fopi}. The measured data points are given in the blue circles. The paper cites a linear fit was applied to the data which I have plotted at the black dotted line. The paper also says a linear extrapolation was performed to extrapolate to $N/Z=1.56$. One can see the blue "X`` are the points which they calculate, which matches the linear extrapolation. For .8 and 1 A GeV the linear extrapolation seems reasonable but for .4 A GeV we know the dependence should be $(n/z)^2$, as is clear from the trend of the data. I extrapolated the $N/Z=1.56$ for .4 AGeV which is shown as the green point in Fig.~\ref{fig:nzdepend}, and also in .8 and 1 AGeV. 

@@ -1,17 +1,38 @@
 \chapter{Experiment}
 
 \section{S$\pi$RIT TPC Overview}
+Add Overview image with labels
+
+
 The Samurai Pion-Reconstruction and Ion Tracker Time Projection Chamber (S$\pi$RI TPC) is a Multi-Wire Proportional Counter developed to measure pions and other light charge particles resulting from radioactive heavy ion collisions in a fixed target experiments.  The TPC is enclosed in a thin aluminum sheet walls all around in order to minimize neutron scattering and to allow for light charged particles to reach the arrays of scintillating bars detectors on the sides and downstream of the TPC. The S$\pi$RI TPC was developed to fit inside the Samurai dipole magnet used at the Rare Isotope Beam Factory (RIBF) at RIKEN in Wako-shi, Japan \cite{riken}; the dipole gap limited the vertical space of the TPC. More detail and specifications of the Samurai dipole magnet are given in \cite{samurai}. 
 
-A target ladder allowed for up to 5 fixed targets to be mounted. A ACME worm gear allowed for the x-axis motion for changing the targets. The motion of this worm gear was translated through the target motion feed-through by several brass gears and non-magnetic gear boxes. The motion of the target ladder could be controlled by hand or by operation of the drill. The targets were mounted on stand-offs on the target ladder and also had z-axis motion. This allowed for the targets to be positioned as close as possible to the thin window of the field cage, maximizing the geometric acceptance. 
+A target ladder allowed for up to 5 fixed targets to be mounted. A ACME worm gear allowed for the x-axis motion for changing the targets during the experiment, without needing to open or move the TPC. The motion of this worm gear was translated through the target motion feed-through by several brass gears and non-magnetic gear boxes. The motion of the target ladder could be controlled by hand or by operation of the drill. The targets were mounted on stand-offs on the target ladder and also had z-axis motion. This allowed for the targets to be positioned as close as possible to the thin window of the field cage, maximizing the geometric acceptance. 
 
-The electronics were mounted to the aluminum top plate. Several aluminum ribs were mounted to the top of the plate to bring structural rigidity. Because of this the top plate flatness was within 150$\mu$m across the whole top plate as measured by a laser position system. The charge sensitive pads of the pad plane were etched into several circuit boards were recessed and glued to the bottom portion of the top plate. Vias through the pad plane circuit boards brought the signal traces from the pads to surface mount pads on the other side of the boards. Several holes cut through the top plate allowed for the interface cables of the electronics to be connected to these surface pads. 
+The electronics were mounted to the aluminum top plate. Several aluminum ribs were mounted to the top of the plate to bring structural rigidity. A flatness within 150$\mu$m was achieved across the whole top plate as measured by a laser position system. The charge sensitive pads of the pad plane were etched into several circuit boards were recessed and glued to the bottom portion of the top plate. Vias through the pad plane circuit boards brought the signal traces from the pads to surface mount pads on the other side of the boards. Several holes cut through the top plate allowed for the interface cables of the electronics to be connected to these surface pads. 
 
 Just below the pad plane were a set of three wire planes; the gating grid, ground, and anode wire planes. The detailed function of these wires will be explained later but they served to separate the boundary between the drift volume and the avalanche volume. 
 
 The front and sides of the field cage were assembled from 8 independent rigid circuit boards. The downstream window served as the downstream wall of the field cage all though it was was a large polycarbonate frame in which a removable kapton window could be installed. This thin window minimized the scattering of exiting neutrons and charged particles for downstream detectors. 
 
 The voltage step down takes the high voltage of the field cage cathode and steps the voltage down through a set of copper rings and a resistor chain, minimizing the chance for sparking. 
+
+\begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rr@{}}\toprule 
+\multicolumn{2}{c}{\spirit TPC Overview} \\
+ \midrule
+Pad plane area & 1.3 m x .9 m\\
+Pad size       & 1.2 cm x .8 cm \\
+Number of pads & 12096 (112 x 108) \\
+Gas composition& 90\% Ar + 10\% CH${}_4$  \\
+Multiplicity limit & 200  \\
+dE/dx range        & Z=1-8, $\pi$, p,d,t,He,Li-O \\
+Drift length       & 50 cm \\
+\bottomrule
+\end{tabular}
+\caption{Caption}
+\end{table*}
+
 
 \begin{table}
  \begin{tabular}{||c c c c||} 
@@ -33,13 +54,11 @@ The voltage step down takes the high voltage of the field cage cathode and steps
 \label{tb:spiritoverview}
 \end{table}
 
-\section{Considerations when constructing a TPC}
-Several considerations went into the construction of the S$\pi$RI TPC which I wish to summarize and document here. All materials and glue of the TPC were selected as low out-gassing materials. Several materials that are common place in nuclear labs, from vacuum grease to o-rings, out-gas organic chemicals into the counter gas which damage the TPC by permanently lowering the gain over time. The organic molecules responsible are difficult to identify exactly, but lists of good and bad materials are well known in the literature from experiments. If a material we wished to used was not on these lists we placed the material in a clean chamber with the counter gas and flowed this counter gas through a small proportional counter making sure the gain did not drop at high collection rates when exposed to a high rate alpha Americium source. 
+\subsection{Enclosure}
 
-Sparking
-Two volumes of gas. 
+\subsection{Voltage Step Down}
 
-\section{Field Cage}
+\subsection{Field Cage}
 
 The field cage was designed to hang from the top plate and therefore needed to be of a lightweight construction. Also the materials needed to be thin to allow for light charged particle and neutrons to pass through without significant scattering for ancillary detectors. Therefore instead of a downstream wall, a large thin exit window was constructed. The cathode was constructed of an aluminum honeycomb laminate. Two sheets of ??? aluminum were bonded to a core of aluminum honeycomb structure providing a lightweight yet rigid structure for the cathode. 
 
@@ -49,21 +68,22 @@ The field cage was designed to hang from the top plate and therefore needed to b
 \label{fig:fc_explode}
 \end{figure}
 
-The field cage was constructed from several panels of printed circuit boards (PCBs). The epoxy in the common PCB substrate FR4 contains bromine which is not suitable for the long term operation of a TPC, as the bromine will eventually cause gain reduction of the wires [CITE]. The halogen free material chosen was Rodgers ????. We build the TPC with the option to run explosive gases such  hydrogen, thus we decided to have field cage an isolated volume from the rest of the TPC enclosure. While the risk of a high voltage spark was minimized using the voltage step down, the risk of sparking when using an explosive gas could be further minimized by isolating the detector volume from the enclosure volume thereby allowing you to run an insulating gas between the field cage while running the explosive gas inside the detector volume only.  
+The field cage was constructed from several panels of printed circuit boards (PCBs). The epoxy in the common PCB substrate FR4 contains bromine which is not suitable for the long term operation of a TPC, as the bromine will eventually cause gain reduction of the wires [CITE]. The halogen free material chosen was Rodgers ????. We built the TPC with the option to run explosive gases such  hydrogen, thus we decided to have field cage an isolated volume from the rest of the TPC enclosure. While the risk of a high voltage spark was minimized using the voltage step down, the risk of sparking when using an explosive gas could be further minimized by isolating the detector volume from the enclosure volume thereby allowing you to run an insulating gas between the field cage while running the explosive gas inside the detector volume only.  
 
 The front of the field cage was made of two PCBs and each side was constructed of three PCBs. The exit window was a 10$\mu$m thick Kapton window with evaporated aluminum strips on the inside and outside; mounted on a polycarbonate frame.
 
-\section{Voltage Step Down}
+\subsection{Voltage Step Down}
 
 To lower the risk of a high voltage spark around the cathode region a voltage step down was developed. A series of 7 concentric copper rings with 20 MOhm resistors between them steps the cathode voltage down to ground. This minimizes sharp transitions of the electric field and therefore sparking. 
 
-\section{Wire Planes}
+\subsection{Wire Planes}
+Add figure of gating grid transparency closed and open configuration 
 
 
+\subsection{Pad Plane}
+Add figure of close up of pad plane 
 
-\section{Pad Plane}
-
-\section{Electronics}
+\subsection{Electronics}
 
 Signals in the S$\pi$RIT TPC are amplified and digitized by the recently developed Generic Electronics for TPCs (GET) \cite{get}.  Short cables transmit the signals from the pads to the inputs of the AGET chips. Each AGET chip services 64 pads (63 pads are connected in our case), contains a pre-amplifier, and a Switched Capacitor Array (SCA), with a maximum of 512 time buckets with an adjustable sampling frequency of 1 to 100 MHz. Four AGET chips are mounted on one AsAd (ASIC and ADC) motherboard. The gain of each AGET can be configured as 0.12, 0.24, 1.0, or 10 pC over the whole dynamic range, and the ADCs on each AsAd board provides 12 bit resolution. The peaking times of the shaping amplifiers can be set to 69, 117, 232, 501, 720, or 1014 ns. In this experiment, the gain was set to the highest setting, 0.12 pC, the peaking time 117 ns, and the sampling frequency 25 MHz (resulting in 40 ns time buckets). The Aget 2.0, asad 2.1, and cobo 1.0 firmware versions were used. The variations in the electronics were calibrated by measuring the response of each channel to a injected reference pulse, covering the full dynamic range of each channel. 
 
@@ -86,16 +106,81 @@ Signals in the S$\pi$RIT TPC are amplified and digitized by the recently develop
  \hline
 \end{tabular}
 \caption{Summary of the optional settings of the GET electronics and those used during the 20?????? experimental runs}
-\label{tb:spiritoverview}
+\label{tb:getoverview}
+\end{table}
+
+\subsection{Considerations when constructing a TPC}
+Several considerations went into the construction of the S$\pi$RI TPC which I wish to summarize and document here. All materials and glues of the TPC were selected as low out-gassing materials. Several materials (that are common place in nuclear labs), such as vacuum grease, viton o-rings, all out-gas organic chemicals into the counter gas which damage the TPC by permanently lowering the gain over time. The organic molecules responsible are difficult to identify exactly, but lists of good and bad materials are well known in the literature from experiments. If a material we wished to used was not on these lists we placed the material in a clean chamber with the counter gas and flowed this counter gas through a small proportional counter making sure the gain did not drop at high collection rates when exposed to a high rate alpha Americium source. 
+
+Sparking
+Two volumes of gas. 
+
+
+\subsection{Gas Properties}
+
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{driftvel.png}
+\caption{Drift velocity of electrons in P10 gas.}
+\label{fig:driftvel}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\linewidth]{gain.png}
+\caption{Number of electrons produced in a single avalanche on an anode wire. Two different voltages were simulated using Garfield++ at 1470 $V$ and 1214 $V$. The expected Polya distribution fit is also given in yellow.}
+\label{fig:anodegain}
+\end{figure}
+
+\begin{table}[!htp] % not just 'h!'
+\centering % not a center environment
+\begin{tabular}{
+  @{}
+  l
+  S[table-format=1.2]
+  S[table-format=1.2]
+  S[table-format=1.2]
+  S[table-format=5.2]
+  S[table-format=5.2]
+  @{}
+}
+\toprule
+Gas properties &
+ {$\sigma_{t}$} &
+ {$\sigma_{l}$} &
+ {$v_{d}$} &
+ {$G_{h}$} &
+ {$G_{l}$} \\
+&
+  {($\si{\centi\meter}^{-1/2}$)} &
+  {($\si{\centi\meter}^{-1/2}$)} &
+  {(\si{\centi\meter\per\micro\second})} \\
+\midrule
+\phantom{abc}   &.024   &.034  &5.43   &  903   &150     \\
+\bottomrule
+\end{tabular}
+
+\caption{}
+\label{tb:gasprop}
 \end{table}
 
 
-\section{S$\pi$RIT at RIBF}
+Add table for gas diffusion 
 
-\section{Kyoto Multiplicity Trigger}
-\section{Krakow ?????? (KATANA)}
+
 \section{Ancillary Detectors }
+\subsection{Kyoto Multiplicity Trigger}
+\subsection{Krakow ?????? (KATANA)}
+
 \section{Radio Isotope Beam Factory (RIBF) Facility }
+Cyclotron facility overview.
+Samurai line overview.
+Beam line element overview.
+Big rips beam PID. reference 
+
+
+\section{S$\pi$RIT at RIBF}
+Picture of setup. 
+
+
 
 
 SAMURAI (Superconducting Analyzer for Multi-particles from Radioisotope beams) is a large-acceptance multi-particle spectrometer for radioactive-beam experiments.
@@ -105,5 +190,10 @@ SAMURAI (Superconducting Analyzer for Multi-particles from Radioisotope beams) i
 \label{fig:sambl}
 \end{figure}
 
-\section{Experimental setup}
+\section{Experimental Setup}
+
 \section{Trigger Condition}
+How it was made using kyoto krakow
+
+\section{Collision Data Taken}
+

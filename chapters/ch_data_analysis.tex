@@ -43,15 +43,47 @@ Clustering in this way gives us better position resolution for calculating the p
 
 
 
-\section{Calibrations}
+\section{Calibrations and Corrections}
+Cocktail Calibration 
 
-\paragraph{Electronics calibration}
+\subsection{Electronics calibration}
+Pulse the ground grid. 
+Picture of calibration of channels before and after.
 
-\paragraph{Anode gain calibration}
+\subsection{Anode gain calibration}
+Picture of low vs high gain channels and fit
+
+\subsection{Extending the dynamic range of the Electronics}
+Add paper here. 
+
+\subsection{Space Charge Corrections}
+Overview
+Discuss the relevant time scales, drift lengths, magnitudes, and locations of space charge
+Figure of cartoon sheet charge
+Figure of beam path locations for different beam types
+Table of energy loss tables for energies and beam types
+Reference appendix for poisson solver 
+Tables for ion drift velocity in P-10 Gas reference Sauli
+Figure of sDAC or POCA 
+Figure of cartoon of what is happening to tracks
+Figure of correction map in TPC and MC map 
+Figure of before and after correction BDC vs reco momentum
+Figure of track residuals before and after?
 
 
-\section{Corrections}
-\paragraph{Extending the dynamic range of Electronics}
+In theory, a TPC functions with the electric and magnetic fields parallel to each other. In this way the electrons move opposite to the electric field winding tightly around the magnetic field lines, reducing transverse diffusion in the process. In practice, due to the finite size of the dipole magnet and field cage, there are traverse components to both the electric and magnetic fields. These transverse components introduce drift velocities in the transverse directions, causing a shift in the measured cluster positions of the track. Thereby introducing systematic shifts in the calculation of the momentum and the vertex calculation. 
+
+Most of the time the beam does not undergo a nuclear collision with the target and passes through the TPC drift volume. The KATANA array threshold was set to veto such events, ensuring the gating grid remain closed to prevent the large amount of charge deposited by the beam into the avalanche region. While the electron drift velocity is fast enough for the electrons produced by the unreacted beam to terminate on the closed gating grid, the drift velocities of the positive ions produced are of order $10^{-4}$ times slower. At higher beam rates the positive charge is allowed to pile up producing a region of positive space charge, introducing perturbations to the nominal electric field. 
+
+Since the beam comes in along the z-axis, and the drift direction of the ions is in the -y direction, we can estimate the charge density as an uniform sheet charge. The surface charge density is related to the beam rate, ion drift length, ion drift velocity, and the energy loss of the beam. Though the incoming beam comes randomly, the slow drift velocity combined with the high beam rate makes the uniform approximation valid. Tracking or estimating the beam rate as a function of time with in a given run would provide a better estimate of the space charge. Or experimentally a laser system could be pulsed after each event (throughout the drift volume), giving the experimental correction map for the drift. While the potential for a laser system was implemented in the field cage design, a laser system ultimately was not developed for the \spirit tpc. 
+
+The beam rate within a run is roughly constant, therefore we can estimate the space charge and provide a first order correction for the space charge effect. 
+
+As mentioned in CHAPTER ???, the cocktail beam momentum was well known to within 1\% as set by the BIGRips spectrometer. Also time of flight analysis of upstream and downstream scintilators also independently confirmed the beam rigidity setting. The expected momentum is given in TABLE ??? as calculated by from the beam rigidity setting of the magnet (WHICH MAGNET). The measured momenta as determined by the TPC software (given in FIG TABLE ), shows a disagreement on the level of 5\% too high. We noticed that if one only uses the first 90 layers (out of 112) of the TPC, the momenta is lower; one should expect the momentum to go higher as the track length is shorter (short tracks effectively are straight lines). 
+In the cocktail beam there is no un-reacted beam causing any significant space charge. The magnetic field map of the SAMURAI magnet has been calculated by TOSCA simulation CITE ???, and several points have been verified experimentally with a hall probe to be within XXX \%. We assume that the electric field (to first order) is uniform in the y-direction. Using Garfield++ CITE ???, we can model the transverse drift of the electrons in the presence of such fields. 
+
+A grid of electrons uniformly distributed in the TPC model space were drifted to the gating grid position. The final shifts in the x and z positions was measured. 
+
 
 \section{Monte Carlo Simulation}
 We use Geant4 as and event generator for performing Monte Carlo Simulations in the TPC. A scale model of field cage, front window, front window frame, pad plane, and aluminum top plate are modeled. The correct materials are used as well as the field cage is modeled with P-10 gas at a density of ????. By using Geant4 we can also input the the magnetic field map of the SAMURAI dipole magnet (as calculated by the SAMURAI group via a TOSCA simulation).  In this way any particle type may be studied and the full interactions (scattering, decay, energy loss, path taken, etc.), are accounted for. The output of this simulation is a series of energy loss points which contain the amount of energy lost in $keV/cm$ and the position in $(x,y,z)$.
@@ -64,7 +96,7 @@ Separate software tasks model the converting energy loss into electrons, the dri
 \label{fig:place}
 \end{figure}
 
-\section{Drift Task}
+\subsection{Drift Task}
 The drift task takes the energy loss points calculated from Geant4 and converts them into electrons.  and then modeling their drift behavior in the field cage. As discussed previously the various processes[CITE To formula about drifting electronc]
 
 
@@ -76,7 +108,7 @@ Number of e^{-} = 28 keV/cm
 \label{eq:kev2el}
 \end{equation}
 
-\section{Pad Response Task}
+\subsection{Pad Response Task}
 After the avalanche process of the previous task, the total charge of the event is split over several pads defined by the Pad Response Function (as discussed in section ????). As shown in Fig.~\ref{fig:onepad}, there are three wires that lie directly above a given pad. The $z$ coordinate of the avalanche can only be one of these three wires, where as the $x$ coordinate can be any value along the wire. The functional form of the software PRF (given in Eq.~\ref{eq:softPRF}), was tuned to match the experimental data. Shown in Fig.~\ref{fig:mcdataPRF}, we see the tuned software PRF can match the experimental PRF from data over several crossing angles (as mentioned in Chapter ???? governs the shape of the PRF). 
 
 \begin{equation}
@@ -96,7 +128,7 @@ PRF(x,z) = \frac{1}{2\pi\sigma_z\sigma_x}\exp^{\frac{-{(x-x_o)}^2}{2\sigma_x^2}}
 \label{fig:mcdataPRF}
 \end{figure}
 
-\section{Electronics Task}
+\subsection{Electronics Task}
 The electronics task takes the total charge on each pad and simulates the electronics response, converting electronics into ADC channels. Accounting for the pedestal, the measured output in ADC channels (for a given gain setting) is given in Eq.~\ref{eq:etoADC}.
 
 \begin{equation}
@@ -104,7 +136,16 @@ The electronics task takes the total charge on each pad and simulates the electr
 \label{eq:etoADC}
 \end{equation}
 
-\section{Track Embedding}
+\subsection{Simulating Saturation}
+Add figure showing saturated time bucket spectra with location of saturation identified and with pulse shape from embedding I would like to add and how it blocks it.
+Add Figure with 2D pad plane response with and without saturation flag
+
+
+\section{Monte Carlo Track Embedding}
+Add Figure of MC track embedding 
+
+
+
 Track embedding is the process of taking a simulated MC track from Geant4 and embedding its response into a real data event. After reconstructing this new embedded event we match the input MC track embedded to its corresponding final reconstructed track.  By doing so we can evaluate the response of the entire TPC system to any given input value. The TPC system is composed of three major components (each which can introduce errors and or biases) the software, the detector, and the experimental setup.  
 
 As discussed in [SOFTWARE CHAPTER] the software is composed of several task, each which introduce some error. Table {REF TABLE] listing some of the errors each task may introduce illustrating how difficult propagating the errors would be through each system. 
@@ -116,6 +157,22 @@ The detector system itself introduces errors related to the physical processes o
 
 The software analysis routine and the bias introduced by the trigger settings of the experiment introduce systematic errors in the reconstruction of tracks
 
+\subsection{MC and Data Comparison}
+Add Figure of Pad response function for pion,proton.... for MC vs Data vs angles...
+Add Figure of Number of clusters of MC vs Data
+Add Figure of dEdx MC vs Data
+Add Figure of Momentum resolution MC vs Data
+Add Figure of track residuals? MC vs data?
+
 
 \section{Efficiency Corrections}
+Add Figures of efficiency vs angles in TPC polar angle plot for pions
+
+
 Since the \spirit TPC is a fixed target experiment it's angular coverage is certainly not 4$\pi$. Because the target is several cm away from the widow of the field cage the geometric acceptance is not even 2$\pi$. The rectangular design complicates the calculation of the geometric acceptance, or the efficiency.
+
+\section{Beam Particle Identification}
+Figures of beam contaminants in our beam PID line. 
+Table of beam purity reference to Jon's thesis paper
+
+\section{Solid angle coverage}
