@@ -1,4 +1,8 @@
 \chapter{Data Analysis I: Calibration and Corrections}
+
+Need to explain pedestal subtraction 
+GG noise subtraction 
+
 \section{Software}
 
 The S$\pi$RITROOT software is modular tasked based code based on the FAIRROOT package written in C++ \cite{fairroot}. The main tasks in the S$\pi$RITROOT software reconstruction are:
@@ -44,13 +48,52 @@ Clustering in this way gives us better position resolution for calculating the p
 
 
 \section{Calibrations and Corrections}
+
+
+\subsection{Cocktail calibration}
+
+\begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rrrrcrrrcrrr@{}}\toprule
+& \multicolumn{3}{c}{$100 MeV$} & \phantom{abc}& \multicolumn{3}{c}{$100 MeV$} &
+\phantom{abc} & \multicolumn{3}{c}{$300 MeV$}\\
+\cmidrule{2-4} \cmidrule{6-8} \cmidrule{10-12}
+& &\multicolumn{2}{c}{Measured}\\
+Particle &\phantom{abc} & Raw & E$\times$B\\
+\midrule
+p   & 882.8 & d & d & 903.5 & e & e &\phantom{abcdef} & f & f \\
+d   & 817.1 & d & d & 898.5 & e & e & 1621.1 & f & f\\
+t   & 589.5 & d & d & 887 & e & e & 1612.4 & f & f  \\
+$^{3}$He  & 1617.3  & d & d & 1795.2 & e & e & 3236.4 & f & f\\
+$^{4}$He  & 1405.6  & d & d & 1782.9 & e & e & 3226.4 & f & f \\
+\bottomrule
+\end{tabular}
+\caption{Summary of expected cocktail. }
+\label{tb:cocktailsummary}
+\end{table*}
+
 Cocktail Calibration 
+Picture of cocktail before and after ExB effect
+Table of LISE++ expected cocktail energies ridigity setting of dipole magnets (reference big rips line)
+
+
 
 \subsection{Electronics calibration}
 Pulse the ground grid. 
-Picture of calibration of channels before and after.
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{gaincalib.png}
+\caption{Calibration of electronics}
+\label{fig:gaincalib}
+\end{figure}
 
 \subsection{Anode gain calibration}
+
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{highlowcal.png}
+\caption{Calibration of low high.}
+\label{fig:highlowcal}
+\end{figure}
+
 Picture of low vs high gain channels and fit
 
 \subsection{Extending the dynamic range of the Electronics}
@@ -59,7 +102,19 @@ Add paper here.
 \subsection{Space Charge Corrections}
 Overview
 Discuss the relevant time scales, drift lengths, magnitudes, and locations of space charge
-Figure of cartoon sheet charge
+
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{spacechg_cartoon.png}
+\caption{Location of space charge in 132 Sn}
+\label{fig:spacechg_cartoon}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{beampath.png}
+\caption{Beam path of the experiments}
+\label{fig:beampaths}
+\end{figure}
+
 Figure of beam path locations for different beam types
 Table of energy loss tables for energies and beam types
 Reference appendix for poisson solver 

@@ -1,0 +1,30 @@
+
+
+void getBeamPath()
+{
+  string line;
+  ifstream file("_132Sn_BeamTrack.data");
+  vector<double>xx,yy,zz;
+  while(getline(file,line))
+    {
+      stringstream sstring(line);
+      double x,y,z;
+      sstring >> x >> y >> z;
+      xx.push_back(x/10.);
+      yy.push_back(y/10.);
+      zz.push_back(z/10.); //convert to cm
+      //      cout<<x<<" "<<y<<" "<<z<<endl;
+    }
+
+  TGraph *beam = new TGraph(xx.size(), zz.data(),xx.data());
+  beam->GetYaxis()->SetRangeUser(-43.2,43.2);
+  beam->Draw("ALO");
+
+  TF1 *beampath = new TF1("beampath","[0] + [1]*x + [2]*pow(x,2)",0,130); 
+  beampath->SetParameters(-0.0685578,-0.046186, -0.000395632);
+  //  beampath->SetParameters(-0.685578,-0.046186,-3.95632e-05);
+  //  beam->Fit(beampath);
+  beampath->Draw("same");
+
+
+}

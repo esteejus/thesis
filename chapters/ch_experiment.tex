@@ -30,29 +30,9 @@ dE/dx range        & Z=1-8, $\pi$, p,d,t,He,Li-O \\
 Drift length       & 50 cm \\
 \bottomrule
 \end{tabular}
-\caption{Caption}
-\end{table*}
-
-
-\begin{table}
- \begin{tabular}{||c c c c||} 
- \hline
- \multicolumn{4}{|c|}{S$\pi$RIT TPC Overview} \\
- \hline
- Pad Plane Area & 1.3 m x 0.9 m & Gas Gain & 1000\\
- \hline
- Pad Size & 1.2 cm x 0.8 cm & Drift Velocity & 5.5 cm/$\mu$s \\
- \hline
- Number of pads & 12096 (112x108) & E-field & 135 V/cm  \\
- \hline
-  Gas composition & 90\% Ar + 10\% CH${}_4$ & Multiplicity limit & 200  \\
- \hline
- Drift length & 50 cm & dE/dx range & Z=1-8, $\pi$, p,d,t,He,Li-O \\ [1ex] 
- \hline
-\end{tabular}
-\caption{An overview of the properties of the S$\pi$RIT TPC.}
+\caption{An overview of the properties of the \spirit TPC}
 \label{tb:spiritoverview}
-\end{table}
+\end{table*}
 
 \subsection{Enclosure}
 
@@ -87,27 +67,24 @@ Add figure of close up of pad plane
 
 Signals in the S$\pi$RIT TPC are amplified and digitized by the recently developed Generic Electronics for TPCs (GET) \cite{get}.  Short cables transmit the signals from the pads to the inputs of the AGET chips. Each AGET chip services 64 pads (63 pads are connected in our case), contains a pre-amplifier, and a Switched Capacitor Array (SCA), with a maximum of 512 time buckets with an adjustable sampling frequency of 1 to 100 MHz. Four AGET chips are mounted on one AsAd (ASIC and ADC) motherboard. The gain of each AGET can be configured as 0.12, 0.24, 1.0, or 10 pC over the whole dynamic range, and the ADCs on each AsAd board provides 12 bit resolution. The peaking times of the shaping amplifiers can be set to 69, 117, 232, 501, 720, or 1014 ns. In this experiment, the gain was set to the highest setting, 0.12 pC, the peaking time 117 ns, and the sampling frequency 25 MHz (resulting in 40 ns time buckets). The Aget 2.0, asad 2.1, and cobo 1.0 firmware versions were used. The variations in the electronics were calibrated by measuring the response of each channel to a injected reference pulse, covering the full dynamic range of each channel. 
 
-\begin{table}
- \begin{tabular}{||c c c c||} 
- \hline
- \multicolumn{4}{|c|}{GET Electronics Settings} \\
- \hline
- GET settings & All options & ${}^{132}$Sn + ${}^{124}$Sn & ${}^{124}$Sn + ${}^{112}$Sn \\
- \hline
- ADC bit range      & 14 bits &  &  \\
- \hline
- Sampling frequency & 1 - 100 MHz &   &    \\
- \hline
- Dynamic range      & .12,.24,1.0,10 pC & & \\
- \hline
- Peaking time       &  69,117,232,501,720, 1014 ns &  &   \\
- \hline
- Time bucket        & 512 & 270 & 270  \\
- \hline
+
+
+
+\begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rr@{}}\toprule 
+\multicolumn{2}{c}{GET electronics settings}\\
+\midrule
+ADC bit range       & 14 bits \\
+Sampling frequency  & 1-100 MHz \\
+Dynamic range       & .12, .24, 1.0, 10pC \\
+Peaking time        & 69,117,232,501,720,1014 ns \\
+Time bucket range   & 512\\
+\bottomrule
 \end{tabular}
-\caption{Summary of the optional settings of the GET electronics and those used during the 20?????? experimental runs}
+\caption{Summary of range of GET electronics settings. }
 \label{tb:getoverview}
-\end{table}
+\end{table*}
 
 \subsection{Considerations when constructing a TPC}
 Several considerations went into the construction of the S$\pi$RI TPC which I wish to summarize and document here. All materials and glues of the TPC were selected as low out-gassing materials. Several materials (that are common place in nuclear labs), such as vacuum grease, viton o-rings, all out-gas organic chemicals into the counter gas which damage the TPC by permanently lowering the gain over time. The organic molecules responsible are difficult to identify exactly, but lists of good and bad materials are well known in the literature from experiments. If a material we wished to used was not on these lists we placed the material in a clean chamber with the counter gas and flowed this counter gas through a small proportional counter making sure the gain did not drop at high collection rates when exposed to a high rate alpha Americium source. 
