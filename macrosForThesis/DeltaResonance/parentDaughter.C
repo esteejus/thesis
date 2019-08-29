@@ -165,8 +165,7 @@ double boltz_mr(double *x, double *par)
   double P_mr = mr_fcn(mrr,param);
   double T = par[1];
   //  cout<<"T "<<T<<endl;
-  //  return pow(p,2)*P_mr*exp(-sqrt(pow(mr,2) + pow(p,2))/T);
-  return P_mr*exp(-sqrt(pow(mr,2) + pow(p,2))/T);
+  return pow(p,2)*P_mr*exp(-sqrt(pow(mr,2) + pow(p,2))/T);
 }
 
 
@@ -175,37 +174,9 @@ double GetS(double labE)
   return sqrt(2*pow(mp,2) + 2*(labE + mp)*mp);
 }
 
-void resonanceMass()
+void parentDaughter()
 {
   TCanvas *c1 = new TCanvas("c1","c1");
- 
-  double beamE = 1000;//MeV/A 
-  double comE = GetS(beamE);
- 
-  cout<<"Com E "<<comE<<endl;
-  TF1 *bao_500 = new TF1("bao_500",mr_fcn,0,3000,2);
-  bao_500->SetParameters(comE,1.);
-  bao_500->SetNpx(1000);
-  //  bao_500->SetParameter(1,1./bao_500->Integral(0,3000));
-  bao_500->SetParameter(1,1./bao_500->GetMaximum());
-  bao_500->GetXaxis()->SetRangeUser(1080,1400);
-  bao_500->Draw();
- 
-  beamE = 500;//MeV/A 
-  comE = GetS(beamE);
-  cout<<"Com E "<<comE<<endl;
-  TF1 *bao_1000 = new TF1("bao_1000",mr_fcn,0,3000,2);
-  bao_1000->SetParameters(comE,1.);
-  bao_1000->SetNpx(1000);
-  cout<<bao_1000->GetMaximum()<<endl;
-  bao_1000->SetParameter(1,1./bao_1000->GetMaximum());
-  bao_1000->Draw("same");
-
-  TCanvas *c2 = new TCanvas("c2","c2");
-  c2->cd();
-  beamE = 270;//MeV/A 
-  comE = GetS(beamE);
-  cout<<"Com E "<<comE<<endl;
   TF1 *stpc = new TF1("stpc",boltz_mr,0,5000,2);
   //  stpc->SetParameter(0,1100);
   stpc->SetNpx(1000);
@@ -222,11 +193,11 @@ void resonanceMass()
   for(int i = 0; i < np; i++)
     {
       double mr = mass_step*i + minmass;
-      double temp = 300;
+      double temp = 110;
       stpc->SetParameters(mr,temp);
       double inte = stpc->Integral(0,5000);
       //      cout<<i<<" "<<inte<<endl;
-      double coeff = 9.23276e-12;
+      double coeff = 1;
       boltzavg->SetPoint(i,mr,inte/coeff);
     }
   cout<<"SetCoeff "<<boltzavg->Integral()<<endl;
@@ -237,8 +208,28 @@ void resonanceMass()
   //  auto boltzh = boltzavg->GetHistogram();
   //  boltzh->Scale(1./boltzh->Integral());
   //  boltzh->Draw();
-  boltzavg->SetName("boltz_30");
-  boltzavg->Write();
+  //  boltzavg->SetName("boltz_30");
+  //  boltzavg->Write();
+  auto toTF1 = [boltzavg](double *x, double *par){return boltzavg->Eval(x[0]);};
 
+  TF1 *boltz = new TF1("boltz",toTF1,0,4000,0);
+  
+  //  auto boltz = boltzavg->GetHistogram();
+  TH1D *piondist = new TH1D("pionhist","pion energy dist",2000,0,10000);
+  TF1 *delta_e_dist = new TF1("delta_e_dist","TMath::Exp(-x/100)",0,1000);
+  TF1 *mass = new TF1("mass","[0]/2/( pow([0],2)/4  + pow(x-[1],2))",0,3000);
+  mass->SetParameters(117,1232);
+  int nevents = 4e5;
+  for(int i = 0; i < nevents; i++)
+    {
+      double mr = mass->GetRandom();//boltz->GetRandom();
+      //      double delta_e = delta_e_dist->GetRandom();
+      cout<<"mass "<<mr<<endl;
+      double epion = (pow(mr,2) - pow(mpi,2) + pow(mp,2))/(2*mr);
+      //      double epion = (pow(mr,2) - pow(mp,2) + pow(mpi,2))/(2*mr);
+      piondist->Fill(epion);
+    }
+
+  piondist->Draw();
 
 }

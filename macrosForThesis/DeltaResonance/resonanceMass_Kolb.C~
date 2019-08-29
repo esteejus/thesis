@@ -1,0 +1,130 @@
+double mr = 1232.;
+//double mr = 775.9;
+auto mpi = 139.57018;
+
+auto mp = 938.2720813;
+//auto gamma_r = 147.9;
+auto gamma_r = 117;
+auto pi = TMath::Pi();
+auto gamma_tot = 117;
+
+auto j_delta = 3./2;
+
+
+double mass_dist(double *x, double *par)
+{
+  double m = x[0];
+  double vac_decay = gamma_r * pow( (pow(m,2) - 4*pow(mpi,2)) / ( pow(mr,2) - 4*pow(mpi,2)),3./2);
+  double numerator = pow(mr,2) * 2 * vac_decay / pi;
+  double denom = ( pow(pow(m,2) - pow(mr,2),2) + pow(mr*gamma_tot,2));
+
+  
+  return numerator/denom;
+}
+
+
+double thermal_dist(double *x, double *par)
+{
+  double m = par[0];
+  double T = par[1];//Temp
+  double y = x[0];  //rapidity
+  double q_t = x[1]; //transverse momenta
+  double m_t = sqrt( pow(m,2) + pow(q_t,2));
+  double E = m_t * cosh(y);
+  cout<<"Energy "<<E<<" "<<m_t<<endl;
+  //  double vac_decay = gamma_r * pow( (pow(m,2) - 4*pow(mpi,2)) / ( pow(mr,2) - 4*pow(mpi,2)),3./2);
+  double m_plus = mp + mpi;
+  double m_minus = mp - mpi;
+  double k = .5 * pow( (pow(m,2) - pow(m_plus,2))*(pow(m,2) - pow(m_minus,2))/pow(m,2),.5);
+  double k_o = .5 * pow( (pow(mr,2) - pow(m_plus,2))*(pow(m,2) - pow(m_minus,2))/pow(mr,2),.5);
+  double vac_decay = gamma_r * pow(k/k_o,3./2);
+  //  double vac_decay = gamma_r * pow( (pow(m,2) - 4*pow(mpi,2)) / ( pow(mr,2) - 4*pow(mpi,2)),3./2);
+  double numerator = pow(mr,2) * 2 * vac_decay / pi;
+  double denom = ( pow(pow(m,2) - pow(mr,2),2) + pow(mr*gamma_tot,2));
+
+  cout<<"numerator "<<numerator<<" "<<denom<<" "<<numerator/denom<<endl;
+
+  return ((2*j_delta + 1)/pow(2*pi,3))*pow( TMath::Exp(E/T) - 1 ,-1) * (numerator/denom) *pi *m;
+}
+
+
+void resonanceMass_Kolb()
+{
+
+
+  TF1 *massdist = new TF1("massdist",mass_dist,500,2000,0);
+
+  double mass_min = 1078;
+  double mass_max = 2000;
+  int np = 1000;
+  double mass_step = (mass_max -  mass_min)/np;
+
+  double T1 = 10;
+  double T2 = 20;
+  double T3 = 30;
+  double T4 = 40;
+  
+  TF2 *integrand = new TF2("integrand",thermal_dist,0,1000,0,1000,2);
+
+  TGraph *t1fcn = new TGraph(np);
+  TGraph *t2fcn = new TGraph(np);
+  TGraph *t3fcn = new TGraph(np);
+  TGraph *t4fcn = new TGraph(np);
+    
+  for(int i = 0; i < np; i++)
+    {
+      double mass = mass_min + mass_step *i;
+      integrand->SetParameter(0,mass);
+
+      double norm = 0;
+
+      integrand->SetParameter(1,T1);
+      norm = 1./3.8239950e-48;
+      t1fcn->SetPoint(i,mass,norm * integrand->Integral(0,10,0,10000));      
+
+      integrand->SetParameter(1,T2);
+      norm = 1./6.3578093e-24;
+      t2fcn->SetPoint(i,mass,norm * integrand->Integral(0,10,0,10000));      
+
+      integrand->SetParameter(1,T3);
+      norm = 1./1.5502147e-14;
+      t3fcn->SetPoint(i,mass,norm * integrand->Integral(0,10,0,10000));      
+
+      integrand->SetParameter(1,T4);
+      norm = 1./5.3697679e-10;
+      t4fcn->SetPoint(i,mass,norm * integrand->Integral(0,10,0,10000));      
+    }
+  
+  t1fcn->SetLineColor(kRed + 3);
+  t1fcn->SetLineWidth(4);
+  t2fcn->SetLineColor(kRed - 2);
+  t2fcn->SetLineWidth(4);
+  t3fcn->SetLineColor(kRed - 6);
+  t3fcn->SetLineWidth(4);
+  t4fcn->SetLineColor(kRed - 9);
+  t4fcn->SetLineWidth(4);
+  
+  t1fcn->Draw("ALO");
+  cout<<"Fcn 1"<<t1fcn->Integral()<<endl;
+  t2fcn->Draw("same LO");
+  cout<<"Fcn 2"<<t2fcn->Integral()<<endl;
+  t3fcn->Draw("same LO");
+  cout<<"Fcn 3"<<t3fcn->Integral()<<endl;
+  t4fcn->Draw("same LO");
+  cout<<"Fcn 4"<<t4fcn->Integral()<<endl;
+
+  TFile *f = new TFile("resonance_out.root","RECREATE");
+
+  t1fcn->SetName("f1fcn");
+  t2fcn->SetName("f2fcn");
+  t3fcn->SetName("f3fcn");
+  t4fcn->SetName("f4fcn");
+    
+
+  t1fcn->Write();
+  t2fcn->Write();
+  t3fcn->Write();
+  t4fcn->Write();
+    
+
+}

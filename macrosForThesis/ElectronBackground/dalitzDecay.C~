@@ -1,0 +1,50 @@
+//simulates the dalitz plot of a 3 body decay
+//of the system M -> p1 + p2 + p3
+//in our case pi0 -> y + e- + e+
+
+auto mpi = 140; //mass of decaying particle M  (pi zero)
+auto me = .511; //mass of electron
+auto my = 0; //mass of gamma ray
+auto total = pow(mpi,2) + pow(me,2) + pow(my,2);
+
+bool InvarMassCons(TVector3 s)
+{
+  return ( (s.X() + s.Y() + s.Z()) <= total);
+}
+
+void dalitzDecay()
+{
+
+  //invariant mass vector:
+  // s.X() = s23 = (pM - py) ^2
+  // s.Y() = s13 = (pM - pe-)^2
+  // s.Z() = s12 = (pM - pe+)^2
+  //In COM of decaying particle where P(M) = 0 vector
+  //s.X() = s23 = M^2 - m1^2 - 2*M*E1
+  //s.Y() = s13 = M^2 - m2^2 - 2*M*E2
+  //s.Z() = s12 = M^2 - m3^2 - 2*M*E3
+
+  TH2D *dalitz_p = new TH2D("dalitz_p","Dalitz plot",100,0,20000,100,0,20000);
+
+  int nEvents = 1e5;
+  TRandom3 *ran = new TRandom3(12345);
+  
+  for(int iEvent = 0; iEvent < nEvents; iEvent++)
+    {
+      double s1 = ran->Uniform(0,20000);
+      double s2 = ran->Uniform(0,20000);
+      double s3 = total - s1 - s2; //conservation theorem
+
+      double s_t = s1 + s2 + s3;
+      dalitz_p->Fill(s3,s1);
+
+    }
+
+
+
+
+
+  dalitz_p->Draw("colz");
+
+
+}

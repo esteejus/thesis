@@ -1,0 +1,9 @@
+
+
+void convert()
+{
+  TFile *f = TFile::Open("resonance_out.root");
+  TGraph *g = (TGraph *)f->Get("f1fcn");
+
+
+}

@@ -1,0 +1,16 @@
+
+void example_pionbkg()
+{
+
+  TF1 *signal = new TF1("signal","[0]*TMath::Gaus(x,[1],[2])",-10,10);
+  TF1 *bkg    = new TF1("bkg","[0]*TMath::Gaus(x,[1],[2])",-10,10);
+
+  int nSignal = 100;
+  int nBkg    = 10;
+
+  signal->SetParameters(nSignal,0,1;)
+  bkg   ->SetParameters(nBkg,1,1;)
+
+
+
+}
