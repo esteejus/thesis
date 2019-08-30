@@ -14,6 +14,7 @@ auto mpi = 140; //mass of decaying particle M  (pi zero)
 auto me = .511; //mass of electron
 auto my = 0; //mass of gamma ray
 auto total = pow(mpi,2) + 2*pow(me,2) + pow(my,2);
+auto b_com = .36;
 
 double mom_conserve(double beta, double p_y, double p_ep, double p_em)
 {
@@ -46,6 +47,9 @@ void pizero_eBkg()
 
   TH2D *dalitz_p = new TH2D("dalitz_p","Dalitz plot",100,0,20000,100,0,20000);
 
+  TH1D *ep_lab = new TH1D("ep_lab","e+ mom in Lab ",500,0,1000);
+  TH1D *em_lab = new TH1D("em_lab","e- mom in Lab ",500,0,1000);
+  
   int nEvents = 1e5;
   TRandom3 *ran = new TRandom3(12345);
   
@@ -91,6 +95,14 @@ gamma ----- - - - -
 	       -  em
       */
 
+      //Several effects of the decay
+      //Must boost along the gamma direction which we choose to be along pi_zero momentum
+      //Also gamma and ep em may decay opposite to what picture shows half time forward half backward
+      //Also the decay happens in a plane but the orientation of the plane is random
+      //Can use Rotate(phi,TVector3) around arbitrary vector
+      //Momentum spectra of pi_zero is determined by COM momentum spectra (we estimate from pip pim)
+      //Beam COM system boosts to final lab frame
+      
       //Coordinates in Rest frame of pi zero
       double cos_ep = (pow(mpi,2)/2 - mpi*Eem - pow(me,2) -Ey*Eep)/(-p_y*p_ep);
       double cos_em = (pow(mpi,2)/2 - mpi*Eep - pow(me,2) -Eem*Ey)/(-p_em*p_y);
@@ -108,18 +120,86 @@ gamma ----- - - - -
       //Sample isotropic distribution in COM frame of system
       double phi   = ran->Uniform(0,2*TMath::Pi());
       double theta = TMath::ACos(2*ran->Uniform() - 1);
+
       double p_pi = pi_zero->GetRandom();//momentum of pi zero in COM system
+      double x_p = p_pi * cos(phi)*sin(theta);
+      double y_p = p_pi * sin(phi)*sin(theta);
+      double z_p = p_pi * cos(theta);
       double beta_pi = p_pi/sqrt(pow(p_pi,2) + pow(mpi,2));
 
-      //      TLorentzVector part_ep(
+      //      TVector3 pi_z_axis(1,0,0);
+      TVector3 pi_z_axis(x_p,y_p,z_p);
+      pi_z_axis = pi_z_axis.Unit();
+
+      auto rotationAxis  = pi_z_axis.Cross(TVector3(0,0,1));// vector orthagonal to COM z axis & pizero
+      auto rotationAngle = pi_z_axis.Angle(TVector3(0,0,1)); //angle between z_axis and pizero
+
+      //      cout<<"Rotation angle "<<rotationAngle<<endl;
+      //      rotationAxis.Print();
+
+      //Define decay in the x-z plane
+      //Angles above are angles w.r.t. the z-axis.
+      /*
+	Y pointing out
+              x
+              ^
+              -
+              -
+              - - - - - -> z
+
+       */
+
+      TLorentzVector ep_vec;
+      TLorentzVector em_vec;
+
+      ep_vec.SetXYZM(p_ep*sin(angle_ep), 0, p_ep*cos(angle_ep), me);
+      em_vec.SetXYZM(p_em*sin(angle_em), 0, p_em*cos(angle_em), me);
+
+      //Half of the time the gamma ray may decay forward or backwards
+      //There should be no preference to the direction of the emission forward and backward
+
+      if(ran->Uniform() < .5)
+	{
+	  ep_vec.SetXYZM(-ep_vec.Px(), -ep_vec.Py(), -ep_vec.Pz(), me);
+	  em_vec.SetXYZM(-em_vec.Px(), -em_vec.Py(), -em_vec.Pz(), me);
+	}
 
 
+      //      cout<<"before "<<endl;
+      //      ep_vec.Print();
+
+      //Boost first in z axis for conviencinece
+      //      ep_vec.Boost(0,0,beta_pi);
+      //      em_vec.Boost(0,0,beta_pi);
+
+      //Rotate the plane at an arbitary angle
+      //Symmetry around pi_zero axis
+      ep_vec.Rotate(ran->Uniform(0,2*TMath::Pi()),TVector3(0,0,1));
+      em_vec.Rotate(ran->Uniform(0,2*TMath::Pi()),TVector3(0,0,1));
+		    
+      //Rotate to the angle of the pi zero momentum
+      ep_vec.Rotate(-rotationAngle,rotationAxis); //we define rotation axis as pi_zero x z-axis
+      em_vec.Rotate(-rotationAngle,rotationAxis); //ROOT defines angle as counter-clockwise
+
+      //      cout<<"check ep "<<Eep<<" now "<<ep_vec.E()<<endl;
+      //      cout<<"check em "<<Eem<<" now "<<em_vec.E()<<endl;
+
+      //      ep_vec.Boost(0,0,b_com);
+      //      em_vec.Boost(0,0,b_com);
+      
+      //      cout<<"after "<<endl;
+      //      ep_vec.Print();
+      //      cout<<endl<<endl;
+      ep_lab->Fill(ep_vec.P());
+      em_lab->Fill(em_vec.P());      
 
     }
 
   cout<<"% of events NaN "<<100.*numNan/nEvents<<endl;
 
-  dalitz_p->Draw("colz");
-
+  //  dalitz_p->Draw("colz");
+  ep_lab->SetLineColor(2);
+  ep_lab->Draw();
+  em_lab->Draw("same");  
 
 }
