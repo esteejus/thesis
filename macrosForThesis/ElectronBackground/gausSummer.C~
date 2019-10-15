@@ -1,0 +1,20 @@
+
+void gausSummer(double norm, double mean, double sigma)
+{
+  TH1D *hist = new TH1D("hist","hist",120,-3,3);
+  TF1 *g = new TF1("g","[0]*TMath::Gaus(x,[1],[2])",-3,3);
+  g->SetParameters(norm,mean,sigma);
+  
+  double total_g = 0;
+
+  for(int i =1 ; i <= hist->GetNbinsX(); i++)
+    {
+      double x = hist->GetXaxis()->GetBinCenter(i);
+      total_g += g->Eval(x);
+    }
+
+  cout<<"Total is "<<total_g<<endl;
+
+}
+
+

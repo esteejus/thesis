@@ -214,6 +214,14 @@ PRF(x,z) = \frac{1}{2\pi\sigma_z\sigma_x}\exp^{\frac{-{(x-x_o)}^2}{2\sigma_x^2}}
 \subsection{Electronics Task}
 The electronics task takes the total charge on each pad and simulates the electronics response, converting electronics into ADC channels. Accounting for the pedestal, the measured output in ADC channels (for a given gain setting) is given in Eq.~\ref{eq:etoADC}.
 
+
+\begin{figure}[!hbt]
+\includegraphics[width=\linewidth]{pulseshape}
+\caption{Pulse shapes for normal and saturated signals. Both are normalized to a max height of 1.}
+\label{fig:pulseshape}
+\end{figure}
+
+
 \begin{equation}
 \mathrm{1 ADC }= \frac{ADC_{\mathrm{Max}} - ADC_{\mathrm{Pedestal}}}{G*f_c}
 \label{eq:etoADC}

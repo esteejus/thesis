@@ -10,8 +10,8 @@
 //of the system M -> p1 + p2 + p3
 //in our case pi0 -> y + e- + e+
 
-auto mpi = 140; //mass of decaying particle M  (pi zero)
-auto me = .511; //mass of electron
+auto mpi = 134.977; //mass of decaying particle M  (pi zero)
+auto me = .51099; //mass of electron
 auto my = 0; //mass of gamma ray
 auto total = pow(mpi,2) + 2*pow(me,2) + pow(my,2);
 auto b_com = .36;
@@ -33,7 +33,7 @@ void pizero_eBkg()
   auto pip_spectra = (TH1D *)pip_data->ProjectionZ();
   
   auto pi_zero = (TH1D *)pip_spectra->Clone();
-  pi_zero->Add(pim_spectra);//pip_spectra now becomes pi zero estimate
+  //  pi_zero->Add(pim_spectra);//pip_spectra now becomes pi zero estimate
 
   //invariant mass vector:
   // s.X() = s23 = (pM - py) ^2
@@ -47,10 +47,20 @@ void pizero_eBkg()
 
   TH2D *dalitz_p = new TH2D("dalitz_p","Dalitz plot",100,0,20000,100,0,20000);
 
-  TH1D *ep_lab = new TH1D("ep_lab","e+ mom in Lab ",500,0,1000);
-  TH1D *em_lab = new TH1D("em_lab","e- mom in Lab ",500,0,1000);
+  //  vector<double> bins = {-700,-600,-580,-560,-540,-520,-500,-480,-460,-440,-420,-400,-380,-360,-340,-320,-300,-280,-260,-240,-220,-200,-180,-160,-140,-120,-100,-95,-90,-85,-80,-78,-76,-74,-72,-70,-68,-66,-64,-62,-60,-58,-56,-54,-52,-50,-48,-46,-44,-42,-40,-38,-36,-34,-32,-30,0};
+
+  //  TH1D *ep_lab = new TH1D("ep_lab","e+ mom in Lab ",bins.size()+1, bins.data());
+  //  TH1D *em_lab = new TH1D("em_lab","e- mom in Lab ",bins.size()+1, bins.data());
+
+  TH1D *ep_lab = new TH1D("ep_lab","e+ mom in Lab ",1000,0,1000);
+  TH1D *em_lab = new TH1D("em_lab","e- mom in Lab ",1000,0,1000);
+  TH2D *em_lab_angles = new TH2D("em_lab_angles","e- lab angles ",40,0,90,40,0,360);
+  TH2D *ep_lab_angles = new TH2D("ep_lab_angles","e+ lab angles ",40,0,90,40,0,360);
   
-  int nEvents = 1e5;
+  TH2D *em_com_angles = new TH2D("em_com_angles","e- com angles ",40,0,90,40,0,360);
+  TH2D *ep_com_angles = new TH2D("ep_com_angles","e+ com angles ",40,0,90,40,0,360);
+
+  int nEvents = 1e6;
   TRandom3 *ran = new TRandom3(12345);
   
   for(int iEvent = 0; iEvent < nEvents; iEvent++)
@@ -104,8 +114,11 @@ gamma ----- - - - -
       //Beam COM system boosts to final lab frame
       
       //Coordinates in Rest frame of pi zero
-      double cos_ep = (pow(mpi,2)/2 - mpi*Eem - pow(me,2) -Ey*Eep)/(-p_y*p_ep);
-      double cos_em = (pow(mpi,2)/2 - mpi*Eep - pow(me,2) -Eem*Ey)/(-p_em*p_y);
+      //      double cos_ep_b = (pow(mpi,2)/2 - mpi*Eem - pow(me,2) -Ey*Eep)/(-p_y*p_ep);// old bad def
+      //      double cos_em_b = (pow(mpi,2)/2 - mpi*Eep - pow(me,2) -Eem*Ey)/(-p_em*p_y);// old bad def
+
+      double cos_ep = (Ey*Eep + mpi*Eem - pow(mpi,2)/2)/(p_y*p_ep);
+      double cos_em = (Ey*Eem + mpi*Eep - pow(mpi,2)/2)/(p_y*p_em);
 
       double angle_ep = TMath::Pi() - TMath::ACos(cos_ep);
       double angle_em = TMath::Pi() - TMath::ACos(cos_em);
@@ -169,8 +182,8 @@ gamma ----- - - - -
       //      ep_vec.Print();
 
       //Boost first in z axis for conviencinece
-      //      ep_vec.Boost(0,0,beta_pi);
-      //      em_vec.Boost(0,0,beta_pi);
+      ep_vec.Boost(0,0,beta_pi);
+      em_vec.Boost(0,0,beta_pi);
 
       //Rotate the plane at an arbitary angle
       //Symmetry around pi_zero axis
@@ -184,14 +197,36 @@ gamma ----- - - - -
       //      cout<<"check ep "<<Eep<<" now "<<ep_vec.E()<<endl;
       //      cout<<"check em "<<Eem<<" now "<<em_vec.E()<<endl;
 
-      //      ep_vec.Boost(0,0,b_com);
-      //      em_vec.Boost(0,0,b_com);
+      ep_vec.Boost(0,0,b_com);
+      em_vec.Boost(0,0,b_com);
       
       //      cout<<"after "<<endl;
       //      ep_vec.Print();
       //      cout<<endl<<endl;
-      ep_lab->Fill(ep_vec.P());
-      em_lab->Fill(em_vec.P());      
+      //n      ep_lab->Fill(ran->Gaus(ep_vec.P(),ep_vec.P()*.05));
+      //      em_lab->Fill(ran->Gaus(em_vec.P(),em_vec.P()*.05));
+
+      TVector3 ep_ll = ep_vec.Vect();
+      TVector3 em_ll = em_vec.Vect();      
+
+      double phiL_ep = ep_ll.Phi()*TMath::RadToDeg();
+      double phiL_em = em_ll.Phi()*TMath::RadToDeg();
+      if(phiL_em < 0)
+	phiL_em += 360;
+
+      if(phiL_ep < 0)
+	phiL_ep += 360;
+
+      double thetaL_ep = ep_ll.Theta()*TMath::RadToDeg();
+      double thetaL_em = em_ll.Theta()*TMath::RadToDeg();
+
+      ep_lab_angles->Fill(thetaL_ep,phiL_ep);
+      em_lab_angles->Fill(thetaL_em,phiL_em);
+ 
+      //    if(thetaL_ep < 70 && ((phiL_ep > 150 && phiL_ep < 210) || (phiL_ep <30 || phiL_ep >330)))
+	ep_lab->Fill(ep_vec.P());      
+	//      if(thetaL_em < 70 && ((phiL_em > 150 && phiL_em < 210) || (phiL_em <30 || phiL_em >330)))
+	em_lab->Fill(em_vec.P());      
 
     }
 
@@ -201,5 +236,14 @@ gamma ----- - - - -
   ep_lab->SetLineColor(2);
   ep_lab->Draw();
   em_lab->Draw("same");  
+
+  TCanvas *c2 = new TCanvas("c2","c2",1);
+  ep_lab_angles->Draw("colz");
+  
+  TFile *out = new TFile("electronbkg.root","RECREATE");
+  ep_lab->Write();
+  em_lab->Write();
+  out->Close();
+  
 
 }

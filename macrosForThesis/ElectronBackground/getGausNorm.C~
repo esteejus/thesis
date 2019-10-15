@@ -1,0 +1,68 @@
+double total = 0;
+TH1D *hist = new TH1D("hist","hist",120,-3,3);
+TF1 *g = new TF1("g","[0]*TMath::Gaus(x,[1],[2])",-3,3);
+double mean = 0, sigma = 0;
+
+
+void fcn(Int_t& npar, Double_t* deriv, Double_t &f, Double_t* par, Int_t flag)
+{
+  double norm = par[0];
+
+  g->SetParameters(norm,mean,sigma);
+  
+  double total_g = 0;
+
+  for(int i =1 ; i <= hist->GetNbinsX(); i++)
+    {
+      double x = hist->GetXaxis()->GetBinCenter(i);
+      total_g += g->Eval(x);
+    }
+
+  f = pow(total_g - total,2)/total;
+
+}
+
+
+double getGausNorm(double value, double mean_v, double sigma_v)
+{
+
+ // Initialize minuit, set initial values etc. of parameters.
+  total = value;
+  mean = mean_v;
+  sigma = sigma_v;
+  vector<double> f_par;
+  int npar = 1;
+  TMinuit minuit(npar);
+  minuit.SetPrintLevel(-1);
+  minuit.SetFCN(fcn);
+
+  double par[npar];               // the start values
+  double stepSize[npar];          // step sizes
+  double minVal[npar];            // minimum bound on parameter
+  double maxVal[npar];            // maximum bound on parameter
+  string parName[npar];
+
+  par[0] = 100.;            // a guess at the true value.
+  stepSize[0] = .01;       // take e.g. 0.1 of start value
+  minVal[0] = 0;   // if min and max values = 0, parameter is unbounded.
+  maxVal[0] = 0;
+  parName[0] = "norm";
+  
+  for (int i=0; i<npar; i++)
+    {
+      minuit.DefineParameter(i, parName[i].c_str(),
+                             par[i], stepSize[i], minVal[i], maxVal[i]);
+    }
+
+  // Do the minimization!
+  
+
+  minuit.Migrad();       // Minuit's best minimization algorithm
+
+  double outpar[npar], err[npar];
+  for (int i=0; i<npar; i++)
+    minuit.GetParameter(i,outpar[i],err[i]);
+
+  return outpar[0];
+
+}

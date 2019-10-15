@@ -1,0 +1,401 @@
+#include <iostream>
+#include <fstream>
+#include <math.h>
+#include <TH1.h>
+#include <TCanvas.h>
+#include <TRandom3.h>
+#include <TVector3.h>
+#include <TF1.h>
+#include <TMath.h>
+#include <cmath>
+
+Double_t mpi0=134.976;
+Double_t me=0.511;
+Double_t mass_ee=1.022;
+
+
+//a distribution for the invariant mass of electron/positron system has been previously calculated in "distribution.C" which is used to model the electron/positron emission
+TGraph* interpolateEE(TString filename="eedist.txt", const Int_t ni=881, Bool_t points=kTRUE){
+  TGraph* g = new TGraph();
+  Double_t xi[ni], yi[ni];
+  Double_t xmin;
+  Double_t xmax;
+  ifstream myfile;
+  myfile.open(filename);
+  for (Int_t i=0; i<ni; i++){
+    myfile >> xi[i] >> yi[i];
+    //cout << xi[i] << "," << yi[i] << endl;
+    if (i==0)
+      xmin = xi[i];
+    else if (i==(ni-1))
+      xmax = xi[i];
+  }
+  // interpolation
+  const Int_t nb = 100000;
+  Double_t ix[nb], iy[nb];
+  ROOT::Math::Interpolator myinter(ni, ROOT::Math::Interpolation::kCSPLINE );
+  myinter.SetData(ni, xi, yi);
+
+  for (Int_t i=0; i< nb; i++){
+    ix[i]  = (Double_t) i*(xmax-xmin)/(nb-1) + xmin;
+    iy[i] = myinter.Eval(ix[i]);
+  }
+  if (points)
+    g = new TGraph(ni, xi, yi);
+  else
+    g = new TGraph(nb, ix, iy);
+
+  return g;
+
+}
+
+Double_t random(TRandom3 * rand, Double_t min_val=0, Double_t max_val=1){
+    Double_t func=rand->Rndm()*(max_val-min_val);
+    return func;
+}
+Double_t random_cos_theta(TRandom3 * rand, Double_t min_val=-1, Double_t max_val=1){
+    Double_t func_cos_theta=1.-rand->Rndm()*(max_val-min_val);
+    return func_cos_theta;
+}
+Double_t random_theta(TRandom3 * rand, Double_t min_theta=0, Double_t max_theta=TMath::Pi()){
+    Double_t func_theta=rand->Rndm()*(max_theta-min_theta)+min_theta;
+    return func_theta;
+}
+Double_t random_phi(TRandom3 * rand, Double_t min_phi=-TMath::Pi(), Double_t max_phi=TMath::Pi()){
+    Double_t func_phi=rand->Rndm()*(max_phi-min_phi)+min_phi;
+    return func_phi;
+}
+Double_t find_beta(TLorentzVector tlv){
+  Double_t mbeta=tlv.P()/tlv.E();
+  return mbeta;
+}
+TVector3 set_vect(Double_t mtheta, Double_t mphi, Double_t mmag){
+    Double_t xx,yy,zz;
+    xx=mmag*TMath::Sin(mtheta)*TMath::Cos(mphi);
+    yy=mmag*TMath::Sin(mtheta)*TMath::Sin(mphi);
+    zz=mmag*TMath::Cos(mtheta);
+    TVector3 v1(xx,yy,zz);
+    return v1;
+}
+TVector3 momentum_boost(TVector3 invect, TVector3 boostvect, Double_t mass){
+    Double_t beta=boostvect.Mag();
+    Double_t gamma=1./TMath::Sqrt(1.-beta*beta);
+    Double_t E = TMath::Sqrt(mass*mass+invect.Mag2());
+    TVector3 outvect=invect+(gamma-1.)*(1./beta/beta)*(invect.Dot(boostvect))*boostvect-gamma*E*boostvect;
+    return outvect;
+}
+
+
+
+/////////////////////////////////
+////////MC starts here///////////
+
+void MC5(){
+    ofstream outfile;
+    outfile.open("electron_positron_1000.egen");
+    TRandom3* rando = new TRandom3;
+    rando->SetSeed(40594692);
+
+    Double_t beta_pi, gamma_pi,theta_pi, phi_pi;
+    Double_t beta_em, gamma_em,theta_em, phi_em;
+    Double_t beta_ep, gamma_ep,theta_ep, phi_ep;
+    Double_t beta_photon, gamma_photon,theta_photon, phi_photon;
+
+    TGraph* graph1;
+    graph1=interpolateEE();
+
+    TCutG *oddR = new TCutG("oddR",4);
+    oddR -> SetVarX("mom/charge");
+    oddR -> SetVarY("dedx");
+    oddR -> SetPoint(0,  25, 37);
+    oddR -> SetPoint(1,  78, 37);
+    oddR -> SetPoint(2,  107, 19);
+    oddR -> SetPoint(3,  25, 12.5);
+    oddR -> SetPoint(4,  25, 37 );
+
+
+    TCutG *oddL = new TCutG("oddL",4);
+    oddL -> SetVarX("mom/charge");
+    oddL -> SetVarY("dedx");
+    oddL -> SetPoint(0,  -25, 37);
+    oddL -> SetPoint(1,  -78, 37);
+    oddL -> SetPoint(2,  -107, 19);
+    oddL -> SetPoint(3,  -25, 12.5);
+    oddL -> SetPoint(4,  -25, 37 );
+
+
+
+    TH2D *hPID=new TH2D("hPID","Guess electron/positron PID; p/Z (MeV/c);dE/dx(adc/mm)",800,-400,400,80,0,80);
+    TH2D *hAngle[8];
+    TH2D *hPzPt[8];
+    TH1D *hE[8];
+    TH1D *hCT[8];
+    TString particles[4]={"#pi^{0}","#gamma","e^{-}","e^{+}"};
+    for(int i=0;i<4;i++){
+        hAngle[i]=new TH2D(Form("hAngle%i",i),particles[i]+" emission angle lab frame; #theta(deg);#phi(deg)",180,0,180,360,-180,180);
+        hPzPt[i]=new TH2D(Form("hPzPt%i",i),particles[i]+" p_{t} vs. p_{z} lab frame; p_{z};p_{t}",200,-100,100,200,-100,100);
+        hE[i]=new TH1D(Form("hE%i",i),particles[i]+" E lab frame; E(MeV)",300,0,300);
+        hCT[i]=new TH1D(Form("hCT%i",i),particles[i]+" Cos(#theta) lab frame; Cos(#theta)",100,-1.5,1.5);
+    }
+    for(int i=4;i<8;i++){
+        hAngle[i]=new TH2D(Form("hAngle%i",i),particles[i-4]+" emission angle Pion Rest frame; #theta(deg);#phi(deg)",180,0,180,360,-180,180);
+        hPzPt[i]=new TH2D(Form("hPzPt%i",i),particles[i-4]+" p_{t} vs. p_{z} Pion Rest frame; p_{z};p_{t}",200,-100,100,200,-100,100);
+        hE[i]=new TH1D(Form("hE%i",i),particles[i-4]+" E Pion Rest frame; E(MeV)",300,0,300);
+        hCT[i]=new TH1D(Form("hCT%i",i),particles[i-4]+" Cos(#theta) Pion Rest frame; Cos(#theta)",100,-1.5,1.5);
+    }
+
+
+    /*
+    TFile *PID=new TFile("PIDplot.root");
+    TH2D * histPID = new TH2D("histPID","",100,0,100,100,0,100);
+    histPID=(TH2D*)PID->Get("histDeDx");
+    */
+    TCanvas *c1=new TCanvas("c1","c1",800,500);
+    //c1->SetLogz();
+    hPID->Draw("colz");
+    //    histPID->Draw("colzsame");
+    oddR->Draw("same");
+    oddL->Draw("same");
+    c1->SaveAs("pidbefore.png");
+
+    Int_t Lcount=0;
+    Int_t Rcount=0;
+    Int_t Llowcount=0;
+    Int_t Rlowcount=0;
+    Int_t electroncount=0;
+    Int_t positroncount=0;
+    Int_t bothcount=0;
+    Int_t writecount=0;
+    Bool_t electronin=kFALSE;
+    Bool_t positronin=kFALSE;
+
+
+    //Int_t nevents=38;
+    Int_t nevents=1E5;
+
+    outfile << 1000 << endl;
+
+
+
+
+    for(int i=0;writecount<1000;i++){
+
+        electronin=kFALSE;
+        positronin=kFALSE;
+        TVector3 pi_frame, em_frame, ep_frame, photon_frame, ee_frame;
+        TVector3 pi_angle, em_angle, ep_angle, photon_angle, ee_angle;
+        TLorentzVector pi_v1, em_v1, ep_v1, photon_v1, ee_v1;
+        auto pz_pi = [&]() -> Double_t {return pi_v1.Z();};
+        auto pt_pi = [&]() -> Double_t {return TMath::Sqrt(pi_v1.X()*pi_v1.X()+pi_v1.Y()*pi_v1.Y());};
+        auto E_pi = [&]() -> Double_t {return TMath::Sqrt(pi_v1.P()*pi_v1.P()+mpi0*mpi0);};
+        auto pz_ep = [&]() -> Double_t {return ep_v1.Z();};
+        auto pt_ep = [&]() -> Double_t {return TMath::Sqrt(ep_v1.X()*ep_v1.X()+ep_v1.Y()*ep_v1.Y());};
+        auto E_em = [&]() -> Double_t {return TMath::Sqrt(em_v1.P()*em_v1.P()+me*me);};
+        auto pz_em = [&]() -> Double_t {return em_v1.Z();};
+        auto pt_em = [&]() -> Double_t {return TMath::Sqrt(em_v1.X()*em_v1.X()+em_v1.Y()*em_v1.Y());};
+        auto E_ep = [&]() -> Double_t {return TMath::Sqrt(ep_v1.P()*ep_v1.P()+me*me);};
+        auto pz_photon = [&]() -> Double_t {return photon_v1.Z();};
+        auto pt_photon = [&]() -> Double_t {return TMath::Sqrt(photon_v1.X()*photon_v1.X()+photon_v1.Y()*photon_v1.Y());};
+        auto E_photon = [&]() -> Double_t {return TMath::Sqrt(photon_v1.P()*photon_v1.P());};
+
+
+
+        pi_v1.SetPz(TMath::Abs(rando->Gaus(0,65)));
+        Double_t pi_pt_temp=TMath::Abs(rando->Gaus(0,90));
+
+        //Double_t E_pi=TMath::Sqrt(pi_v1.Mag2()+mpi0*mpi0);
+        theta_pi=TMath::ATan2(pi_pt_temp,pz_pi());//,0.,30.*TMath::Pi()/180.);
+        phi_pi=random_phi(rando);
+        pi_v1.SetPx(pi_pt_temp*TMath::Cos(phi_pi));
+        pi_v1.SetPy(pi_pt_temp*TMath::Sin(phi_pi));
+        pi_v1.SetE(E_pi());
+        gamma_pi=E_pi()/mpi0;
+        beta_pi=TMath::Sqrt(1.-1./(gamma_pi*gamma_pi));
+        pi_frame = set_vect(theta_pi,phi_pi,beta_pi);
+
+        hAngle[0]->Fill(pi_v1.Theta()*180./TMath::Pi(),pi_v1.Phi()*180./TMath::Pi());
+        hCT[0]->Fill(pi_v1.CosTheta());
+        hE[0]->Fill(E_pi());
+        hPzPt[0]->Fill(pz_pi(),pt_pi());
+
+        pi_v1.Boost(-pi_frame);
+
+
+        hAngle[4]->Fill(pi_v1.Theta()*180./TMath::Pi(),pi_v1.Phi()*180./TMath::Pi());
+        hCT[4]->Fill(pi_v1.CosTheta());
+        hE[4]->Fill(E_pi());
+        hPzPt[4]->Fill(pz_pi(),pt_pi());
+        //ok, we have the pion frame.
+
+
+        Double_t mee=graph1->Eval(rando->Rndm());//invariant mass, sampled from distribution
+        Double_t my_pz=TMath::Sqrt(mpi0*mpi0-mee*mee)/2.;
+        //this is the momentum of photon and mee. Need to determine gamma of mee for proper boosting.
+        Double_t my_gamma = TMath::Sqrt(my_pz*my_pz+mee*mee)/mee;//gamma of mee system
+        Double_t my_beta= TMath::Sqrt(1.-1./(my_gamma*my_gamma));
+        photon_v1.SetE(my_pz);
+        theta_photon=TMath::ACos(random_cos_theta(rando));
+        phi_photon=random_phi(rando);
+        TVector3 pv=set_vect(theta_photon,phi_photon,my_pz);
+        photon_v1.SetPxPyPzE(pv.X(),pv.Y(),pv.Z(),my_pz);
+
+        hAngle[5]->Fill(TMath::ATan2(pt_photon(),pz_photon())*180./TMath::Pi(),phi_photon*180./TMath::Pi());
+        hCT[5]->Fill(TMath::Cos(TMath::ATan2(pt_photon(),pz_photon())));
+        hE[5]->Fill(photon_v1.E());
+        hPzPt[5]->Fill(pz_photon(),pt_photon());
+
+        //in mee COM, momenta of electron and positron are equal. The magntidue is determined from mee and me.
+
+        theta_em=TMath::ACos(random_cos_theta(rando));
+        phi_em=random_phi(rando);
+        theta_ep=theta_em;//+TMath::Pi();
+        phi_ep=phi_em;//+TMath::Pi();
+
+
+        Double_t ee_p=TMath::Sqrt(mee*mee-2.*me*me)/2.;
+        em_v1.SetE(TMath::Sqrt(ee_p*ee_p+me*me));
+        TVector3 emv=set_vect(theta_em,phi_em,ee_p);
+        em_v1.SetPxPyPzE(emv.X(),emv.Y(),emv.Z(),ee_p);
+
+        ep_v1.SetE(TMath::Sqrt(ee_p*ee_p+me*me));
+        TVector3 epv=set_vect(theta_ep,phi_ep,ee_p);
+        ep_v1.SetPxPyPzE(epv.X(),epv.Y(),epv.Z(),ee_p);
+
+
+        em_v1.SetTheta(theta_em);
+        em_v1.SetPhi(phi_em);
+        em_v1.SetRho(TMath::Sqrt(mee*mee-2.*me*me)/2.);
+        ep_v1.SetTheta(theta_ep);
+        ep_v1.SetPhi(phi_ep);
+        ep_v1.SetRho(TMath::Sqrt(mee*mee-2.*me*me)/2.);
+
+
+
+
+        //cout << em_v1.Px() -ep_v1.Px() << endl;
+        //cout << em_v1.Py() -ep_v1.Py()  << endl;
+        //cout << em_v1.Pz() -ep_v1.Pz() << endl;
+
+        em_v1.Boost(-set_vect(theta_photon,phi_photon,my_beta));
+        ep_v1.Boost(-set_vect(theta_photon,phi_photon,my_beta));
+
+
+        //cout << TMath::ATan2(pt_photon(),pz_photon())*180./TMath::Pi() << "," << TMath::ATan2(photon_v1.Y(),photon_v1.X())*180./TMath::Pi() << endl;
+
+
+        hAngle[6]->Fill(TMath::ACos(em_v1.Z()/em_v1.P())*180./TMath::Pi(),TMath::ATan2(em_v1.Y(),em_v1.X())*180./TMath::Pi());
+        hCT[6]->Fill(TMath::Cos(TMath::ATan2(pt_em(),pz_em())));
+        hE[6]->Fill(em_v1.P());
+        hPzPt[6]->Fill(pz_em(),pt_em());
+
+        hAngle[7]->Fill(TMath::ACos(ep_v1.Z()/ep_v1.P())*180./TMath::Pi(),TMath::ATan2(ep_v1.Y(),ep_v1.X())*180./TMath::Pi());
+        hCT[7]->Fill(TMath::Cos(TMath::ATan2(pt_ep(),pz_ep())));
+        hE[7]->Fill(ep_v1.P());
+        hPzPt[7]->Fill(pz_ep(),pt_ep());
+
+        em_v1.Boost(pi_frame);
+        ep_v1.Boost(pi_frame);
+        photon_v1.Boost(pi_frame);
+
+
+
+        hAngle[1]->Fill(TMath::ATan2(pt_photon(),pz_photon())*180./TMath::Pi(),TMath::ATan2(photon_v1.Y(),photon_v1.X())*180./TMath::Pi());
+        hCT[1]->Fill(TMath::Cos(TMath::ATan2(pt_photon(),pz_photon())));
+        hE[1]->Fill(photon_v1.E());
+        hPzPt[1]->Fill(pz_photon(),pt_photon());
+
+	Double_t dedx1=rando->Gaus(26,3.4);
+	Double_t dedx2=rando->Gaus(26,3.4);
+	
+        if(TMath::ACos(em_v1.Z()/em_v1.P())*180./TMath::Pi()<30 && TMath::ATan2(em_v1.Y(),em_v1.X())*180./TMath::Pi()<30){
+        hAngle[2]->Fill(TMath::ACos(em_v1.Z()/em_v1.P())*180./TMath::Pi(),TMath::ATan2(em_v1.Y(),em_v1.X())*180./TMath::Pi());
+        hCT[2]->Fill(TMath::Cos(TMath::ATan2(pt_em(),pz_em())));
+        hE[2]->Fill(em_v1.P());
+        hPzPt[2]->Fill(pz_em(),pt_em());
+        //Double_t dedx1=rando->Gaus(26,3.4);
+        //hPID->Fill(-(em_v1.P()),dedx1);
+        if(oddL->IsInside(-em_v1.P(),dedx1) ){
+	  //hPID->Fill(-(em_v1.P()),dedx1);
+	  
+	  Lcount++;
+            electronin=kTRUE;
+        }
+        if(-em_v1.P()>-25){
+            Llowcount++;
+        }
+        electroncount++;
+
+        }
+        if(TMath::ACos(ep_v1.Z()/ep_v1.P())*180./TMath::Pi()<30 && TMath::ATan2(ep_v1.Y(),ep_v1.X())*180./TMath::Pi()<30){
+        hAngle[3]->Fill(TMath::ACos(ep_v1.Z()/ep_v1.P())*180./TMath::Pi(),TMath::ATan2(ep_v1.Y(),ep_v1.X())*180./TMath::Pi());
+        hCT[3]->Fill(TMath::Cos(TMath::ATan2(pt_ep(),pz_ep())));
+        hE[3]->Fill(ep_v1.P());
+        hPzPt[3]->Fill(pz_ep(),pt_ep());
+        //Double_t dedx2=rando->Gaus(26,3.4);
+        //hPID->Fill((ep_v1.P()),dedx2);
+        if(oddR->IsInside(ep_v1.P(),dedx2) ){
+	  //hPID->Fill((ep_v1.P()),dedx2);
+	  
+	  positronin=kTRUE;
+            Rcount++;
+            if(electronin){
+
+                bothcount++;
+            }
+        }
+        if(ep_v1.P()<25){
+            Rlowcount++;
+        }
+        positroncount++;
+
+        }
+        if(electronin || positronin){
+	  hPID->Fill((ep_v1.P()),dedx2);
+	  hPID->Fill(-(em_v1.P()),dedx1);
+	  
+	  writecount++;
+            outfile << Form("%i\t2",bothcount) << endl;
+            outfile  << Form("11\t%f\t%f\t%f",em_v1.Px()/1000.,em_v1.Py()/1000.,em_v1.Pz()/1000.)<< endl;
+            outfile  << Form("-11\t%f\t%f\t%f",ep_v1.Px()/1000.,ep_v1.Py()/1000.,ep_v1.Pz()/1000.)<< endl;
+        }
+}
+
+
+    TCanvas *multiC[8];
+    for(int i=0;i<8;i++){
+        multiC[i]=new TCanvas(Form("multiC%i",i),"",800,800);
+        multiC[i]->Divide(2,2);
+        multiC[i]->cd(1);
+        hAngle[i]->Draw("colz");
+        multiC[i]->cd(2);
+        hPzPt[i]->Draw("colz");
+        multiC[i]->cd(3);
+        hE[i]->Draw();
+        multiC[i]->cd(4);
+        hCT[i]->Draw();
+        multiC[i]->SaveAs(Form("pizero_canvas_%i.png",i));
+    }
+    c1->cd();
+
+    hPID->Draw("colz");
+    oddR->Draw("same");
+    oddL->Draw("same");
+
+    c1->SaveAs("pidadded.png");
+
+    hPID->Draw("colz");
+    //    histPID->Draw("colzsame");
+    oddR->Draw("same");
+    oddL->Draw("same");
+
+    c1->SaveAs("pidafter.png");
+
+    cout << "left: " << Lcount << endl;
+    cout << "right: " << Rcount << endl;
+    cout << "total electron: " << electroncount << endl;
+    cout << "total positron: " << positroncount << endl;
+    cout << "both in cut: " << bothcount << endl;
+    cout << "left low p: " << Llowcount << endl;
+    cout << "right low p: " << Rlowcount << endl;
+
+}

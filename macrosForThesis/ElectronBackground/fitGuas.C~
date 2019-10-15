@@ -1,0 +1,23 @@
+
+
+void fitGaus()
+{
+  TFile *f = TFile::Open("MChistPID.root");
+  TH2D *hist = (TH2D *)f->Get("histPIDLog");
+  hist->Rebin(5);
+  double start_bin = -7.5;
+  int bin = hist->GetXaxis()->FindBin(start_bin);
+  TF1 *g = new TF1("g","[0]*TMath::Gaus(x,[1],[2])",-3,10);
+  g->SetParameters(20,-1.2,.11);
+
+  for(int i = bin; i <= hist->GetNbinsX(); i++)
+    {
+      TH1D *slice = hist->ProjectionY("py",bin,bin+1);
+      cout<<"Bin Low "<<hist->GetXaxis()->GetLowBin(bin)<<endl;
+      slice->Fit(g);
+
+    }
+
+
+
+}

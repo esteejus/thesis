@@ -1,0 +1,48 @@
+
+#include "getGausNorm.C"
+
+void getNormForData()
+{
+
+  //  TF1 *total = new TF1("total","TMath::Exp([0] + [1]*x)",-500,0);
+  //  total ->SetParameters(5.3677,1.69666e-2);
+  TF1 *total = new TF1("total","[0]*TMath::Gaus(x,[1],[2])",-500,0);
+    total->SetParameters(1.00678e+03,3.27893e+02,1.68906e+02);
+  //  TF1 *total = new TF1("total","[0] + [1]*x + [2]*pow(x,2) + [3]*pow(x,3) + [4]*pow(x,4)",-500,0);
+  //  total->SetParameters(149.204,1.68655,0.00739719,1.47863e-05,1.12723e-08);
+
+  TF1 *sigma = new TF1("sigma","[0] + [1]*x + [2]*pow(x,2) + [3]*pow(x,3)",-500,0);
+  sigma->SetParameters(0.148491,0.00059832,1.69265e-06,1.5452e-09);
+
+  TF1 *mean = new TF1("mean","[0] + [1]*x + [2]*pow(x,2) + [3]*pow(x,3) + [4]*pow(x,4) + [5]*pow(x,5) + [6]*pow(x,6) + [7]*pow(x,7) + [8]*pow(x,8)",-500,0);
+  mean->SetParameters(-5.5843,-0.131102,-0.00155294,-1.17224e-05,-5.71558e-08,-1.77215e-10,-3.35297e-13,-3.51656e-16,-1.56314e-19);
+
+  //  vector<double> center = {110,97.5,92.5,87.5,82.5,79,77,75,73,71,69,67,65,63,61,59,57,55,53,51,49,47,45,43,41,39,37,35,33,31};
+
+  //vector<double> norm = {589.367,123.266,105.987,93.1427,109.6,47.313,50.1228,58.7314,50.6599,48.2273,51.5997,54.7679,47.93,55.5159,54.5197,51.1078,54.8116,51.6441,65.7363,48.4882,52.3205,54.3658,42.2049,50.7663,54.8646,48.6362,29.0204,23.9953,16.8201,9.30909};
+  //  vector<double> binw = {20,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
+  
+  vector<double> center = {650,590,570,550,530,510,490,470,450,430,410,390,370,350,330,310,290,270,250,230,210,190,170,150,130,110,97.5,92.5,87.5};
+  
+  vector<double> binw = {100,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,5,5,5};
+
+
+  cout<<center.size()<<" "<<binw.size()<<endl;
+ cout<<"norm "<<endl;
+
+ for(int i = 0; i < center.size(); i++)
+   {
+     double x = -center.at(i);
+     double sigma_v = sigma->Eval(x);
+     double mean_v  = mean->Eval(x);
+     double total_v = total->Eval(x);
+     //     cout<<"diff "<<total_v - norm.at(i)<<endl;
+     double norm = getGausNorm(total_v*binw.at(i),mean_v,sigma_v);
+     // cout<<x<<" "<<norm<<" "<<mean_v<<" "<<sigma_v<<" "<<total_v*binw.at(i)<<endl;
+     cout<<total_v*binw.at(i)<<endl;
+     //cout<<x<<" "<< norm<<endl;     
+   }
+
+
+
+}

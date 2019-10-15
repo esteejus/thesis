@@ -1,0 +1,54 @@
+
+void plotData()
+{
+  //  TFile *f = TFile::Open("data.root");
+  //  TH1D *data = (TH1D *)f->Get("data");
+  
+  TFile *m = TFile::Open("MChistPID_em_newBin.root");
+  TH2D *pid = (TH2D *)m->Get("histPIDLog");
+  auto mc = pid->ProjectionX();
+  
+  //  vector<double> x_vec = { -32.5, -37.5, -42.5, -47.5, -52.5, -57.5, -62.5, -67.5, -72.5, -77.5, -82.5, -87.5, -92.5};
+  //  vector<double> total_vec = {141, 289, 415, 396, 372, 370, 346, 317, 343, 308, 308, 293, 206};
+
+  //  vector<double> x_vec = {-17.5, -22.5, -27.5, -32.5, -37.5, -42.5, -47.5, -52.5, -57.5, -62.5, -67.5, -72.5, -77.5, -82.5};
+  //  vector<double> total_vec = {11, 13, 20, 141, 289, 415, 396, 372, 372, 344, 319, 323, 278, 260};
+
+  vector<double> bins = {-120,-100,-95,-90,-85,-85,-80,-78,-76,-74,-72,-70,-68,-66,-64,-62,-60,-58,-56,-54,-52,-50,-48,-46,-44,-42,-40,-38,-36,-34,-32};
+
+  vector<double> counts =  {2079.45,462.985,375.974,392.428,325.35,128.327,145.313,159.354,144.574,139.054,133.668,139.455,137.189,152.247,159.446,155.025,166.726,161.095,181.335,144.707,159.707,164.206,138.444,170.429,167.442,131.867,99.1884,85.0451,57.228,34.4726};
+
+ //  vector<double> counts = {9.53475,41.6162,45.4102,78.4856,65.07,65.07,64.1635,72.6565,79.677,72.287,69.527,66.834,69.7275,68.5945,76.1235,79.723,77.5125,83.363,80.5475,90.6675,72.3535,79.8535,82.103,69.222,85.2145,83.721,65.9335,49.59425,42.52325,28.64785,18.5};
+
+    cout<<bins.size()<<" "<<counts.size()<<endl;
+
+  TH1D *data = new TH1D("data","data",bins.size()-1,bins.data());
+  //  TH1D *data = new TH1D("data","data",40,-200,0);
+  for(int i = 1; i <= counts.size(); i++)
+    {
+      //      int bin = data->GetXaxis()->FindBin(x_vec.at(i-1));
+      //      cout<<bin<<endl;
+      data->SetBinContent(i,counts.at(i-1));
+    }
+
+  int bin_l_d = data->GetXaxis()->FindBin(-80);
+  int bin_h_d = data->GetXaxis()->FindBin(-40);
+
+  int bin_l_m = mc->GetXaxis()->FindBin(-80);
+  int bin_h_m = mc->GetXaxis()->FindBin(-40);
+
+  cout<<"data "<<bin_l_d<<" "<<bin_h_d<<endl;
+  cout<<bin_l_m<<" "<<bin_h_m<<endl;
+  cout<<data->Integral(bin_l_d,bin_h_d)<<endl;
+  cout<<  mc->Integral(bin_l_m,bin_h_m)<<endl;
+  mc->Scale(1.,"width");
+  mc->Scale(data->Integral(bin_l_d,bin_h_d)/mc->Integral(bin_l_m,bin_h_m));
+
+  data->SetMarkerColor(4);
+  mc->SetLineColor(2);
+  
+  mc->Draw();
+  data->Draw("same E");
+
+
+}

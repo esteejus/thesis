@@ -1,0 +1,18 @@
+
+
+void isotropic()
+{
+
+  TH1D *angles = new TH1D("angles","angles",90,0,90);
+
+
+
+
+
+
+
+
+
+
+
+}
