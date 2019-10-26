@@ -1,0 +1,55 @@
+
+struct particle{
+  double x;
+  double y;
+  double z;
+  double coll;
+
+
+};
+
+
+
+void UpdateTstep(vector<particle> &a)
+{
+
+
+
+}
+
+
+
+void checkCollision()
+{
+
+
+
+
+
+}
+
+
+
+
+
+void getApart()
+{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

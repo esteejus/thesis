@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
   gas->LoadIonMobility(path + "/Data/IonMobility_Ar+_Ar.txt");
   cout<<"Garfiled path "<<path<<endl;
 
-  double B_y = 0;  
+  double B_y = .5;  
 
   double vx = 0;
   double vy = 0;
@@ -118,6 +118,11 @@ int main(int argc, char *argv[])
   vy *= 1e3;
   cout<<"Our drift velocity is "<<vy<<endl;
 
+  double dl = 0, dt =0;
+  //  gas->ElectronDiffusion(0,E_y,0,0,0,0,dl,dt);
+  gas->ElectronDiffusion(0,E_y,0,0,B_y,0,dl,dt);
+  cout<<"Diffusion "<<dl<<" "<<dt<<endl;
+  
   TFile *outf = new TFile("gasplots.root","RECREATE");
   
   TCanvas *c1 = new TCanvas("c1","c1",1);

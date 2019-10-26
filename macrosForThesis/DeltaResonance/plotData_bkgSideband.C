@@ -27,6 +27,11 @@ void plotData_bkgSideband()
   em_bkg->Scale(signal_int/bkg_int);
   em_bkg->SetLineColor(2);
   
+  TFile *delta = TFile::Open("delta.root");
+  TH1D *delta_h = (TH1D *)delta->Get("delta_pp");
+  delta_h->Rebin(4);
+  delta_h->Scale(1./delta_h->Integral("width"));
+  
   TCanvas *c1 = new TCanvas("c1","c1",800,1600);
   c1->SetLogy();
   TPad *pad1 = new TPad("pad1","pad1",0,.7,1,1);
@@ -57,14 +62,15 @@ void plotData_bkgSideband()
   signal_bkg->GetYaxis()->SetRangeUser(-500,15000);
   signal_bkg->Draw("HIST E");
   em_bkg->Draw("HISTE same");
-
+  //  delta_h->Draw("same");
+  
   TH1D *diff = (TH1D *)signal_bkg->Clone();
   diff->Add(em_bkg,-1);
   diff->GetXaxis()->SetRangeUser(1060,1400);
   diff->GetYaxis()->SetRangeUser(-200,1900);
   pad2->cd();
   diff->Draw();
-
+  
   TH1D *diff_inset = (TH1D *)diff->Clone();
   pad3->cd();
   diff_inset->SetTitle("");
@@ -72,8 +78,11 @@ void plotData_bkgSideband()
   diff_inset->GetYaxis()->SetRangeUser(-200,1900);
   diff_inset->SetMarkerStyle(20);
   diff_inset->SetMarkerSize(1);
+  diff_inset->Scale(1./diff_inset->Integral());
   diff_inset->Draw("PE");
-
+  delta_h->SetLineColor(2);
+  delta_h->Draw("same HIST");
+  
   pad4->cd();
   pad4->SetLogy();
   signal_bkg_z->GetXaxis()->SetRangeUser(1200,2000);
