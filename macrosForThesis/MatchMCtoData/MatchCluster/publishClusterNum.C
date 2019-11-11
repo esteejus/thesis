@@ -4,51 +4,188 @@ using namespace style;
 
 void publishClusterNum()
 {
-  TFile *f = TFile::Open("mcpim_DBhist.root");
-  TH1D *mc = (TH1D *)f->Get("ndf_dist");
-  TH1D *data = (TH1D *)f->Get("ndf_data");
-  mc->GetYaxis()->SetTitle("Probability");
-  mc->GetXaxis()->SetTitle("# of Clusters");
-  data->GetYaxis()->SetTitle("Probability");
-  data->GetXaxis()->SetTitle("# of Clusters");
+  gStyle->SetErrorX(0);
 
-  data->GetYaxis()->SetMaxDigits(2);
-  mc->GetYaxis()->SetMaxDigits(2);
+  TFile *f = TFile::Open("angles-merge.root");
+  TH1D *mc_p = (TH1D *)f->Get("ndf_mc_p");
+  TH1D *data_p = (TH1D *)f->Get("ndf_p");
+
+  TH1D *mc_d = (TH1D *)f->Get("ndf_mc_d");
+  TH1D *data_d = (TH1D *)f->Get("ndf_d");
+
+  TH1D *mc_t = (TH1D *)f->Get("ndf_mc_t");
+  TH1D *data_t = (TH1D *)f->Get("ndf_t");
+
+  TH1D *mc_he3 = (TH1D *)f->Get("ndf_mc_he3");
+  TH1D *data_he3 = (TH1D *)f->Get("ndf_he3");
+
+  TH1D *mc_he4 = (TH1D *)f->Get("ndf_mc_he4");
+  TH1D *data_he4 = (TH1D *)f->Get("ndf_he4");
+
+  mc_p->GetYaxis()->SetTitle("Probability");
+  mc_p->GetXaxis()->SetTitle("# of Clusters");
+  data_p->GetYaxis()->SetTitle("Probability");
+  data_p->GetXaxis()->SetTitle("# of Clusters");
+
+  data_p->GetYaxis()->SetMaxDigits(2);
+  mc_p->GetYaxis()->SetMaxDigits(2);
   
   TCanvas *cvs = style::stdcvs();
-  make(data);
-  make(mc);
+  make(data_p);
+  make(mc_p);
+  make(data_d);
+  make(mc_d);
+  make(data_t);
+  make(mc_t);
+  make(data_he3);
+  make(mc_he3);
+  make(data_he4);
+  make(mc_he4);
+
+  data_p->SetLineColor(kBlue);
+  mc_p->SetLineColor(kRed);
+
+  data_d->SetLineColor(kBlue - 4);
+  mc_d->SetLineColor(kRed - 4);
+
+  data_t->SetLineColor(kBlue - 7);
+  mc_t->SetLineColor(kRed - 7);
+
+  data_he3->SetLineColor(kBlue - 9);
+  mc_he3->SetLineColor(kRed - 9);
+
+  data_he4->SetLineColor(kBlue - 10);
+  mc_he4->SetLineColor(kRed - 10);
+
+
+  double scale_p = 1;
+  double scale_d = 2;
+  double scale_t = 5;
+  double scale_he3 = 10;
+  double scale_he4 = 20;
+  //  data_p = (TH1D *)data_p->Rebin(20,"data_p",xbins_h);
+  //  mc_p = (TH1D *)mc_p->Rebin(20,"mc_p",xbins_l);
+  data_p->RebinX(4);
+  mc_p->RebinX(4);
+
+  data_d->RebinX(4);
+  mc_d->RebinX(4);
+
+  data_he4->RebinX(4);
+  mc_he4->RebinX(4);
+
+  data_p->Scale(scale_p/data_p->Integral(),"width");
+  mc_p->Scale(scale_p/mc_p->Integral(),"width");
+
+  data_d->Scale(scale_d/data_d->Integral(),"width");
+  mc_d->Scale(scale_d/mc_d->Integral(),"width");
+
+  data_t->Scale(scale_t/data_t->Integral(),"width");
+  mc_t->Scale(scale_t/mc_t->Integral(),"width");
+
+  data_he3->Scale(scale_he3/data_he3->Integral(),"width");
+  mc_he3->Scale(scale_he3/mc_he3->Integral(),"width");
+
+  data_he4->Scale(scale_he4/data_he4->Integral(),"width");
+  mc_he4->Scale(scale_he4/mc_he4->Integral(),"width");
+
+  //  data_p->Fit(polya_h);
+  //mc_p->Fit(polya_l);
+
+  data_p->GetXaxis()->SetRangeUser(18,110);
+  data_p->GetYaxis()->SetRangeUser(.001,1);
+  data_p->Draw("");
+  mc_p->Draw("same");
+
+  data_d->Draw("same");
+  mc_d->Draw("same");
+
+  data_t->Draw("same");
+  mc_t->Draw("same");
+
+  data_he3->Draw("same");
+  mc_he3->Draw("same");
+
+  data_he4->Draw("same");
+  mc_he4->Draw("same");
+
+  data_p->SetMarkerStyle(20);
+  mc_p->SetMarkerStyle(20);
+
+  data_d->SetMarkerStyle(21);
+  mc_d->SetMarkerStyle(21);
+
+  data_t->SetMarkerStyle(25);
+  mc_t->SetMarkerStyle(25);
+
+  data_he3->SetMarkerStyle(24);
+  mc_he3->SetMarkerStyle(24);
+
+  data_he4->SetMarkerStyle(23);
+  mc_he4->SetMarkerStyle(23);
+
+  data_p->SetMarkerSize(2);
+  mc_p->SetMarkerSize(2);
+  data_d->SetMarkerSize(2);
+  mc_d->SetMarkerSize(2);
+  data_he3->SetMarkerSize(2);
+  mc_he3->SetMarkerSize(2);
+  data_he4->SetMarkerSize(2);
+  mc_he4->SetMarkerSize(2);
+
+  data_p->SetMarkerColor(kBlue);
+  mc_p->SetMarkerColor(kRed);
   
-  data->SetLineColor(2);
-  mc->SetLineColor(4);
-  //  data = (TH1D *)data->Rebin(20,"data",xbins_h);
-  //  mc = (TH1D *)mc->Rebin(20,"mc",xbins_l);
-  //  data->Scale(1./data->Integral(),"width");
-  //  mc->Scale(1./mc->Integral(),"width");
+  data_d->SetMarkerColor(kBlue - 4);
+  mc_d->SetMarkerColor(kRed - 4);
 
-  //  data->Fit(polya_h);
-  //mc->Fit(polya_l);
+  data_t->SetMarkerColor(kBlue - 7);
+  mc_t->SetMarkerColor(kRed - 7);
 
-  data->GetXaxis()->SetRangeUser(0,130);
-  //  data->GetYaxis()->SetRangeUser(.01,6e-3);
-  data->Draw("hist");
-  mc->Draw("same hist");
+  data_he3->SetMarkerColor(kBlue - 9);
+  mc_he3->SetMarkerColor(kRed - 9);
 
-  data->SetMarkerStyle(20);
-  mc->SetMarkerStyle(20);
-  data->SetMarkerSize(5);
-  mc->SetMarkerSize(5);
-  data->SetMarkerColor(2);
-  mc->SetMarkerColor(4);
-  
+  data_he4->SetMarkerColor(kBlue - 10);
+  mc_he4->SetMarkerColor(kRed - 10);
+
+  /*
   auto leg = new TLegend(.3,.2,.7,.5);
-  leg->AddEntry(data,"Data","le");
-  leg->AddEntry(mc,"MC","le");
+  leg->AddEntry(data_p,"Data p","pe");
+  leg->AddEntry(mc_p,"MC p","pe");
+  leg->AddEntry(data_d,"Data d","pe");
+  leg->AddEntry(mc_d,"MC d","pe");
+  leg->AddEntry(data_t,"Data t","pe");
+  leg->AddEntry(mc_t,"MC t","pe");
+  leg->AddEntry(data_he3,"Data 3He","pe");
+  leg->AddEntry(mc_he3,"MC 3He","pe");
+  leg->AddEntry(data_he4,"Data 4He","pe");
+  leg->AddEntry(mc_he4,"MC 4He","pe");
   leg->SetBorderSize(0);
+*/
+
+  auto leg = new TLegend(.2,.2,.35,.4);
+  leg->AddEntry(data_p,"p","pe");
+  leg->AddEntry(data_d,"d","pe");
+  leg->AddEntry(data_t,"t","pe");
+  leg->AddEntry(data_he3,"{}^{3}He","pe");
+  leg->AddEntry(data_he4,"{}^{4}He","pe");
+  leg->SetBorderSize(0);
+  leg->SetHeader("Data");
+  
+  auto leg2 = new TLegend(.3,.2,.4,.4);
+  leg2->AddEntry(mc_p,"p","pe");
+  leg2->AddEntry(mc_d,"d","pe");
+  leg2->AddEntry(mc_t,"t","pe");
+  leg2->AddEntry(mc_he3,"{}^{3}He","pe");
+  leg2->AddEntry(mc_he4,"{}^{4}He","pe");
+  leg2->SetBorderSize(0);
+  leg2->SetHeader("MC");
+
   leg->Draw("same");
+  leg2->Draw("same");
   cvs->SetLogy();
   cvs->SaveAs("numcluster.png");
-  cvs->SaveAs("numcluster.jpg");
+
 
 }
 

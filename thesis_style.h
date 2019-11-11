@@ -1,6 +1,6 @@
 namespace style
 {
-  TCanvas *stdcvs    ();
+  TCanvas *stdcvs    (TString,int,int);
 
       TH1 *make (TH1     *h);
       TH2 *make (TH2     *h);
@@ -58,10 +58,10 @@ void style::init() {
 
 }
 
-TCanvas *style::stdcvs()
+TCanvas *style::stdcvs(TString name = "cvs",int width = fWCvs, int height = fHCvs)
 {
   init();
-  auto cvs=new TCanvas("cvs","cvs",fWCvs,fHCvs);
+  auto cvs=new TCanvas(name,name,width,height);
   make(cvs);
   return cvs;
 }

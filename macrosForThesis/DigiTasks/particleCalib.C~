@@ -1,0 +1,36 @@
+
+void particleCalib()
+{
+  TF1 *p_const = new TF1("p_const","TMath::Exp([0])",0,2000);
+  p_const->SetParameter(0,-.17377);
+  TF1 *p_lin = new TF1("p_lin","TMath::Exp([0] + [1]*x)",0,2000);
+  p_lin->SetParameters(-.05823,-1.78728e-4);
+
+  TF1 *d_lin = new TF1("d_lin","TMath::Exp([0] + [1]*x)",0,2000);
+  d_lin->SetParameters(-.0487855,-1.68159e-4);
+
+  TF1 *t_lin = new TF1("t_lin","TMath::Exp([0] + [1]*x)",0,2000);
+  t_lin->SetParameters(-.0715918,-1.20368e-4);
+
+  TF1 *he3_lin = new TF1("he3_lin","TMath::Exp([0] + [1]*x)",0,2000);
+  he3_lin->SetParameters(-.0486119,-1.137e-4);
+
+  TF1 *he4_lin = new TF1("he4_lin","TMath::Exp([0] + [1]*x)",0,2000);
+  he4_lin->SetParameters(-.103872, -7.32047e-5);
+
+  p_lin->SetLineColor(kRed);
+  d_lin->SetLineColor(kRed-4);
+  t_lin->SetLineColor(kRed-7);  
+  he3_lin->SetLineColor(kRed-9);
+  he4_lin->SetLineColor(kRed-10);
+  
+  p_lin->Draw();
+  d_lin->Draw("same");
+  t_lin->Draw("same");
+  he3_lin->Draw("same");
+  //  he4_lin->Draw("same");
+  //  cout<<TMath::Exp(-.176)<<endl;
+
+
+
+}
