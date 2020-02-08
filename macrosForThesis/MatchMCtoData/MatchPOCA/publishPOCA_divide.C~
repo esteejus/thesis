@@ -2,30 +2,28 @@
 
 using namespace style;
 
-void publishClusterNum()
+void publishPOCA_divide()
 {
   gStyle->SetErrorX(0);
 
   TFile *f = TFile::Open("../angles_poca.root");
-  TH1D *mc_p = (TH1D *)f->Get("ndf_mc_p");
-  TH1D *data_p = (TH1D *)f->Get("ndf_p");
+  TH1D *mc_p = (TH1D *)f->Get("poca_mc_p");
+  TH1D *data_p = (TH1D *)f->Get("poca_p");
 
-  TH1D *mc_d = (TH1D *)f->Get("ndf_mc_d");
-  TH1D *data_d = (TH1D *)f->Get("ndf_d");
+  TH1D *mc_d = (TH1D *)f->Get("poca_mc_d");
+  TH1D *data_d = (TH1D *)f->Get("poca_d");
 
-  TH1D *mc_t = (TH1D *)f->Get("ndf_mc_t");
-  TH1D *data_t = (TH1D *)f->Get("ndf_t");
+  TH1D *mc_t = (TH1D *)f->Get("poca_mc_t");
+  TH1D *data_t = (TH1D *)f->Get("poca_t");
 
-  TH1D *mc_he3 = (TH1D *)f->Get("ndf_mc_he3");
-  TH1D *data_he3 = (TH1D *)f->Get("ndf_he3");
+  TH1D *mc_he3 = (TH1D *)f->Get("poca_mc_he3");
+  TH1D *data_he3 = (TH1D *)f->Get("poca_he3");
 
-  TH1D *mc_he4 = (TH1D *)f->Get("ndf_mc_he4");
-  TH1D *data_he4 = (TH1D *)f->Get("ndf_he4");
+  TH1D *mc_he4 = (TH1D *)f->Get("poca_mc_he4");
+  TH1D *data_he4 = (TH1D *)f->Get("poca_he4");
 
-  mc_p->GetYaxis()->SetTitle("Probability");
-  mc_p->GetXaxis()->SetTitle("# of Clusters");
   data_p->GetYaxis()->SetTitle("Probability");
-  data_p->GetXaxis()->SetTitle("# of Clusters");
+  data_p->GetXaxis()->SetTitle("Dist. to Vertex [mm]");
 
   data_p->GetYaxis()->SetMaxDigits(2);
   mc_p->GetYaxis()->SetMaxDigits(2);
@@ -59,20 +57,21 @@ void publishClusterNum()
 
 
   double scale_p = 1;
-  double scale_d = 2;
-  double scale_t = 5;
-  double scale_he3 = 10;
-  double scale_he4 = 20;
+  double scale_d = 1;
+  double scale_t = 1;
+  double scale_he3 = 1;
+  double scale_he4 = 1;
+
   //  data_p = (TH1D *)data_p->Rebin(20,"data_p",xbins_h);
   //  mc_p = (TH1D *)mc_p->Rebin(20,"mc_p",xbins_l);
-  data_p->RebinX(4);
-  mc_p->RebinX(4);
+  //  data_p->RebinX(4);
+  //  mc_p->RebinX(4);
 
-  data_d->RebinX(4);
-  mc_d->RebinX(4);
+  //  data_d->RebinX(4);
+  //  mc_d->RebinX(4);
 
-  data_he4->RebinX(4);
-  mc_he4->RebinX(4);
+  //  data_he4->RebinX(4);
+  //  mc_he4->RebinX(4);
 
   data_p->Scale(scale_p/data_p->Integral(),"width");
   mc_p->Scale(scale_p/mc_p->Integral(),"width");
@@ -92,22 +91,57 @@ void publishClusterNum()
   //  data_p->Fit(polya_h);
   //mc_p->Fit(polya_l);
 
-  data_p->GetXaxis()->SetRangeUser(18,110);
-  data_p->GetYaxis()->SetRangeUser(.001,1);
-  //  data_p->Draw("");
-  //  mc_p->Draw("same");
+  TH1 *cuml_p = data_p->GetCumulative();
+  TH1 *cuml_d = data_d->GetCumulative();
+  TH1 *cuml_t = data_t->GetCumulative();
+  TH1 *cuml_he3 = data_he3->GetCumulative();
+  TH1 *cuml_he4 = data_he4->GetCumulative();
+	
 
-  //  data_d->Draw("same");
-  //  mc_d->Draw("same");
+  data_p->GetXaxis()->SetRangeUser(0,50);
+  //  data_p->GetYaxis()->SetRangeUser(0,400);
+  //  data_p->GetYaxis()->SetRangeUser(.001,1000);
 
-  //  data_t->Draw("same");
-  //  mc_t->Draw("same");
+  bool logy = false;
+  double xmax = 30;
+  
+  cvs->Divide(2,3,0,0);
 
+  cvs->cd(1);
+  if(logy)
+    cvs->cd(1)->SetLogy();
+  data_p->GetXaxis()->SetRangeUser(0,xmax);
+  data_p->Draw("");
+  cuml_p->Draw("same");
+  mc_p->Draw("same");
+
+  cvs->cd(2);
+  if(logy)
+    cvs->cd(2)->SetLogy();
+  data_d->GetXaxis()->SetRangeUser(0,xmax);
+  data_d->Draw("same");
+  mc_d->Draw("same");
+
+  cvs->cd(3);
+  if(logy)
+    cvs->cd(3)->SetLogy();
+  data_t->GetXaxis()->SetRangeUser(0,xmax);
+  data_t->Draw("same");
+  mc_t->Draw("same");
+
+  cvs->cd(4);
+  if(logy)
+    cvs->cd(4)->SetLogy();
+  data_he3->GetXaxis()->SetRangeUser(0,xmax);
   data_he3->Draw("same");
   mc_he3->Draw("same");
 
-  //  data_he4->Draw("same");
-  //  mc_he4->Draw("same");
+  cvs->cd(5);
+  if(logy)
+    cvs->cd(5)->SetLogy();
+  data_he4->GetXaxis()->SetRangeUser(0,xmax);
+  data_he4->Draw("same");
+  mc_he4->Draw("same");
 
   data_p->SetMarkerStyle(20);
   mc_p->SetMarkerStyle(20);
@@ -183,7 +217,8 @@ void publishClusterNum()
 
   leg->Draw("same");
   leg2->Draw("same");
-  cvs->SetLogy();
+  cvs->SetLogx();
+  //  cvs->SetLogy();
   cvs->SaveAs("numcluster.png");
 
 

@@ -1,0 +1,20 @@
+
+struct beamType
+{
+  double E; //energy loss
+  double ph; //max probability
+};
+
+
+
+void estimateSCvariance()
+{
+
+beamType sn132 = 
+
+
+
+
+
+
+}
