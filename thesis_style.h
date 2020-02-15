@@ -2,9 +2,9 @@ namespace style
 {
   TCanvas *stdcvs    (TString,int,int);
 
-      TH1 *make (TH1     *h);
-      TH2 *make (TH2     *h);
-      TF1 *make (TF1     *f);
+  TH1 *make (TH1     *h);
+  TH2 *make (TH2     *h);
+  TF1 *make (TF1     *f);
   TLegend *make (TLegend *legend);
   TCanvas *make (TCanvas *cvs);
   

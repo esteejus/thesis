@@ -5,7 +5,7 @@ using namespace style;
 void publishPionRatios()
 {
 
-  TFile *f = TFile::Open("publishPions.root");
+  TFile *f = TFile::Open("publishPions_multcomp_2.root");
   TH1D *singleRatio_sn132 = (TH1D *)f->Get("singleRatio_sn132");
   TH1D *singleRatio_sn108 = (TH1D *)f->Get("singleRatio_sn108");
 
@@ -56,15 +56,15 @@ void publishPionRatios()
   singleRatio_sn132->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
   singleRatio_sn132->GetXaxis()->CenterTitle();
   
-
   singleRatio_sn132->SetLineWidth(5);
   singleRatio_sn132->SetLineStyle(lineS132);
   singleRatio_sn132->SetLineColor(lineC132);
   singleRatio_sn132->SetMarkerStyle(markS132);
   singleRatio_sn132->SetMarkerSize(markSz132);
   singleRatio_sn132->SetMarkerColor(markC132);
-  singleRatio_sn132->Draw("E1");
-
+  singleRatio_sn132->Draw("L E1");
+  //singleRatio_sn132->DrawCopy("same hist L");
+  
   singleRatio_sn108->SetLineWidth(5);
   singleRatio_sn108->SetLineStyle(lineS108);
   singleRatio_sn108->SetLineColor(lineC108);
@@ -72,7 +72,7 @@ void publishPionRatios()
   singleRatio_sn108->SetMarkerSize(markSz108);
   singleRatio_sn108->SetMarkerColor(markC108);
   singleRatio_sn108->Draw("same E1");
-
+  //  singleRatio_sn108->DrawCopy("same hist L");
   leg->SetBorderSize(0);
   leg->Draw("same");
   
@@ -92,6 +92,7 @@ void publishPionRatios()
   doubleRatio->SetMarkerSize(3);
   doubleRatio->SetMarkerColor(4);
   doubleRatio->Draw("E1");
+  //  doubleRatio->DrawCopy("same hist C");
 
   cvs_2->SaveAs("doubleRatio.png");
 

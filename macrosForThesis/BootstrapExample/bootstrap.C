@@ -1,0 +1,41 @@
+TRandom3 *ran = new TRandom3(12345);
+
+
+TH1D *boot(int sample_size, int samples, TF1 *fcn)
+{
+  TH1D *h = new TH1D("h","h",100,0,10);
+  vector<double> sample;
+  
+  for(int i = 0; i < sample_size; i++)
+    sample.push_back(fcn->GetRandom());
+
+  for(int i = 0; i < samples; i++)
+    {
+      double mean = 0; 
+      for(int j = 0; j < sample_size; j++)
+	  mean += sample.at(ran->Integer(sample_size - 1));
+
+      h->Fill(mean/sample.size());
+    }
+
+  return h;
+}
+
+
+void bootstrap()
+{
+
+  TF1 *gaus = new TF1("gaus","[0]*TMath::Gaus(x,[1],[2])",0,10);
+  gaus->SetParameters(1,5,2);
+  double norm = gaus->Integral(0,10);
+  //  gaus->SetParameters(1/norm,5,2);
+
+  gaus->Draw();
+  auto gaus_h = boot(30,1e6,gaus);
+  gaus_h->Scale(1./gaus_h->Integral());
+  gaus_h->Draw("same");
+
+
+
+
+}
