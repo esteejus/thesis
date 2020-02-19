@@ -90,7 +90,7 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
 
 
 
-void publishCutVariations()
+void publishCutVariations_sn108(int this_var = 0)
 {
 
   int bins = 6;
@@ -153,15 +153,13 @@ void publishCutVariations()
       for(int iVar = 0; iVar < var; iVar++)
 	{
 
-	  singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn132_singleRatio_%d_%d",iBin,iVar));
+	  singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn108_singleRatio_%d_%d",iBin,iVar));
 	}
     }
   
   TPad *pad[Nx][Ny];
 
-  for(int iVar = 1; iVar < 2; iVar++)
-    {
-
+  int iVar = this_var;
       for (Int_t i=0;i<Nx;i++)
 	{
 	  for (Int_t iBin = 0 ;iBin < Ny; iBin++)
@@ -232,57 +230,6 @@ void publishCutVariations()
       arrowR->SetLineWidth(linew);
       arrowL->Draw();
       arrowR->Draw();    
-      C -> SaveAs(Form("cvs_%d.png",iVar));
-  }
+      C -> SaveAs(Form("sn108_%d.png",iVar));
    
-  /*
-    for(int iBin = 1; iBin <= 1; iBin++)
-    {
-    for(int iVar = 0; iVar < var; iVar++)
-    {
-    singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("singleRatio_%d_%d",iBin,iVar));
-	  
-    double x,y,ye;
-    singleRatio[iBin][iVar] -> GetPoint(3,x,y);
-    ye = singleRatio[iBin][iVar] -> GetErrorY(3);
-    box[iBin][iVar] = new TBox(-.5,y-ye,6.5,y+ye);
-    line[iBin][iVar] = new TLine(-.5,y,6.5,y);
-    //singleRatio[iBin][iVar]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
-    singleRatio[iBin][iVar]->GetXaxis()->SetLimits(-.5,6.5);
-
-    singleRatio[iBin][iVar]->SetLineWidth(4);
-    singleRatio[iBin][iVar]->GetYaxis()->SetNdivisions(ndiv);
-    singleRatio[iBin][iVar]->GetYaxis()->SetTitle(Form("Bin %d",iBin));
-    singleRatio[iBin][iVar]->GetYaxis()->CenterTitle();
-    singleRatio[iBin][iVar]->GetYaxis()->SetTitleSize(.3);
-    singleRatio[iBin][iVar]->GetYaxis()->SetTitleOffset(.15);
-    singleRatio[iBin][iVar]->GetYaxis()->SetLabelSize(.1);
-    singleRatio[iBin][iVar]->SetTitle("");
-
-    singleRatio[iBin][iVar]->GetXaxis()->SetNdivisions(7);
-    singleRatio[iBin][iVar]->GetXaxis()->SetTitle("Looser                       Tighter");
-    singleRatio[iBin][iVar]->GetXaxis()->CenterTitle();
-    singleRatio[iBin][iVar]->GetXaxis()->SetTitleSize(.3);
-    singleRatio[iBin][iVar]->GetXaxis()->SetTitleOffset(.15);
-    singleRatio[iBin][iVar]->GetXaxis()->SetLabelSize(.1);
-
-
-    singleRatio[iBin][iVar]->SetPointError(default_p,0,0);
-    singleRatio[iBin][iVar]->SetMarkerStyle(markS);
-    singleRatio[iBin][iVar]->SetMarkerSize(markSz);
-    singleRatio[iBin][iVar]->SetMarkerColor(markCl);	  
-
-    pad[0][iBin]->cd();
-    // cvs[iVar]->cd(iBin);
-    singleRatio[iBin][iVar]->Draw("APO");
-
-    box[iBin][iVar]->SetFillColorAlpha(kRed, .2);
-    box[iBin][iVar]->Draw("same");
-    line[iBin][iVar]->SetLineStyle(lineSt);
-    line[iBin][iVar]->Draw("same");
-
-
-    }
-    }
-  */
 }

@@ -5,7 +5,7 @@ using namespace style;
 void publishPionsSpectra()
 {
 
-  TFile *f = TFile::Open("./rootfiles/publishPions.root");
+  TFile *f = TFile::Open("publishPions.root");
   TH1D * pim_sn108 = (TH1D *)f->Get("pim_sn108");
   TH1D * pip_sn108 = (TH1D *)f->Get("pip_sn108");
 

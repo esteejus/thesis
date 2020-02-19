@@ -2,7 +2,7 @@
 
 using namespace style;
 
-void publishCutVariations_ORG()
+void publishCutVariations_ORG_sn108()
 {
 
   int bins = 6;
@@ -17,7 +17,7 @@ void publishCutVariations_ORG()
   int linew = 4;
   int ndiv = 405;
 
-  TFile *f = TFile::Open("cutVariaiton_singleRatio.root");
+  TFile *f = TFile::Open("cutVariaiton_singleRatio_sm.root");
   TGraphErrors *singleRatio[bins][var];
   TBox *box[bins][var];
   TLine *line[bins][var];
@@ -62,7 +62,7 @@ void publishCutVariations_ORG()
     for(int iVar = 0; iVar < var; iVar++)
     {
       cvs[iVar]->SetBottomMargin(.5);
-    singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn132_singleRatio_%d_%d",iBin,iVar));
+    singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn108_singleRatio_%d_%d",iBin,iVar));
 	  
     double x,y,ye;
     singleRatio[iBin][iVar] -> GetPoint(3,x,y);

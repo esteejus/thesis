@@ -90,7 +90,7 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
 
 
 
-void publishCutVariations()
+void publishCutVariations_DR( int this_var)
 {
 
   int bins = 6;
@@ -105,7 +105,7 @@ void publishCutVariations()
   int linew = 4;
   int ndiv = 405;
 
-  TFile *f = TFile::Open("cutVariaiton_singleRatio.root");
+  TFile *f = TFile::Open("cutVariaiton_DR.root");
   TGraphErrors *singleRatio[bins][var];
   TBox *box[bins][var];
   TLine *line[bins][var];
@@ -159,9 +159,8 @@ void publishCutVariations()
   
   TPad *pad[Nx][Ny];
 
-  for(int iVar = 1; iVar < 2; iVar++)
-    {
 
+  int iVar = this_var;
       for (Int_t i=0;i<Nx;i++)
 	{
 	  for (Int_t iBin = 0 ;iBin < Ny; iBin++)
@@ -232,8 +231,7 @@ void publishCutVariations()
       arrowR->SetLineWidth(linew);
       arrowL->Draw();
       arrowR->Draw();    
-      C -> SaveAs(Form("cvs_%d.png",iVar));
-  }
+      C -> SaveAs(Form("cvs_%d_DR.png",iVar));
    
   /*
     for(int iBin = 1; iBin <= 1; iBin++)

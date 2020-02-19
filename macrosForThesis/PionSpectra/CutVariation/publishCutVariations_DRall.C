@@ -2,7 +2,7 @@
 
 using namespace style;
 
-void publishCutVariations_ORG()
+void publishCutVariations_DRall()
 {
 
   int bins = 6;
@@ -17,7 +17,7 @@ void publishCutVariations_ORG()
   int linew = 4;
   int ndiv = 405;
 
-  TFile *f = TFile::Open("cutVariaiton_singleRatio.root");
+  TFile *f = TFile::Open("cutVariaiton_DR.root");
   TGraphErrors *singleRatio[bins][var];
   TBox *box[bins][var];
   TLine *line[bins][var];

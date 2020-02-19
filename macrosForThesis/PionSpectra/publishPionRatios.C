@@ -5,7 +5,7 @@ using namespace style;
 void publishPionRatios()
 {
 
-  TFile *f = TFile::Open("publishPions_multcomp_2.root");
+  TFile *f = TFile::Open("publishPions_sm.root");
   TH1D *singleRatio_sn132 = (TH1D *)f->Get("singleRatio_sn132");
   TH1D *singleRatio_sn108 = (TH1D *)f->Get("singleRatio_sn108");
 

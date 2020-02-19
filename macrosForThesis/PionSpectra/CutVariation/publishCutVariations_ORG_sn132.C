@@ -2,7 +2,7 @@
 
 using namespace style;
 
-void publishCutVariations_ORG()
+void publishCutVariations_ORG_sn132()
 {
 
   int bins = 6;

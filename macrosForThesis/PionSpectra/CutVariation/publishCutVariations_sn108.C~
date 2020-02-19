@@ -90,7 +90,7 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
 
 
 
-void publishCutVariations()
+void publishCutVariations_sn108(int this_var = 0)
 {
 
   int bins = 6;
@@ -153,15 +153,13 @@ void publishCutVariations()
       for(int iVar = 0; iVar < var; iVar++)
 	{
 
-	  singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn132_singleRatio_%d_%d",iBin,iVar));
+	  singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn108_singleRatio_%d_%d",iBin,iVar));
 	}
     }
   
   TPad *pad[Nx][Ny];
 
-  for(int iVar = 1; iVar < 2; iVar++)
-    {
-
+  int iVar = this_var;
       for (Int_t i=0;i<Nx;i++)
 	{
 	  for (Int_t iBin = 0 ;iBin < Ny; iBin++)
@@ -233,7 +231,6 @@ void publishCutVariations()
       arrowL->Draw();
       arrowR->Draw();    
       C -> SaveAs(Form("cvs_%d.png",iVar));
-  }
    
   /*
     for(int iBin = 1; iBin <= 1; iBin++)

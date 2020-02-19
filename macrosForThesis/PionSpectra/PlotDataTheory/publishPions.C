@@ -2,10 +2,10 @@
 
 using namespace style;
 
-void publishPionsSpectra()
+void publishPions()
 {
 
-  TFile *f = TFile::Open("./rootfiles/publishPions.root");
+  TFile *f = TFile::Open("publishPions.root");
   TH1D * pim_sn108 = (TH1D *)f->Get("pim_sn108");
   TH1D * pip_sn108 = (TH1D *)f->Get("pip_sn108");
 
@@ -84,9 +84,9 @@ void publishPionsSpectra()
   TCanvas *cvs = style::stdcvs();
   cvs->SetLogy();
 
-  pim_sn132->GetYaxis()->SetTitle("dN/^{}dE (MeV^{-1})");
+  pim_sn132->GetYaxis()->SetTitle("dM/dEd#Omega");
   pim_sn132->GetYaxis()->CenterTitle();
-  pim_sn132->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
+  pim_sn132->GetXaxis()->SetTitle("K.E. COM (MeV)");
   pim_sn132->GetXaxis()->CenterTitle();
   
   pim_sn132->GetYaxis()->SetRangeUser(1e-6,2e-2);
@@ -113,9 +113,9 @@ void publishPionsSpectra()
   //  cvs_2->SetLogy();
 
 
-  pip_sn132->GetYaxis()->SetTitle("d^2N/dEd#Omega");
+  pip_sn132->GetYaxis()->SetTitle("dM/dEd#Omega");
   pip_sn132->GetYaxis()->CenterTitle();
-  pip_sn132->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
+  pip_sn132->GetXaxis()->SetTitle("K.E. COM (MeV)");
   pip_sn132->GetXaxis()->CenterTitle();
 
   pip_sn132->Scale(1e-1);
@@ -140,11 +140,7 @@ void publishPionsSpectra()
   pip_sn108->SetMarkerSize(markSz108pip);
   pip_sn108->SetMarkerColor(markC108pip);
   pip_sn108->Draw("same E1");
-
   leg_2->SetBorderSize(0);
   leg_2->Draw("same");
-
-  cvs->SaveAs("pionSpectra.png");
-
 
 }
