@@ -133,14 +133,14 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   doubleRatio->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
   doubleRatio->GetXaxis()->CenterTitle();
 
-  doubleRatio->GetYaxis()->SetRangeUser(1.1,4);
+  doubleRatio->GetYaxis()->SetRangeUser(1,4.5);
   doubleRatio->SetLineWidth(5);
   doubleRatio->SetLineStyle(1);
   doubleRatio->SetLineColor(1);
   doubleRatio->SetMarkerStyle(21);
   doubleRatio->SetMarkerSize(3);
   doubleRatio->SetMarkerColor(1);
-  //  doubleRatio->Draw("E1");
+  doubleRatio->Draw("E1");
  
   int tuQMD_Soft_mc = kBlue - 7;
   int tuQMD_Soft_fc = kBlue - 7;
@@ -155,7 +155,7 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   int tuQMD_Stiff_fs = 1;
   int tuQMD_Stiff_ms = 20;
   int tuQMD_Stiff_msz = 3;
-  int tuQMD_Stiff_ls = 10;
+  int tuQMD_Stiff_ls = 1;
   int tuQMD_Stiff_lw = 5;
   
   int xBUU_Soft_mc = kBlue - 9;
@@ -172,7 +172,7 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   int xBUU_Stiff_ms = 34;
   int xBUU_Stiff_msz = 3;
   int xBUU_Stiff_lw = 5;
-  int xBUU_Stiff_ls = 10;
+  int xBUU_Stiff_ls = 1;
  
   int urQMD_Soft_mc = kBlue;
   int urQMD_Soft_fc = kBlue;
@@ -188,7 +188,7 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   int urQMD_Stiff_fs = 1;
   int urQMD_Stiff_msz = 3;
   int urQMD_Stiff_lw = 5;
-  int urQMD_Stiff_ls = 10;
+  int urQMD_Stiff_ls = 1;
 
   int amdSoft_mc = kBlue - 4;
   int amdSoft_fc = kBlue - 4;
@@ -204,7 +204,7 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   int amdStiff_ms = 29;
   int amdStiff_msz = 3;
   int amdStiff_lw = 5;
-  int amdStiff_ls = 10;
+  int amdStiff_ls = 1;
 
   int pBUUSoft_mc = kBlue - 10;
   int pBUUSoft_fc = kBlue - 10;
@@ -220,7 +220,7 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   int pBUUStiff_ms = 23;
   int pBUUStiff_msz = 3;
   int pBUUStiff_lw = 5;
-  int pBUUStiff_ls = 10;
+  int pBUUStiff_ls = 1;
 
 
   tuQMD_05_DR->SetFillColorAlpha(tuQMD_Soft_fc,.75);
@@ -339,19 +339,70 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   pBUU_stiff_no_DR->Draw("same  LPO ");
   */
 
-  TPaveText *p_soft = new TPaveText(0,3.7,60,4);
+  double x[8] = {15,45,75,105,145,205,270,350};
+  double y[8] = {1.85675,1.90174,2.06506,2.15507,2.24125,2.34841,2.13406,2.13406};
+  double  xe[8] = {0,0,0,0,0,0,0,0};
+  double  yel[8] = {.283,.22,.22,.26,.24,.24,.34,.34};
+  double  yeh[8] = {.3,.258,.2,.27,.24,.24,.34,.34};
+  TGraphAsymmErrors *boot_stiff = new TGraphAsymmErrors(8,x,y,xe,xe,yel,yeh);
+  
+  double x_soft[8] = {15,45,75,105,145,205,270,350};
+  double y_soft[8] = {1.84,1.94,2.16,2.256,2.388,2.367,2.311,2.311};
+  double  xe_soft[8] = {0,0,0,0,0,0,0,0};
+  double  yel_soft[8] = {.376,.26,.166,.256,.281,.314,.471,.471};
+  double  yeh_soft[8] = {.316,.219,.153,.277,.305,.432,.595,.595};
+  TGraphAsymmErrors *boot_soft = new TGraphAsymmErrors(8,x_soft,y_soft,xe_soft,xe_soft,yel_soft,yeh_soft);
+
+ for(int i = 0; i < 8; i++)
+   {
+     yeh_soft[i] += y_soft[i];
+     yel_soft[i] = y_soft[i] - yel_soft[i];
+
+     yeh[i] += y[i];
+     yel[i] = y[i] - yel[i];
+   }
+
+ TGraph *soft_upper = new TGraph(8,x_soft,yeh_soft);
+ soft_upper->SetLineStyle(2);
+ soft_upper->SetLineColorAlpha(4,.75);
+ soft_upper->SetLineWidth(4);
+
+ TGraph *soft_lower = new TGraph(8,x_soft,yel_soft);
+ soft_lower->SetLineStyle(2);
+ soft_lower->SetLineColorAlpha(4,.75);
+ soft_lower->SetLineWidth(4);
+
+ TGraph *stiff_upper = new TGraph(8,x,yeh);
+ stiff_upper->SetLineStyle(2);
+ stiff_upper->SetLineColorAlpha(2,.75);
+ stiff_upper->SetLineWidth(4);
+
+ TGraph *stiff_lower = new TGraph(8,x,yel);
+ stiff_lower->SetLineStyle(2);
+ stiff_lower->SetLineColorAlpha(2,.75);
+ stiff_lower->SetLineWidth(4);
+
+  boot_stiff->SetLineStyle(10);
+  boot_stiff->SetLineColor(2);  
+  boot_stiff->SetLineWidth(4);
+  
+  boot_soft->SetLineStyle(10);
+  boot_soft->SetLineColor(4);  
+  boot_soft->SetLineWidth(4);
+
+  TPaveText *p_soft = new TPaveText(0,4.2,60,4.5);
   p_soft->AddText("Soft");
   p_soft->SetTextColor(kBlue);
   p_soft->SetFillStyle(0);
   p_soft->SetBorderSize(0);
   
-  TPaveText *p_stiff = new TPaveText(60,3.7,120,4);
+  TPaveText *p_stiff = new TPaveText(60,4.2,120,4.5);
   p_stiff->AddText("Stiff");
   p_stiff->SetTextColor(kRed);
   p_stiff->SetFillStyle(0);
   p_stiff->SetBorderSize(0);
 
-  TLegend *leg_soft = new TLegend(.15,.55,.4,.85);
+  TLegend *leg_soft = new TLegend(.15,.65,.4,.85);
   leg_soft->AddEntry(pBUU_soft_no_DR,"pBUU","lpe");
   leg_soft->AddEntry(xbuu_DR,"#chiBUU","lpe");
   leg_soft->AddEntry(tuQMD_05_DR,"TuQMD","lpe");
@@ -364,7 +415,7 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   p_soft->Draw();
   p_stiff->Draw();
   
-  TLegend *leg_stiff = new TLegend(.15,.55,.4,.85);
+  TLegend *leg_stiff = new TLegend(.35,.65,.6,.85);
   leg_stiff->AddEntry(pBUU_stiff_no_DR,"pBUU","lpe");
   leg_stiff->AddEntry(xbuu120_DR,"#chiBUU","lpe");
   leg_stiff->AddEntry(tuQMD_20_DR,"TuQMD","lpe");
@@ -373,29 +424,25 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
 
   leg_stiff->SetFillStyle(0);
   leg_stiff->SetBorderSize(0);
-
-  doubleRatio->Draw("E1");
-  pBUU_stiff_no_DR->Draw("same  LPO ");
-  amdJAM152_DR->Draw("same  LPO ");
-  urQMD_104_DR->Draw("same  LPO");
-  xbuu120_DR->Draw("same  LPO");
-  tuQMD_20_DR->Draw("same   LPO");
-  p_stiff->Draw();
-  
   leg_stiff->Draw();
-  doubleRatio->DrawCopy("same E1");
-  cvs_2->SaveAs("doubleRatio_stiff.png");
-
-  doubleRatio->Draw("E1");
-  tuQMD_05_DR->Draw("same  LPO");
-  xbuu_DR->Draw("same  LPO ");
-  urQMD_46_DR->Draw("same  LPO");
-  amdJAM55_DR->Draw("same  LPO ");
-  pBUU_soft_no_DR->Draw("same  LPO ");
-  leg_soft->Draw();
-  p_soft->Draw();
   
+  //doubleRatio->Draw("same E1");
   doubleRatio->DrawCopy("same E1");
-  cvs_2->SaveAs("doubleRatio_soft.png");
+
+  boot_stiff->SetFillColorAlpha(kRed,.2);
+  boot_stiff->Draw("same CO E4");
+  
+  boot_soft->SetFillColorAlpha(kBlue,.2);
+  boot_soft->Draw("same CO E4");
+  soft_upper->Draw("C");
+  soft_lower->Draw("C");
+  
+  stiff_upper->Draw("C");
+  stiff_lower->Draw("C");
+
+  cvs_2->SaveAs("doubleRatio.png");
+
+
+
 
 }

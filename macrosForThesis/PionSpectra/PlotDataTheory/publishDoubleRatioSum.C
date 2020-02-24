@@ -1,0 +1,317 @@
+#include "/home/justin/mythesis/thesis_style.h"
+
+using namespace style;
+
+TGraphErrors * CombineGraph(TGraphErrors *a, TGraphErrors *b, double scale = 1)
+{
+  int a_num = a->GetN();
+  int b_num = b->GetN();
+
+  double x[a_num], y[a_num], ey[a_num], ex[a_num];
+
+  if(a_num != b_num)
+    cout<<"Graph points NOT EQUAL!!!"<<endl;
+
+  for(int i = 0; i < a_num; i++)
+    {
+      double xx,y_a,y_b;
+      a->GetPoint(i,xx,y_a);
+      b->GetPoint(i,xx,y_b);
+      y_a *= scale;
+      y_b *= scale;
+
+      x[i] = xx;
+      y[i] = (y_a + y_b)/2.;
+      ex[i] = 0;
+      ey[i] = abs(y[i] - y_a);
+    }
+
+  return (new TGraphErrors(a_num,x,y,ex,ey));
+}
+
+void publishDoubleRatioSum()
+{
+  TFile *pBUU_soft_no_f = TFile::Open("/home/justin/Homework/pBUU/K210EM100/input_for_esym.info/pBUUSoft_r-1.root");
+  TGraphErrors *pBUU_soft_no_DR = (TGraphErrors *) pBUU_soft_no_f->Get("doubleRatio");
+
+  TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K210EM100/input_for_esym.info/pBUUStiff_r-1.root");
+  TGraphErrors *pBUU_stiff_no_DR = (TGraphErrors *) pBUU_stiff_no_f->Get("doubleRatio");
+
+  TFile *amdJAM55_f = TFile::Open("/home/justin/Homework/AMDJAM/highStat/input_for_esym.info/AMDJAML55new_r-1.root");
+  TGraphErrors *amdJAM55_DR = (TGraphErrors *) amdJAM55_f->Get("doubleRatio");
+
+  TFile *amdJAM152_f = TFile::Open("/home/justin/Homework/AMDJAM/highStat/input_for_esym.info/AMDJAML152new_r-1.root");
+  TGraphErrors *amdJAM152_DR = (TGraphErrors *) amdJAM152_f->Get("doubleRatio");
+
+
+  TFile *urQMD_46_f = TFile::Open("/home/justin/Homework/UrQMD/input_for_esym.info/UrQMDL46_r-1.root");
+  TGraphErrors *urQMD_46_DR = (TGraphErrors *) urQMD_46_f->Get("doubleRatio");
+
+  TFile *urQMD_104_f = TFile::Open("/home/justin/Homework/UrQMD/input_for_esym.info/UrQMDL104_r-1.root");
+  TGraphErrors *urQMD_104_DR = (TGraphErrors *) urQMD_104_f->Get("doubleRatio");
+
+
+  TFile *imQMD_05_f = TFile::Open("/home/justin/Homework/IQMD-BNU/input_for_esym.info/IQMD-BNUg05_r-1.root");
+  TGraphErrors *imQMD_05_DR = (TGraphErrors *) imQMD_05_f->Get("doubleRatio");
+
+  TFile *imQMD_20_f = TFile::Open("/home/justin/Homework/IQMD-BNU/input_for_esym.info/IQMD-BNUg20_r-1.root");
+  TGraphErrors *imQMD_20_DR = (TGraphErrors *) imQMD_20_f->Get("doubleRatio");
+
+
+
+  TFile *tuQMD_05_f = TFile::Open("/home/justin/Homework/TuQMD/new-highStat/input_for_esym.info/TuQMDg05_r-1.root");
+  TGraphErrors *tuQMD_05_DR = (TGraphErrors *) tuQMD_05_f->Get("doubleRatio");
+
+  TFile *tuQMD_20_f = TFile::Open("/home/justin/Homework/TuQMD/new-highStat/input_for_esym.info/TuQMDg20_r-1.root");
+  TGraphErrors *tuQMD_20_DR = (TGraphErrors *) tuQMD_20_f->Get("doubleRatio");
+
+
+  TFile *xbuu_f = TFile::Open("/home/justin/Homework/xBUU/old/input_for_esym.info/xBUU_r-1.root");
+  TGraphErrors *xbuu_DR = (TGraphErrors *) xbuu_f->Get("doubleRatio");
+
+  TFile *xbuu120_f = TFile::Open("/home/justin/Homework/xBUU/new/input_for_esym.info/xBUU_skyrmeL120_r-1.root");
+  TGraphErrors *xbuu120_DR = (TGraphErrors *) xbuu120_f->Get("doubleRatio");
+
+  auto xbuu_sum = CombineGraph(xbuu_DR,xbuu120_DR);
+  auto tuQMD_sum = CombineGraph(tuQMD_05_DR,tuQMD_20_DR);
+  auto imQMD_sum = CombineGraph(imQMD_05_DR,imQMD_20_DR);
+  auto urQMD_sum = CombineGraph(urQMD_46_DR,urQMD_104_DR);
+  auto amdJAM_sum = CombineGraph(amdJAM55_DR,amdJAM152_DR);
+  auto pBUU_sum = CombineGraph(pBUU_stiff_no_DR,pBUU_soft_no_DR);
+
+  TFile *f = TFile::Open("/home/justin/mythesis/macrosForThesis/PionSpectra/rootfiles/publishPions_sm.root");
+  TH1D *doubleRatio = (TH1D *)f->Get("doubleRatio");
+  TH1D *singleRatio_sn108 = (TH1D *)f->Get("singleRatio_sn108");
+
+  make(singleRatio_sn108);
+  make(doubleRatio);
+
+  gStyle->SetEndErrorSize(0);
+
+  //style
+  int lineS132 = 1; 
+  int lineS108 = 1;
+
+  int markS132 = 21;
+  int markS108 = 21;  
+
+  //color
+  int lineC132 = 1; 
+  int lineC108 = 1;
+
+  int markC132 = 1;
+  int markC108 = 1;  
+
+  //size
+  int markSz132 = 2; //marker size
+  int markSz108 = 2; //marker size 
+
+  //  TLegend *leg = new TLegend(.2,.2,.55,.5);
+  TLegend *leg = new TLegend(.3,.5,.8,.8);
+  leg->AddEntry(doubleRatio,"{}^{132}Sn +{}^{124}Sn","lpe");
+
+  TCanvas *cvs = style::stdcvs();
+  //  cvs->SetLogy();
+  //  doubleRatio->GetYaxis()->SetRangeUser(.5,20);
+  
+  doubleRatio->GetYaxis()->SetRangeUser(.9,4.5);
+  doubleRatio->GetYaxis()->SetTitle("R_{132+124}/R_{108+112}");
+  doubleRatio->GetYaxis()->CenterTitle();
+  doubleRatio->GetXaxis()->SetTitle("E_{#scale[.6]{COM}} (MeV)");
+  doubleRatio->GetXaxis()->CenterTitle();
+  
+  doubleRatio->SetLineWidth(5);
+  doubleRatio->SetLineStyle(lineS132);
+  doubleRatio->SetLineColor(lineC132);
+  doubleRatio->SetMarkerStyle(markS132);
+  doubleRatio->SetMarkerSize(markSz132);
+  doubleRatio->SetMarkerColor(markC132);
+  //  doubleRatio->Draw("L E1");
+  //doubleRatio->DrawCopy("same hist L");
+  
+  singleRatio_sn108->SetLineWidth(5);
+  singleRatio_sn108->SetLineStyle(lineS108);
+  singleRatio_sn108->SetLineColor(lineC108);
+  singleRatio_sn108->SetMarkerStyle(markS108);
+  singleRatio_sn108->SetMarkerSize(markSz108);
+  singleRatio_sn108->SetMarkerColor(markC108);
+  //  singleRatio_sn108->Draw("same E1");
+  //  singleRatio_sn108->DrawCopy("same hist L");
+  leg->SetBorderSize(0);
+  leg->Draw("same");
+  
+  int tuQMD_Soft_mc = kOrange - 0;
+  int tuQMD_Soft_fc = kOrange - 0;
+  int tuQMD_Soft_fs = 1;
+  int tuQMD_Soft_ms = 24;
+  int tuQMD_Soft_msz = 3;
+  int tuQMD_Soft_ls = 4;
+  int tuQMD_Soft_lw = 10;
+  
+  int xBUU_Soft_mc = kBlue - 4;
+  int xBUU_Soft_fc = kBlue - 4;
+  int xBUU_Soft_fs = 1;
+  int xBUU_Soft_ms = 28;
+  int xBUU_Soft_msz = 3;
+  int xBUU_Soft_lw = 10;
+  int xBUU_Soft_ls = 1;
+  
+  int urQMD_Soft_mc = kGreen - 7;
+  int urQMD_Soft_fc = kGreen - 7;
+  int urQMD_Soft_fs = 1;
+  int urQMD_Soft_ms = 26;
+  int urQMD_Soft_msz = 3;
+  int urQMD_Soft_lw = 10;
+  int urQMD_Soft_ls = 7;
+
+  int imQMD_Soft_mc = kCyan;
+  int imQMD_Soft_fc = kCyan;
+  int imQMD_Soft_fs = 1;
+  int imQMD_Soft_ms = 26;
+  int imQMD_Soft_msz = 3;
+  int imQMD_Soft_lw = 10;
+  int imQMD_Soft_ls = 7;
+
+  int amdSoft_mc = kMagenta - 9;
+  int amdSoft_fc = kMagenta - 9;
+  int amdSoft_fs = 1;
+  int amdSoft_ms = 30;
+  int amdSoft_msz = 3;
+  int amdSoft_lw = 10;
+  int amdSoft_ls = 9;
+
+  int pBUUSoft_mc = kRed - 7;
+  int pBUUSoft_fc = kRed - 7;
+  int pBUUSoft_fs = 1;
+  int pBUUSoft_ms = 32;
+  int pBUUSoft_msz = 3;
+  int pBUUSoft_lw = 10;
+  int pBUUSoft_ls = 10;
+  
+  tuQMD_sum->SetFillColorAlpha(tuQMD_Soft_fc,.5);
+  tuQMD_sum->SetFillStyle(tuQMD_Soft_fs);
+  tuQMD_sum->SetMarkerColor(tuQMD_Soft_mc);
+  tuQMD_sum->SetMarkerSize(tuQMD_Soft_msz);
+  tuQMD_sum->SetMarkerStyle(tuQMD_Soft_ms);
+  tuQMD_sum->SetLineStyle(tuQMD_Soft_ls);
+  tuQMD_sum->SetLineColor(tuQMD_Soft_mc);
+  tuQMD_sum->SetLineWidth(tuQMD_Soft_lw);
+
+  xbuu_sum->SetFillColorAlpha(xBUU_Soft_fc,.5);
+  xbuu_sum->SetFillStyle(xBUU_Soft_fs);
+  xbuu_sum->SetMarkerColor(xBUU_Soft_mc);
+  xbuu_sum->SetMarkerStyle(xBUU_Soft_ms);
+  xbuu_sum->SetMarkerSize(xBUU_Soft_msz);
+  xbuu_sum->SetLineStyle(xBUU_Soft_ls);
+  xbuu_sum->SetLineColor(xBUU_Soft_mc);
+  xbuu_sum->SetLineWidth(xBUU_Soft_lw);
+
+  urQMD_sum->SetFillColorAlpha(urQMD_Soft_fc,.5);
+  urQMD_sum->SetFillStyle(urQMD_Soft_fs);
+  urQMD_sum->SetMarkerStyle(urQMD_Soft_ms);
+  urQMD_sum->SetMarkerColor(urQMD_Soft_mc);
+  urQMD_sum->SetMarkerSize(urQMD_Soft_msz);
+  urQMD_sum->SetLineStyle(urQMD_Soft_ls);
+  urQMD_sum->SetLineWidth(urQMD_Soft_lw);
+  urQMD_sum->SetLineColor(urQMD_Soft_mc);
+
+  imQMD_sum->SetFillColorAlpha(imQMD_Soft_fc,.5);
+  imQMD_sum->SetFillStyle(imQMD_Soft_fs);
+  imQMD_sum->SetMarkerStyle(imQMD_Soft_ms);
+  imQMD_sum->SetMarkerColor(imQMD_Soft_mc);
+  imQMD_sum->SetMarkerSize(imQMD_Soft_msz);
+  imQMD_sum->SetLineStyle(imQMD_Soft_ls);
+  imQMD_sum->SetLineWidth(imQMD_Soft_lw);
+  imQMD_sum->SetLineColor(imQMD_Soft_mc);
+
+  amdJAM_sum->SetFillColorAlpha(amdSoft_fc,.5);
+  amdJAM_sum->SetFillStyle(amdSoft_fs);
+  amdJAM_sum->SetMarkerStyle(amdSoft_ms);
+  amdJAM_sum->SetMarkerColor(amdSoft_mc);
+  amdJAM_sum->SetMarkerSize(amdSoft_msz);
+  amdJAM_sum->SetLineStyle(amdSoft_ls);
+  amdJAM_sum->SetLineColor(amdSoft_mc);
+  amdJAM_sum->SetLineWidth(amdSoft_lw);
+
+  pBUU_sum->SetFillColorAlpha(pBUUSoft_fc,.5);
+  pBUU_sum->SetFillStyle(pBUUSoft_fs);
+  pBUU_sum->SetMarkerStyle(pBUUSoft_ms);
+  pBUU_sum->SetMarkerColor(pBUUSoft_mc);
+  pBUU_sum->SetMarkerSize(pBUUSoft_msz);
+  pBUU_sum->SetLineStyle(pBUUSoft_ls);
+  pBUU_sum->SetLineColor(pBUUSoft_mc);
+  pBUU_sum->SetLineWidth(pBUUSoft_lw);
+
+  /*
+    tuQMD_05_DR->Draw("same  LPO");
+  xbuu_DR->Draw("same  LPO ");
+  urQMD_46_DR->Draw("same  LPO");
+  amdJAM55_DR->Draw("same  LPO ");
+  pBUU_soft_no_DR->Draw("same  LPO ");
+
+
+  pBUU_stiff_no_DR->Draw("same  LPO ");
+  amdJAM152_DR->Draw("same  LPO ");
+  urQMD_104_DR->Draw("same  LPO");
+  xbuu120_DR->Draw("same  LPO");
+  tuQMD_20_DR->Draw("same   LPO");
+
+  tuQMD_05_DR->Draw("same  LPO");
+  tuQMD_20_DR->Draw("same   LPO");
+  xbuu_DR->Draw("same  LPO ");
+  xbuu120_DR->Draw("same  LPO");
+  urQMD_46_DR->Draw("same  LPO");
+  urQMD_104_DR->Draw("same  LPO");
+  amdJAM55_DR->Draw("same  LPO ");
+  amdJAM152_DR->Draw("same  LPO ");
+  pBUU_soft_no_DR->Draw("same  LPO ");
+  pBUU_stiff_no_DR->Draw("same  LPO ");
+  */
+
+  TPaveText *p_soft = new TPaveText(0,3.7,60,4);
+  p_soft->AddText("Soft");
+  p_soft->SetTextColor(kBlue);
+  p_soft->SetFillStyle(0);
+  p_soft->SetBorderSize(0);
+  
+  TPaveText *p_stiff = new TPaveText(60,3.7,120,4);
+  p_stiff->AddText("Stiff");
+  p_stiff->SetTextColor(kRed);
+  p_stiff->SetFillStyle(0);
+  p_stiff->SetBorderSize(0);
+
+  TLegend *leg_soft = new TLegend(.2,.6,.6,.9);
+  leg_soft->AddEntry(tuQMD_sum,"TuQMD","FL");
+  leg_soft->AddEntry(urQMD_sum,"urQMD","FL");
+  leg_soft->AddEntry(imQMD_sum,"ImQMD","FL");
+  leg_soft->AddEntry(xbuu_sum,"#chiBUU","FL");
+  leg_soft->AddEntry(amdJAM_sum,"AMD + JAM","FL");
+  leg_soft->AddEntry(pBUU_sum,"pBUU","FL");
+
+  leg_soft->SetBorderSize(0);
+  leg_soft->SetFillStyle(0);
+  leg_soft->Draw();
+  //  p_soft->Draw();
+  //  p_stiff->Draw();
+  
+  TLegend *leg_stiff = new TLegend(.45,.75,.9,.85);
+  leg_stiff->AddEntry(doubleRatio,"Data","lpe");
+
+  leg_stiff->SetFillStyle(0);
+  leg_stiff->SetBorderSize(0);
+
+  doubleRatio->Draw("L E1");
+  pBUU_sum->Draw("same  LE3 ");
+  imQMD_sum->Draw("same  LE3");
+  xbuu_sum->Draw("same  LE3 ");
+  tuQMD_sum->Draw("same  LE3");
+  amdJAM_sum->Draw("same  LE3 ");
+  urQMD_sum->Draw("same  LE3");
+  doubleRatio->DrawCopy("same L E1");  
+  leg_soft->Draw();
+  leg_stiff->Draw();
+  
+  //  cvs->SetLogy();
+  cvs->SaveAs("doubleRatio_sum.png");
+
+}

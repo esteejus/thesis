@@ -2,7 +2,7 @@
 
 using namespace style;
 
-void publishPionRatios()
+void publishDoubleRatio()
 {
   TFile *pBUU_soft_no_f = TFile::Open("/home/justin/Homework/pBUU/K210EM100/input_for_esym.info/pBUUSoft_r-1.root");
   TGraphErrors *pBUU_soft_no_DR = (TGraphErrors *) pBUU_soft_no_f->Get("doubleRatio");
@@ -55,77 +55,11 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
 
 
   TFile *f = TFile::Open("/home/justin/mythesis/macrosForThesis/PionSpectra/rootfiles/publishPions_sm.root");
-  TH1D *singleRatio_sn132 = (TH1D *)f->Get("singleRatio_sn132");
-  TH1D *singleRatio_sn108 = (TH1D *)f->Get("singleRatio_sn108");
-
   TH1D *doubleRatio = (TH1D *)f->Get("doubleRatio");
 
-  make(singleRatio_sn108);
-  make(singleRatio_sn132);
   make(doubleRatio);
 
   gStyle->SetEndErrorSize(0);
-
-  //style
-  int lineS132 = 1; 
-  int lineS108 = 7;
-
-  int markS132 = 21;
-  int markS108 = 25;  
-
-  //color
-  int lineC132 = kRed ; 
-  int lineC108 = kRed - 7;
-
-  int markC132 = kRed ;
-  int markC108 = kRed - 7;  
-
-  //size
-  int markSz132 = 2; //marker size
-  int markSz108 = 2; //marker size 
-
-  //  TLegend *leg = new TLegend(.2,.2,.55,.5);
-  TLegend *leg = new TLegend(.3,.5,.8,.8);
-  leg->AddEntry(singleRatio_sn132,"{}^{132}Sn +{}^{124}Sn","lpe");
-  leg->AddEntry(singleRatio_sn108,"{}^{108}Sn +{}^{112}Sn","lpe");
-
-  /*  TLegend *leg_2 = new TLegend(.75,.75,.95,.9);
-  leg_2->SetHeader("{}^{108}Sn +{}^{112}Sn");
-  leg_2->AddEntry(pim_sn108,"#pi^{-}","lpe");
-  leg_2->AddEntry(pip_sn108,"#pi^{+} (x10^{-1} )","lpe");
-  */
-
-  TCanvas *cvs = style::stdcvs();
-  //  cvs->SetLogy();
-  //  singleRatio_sn132->GetYaxis()->SetRangeUser(.5,20);
-  
-  singleRatio_sn132->GetYaxis()->SetRangeUser(0,15);
-  singleRatio_sn132->GetYaxis()->SetTitle("#pi^{-}/#pi^{+}");
-  singleRatio_sn132->GetYaxis()->CenterTitle();
-  singleRatio_sn132->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
-  singleRatio_sn132->GetXaxis()->CenterTitle();
-  
-  singleRatio_sn132->SetLineWidth(5);
-  singleRatio_sn132->SetLineStyle(lineS132);
-  singleRatio_sn132->SetLineColor(lineC132);
-  singleRatio_sn132->SetMarkerStyle(markS132);
-  singleRatio_sn132->SetMarkerSize(markSz132);
-  singleRatio_sn132->SetMarkerColor(markC132);
-  singleRatio_sn132->Draw("L E1");
-  //singleRatio_sn132->DrawCopy("same hist L");
-  
-  singleRatio_sn108->SetLineWidth(5);
-  singleRatio_sn108->SetLineStyle(lineS108);
-  singleRatio_sn108->SetLineColor(lineC108);
-  singleRatio_sn108->SetMarkerStyle(markS108);
-  singleRatio_sn108->SetMarkerSize(markSz108);
-  singleRatio_sn108->SetMarkerColor(markC108);
-  singleRatio_sn108->Draw("same E1");
-  //  singleRatio_sn108->DrawCopy("same hist L");
-  leg->SetBorderSize(0);
-  leg->Draw("same");
-  
-  cvs->SaveAs("singleRatio.png");
 
   TCanvas *cvs_2 = style::stdcvs("cvs_2");
   doubleRatio->GetYaxis()->SetTitle("Double Ratio");
@@ -312,32 +246,6 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   pBUU_stiff_no_DR->SetLineStyle(pBUUStiff_ls);
   pBUU_stiff_no_DR->SetLineColor(pBUUStiff_mc);
   pBUU_stiff_no_DR->SetLineWidth(pBUUStiff_lw);
-
-  /*
-    tuQMD_05_DR->Draw("same  LPO");
-  xbuu_DR->Draw("same  LPO ");
-  urQMD_46_DR->Draw("same  LPO");
-  amdJAM55_DR->Draw("same  LPO ");
-  pBUU_soft_no_DR->Draw("same  LPO ");
-
-
-  pBUU_stiff_no_DR->Draw("same  LPO ");
-  amdJAM152_DR->Draw("same  LPO ");
-  urQMD_104_DR->Draw("same  LPO");
-  xbuu120_DR->Draw("same  LPO");
-  tuQMD_20_DR->Draw("same   LPO");
-
-  tuQMD_05_DR->Draw("same  LPO");
-  tuQMD_20_DR->Draw("same   LPO");
-  xbuu_DR->Draw("same  LPO ");
-  xbuu120_DR->Draw("same  LPO");
-  urQMD_46_DR->Draw("same  LPO");
-  urQMD_104_DR->Draw("same  LPO");
-  amdJAM55_DR->Draw("same  LPO ");
-  amdJAM152_DR->Draw("same  LPO ");
-  pBUU_soft_no_DR->Draw("same  LPO ");
-  pBUU_stiff_no_DR->Draw("same  LPO ");
-  */
 
   TPaveText *p_soft = new TPaveText(0,3.7,60,4);
   p_soft->AddText("Soft");
