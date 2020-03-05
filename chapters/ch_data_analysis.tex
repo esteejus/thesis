@@ -61,8 +61,8 @@ Clustering in this way gives us better position resolution for calculating the p
 \cmidrule{3-4} \cmidrule{7-8} \cmidrule{11-12}
 Particle &\phantom{abc} & Raw & E$\times$B\\
 \midrule
-p   & 882.8 & d & d & 903.5 & e & e &\phantom{abcdef} & f & f \\
-d   & 817.1 & d & d & 898.5 & e & e & 1621.1 & f & f\\
+p   & 882.8 & 929.5 & 877.3 & 903.5 & 929.5 & 889 &\phantom{abcdef} & f & f \\
+d   & 817.1 & d & d & 898.5 & e & e & 1621.1 & 1704 & 1612\\
 t   & 589.5 & d & d & 887 & e & e & 1612.4 & f & f  \\
 $^{3}$He  & 1617.3  & d & d & 1795.2 & e & e & 3236.4 & f & f\\
 $^{4}$He  & 1405.6  & d & d & 1782.9 & e & e & 3226.4 & f & f \\
@@ -100,8 +100,6 @@ Picture of low vs high gain channels and fit
 Add paper here. 
 
 \subsection{Space Charge Corrections}
-Overview
-Discuss the relevant time scales, drift lengths, magnitudes, and locations of space charge
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{spacechg_cartoon.png}
@@ -109,12 +107,115 @@ Discuss the relevant time scales, drift lengths, magnitudes, and locations of sp
 \label{fig:spacechg_cartoon}
 \end{figure}
 
+
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{beampath.png}
 \caption{Beam path of the experiments}
 \label{fig:beampaths}
 \end{figure}
 
+
+As the beam passes through the field cage it ionizes the gas along the way creating electron-ion pairs. The drift velocities of the ions are \num{1e4} times slower than the electron drift velocities. Because ions move very slow, the potential build up of positive ions may create a space charge which distorts the drifting electrons of the tracks, impacting the measurement of their momentum. There are several regions of the TPC in which electron-ion pairs are created. The largest source of positive ions are created in the avalanche process near the anode wires. These ions slowly drift toward the cathode and are captured by the gating grid. The other source of ions come from the primary ionization produced by the beam and reaction products in the detector gas. The energy loss <dE/dx>$\propto Z^2$, where Z is the charge of the particle type. Because the charge of the un-reacted beam is around Z~50, the ionization due to the beam is a factor of \num{2.5e3} times that of the light charged particles which mostly are of charge Z~1. 
+ The beam is positioned about 25\si{\centi\metre} below the anode plane in the TPC. It takes electrons approximately 5\si{\micro\sec} to drift to the anode plane. It takes the ions \num{5e4}\si{\micro\sec} to travel. The beam rate in the experiment varied around a value of about 10\si{\kilo\hertz}, which has an average occurrence of 1 beam every 100\si{\micro\sec}, which is much shorter than the time it takes for the ions created by each beam to terminate on the cathode plane. This results in a build up of positive ions in the shape of a sheet charge, carved out by the beam path as shown in Fig.~\ref{fig:spacechg_cartoon}. The average distance between sequential ion paths created by each beam is a spacing of about 50\si{\micro\metre} apart, and the average number of beam paths that compose the sheet charge is around 500 tracks. 
+Though the arrival time of each beam track is random, the large number of tracks, and small inter beam spacing, allows us to approximate the sheet charge as an uniform sheet charge. 
+
+The electric field in the presence of the sheet charge can be calculated by solving Poisson's equation, 
+
+\begin{equation}
+\nabla^2 \phi = \rho,
+\end{equation}
+
+ where $\phi$ is the electric potential and $\rho$ is the free space charge; given the Dirichlet boundary conditions of the field cage. The electric field is given as the gradient of the potential,  $\vec{E}= -\nabla \phi$. 
+ 
+ To reduce computation time, we notice that $\vec{E}\propto \rho$, we can therefore solve the electric field for a reference free charge $\rho_o$ and scale the solution for any other free charge. The full magnetic field map is provided by the SAMURAI collaboration \cite{magnet}. The velocity field map is given by Eq.~\ref{eq:elecdrift} and the electron drift through this velocity map is propagated by using a time stepped $\mathrm{4}^{\mathrm{th}}$-Order Runge-Kutta integration. The correction map is calculated by starting from the anode y-position and the measured (x,z) on the pad-plane and stepping backward in time in the Runge-Kutta integration through the velocity field map until the electron reaches the measured y-position. 
+ 
+ It has been shown before that the amount of space charge present in the chamber is related to observables such as the distance of closest approach of each track to the vertex point \cite{starSC}. This is easily understood, as the space charge distorts the electrons as they drift through the chamber eventually distorting the overall shape of the measured track. In the presence of no space charge, you would correctly expect the distance of closest approach of each track to the vertex point would be a distribution centered around zero. In the presence of space charge the tracks are distorted and the distribution has some mean bias. 
+
+Shown in Fig.~\ref{fig:sc_shift} is an example of the distortion map in the TPC for left-going tracks in blue, and right-going tracks in green, with the vectors of distortion magnified. The space charge affects left and right going tracks differently, with the right-going tracks going to higher momentum values and the left-going tracks going to lower momentum values. The inset figure of Fig.~\ref{fig:sc_shift} shows the shift in the x-position distance to vertex for the displaced left-going track given by $\Delta\mathrm{V}_\mathrm{x}$, with the opposite direction for right-going tracks. We are able to measure the amount of distortion the space charge creates by measuring the difference between the most probable values of the left-going and right-going tracks which we define as $\Delta\mathrm{V}_\mathrm{LR}$.
+ 
+
+Overview
+Discuss the relevant time scales, drift lengths, magnitudes, and locations of space charge
+
+
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{DVTP_raw.pdf}
+\caption{$\Delta\mathrm{V}_\mathrm{x}$ distribution for left-going and right-going tracks in the TPC for the }
+\label{fig:spacechg_cartoon}
+\end{figure}
+
+
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{PeakLocation_vs_BR.pdf}
+\caption{$\Delta\mathrm{V}_\mathrm{LR}$ as a function of the beam rate. }
+\label{fig:spacechg_br}
+\end{figure}
+
+The average beam rate was recorded in each experimental run and slightly varied from run to run, due to beam production variations. The amount of space charge present in the field cage is directly proportional to the beam rate; therefore $\Delta\mathrm{V}_\mathrm{LR}$ is also proportional to the beam rate as shown in Fig.~\ref{fig:spacechg_br}. The only parameter in the space charge correction algorithm is the surface charge density $\sigma_{\mathrm{SC}}$. By varying $\sigma_{\mathrm{SC}}$ for a wide range of values the $\Delta\mathrm{V}_\mathrm{LR}$ observable is measured and plotted in the left panel of Fig.~\ref{fig:spacechg_relation}. The surface charge density which gives $\Delta\mathrm{V}_\mathrm{LR} = 0$ is taken to be the estimate for the average amount of space charge present. This is done for several runs which vary in beam intensity. Since the relation is linear between the surface charge density and the beam rate, a linear fit gives good agreement for interpolating the surface charge values as a function of beam rate, as seen in the right figure of Fig.~\ref{fig:spacechg_relation}.
+
+This is done for all the systems. I NEED TO PUT THE ASSUMPTIONS OF 132 108 HERE!!!
+
+
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{SC_Relation.pdf}
+\caption{Space charge relation}
+\label{fig:spacechg_relation}
+\end{figure}
+
+
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{Effect_SC.pdf}
+\caption{Shift of tracks}
+\label{fig:sc_shift}
+\end{figure}
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{BDC_P_small_angle.pdf} 
+        \caption{Generic} \label{fig:mom_S_before}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{BDC_P_large_angle.pdf} 
+        \caption{Competitors} \label{fig:mom_L_before}
+    \end{subfigure}
+    
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{BDC_P_aftercor_small_angle.pdf} 
+        \caption{Generic} \label{fig:mom_S_after}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{BDC_P_aftercor_large_angle.pdf} 
+        \caption{Competitors} \label{fig:mom_L_after}
+    \end{subfigure}
+\label{fig:mom_sc}
+\end{figure}
+
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{BDC_P_frac_small_angle.pdf} 
+        \caption{Generic} \label{fig:mom_S_1D}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{BDC_P_frac_large_angle.pdf} 
+        \caption{Competitors} \label{fig:mom_L_1D}
+    \end{subfigure}
+    
+\label{fig:mom_1D}
+\end{figure}
 
 \begin{table}[!htp] % not just 'h!'
 \centering % not a center environment

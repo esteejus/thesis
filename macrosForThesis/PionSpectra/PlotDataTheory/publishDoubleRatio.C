@@ -259,12 +259,12 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   p_stiff->SetFillStyle(0);
   p_stiff->SetBorderSize(0);
 
-  TLegend *leg_soft = new TLegend(.15,.55,.4,.85);
-  leg_soft->AddEntry(pBUU_soft_no_DR,"pBUU","lpe");
+  TLegend *leg_soft = new TLegend(.15,.7,.4,.85);
+  //  leg_soft->AddEntry(pBUU_soft_no_DR,"pBUU","lpe");
   leg_soft->AddEntry(xbuu_DR,"#chiBUU","lpe");
   leg_soft->AddEntry(tuQMD_05_DR,"TuQMD","lpe");
-  leg_soft->AddEntry(amdJAM55_DR,"AMD+JAM","lpe");
-  leg_soft->AddEntry(urQMD_46_DR,"urQMD","lpe");
+  //  leg_soft->AddEntry(amdJAM55_DR,"AMD+JAM","lpe");
+  //  leg_soft->AddEntry(urQMD_46_DR,"urQMD","lpe");
 
   leg_soft->SetBorderSize(0);
   leg_soft->SetFillStyle(0);
@@ -272,38 +272,40 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   p_soft->Draw();
   p_stiff->Draw();
   
-  TLegend *leg_stiff = new TLegend(.15,.55,.4,.85);
-  leg_stiff->AddEntry(pBUU_stiff_no_DR,"pBUU","lpe");
+  TLegend *leg_stiff = new TLegend(.35,.7,.6,.85);
+  //  leg_stiff->AddEntry(pBUU_stiff_no_DR,"pBUU","lpe");
   leg_stiff->AddEntry(xbuu120_DR,"#chiBUU","lpe");
   leg_stiff->AddEntry(tuQMD_20_DR,"TuQMD","lpe");
-  leg_stiff->AddEntry(amdJAM152_DR,"AMD+JAM","lpe");
-  leg_stiff->AddEntry(urQMD_104_DR,"urQMD","lpe");
+  //  leg_stiff->AddEntry(amdJAM152_DR,"AMD+JAM","lpe");
+  //  leg_stiff->AddEntry(urQMD_104_DR,"urQMD","lpe");
 
   leg_stiff->SetFillStyle(0);
   leg_stiff->SetBorderSize(0);
 
+  //  cvs_2->cd(1);
   doubleRatio->Draw("E1");
-  pBUU_stiff_no_DR->Draw("same  LPO ");
-  amdJAM152_DR->Draw("same  LPO ");
-  urQMD_104_DR->Draw("same  LPO");
+  //  pBUU_stiff_no_DR->Draw("same  LPO ");
+  //  amdJAM152_DR->Draw("same  LPO ");
+  //  urQMD_104_DR->Draw("same  LPO");
   xbuu120_DR->Draw("same  LPO");
   tuQMD_20_DR->Draw("same   LPO");
   p_stiff->Draw();
   
   leg_stiff->Draw();
-  doubleRatio->DrawCopy("same E1");
-  cvs_2->SaveAs("doubleRatio_stiff.png");
+  //  doubleRatio->DrawCopy("same E1");
+  //  cvs_2->SaveAs("doubleRatio_stiff.png");
 
-  doubleRatio->Draw("E1");
+  //  cvs_2->cd(2);
+  //  doubleRatio->Draw("E1");
   tuQMD_05_DR->Draw("same  LPO");
   xbuu_DR->Draw("same  LPO ");
-  urQMD_46_DR->Draw("same  LPO");
-  amdJAM55_DR->Draw("same  LPO ");
-  pBUU_soft_no_DR->Draw("same  LPO ");
+  //  urQMD_46_DR->Draw("same  LPO");
+  //  amdJAM55_DR->Draw("same  LPO ");
+  //  pBUU_soft_no_DR->Draw("same  LPO ");
   leg_soft->Draw();
   p_soft->Draw();
   
   doubleRatio->DrawCopy("same E1");
-  cvs_2->SaveAs("doubleRatio_soft.png");
+  cvs_2->SaveAs("doubleRatio_pannel.png");
 
 }

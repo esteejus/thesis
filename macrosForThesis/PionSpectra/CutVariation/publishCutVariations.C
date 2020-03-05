@@ -105,7 +105,7 @@ void publishCutVariations()
   int linew = 4;
   int ndiv = 405;
 
-  TFile *f = TFile::Open("cutVariaiton_singleRatio.root");
+  TFile *f = TFile::Open("cutVariaiton_singleRatio_extendMult.root");
   TGraphErrors *singleRatio[bins][var];
   TBox *box[bins][var];
   TLine *line[bins][var];

@@ -92,11 +92,15 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
 
 void publishCutVariations_DR( int this_var)
 {
+  //  vector< vector<int>> labels = { {14,16,18,20,22,24,26}, {14,16,18,20,22,24,26}, {48,49,50,51,52,53,54}, {47,48,49,50,51,52,53} };
+
+  vector< vector<int>> labels = { {14,16,18,20,22,24,26}, {14,16,18,20,22,24,26}, {35,40,45,51,55,60,65}, {35,40,45,50,55,60,65} };
+  vector<TString> labels_n = {"# Clusters","POCA","{}^{132}Sn Multiplicity","{}^{108}Sn Multiplicity"};
 
   int bins = 6;
   int var  = 4;
   int default_p = 3;
-  double frac = 1.2;
+  double frac = 2;
 
   int lineSt = 6;
   int markCl = 1;
@@ -105,12 +109,12 @@ void publishCutVariations_DR( int this_var)
   int linew = 4;
   int ndiv = 405;
 
-  TFile *f = TFile::Open("cutVariaiton_DR.root");
+  TFile *f = TFile::Open("cutVariaiton_DR_extend.root");
   TGraphErrors *singleRatio[bins][var];
   TBox *box[bins][var];
   TLine *line[bins][var];
-  TArrow *arrowL = new TArrow(.25,.04,.3,.04,.02,"<|");
-  TArrow *arrowR = new TArrow(.75,.04,.8,.04,.02,"|>");
+  TArrow *arrowL = new TArrow(.22,.04,.28,.04,.02,"<|");
+  TArrow *arrowR = new TArrow(.78,.04,.84,.04,.02,"|>");
 
   gStyle->SetOptStat(0);
 
@@ -179,6 +183,16 @@ void publishCutVariations_DR( int this_var)
 	      // Size factors
 	      Float_t xFactor = pad[0][0]->GetAbsWNDC()/pad[i][iBin]->GetAbsWNDC();
 	      Float_t yFactor = pad[0][0]->GetAbsHNDC()/pad[i][iBin]->GetAbsHNDC();
+
+	      singleRatio[Ny - iBin][iVar]->GetXaxis()->ChangeLabel(1,-1,-1,-1,-1,-1,Form("%d",labels.at(iVar).at(0)));
+	      singleRatio[Ny - iBin][iVar]->GetXaxis()->ChangeLabel(2,-1,-1,-1,-1,-1,Form("%d",labels.at(iVar).at(1)));
+	      singleRatio[Ny - iBin][iVar]->GetXaxis()->ChangeLabel(3,-1,-1,-1,-1,-1,Form("%d",labels.at(iVar).at(2)));
+	      singleRatio[Ny - iBin][iVar]->GetXaxis()->ChangeLabel(4,-1,-1,-1,-1,-1,Form("%d",labels.at(iVar).at(3)));
+	      singleRatio[Ny - iBin][iVar]->GetXaxis()->ChangeLabel(5,-1,-1,-1,-1,-1,Form("%d",labels.at(iVar).at(4)));
+	      singleRatio[Ny - iBin][iVar]->GetXaxis()->ChangeLabel(6,-1,-1,-1,-1,-1,Form("%d",labels.at(iVar).at(5)));
+	      singleRatio[Ny - iBin][iVar]->GetXaxis()->ChangeLabel(-1,-1,-1,-1,-1,-1,Form("%d",labels.at(iVar).at(6)));
+
+
 	      // TICKS Y Axis
 	      singleRatio[Ny - iBin][iVar]->GetYaxis()->SetTickLength(xFactor*0.04/yFactor);
 	      // TICKS X Axis
@@ -189,7 +203,7 @@ void publishCutVariations_DR( int this_var)
 	      ye = singleRatio[Ny - iBin ][iVar] -> GetErrorY(3);
 	      box[Ny - iBin ][iVar] = new TBox(-.5,y-ye,6.5,y+ye);
 	      line[Ny - iBin ][iVar] = new TLine(-.5,y,6.5,y);
-	      //singleRatio[Ny - iBin ][iVar]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
+	      singleRatio[Ny - iBin ][iVar]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
 	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetLimits(-.5,6.5);
 
 	      singleRatio[Ny - iBin ][iVar]->SetLineWidth(4);
@@ -204,7 +218,8 @@ void publishCutVariations_DR( int this_var)
 	      singleRatio[Ny - iBin ][iVar]->SetTitle("");
 
 	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetNdivisions(7);
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetTitle("Looser                       Tighter");
+	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetTitle("Looser      " + labels_n.at(iVar) + "        Tighter");
+
 	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->CenterTitle();
 	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetTitleFont(43);
 	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetTitleSize(30);
@@ -245,7 +260,7 @@ void publishCutVariations_DR( int this_var)
     ye = singleRatio[iBin][iVar] -> GetErrorY(3);
     box[iBin][iVar] = new TBox(-.5,y-ye,6.5,y+ye);
     line[iBin][iVar] = new TLine(-.5,y,6.5,y);
-    //singleRatio[iBin][iVar]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
+    singleRatio[iBin][iVar]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
     singleRatio[iBin][iVar]->GetXaxis()->SetLimits(-.5,6.5);
 
     singleRatio[iBin][iVar]->SetLineWidth(4);

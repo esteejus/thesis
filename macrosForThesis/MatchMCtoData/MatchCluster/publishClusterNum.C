@@ -94,20 +94,20 @@ void publishClusterNum()
 
   data_p->GetXaxis()->SetRangeUser(18,110);
   data_p->GetYaxis()->SetRangeUser(.001,1);
-  //  data_p->Draw("");
-  //  mc_p->Draw("same");
+    data_p->Draw("");
+    mc_p->Draw("same");
 
-  //  data_d->Draw("same");
-  //  mc_d->Draw("same");
+    data_d->Draw("same");
+    mc_d->Draw("same");
 
-  //  data_t->Draw("same");
-  //  mc_t->Draw("same");
+  data_t->Draw("same");
+  mc_t->Draw("same");
 
   data_he3->Draw("same");
   mc_he3->Draw("same");
 
-  //  data_he4->Draw("same");
-  //  mc_he4->Draw("same");
+    data_he4->Draw("same");
+    mc_he4->Draw("same");
 
   data_p->SetMarkerStyle(20);
   mc_p->SetMarkerStyle(20);

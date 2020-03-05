@@ -267,9 +267,9 @@ void publish108SingleSum()
   p_stiff->SetFillStyle(0);
   p_stiff->SetBorderSize(0);
 
-  TLegend *leg_soft = new TLegend(.4,.55,.7,.85);
+  TLegend *leg_soft = new TLegend(.67,.56,.97,.85);
   leg_soft->AddEntry(tuQMD_sum,"TuQMD","FL");
-  leg_soft->AddEntry(urQMD_sum,"urQMD","FL");
+  //  leg_soft->AddEntry(urQMD_sum,"urQMD","FL");
   leg_soft->AddEntry(imQMD_sum,"ImQMD","FL");
   leg_soft->AddEntry(xbuu_sum,"#chiBUU","FL");
   leg_soft->AddEntry(amdJAM_sum,"AMD + JAM","FL");
@@ -281,19 +281,20 @@ void publish108SingleSum()
   //  p_soft->Draw();
   //  p_stiff->Draw();
   
-  TLegend *leg_stiff = new TLegend(.65,.55,.9,.8);
+  TLegend *leg_stiff = new TLegend(.41,.55,.66,.85);
   leg_stiff->AddEntry(singleRatio_sn108,"{}^{108}Sn +{}^{112}Sn","lpe");
 
   leg_stiff->SetFillStyle(0);
   leg_stiff->SetBorderSize(0);
 
+  singleRatio_sn108->GetXaxis()->SetNdivisions(505);
   singleRatio_sn108->Draw("L E1");
   pBUU_sum->Draw("same  LE3 ");
   imQMD_sum->Draw("same  LE3");
   xbuu_sum->Draw("same  LE3 ");
   tuQMD_sum->Draw("same  LE3");
   amdJAM_sum->Draw("same  LE3 ");
-  urQMD_sum->Draw("same  LE3");
+  //  urQMD_sum->Draw("same  LE3");
   singleRatio_sn108->DrawCopy("same L E1");  
   leg_soft->Draw();
   leg_stiff->Draw();
