@@ -42,7 +42,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{float}
 \usepackage{graphicx}
-\graphicspath{{images/spacecharge/} {images/} }
+\graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} }
 
 
 %
@@ -66,13 +66,15 @@
 
 %User defined commands
 \newcommand{\spirit}{S$\pi$RIT }
+\newcommand{\tin}[2]{{}^{#1}\mathrm{Sn} + {}^{#2}\mathrm{Sn}}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+
 \includeonly{
 %chapters/ch_intro,
 %chapters/ch_theory,
 chapters/ch_experiment,
 chapters/ch_data_analysis,
-%chapters/ch_data_analysis_2,
+chapters/ch_data_analysis_2,
 %chapters/ch_results
 }
 

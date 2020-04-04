@@ -101,6 +101,38 @@ Add paper here.
 
 \subsection{Space Charge Corrections}
 
+
+MAYBE ADD A LITTLE NAPKIN CALCULATION OF SPACE CHARGE TO SHOW ORDER OF EFFECT. 
+
+\begin{table}[!htp] % not just 'h!'
+\centering % not a center environment
+\begin{tabular}{
+  @{}
+  l
+  S[table-format=1.2]
+  S[table-format=1.2]
+  S[table-format=1.2]
+  S[table-format=5.2]
+  S[table-format=5.2]
+  @{}
+}
+\toprule
+Beam Energy Loss  &
+ {${}^{132}$Sn} &
+ {${}^{124}$Sn} &
+ {${}^{112}$Sn} &
+ {${}^{108}$Sn} &
+  {Avg.}\\
+  
+\midrule
+$\si{\kilo\eV\per\centi\meter}$ & 11.2   &.034  &5.43   &  903   &150     \\
+\bottomrule
+\end{tabular}
+
+\caption{Average energy loss of each beam.}
+\label{tb:beameloss}
+\end{table}
+
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{spacechg_cartoon.png}
 \caption{Location of space charge in 132 Sn}
@@ -153,7 +185,9 @@ Discuss the relevant time scales, drift lengths, magnitudes, and locations of sp
 
 The average beam rate was recorded in each experimental run and slightly varied from run to run, due to beam production variations. The amount of space charge present in the field cage is directly proportional to the beam rate; therefore $\Delta\mathrm{V}_\mathrm{LR}$ is also proportional to the beam rate as shown in Fig.~\ref{fig:spacechg_br}. The only parameter in the space charge correction algorithm is the surface charge density $\sigma_{\mathrm{SC}}$. By varying $\sigma_{\mathrm{SC}}$ for a wide range of values the $\Delta\mathrm{V}_\mathrm{LR}$ observable is measured and plotted in the left panel of Fig.~\ref{fig:spacechg_relation}. The surface charge density which gives $\Delta\mathrm{V}_\mathrm{LR} = 0$ is taken to be the estimate for the average amount of space charge present. This is done for several runs which vary in beam intensity. Since the relation is linear between the surface charge density and the beam rate, a linear fit gives good agreement for interpolating the surface charge values as a function of beam rate, as seen in the right figure of Fig.~\ref{fig:spacechg_relation}.
 
-This is done for all the systems. I NEED TO PUT THE ASSUMPTIONS OF 132 108 HERE!!!
+This is done for all the systems. I NEED TO PUT THE ASSUMPTIONS of SPACE CHARGE SHEET DENSITY OF 132 108 HERE!!!
+
+From the BDC tracking, the precise interaction point on target is known. Using this point greatly improves the momentum resolution of the track fitting, but there is a systematic shift when comparing the momentum value without using the vertex BDC point in the fit. The space charge affects right-going and left-going tracks differently making right-going tracks more rigid (higher momentum) and left-going tracks less rigid (lower momentum). For polar angles of $\theta < 40 \deg$, the disagreement between momentum values fitted with the BDC, versus without, are much less because the projection of the track does not disagree as much with the BDC point as tracks with polar angles of $\theta > 40 \deg$. This is seen in 
 
 
 \begin{figure}[H]
@@ -217,34 +251,7 @@ This is done for all the systems. I NEED TO PUT THE ASSUMPTIONS OF 132 108 HERE!
 \label{fig:mom_1D}
 \end{figure}
 
-\begin{table}[!htp] % not just 'h!'
-\centering % not a center environment
-\begin{tabular}{
-  @{}
-  l
-  S[table-format=1.2]
-  S[table-format=1.2]
-  S[table-format=1.2]
-  S[table-format=5.2]
-  S[table-format=5.2]
-  @{}
-}
-\toprule
-Beam Energy Loss  &
- {${}^{132}$Sn} &
- {${}^{124}$Sn} &
- {${}^{112}$Sn} &
- {${}^{108}$Sn} &
-  {Avg.}\\
-  
-\midrule
-$\si{\kilo\eV\per\centi\meter}$ & 11.2   &.034  &5.43   &  903   &150     \\
-\bottomrule
-\end{tabular}
 
-\caption{Average energy loss of each beam.}
-\label{tb:beameloss}
-\end{table}
 
 Reference appendix for poisson solver 
 Tables for ion drift velocity in P-10 Gas reference Sauli
@@ -350,12 +357,31 @@ The detector system itself introduces errors related to the physical processes o
 The software analysis routine and the bias introduced by the trigger settings of the experiment introduce systematic errors in the reconstruction of tracks
 
 \subsection{MC and Data Comparison}
+
+\begin{figure}[!hbt]
+\includegraphics[width=\linewidth]{numcluster.png}
+\caption{Comparison of MC to data.}
+\label{fig:clustcomp}
+\end{figure}
+
+
+\begin{figure}[!hbt]
+\includegraphics[width=\linewidth]{poca.png}
+\caption{Comparison of MC to data.}
+\label{fig:pocacomp}
+\end{figure}
+
+
 Add Figure of Pad response function for pion,proton.... for MC vs Data vs angles...
 Add Figure of Number of clusters of MC vs Data
 Add Figure of dEdx MC vs Data
 Add Figure of Momentum resolution MC vs Data
 Add Figure of track residuals? MC vs data?
 
+
+\section{Aligning TPC}
+
+\section{CoBo timing correction}
 
 \section{Efficiency Corrections}
 Add Figures of efficiency vs angles in TPC polar angle plot for pions

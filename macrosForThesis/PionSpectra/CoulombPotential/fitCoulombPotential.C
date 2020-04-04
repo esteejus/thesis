@@ -23,12 +23,17 @@ void fitCoulombPotential()
   double r108 = (5*pow(s108_n,2) + s108_n*s108_p)/(5*pow(s108_p,2) + s108_n*s108_p);
   */
 
-  double r132 = 2.4;
-  double r108 = 1.5;
+  //r132 from N/Z  2.09
+  //r108 from N/Z  1.36
+
+  //Data driven
+  double r132 = 4.83;
+  double r108 = 2.04;
 
   cout<<"Sn132 ratio "<<r132<<endl;
   cout<<"Sn108 ratio "<<r108<<endl;
 
+  double coul_factor = 6 * 100 * 1.44/5; //fm * MeV
   double pi_mass = 139.57;
   double sn132_temp = 0;
   double sn108_temp = 0;
@@ -79,16 +84,52 @@ void fitCoulombPotential()
   cout<<"Sn132 avg. "<<sn132_temp<<endl;
   cout<<"Sn108 avg. "<<sn108_temp<<endl;
 
+  //Total E
   //  TF1 *fcn = new TF1("fcn","[0]*TMath::Exp(-2*[1]/[2])*(x + [1])/(x - [1])*TMath::Sqrt( (pow(x + [1],2) - pow([3],2))/(pow(x - [1],2) - pow([3],2)) )",100,300);
-  TF1 *fcn = new TF1("fcn","[0]*TMath::Exp(-2*[1]/[2])*(x + [3] + [1])/(x + [3] - [1])*TMath::Sqrt( (pow(x + [3] + [1],2) - pow([3],2))/(pow(x + [3] - [1],2) - pow([3],2)) )",30,300);
 
-  //  TF1 *fcn = new TF1("fcn","[0]*(1 + 2*[1]*( [2]/(pow(x + [2],2) - pow([2],2)) - 1/[3]))",20,300);
+
+  //K.E.
+  //  TF1 *fcn = new TF1("fcn","[0]*TMath::Exp(-2*[1]/[2])*(x + [3] + [1])/(x + [3] - [1])*TMath::Sqrt( (pow(x + [3] + [1],2) - pow([3],2))/(pow(x + [3] - [1],2) - pow([3],2)) )",30,300);
+
+  //Solve root
+ 
+  TF1 *fcn = new TF1("fcn","[0] - [1]*TMath::Exp(-2*x/[3])*([2] + [4] + x)/([2] + [4] - x)*TMath::Sqrt( (pow([2] + [4] + x,2) - pow([4],2))/(pow([2] + [4] - x,2) - pow([4],2)) )",0,70);
+
+  //  fcn->SetParameters(r132,20,30,pi_mass);
+  //experimental ratio,guess ratio, KE, temp, mass
+  int np = singleRatio_sn132->GetNbinsX();
+  TGraph *coulomb = new TGraph(np);
+  TGraph *radius = new TGraph(np);
+  for(int i = 1; i <= np; i++)
+    {
+      double ratio = singleRatio_sn132->GetBinContent(i);
+      double ke = singleRatio_sn132->GetBinCenter(i);
+
+      fcn->SetParameters(ratio,r132,ke,sn132_temp,pi_mass);
+      if(i == 2)
+      fcn->SetParameters(ratio-1,r132,ke,sn132_temp,pi_mass);
+      //      if(i == 2)
+      //	{
+	  cout<<ke<<" "<<ratio<<" "<<fcn->GetX(0)<<endl;
+	  //	  fcn->Draw();
+	  //	}
+    coulomb->SetPoint(i-1,ke,fcn->GetX(0));
+    radius->SetPoint(i-1,ke,coul_factor/fcn->GetX(0));
+    }
   
-  fcn->SetParameters(r132,5,45,pi_mass);
-
-  singleRatio_sn132->Draw();
-  cout<<fcn->Eval(200)<<endl;
-  fcn->Draw("same");
+  //for plotting
+  //  fcn->SetParameters(r132,15,sn132_temp,pi_mass);
+  coulomb->SetMarkerStyle(20);
+  coulomb->SetMarkerSize(2);
+  coulomb->SetMarkerColor(kBlue);
+  coulomb->Draw("APO");
+  radius->SetMarkerStyle(22);
+  radius->SetMarkerSize(2);
+  radius->SetMarkerColor(kGreen);
+  radius->Draw("same APO Y+");
+  //  singleRatio_sn132->Draw();
+  //  cout<<fcn->Eval(200)<<endl;
+  //  fcn->Draw("same");
 
 
 }

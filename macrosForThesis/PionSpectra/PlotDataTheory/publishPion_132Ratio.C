@@ -415,16 +415,21 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   singleRatio_sn132->Draw("E1");
   boot_stiff->GetXaxis()->SetRangeUser(0,240);
   boot_stiff->GetYaxis()->SetRangeUser(.9,40);
-  boot_stiff->Draw("CO E3");
+  //  boot_stiff->Draw("CO E3");
   
   boot_soft->SetFillColorAlpha(kBlue,.2);
+  /*
   boot_soft->Draw("same CO E3");
   soft_upper->Draw("C");
   soft_lower->Draw("C");
   
   stiff_upper->Draw("C");
   stiff_lower->Draw("C");
+  */
 
+
+  singleRatio_sn132->GetYaxis()->SetRangeUser(.5,20);
+  singleRatio_sn132->GetXaxis()->SetRangeUser(0,300);
   singleRatio_sn132->DrawCopy("same E1");
 
   cvs->SetLogy();
