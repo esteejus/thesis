@@ -168,24 +168,28 @@ void publishPion_132Ratio()
 
   //  TF1 *fit = new TF1("fit","[0] + [1]*x + [2]*x*x + [3]*pow(x,3) + [4]*pow(x,4) + [5]*pow(x,5) + [6]*pow(x,6)",0,300);
   //  fit->SetParameters(1,1,1,1,1,1,1);
-  TF1 *fit = new TF1("fit","[0]*pow(x,[1])",0,300);
-  fit->SetParameters(1,1);
+  TF1 *fit = new TF1("fit","[0]*TMath::Exp([1]*x + [2]*pow(x,2.5))",0,300);
+  fit->SetParameters(12,-1e-2,-1e-6);
 
   singleRatio_sn132->GetYaxis()->SetRangeUser(.5,20);
   singleRatio_sn132->GetXaxis()->SetRangeUser(0,300);
   singleRatio_sn132->Draw();
+
+  sim4_g->Draw("same E3");
   /*
-  sim1_g->Draw("same E3");
-  sim2_g->Draw("same E3");
+  sim5_g->Fit(fit);
+  sim5_g->Draw("same E3");
+
   sim3_g->Draw("same E3");
   sim4_g->Draw("same E3");
   sim5_g->Draw("same E3");
   sim6_g->Draw("same E3");
 
   sim7_g->Draw("same E3");
-  sim8_g->Draw("same E3");*/
-  
+  */
+  sim8_g->Draw("same E3");
   sim9_g->Draw("same E3");
+
 
   singleRatio_sn132->DrawCopy("same E1");
 

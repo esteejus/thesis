@@ -1,5 +1,102 @@
 \chapter{Experiment}
 
+\section{Energy loss in material}
+The average energy loss in a material can be described by the Bethe-Bloch equation,
+\begin{equation}\label{eq:bb}
+\frac{dE}{dx} = \frac{4\pi NZ^2e^4}{mc^2\beta^2} (ln \frac{2mc^2\beta^2\gamma^2}{I} - \beta^2).
+\end{equation}
+Where $N$ is the number density of electrons in the medium, $e$ the elementary charge, $mc^2$ is the rest mass of the electron, $Z$ is the charge of the traversing particle, $I$ is the mean excitation energy of the medium, and $\beta$ is the velocity of the particle. There is a large variation in energy loss around this mean value, with a long high energy loss tail. A full description of the energy loss distribution can be described in CITE HERE.
+
+
+\section{Pad Response Function}
+The charge distribution on the pad plane resulting from an electron avalanche is two dimensional, as illustrated in Fig.~\ref{fig:prf}, with the projections onto the $x$ and $z$ axis of this distribution labeled as $\rho(x)$ and $\rho(z)$ respectively. The charge observed on each pad is the integral of this distribution over the pad's dimensions, which is called the Pad Response Function (PRF).
+
+In this example the clustering direction would be along the $x$ axis, as illustrated by the bolded pads. By choosing to cluster only in one direction, we have not included the charge in adjacent pads along the $z$ axis resulting from the tails of $\rho(z)$. Therefore the charge not included in the the bolded pads will be incorporated into adjacent clusters, introducing small correlations in charge between neighboring clusters. 
+
+
+\subsection{Gatti Pad Response Function}
+Gatti \cite{gatti} derived a semi-empirical formula for the charge distribution in a simple multi-wire TPC. The function given in Eq.~\ref{eq:gatti}, depends only on the width of a pad ($w$), the distance of the anode plane to the pad plane ($h$), and the distance of the pad center to the avalanche point $\lambda$. It is a single parameter equation where the two parameters $K_1 = \frac{K_{2}\sqrt{K_3}}{4 \arctan(\sqrt{K_3})}$ and $K_2 = \frac{\pi}{2}\left(1-\frac{\sqrt{K_{3}}}{2}\right)$ depend on the parameter $K_3$, which is a function of the ratio of the anode wire diameter to the distance of the anode wires to the pad plane. $K_3$ can be looked up in a graph in \cite{blumrol} and \cite{gatti}.
+
+\begin{equation}\label{eq:gatti}
+\begin{split}
+PRF_{\mathrm{Gatti}}(\lambda)
+& = \frac{K_{1}}{K_{2}\sqrt{K_{3}}}\bigl[\arctan(\sqrt{K_{3}}\tanh\bigl[K_{2}\bigl(\frac{\lambda}{h}+\frac{w}{2h}\bigr)\bigr]) \\
+& - \arctan(\sqrt{K_{3}}\tanh\bigl[K_{2}\bigl(\frac{\lambda}{h}-\frac{w}{2h}\bigr)\bigr])\bigr] \\
+\end{split}
+\end{equation}
+
+\subsection{Experimental Pad Response Function}
+
+The correlations we introduced by only clustering along one direction do not play a significant role in the particle identification, but cause deviations from the expected Gatti distribution. Also, analytic PRFs only exist for classical multi-wire TPCs. For these reasons it is useful to experimentally measure the PRF and fit it with an empirical function, typically a Gaussian, to describe its behavior. 
+
+As in Fig.~\ref{fig:topview}, we postulate that the PRF is a function of the total charge deposited in a cluster $Q = \sum_i q_i$, and the difference in position of the center of the $i^{th}$ pad, $x_i$, to the mean position $\bar{x} = \sum_i x_i q_i/Q$, defined as $\lambda_i = x_i-\bar{x}$. The PRF is simply defined as the charge fraction of each pad as a function of $\lambda$, as shown in Equation \ref{eq:prf}. 
+
+\begin{equation}\label{eq:prf}
+PRF(\lambda_i) = \frac{q_i(\lambda_i)}{Q}
+\end{equation}
+
+Averaging over many events in the experimental data, the resulting PRF for the S$\pi$RIT TPC is shown in Fig.~\ref{fig:expprf}. Here we see the deviations from the expected analytic Gatti distribution (black curve), whereas fitting with a two parameter Gaussian function (red curve) gives a better description of the  data, Eq.~\ref{eq:gaus}, with the two parameters being the normalization coefficient, $N_0$, width $\sigma$, and with a mean value assumed to be 0.
+
+\begin{equation}\label{eq:gaus}
+PRF_{\mathrm{Gaus}}(\lambda) = N_0 e^\frac{-\lambda^2}{2\sigma^2}
+\end{equation}
+
+\begin{figure}[ht!]
+\begin{overpic}[width=\linewidth]{expprf}
+\put(61,55){\contour{white}{ PRF${}_{\mathrm{Gaus}}(\lambda)$ eq. \ref{eq:gaus}  }}
+\put(61,49){\contour{white}{ PRF${}_{\mathrm{Gatti}}(\lambda)$ eq. \ref{eq:gatti} }}
+\end{overpic}
+\caption{Experimental pad response function of many events for a crossing angle of $85^{\circ} < \theta \leq 90^{\circ}$.  }
+\label{fig:expprf}
+\end{figure}
+
+\section{Pad Response Function vs. crossing angle}
+The shape of the PRF depends on the crossing angle of the track \cite{gatti}. Plotted in Fig.~\ref{fig:prfangle} is the PRF of $\pi^-$ tracks vs. the crossing angle $\theta$. The PRF gets wider starting from $90^{\circ}$  and going to $45^{\circ}$; if we did not switch clustering directions the PRF would become wider until it was a uniform distribution and there was no position resolution. Since we switch the clustering direction from $x$ to the $z$ direction at $45^{\circ}$, the opposite trend is seen where the PRF becomes narrower as the position resolution gets better going from $45^{\circ}$ to $0^{\circ}$.
+
+\begin{figure}[ht!]
+\includegraphics[width=\linewidth]{PRF_vsAngle}
+\caption{Experimental pad response function as a function of the crossing angle $\theta$ with the corresponding fits.}
+\label{fig:prfangle}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\begin{overpic}[width=\linewidth]{normsigma}
+\end{overpic}
+\caption{Parameters $N_{0}$ and $\sigma$ as a function of the crossing angle $\theta$ with the $4^{th}$ order polynomial fits.}
+\label{fig:normsigma}
+\end{figure}
+
+\begin{comment}
+\begin{table}
+\centering
+ \begin{tabular}{||c c c c c c||} 
+ \hline
+ Coefficient & $c_0$ & $c_1$ & $c_2$ & $c_3$ & $c_4$ \\ [0.5ex] 
+ \hline\hline
+ $0 < \theta < 45$ & & & & &  \\ [.25ex]
+ \hline
+ $N_0$ & .897 & 5.766E-3 & -4.263E-4 & 7.444E-6 & 5.705E-8 \\ 
+ \hline
+ $\sigma$ & 5.496 & -3.920E-2 & 2.693E-3 & -5.208E-5 & 5.334E-7\\
+ \hline
+ $45 < \theta < 90$ & & & &  & \\ [.25ex]
+ \hline	
+ $N_0$ & 1.220 & -6.258E-2 & 1.608E-3 & -1.492E-5  & 4.654E-8 \\
+ \hline
+ $\sigma$ & 31.368 & -1.109 & 1.779E-2 & -1.336E-4 & 3.940E-7\\
+ \hline
+\end{tabular}
+\caption{Coefficients of the $4_th$ order polynomial fit to the Gaussian parameters $N_0$ and $\sigma$. The polynomial form is given as $c_0 + c_1 x + c_2 x^2 + c_3 x^3 + c_4 x^4$}
+\label{tb:coeff}
+\end{table}
+\end{comment}
+ 
+Fits were performed to the experimental data with  $5^{\circ}$ width bins from $0^{\circ} < \theta \leq 90^{\circ}$. The two parameters of the Gaussian fits are plotted versus $\theta$ in Fig.~\ref{fig:normsigma}; a $4^{th}$ order polynomial fit between these points allowed for interpolating between $\theta$.
+
+
+
+
 \section{S$\pi$RIT TPC Overview}
 Add Overview image with labels
 

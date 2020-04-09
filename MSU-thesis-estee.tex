@@ -42,7 +42,11 @@
 \usepackage[T1]{fontenc}
 \usepackage{float}
 \usepackage{graphicx}
-\graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} }
+\usepackage{cleveref}
+\usepackage{overpic}
+\usepackage{contour}
+\usepackage{color}
+\graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} {images/dynamicrange/}}
 
 
 %
@@ -131,7 +135,7 @@ Your acknowledgements here.
 \include{chapters/ch_theory}
 \include{chapters/ch_experiment}
 \include{chapters/ch_data_analysis}
-\include{chapters/ch_data_analysis_2}
+%\include{chapters/ch_data_analysis_2}
 \include{chapters/ch_results}
 
 
@@ -152,13 +156,14 @@ Your acknowledgements here.
 % If you have appendices, they would go here.  
 % Comment these lines out if you don't
 % If you have more than one appendix, you need to use 
-%   \begin{appendices}
-%   \chapter{First appendix}
-%   \chapter{Second appendix}
-%   \end{appendices}
-%ch_nucleareos.txt~
+ %  \begin{appendices}
+  % \chapter{First appendix}
+  % \chapter{Second appendix}
+  % \end{appendices}
+  
 \appendix
-\chapter{Your appendix}
+\input{chapters/ch_appendix}
+
 %
 \backmatter
 % The next lines add the dots back into the References/Bibliography heading

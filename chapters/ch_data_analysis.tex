@@ -54,15 +54,63 @@ Clustering in this way gives us better position resolution for calculating the p
 
 \begin{table*}\centering
 \ra{1.3}
+\begin{tabular}{@{}rrrrrrr@{}}\toprule
+& \multicolumn{3}{c}{$100 MeV Target$}\\
+\cmidrule{2-4}
+Particle &\phantom{abc} & Measured & Corrected & \% Difference & \% Difference\\
+\midrule
+p   & 882.8 & 929.5 & 877.3   &  3.7  & -1.0  \\
+d   & 817.1 & 831.15 & 797.94 &  1.7  & -2.3\\
+\bottomrule
+\end{tabular}
+\caption{Summary of expected cocktail. }
+\label{tb:cocktail100tar}
+\end{table*}
+
+\begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rrrrrrr@{}}\toprule
+& \multicolumn{3}{c}{$100 MeV$}\\
+\cmidrule{2-4}
+Particle & Expected & Measured & Corrected & \% Difference & \% Difference\\
+\midrule
+p   & 882.8 & 903.5 & 889   &  2.0   & -1.6  \\
+d   & 817.1 & 898.5 & 874.5 &  2.1   & -2.7\\
+\bottomrule
+\end{tabular}
+\caption{Summary of expected cocktail. }
+\label{tb:cocktail100}
+\end{table*}
+
+\begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rrrrrrr@{}}\toprule
+& \multicolumn{3}{c}{$300 MeV$}\\
+\cmidrule{2-4}
+Particle & Expected & Measured & Corrected & \% Difference Raw & \% Difference Corrected\\
+\midrule
+d   & 1621 & 1704 & 1612   &  5.1 & -0.6  \\
+t   & 1612 & 1691 & 1596   &  4.9  & -1.0\\
+${}^{4}$He   & 1613 & 1698 &  5.3 & 1595  & -1.1\\
+
+\bottomrule
+\end{tabular}
+\caption{Summary of expected cocktail. }
+\label{tb:cocktail300}
+\end{table*}
+
+
+\begin{table*}\centering
+\ra{1.3}
 \begin{tabular}{@{}rrrrcrrrcrrr@{}}\toprule
 & \multicolumn{3}{c}{$100 MeV$} & \multicolumn{3}{c}{$100 MeV$} & \multicolumn{3}{c}{$300 MeV$}\\
 \cmidrule{2-4} \cmidrule{6-8} \cmidrule{10-12}
 & &\multicolumn{2}{c}{Measured} & & \multicolumn{2}{c}{Measured} & & \multicolumn{2}{c}{Measured}\\
 \cmidrule{3-4} \cmidrule{7-8} \cmidrule{11-12}
-Particle &\phantom{abc} & Raw & E$\times$B\\
+Particle &\phantom{abc} & Measured & E$\times$B\\
 \midrule
 p   & 882.8 & 929.5 & 877.3 & 903.5 & 929.5 & 889 &\phantom{abcdef} & f & f \\
-d   & 817.1 & d & d & 898.5 & e & e & 1621.1 & 1704 & 1612\\
+d   & 817.1 & 831.15 & d & 898.5 & e & e & 1621.1 & 1704 & 1612\\
 t   & 589.5 & d & d & 887 & e & e & 1612.4 & f & f  \\
 $^{3}$He  & 1617.3  & d & d & 1795.2 & e & e & 3236.4 & f & f\\
 $^{4}$He  & 1405.6  & d & d & 1782.9 & e & e & 3226.4 & f & f \\
@@ -72,14 +120,34 @@ $^{4}$He  & 1405.6  & d & d & 1782.9 & e & e & 3226.4 & f & f \\
 \label{tb:cocktailsummary}
 \end{table*}
 
-Cocktail Calibration 
+Light charged particles (p,d,t,${}^{3}$He,${}^{4}$He), beams were produced and measured in the TPC. The magnetic and slit settings of the dipoles in the BIGRIPS spectrometer was set so that the measured momentum resolution of the beam was $\frac{\delta p}{p}$ < 1\%. Two magnetic rigidity settings were studied, with an empty target. A thick Aluminum target was used to provide a slightly lower point for part of the lower rigidity setting, effectively creating three calibration points over several particle species. The production of certain particles (t,${}^{3}$He), produced too few counts to make a good measurement, and in the high momentum rigidity setting protons could not propagate down the line and there were no counts. 
+
+Since the expected momentum resolution resulting from the spectrometer was less than 1\%, the observed momentum resolution measured by the TPC is a good measurement of the combined momentum resolution of the software and TPC (intrinsic detection) system. The momentum resolution of the TPC depends on several factors such as the particle's angle, momentum, charge, track multiplicity, etc. This calibration beam represents and ideal situation where the track was parallel to the pad plane and only one particle was measured at one time. The energy loss resolution can also be directly inferred from the measurement since each energy setting represents a monochromatic source of each particle species, which has a well defined energy loss distribution. An average momentum resolution of ~2\% and the energy loss resolution of ~ 5\% was measured for particles ranging from protons to ${}^{4}$He, over the range of momenta measured in the calibration beam as summarized in Table~\ref{tb:momresolution}.
+
+Since magnetic dipole setting of the BIGRIPS spectrometer define the energy of each particle type we can calculate the expected momenta of each particle species measured. Small corrections to the momenta were propagated using LISE++ software which can calculate the energy loss through several materials in the beam line. These corrections resulted in a small change in the momenta. The measured momenta of the calibration beam differed significantly from the expected values as seen in Tables~\cref{tb:cocktail100tar,tb:cocktail100,tb:cocktail300}. This effect is attributed to inhomogenatities in the magnetic field which introduces electron drift velocity in the direction of $\vec{E}\times\vec{B}$ direction. The $\vec{E}\times\vec{B}$ dift velocity causes the electron trajectories to shift toward the +x-axis in the TPC coordinates causing particles of positive charge (going in the -x-axis) to have a higher measured momenta than in reality. The disagreement in measured and expected momenta is upwards of ~5\% difference in the higher momentum calibration settings. The details of the correction technique are discussed in the later Section~\ref{sec:spacecharge} are discussed in a more general correction which also includes correction for the space charge; the same correction technique was applied here in the special case of zero space charge which is the special case of only having $\vec{E}\times\vec{B}$ components .
+
+The values under the corrected column of seen in Tables~\cref{tb:cocktail100tar,tb:cocktail100,tb:cocktail300}, represent the data correcting for $\vec{E}\times\vec{B}$. A significant improvement is seen in the high momentum setting going from around ~5\% disagreement to within ~1\% agreement in the corrected data. For the lower momentum settings (Tables~\cref{tb:cocktail100tar,tb:cocktail100}), protons see a slight improvement of about ~1\% where as the deuterons are over corrected in both settings. The level of agreement of the all corrected values is still within the estimated momentum resolution of the TPC. 
+
+\begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rr@{}}\toprule
+Momentum Resolution \% & <dE/dx> Resolution \% \\
+\midrule
+1.6  & 4.6\\
+\bottomrule
+\end{tabular}
+\caption{Summary of expected cocktail. }
+\label{tb:momresolution}
+\end{table*}
+
 Picture of cocktail before and after ExB effect
 Table of LISE++ expected cocktail energies ridigity setting of dipole magnets (reference big rips line)
 
 
 
 \subsection{Electronics calibration}
-Pulse the ground grid. 
+The channel number of the electronics was calibrated by measuring the response of each channel to an input pulse supplied by a pulse generator. The pulse was injected into the ground plane of the TPC. This distributed the pulse evenly across the entire pad plane over a range of input voltages. The input voltage is plotted as a function of the measured ADC channel in Fig.~\ref{fig:gaincalib} for every channel. The small variation in each channel can be seen as the wide band around each measurement point. A linear fit is performed to get the best fit line which provides a reference line which each channel is calibrated to. The right panel shows the resulting distribution of channels after calibration. This is a relative calibration technique meant to calibrate the varying gains in each channel relative to one another. 
+
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{gaincalib.png}
 \caption{Calibration of electronics}
@@ -88,19 +156,126 @@ Pulse the ground grid.
 
 \subsection{Anode gain calibration}
 
+As mentioned earlier, the anode wires were separated into 14 independently biased sections. The high voltage of sections 12 and 14 were reduced during the experiment due to high currents being observed on the wires. The wire section voltages were lowered once and adjusted once again. Out of all the runs used in the analysis in this thesis \ref{tb:runList}, the anode sections 12 and 14 were lowered to \SI{1085}{\volt} for runs 2272-2371 and set to \SI{1214}{\volt} for all the other runs. By lowering the voltage on these anode wires, the gas gain is lowered as compared with all the other anode wire plane sections which operate at \SI{1460}{\volt}. To account for the drop in gain, in the software we increase the gain of the pads which lie above these anode wires. To calibrate these sections we perform a relative calibration to the high gain anode sections by comparing the energy loss values of the high and low gain sections. 
+
+
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{highlowcal.png}
 \caption{Calibration of low high.}
 \label{fig:highlowcal}
 \end{figure}
 
-Picture of low vs high gain channels and fit
 
 \subsection{Extending the dynamic range of the Electronics}
-Add paper here. 
+Using a TPC for measurements of HIC in nuclear physics presents a different set of challenges as opposed to higher energy experiments. Typically in higher energy experiments the charge of particles is Z$e$, where Z=1. Also the particles are traveling at higher energies in which the energy losses in a detector range from the minimum of the energy loss curve to the small logarithmic climb CITE FIGURE HERE!!!. The dynamic range of electronics in such experiments can cover a wide range of particle energies in the energy loss curve. In nuclear HICs, we are interested in cluster of nucleons typically from Z=1-3 resulting from the collision, and even higher in some applications. As seen in Eq.~\ref{eq:bb}, the energy loss is proportional to $Z^2$; the energy values of the resulting particles are at much lower energies which are in the $1/\beta^2$ region. The energy range and particle types covered by the electronics are significantly limited as they quickly reach the dynamic range limitations of the electronics as the charge of a particle increases and the velocity decreases. 
+
+Several TPCs have tried to address this issue by having regions of low and high gain, either in amplification gain or in electronics gain. Here we run into the issue that high velocity particles will have little to no signal in the low gain regions. At lower velocities, particles will deposit much charge over the low gain regions but will saturate the high gain regions, whose charge values are usually lost. Only within the dynamic range will tracks have the best momentum resolution, outside the dynamic range clusters will be missing in the sections which depend on the track velocity, lowering the momentum resolution of tracking. There are ongoing efforts in the nuclear community to develop new electronics which hope to mitigate these persistent issues in TPC electronics CITE HERE, by being able to switch to a lower gain value when the maximum range is reached. Though, it is quite useful to develop a software technique which may extend the dynamic range of TPC electronics without the use of external hardware, espeically in experiments which have already been performed with older electronics technologies. 
+
+In TPCs, the effective dynamic range can be very different from the single pad dynamic range. Typically TPCs are operated inside of a magnetic field for reconstructing momentum of each particle, which requires sub-millimeter precision in the position determination of the track path. This is achieved by averaging the charge distribution over several pads which is discussed in Section CITE HERE. Therefore the effective dynamic range is related to the relative charge values of adjacent pads (between the center pad and outside pads). For example, to measure minimum ionizing particles the signal to noise ratio of the pad with the smallest charge in the distribution should be some reasonable value, say at least 6:1. From Section CITE HERE we know the central pad in the cluster holds 80\% of the total charge, where as the two adjacent pads each hold the remaining 10\%. If we require the adjacent pads to have a signal-to-noise ratio of 6:1, then the central pad would have a signal to noise ratio of 50:1. Considering this is the signal-to-noise ratio for minimum ionizing particles, and the maximum signal-to-noise ratio is 800:1, this means the effective dynamic range in the TPC is roughly 16 times that of minimum ionizing particles. The dashed lines and vertical blue bar in Fig.~ \ref{fig:intro} are separated by a factor of 20, representing the typical effective dynamic range in a TPC. This dynamic range estimate should be regarded as approximate because the energy loss fluctuates significantly about the most probable energy loss, with a long ``Landau'' like tail, as described by Bichsel \cite{bichsel}. Nevertheless, the blue dashed lines and vertical blue bar illustrate that the range of energy losses sampled in a fixed gain readout system is limited. One can change the gain and shift the energy loss range that can be sampled, but the dynamic range itself cannot be increased.
+
+  
+\begin{figure}[ht!]
+\includegraphics[width=\linewidth]{intrographic}
+%\includegraphics[width=\linewidth]{intrographic_2}
+\caption{The expected $dE/dx$ lines of different particles are given in red as calculated by Geant4. The approximate dynamic range of the TPC is shown by the vertical bar for the gain setting used in the experiment. Anything outside of this region would be saturated to some degree.}
+\label{fig:intro}
+\end{figure}
+
+The rapid increase in the stopping powers at low momentum illustrates the degree to which the effective dynamic range can be exceeded and highlights the problems encountered in studies of intermediate HICs, in which light particles with low momenta are abundantly produced along with highly charged particles. Similar problems are encountered when TPCs are used as active targets in direct reaction studies with rare isotope beams \cite{pattpc}. 
+
+Several techniques have been employed to increase the observable range of energy losses. This can be done by lowering the electronics gain of selected readout channels, or by changing the gas amplification at the readout plane in certain areas of the TPC. In the EOS TPC \cite{eos} this was done by decreasing the voltages in select anode wires in the multi-wire readout. With the prototype Active Target TPC lowering or increasing the gain was achieved by decreasing or increasing the electric fields on selected pads within a Micromegas \cite{pattpc}. The results of changing the gas-gain, or the electronics gain, are rather similar in that reducing the gain to sample a range of higher energy loss makes the TPC effectively blind to minimum ionizing particles in  the regions of lower gain.
+
+
+
+
+\begin{figure}[ht!]
+\includegraphics[scale=.5]{top_view_helix_ext.pdf}
+\caption{Cartoon of a top down view of a fit to a track passing through several pads. The bolded pads and the charges $q_i$ represent the hits belonging to that pad and the clusters of the track representing the average position of the track. The three clusters at the bottom are clustered in the $x$-direction for the upper three are clustered in the $z$-direction. The estimated position of the avalanche is given by the track fit, and the position from the center to each pad to the $\bar{x}$ position is given as $\lambda_i$.}
+\label{fig:topview}
+\end{figure}
+
+We define the clustering direction depending on the angle of the track, at the point of each cluster, with respects to the $x$ axis, defined as $\theta$. For example, the crossing angle is defined as $90^{\circ}$ for a track going along the $z$ axis, and $0^{\circ}$ for a track going along the $x$ axis. In the case that the crossing angle is $45^{\circ} < \theta \leq 90^{\circ} $ the clustering direction is along the $x$ axis. For $0^{\circ} < \theta \leq 45^{\circ}$ it is along the $z$ axis. 
+
+ The position along the clustering direction is calculated by weighting the individual hit's positions by their charges $q_i$ and getting the mean value. The other direction is set to the center of the pad. For example, if we are clustering along the $x$ axis for a cluster, the $z$-position is set to the center of the pad in the $z$-direction and vice versa. 
+ 
+
+
+\subsection{Method of Desaturation}
+We will use the term ``desaturation'' for our process of correcting the charge values of the saturated pads. Figure \ref{fig:satpad} shows a typical situation of saturated signals. When an avalanche causes a large induced signal, the pads directly underneath collect the largest charge becoming saturated, denoted as $q_{2'}$ and $q_{3'}$. Pads further away experience smaller, non saturating charges, denoted as $q_{1}$ and $q_{4}$. Though we do not know the saturated charge values, the distribution of all charges must follow the PRF which we have experimentally measured. From the clusters crossing angle, we can get the corresponding parameters for the PRF as described above and in Fig.~\ref{fig:normsigma}.
+
+We assume the distance of each pad to the track, $\lambda_i$, is fixed, defining the fraction of charge each pad receives as given by the $PRF(\lambda_i)$ function. 
+
+
+\begin{equation}\label{eq:chi}
+\chi^2 = \sum_i \frac{(q_i^{\mathrm{obs}} - q_i^{\mathrm{expect}})^2}{q_i^{\mathrm{expect}}}
+\end{equation}
+
+To determine the best estimate for the charge values of each saturated pad, a chi squared function is minimized, given in  Equation \ref{eq:chi}, where $q_i^{\mathrm{obs}}$ are the observed, non-saturated charges $q_{1}$ and $q_{4}$, and $q_i^{\mathrm{expect}}$ are the charges we expect to observe, calculated as $q_i^{\mathrm{expected}} = Q\cdot PRF(\lambda_i)$. The charges $q_{2'}$ and $q_{3'}$, make up the unknown variable and are allowed to vary in the $\chi^2$ minimization, where they are added to make up the total expected charge $Q$.
+
+
+\begin{figure}[ht!]
+\includegraphics[width=\linewidth]{saturated_pads}
+\caption{A typical case of a saturating event. The red pulses represent the time bucket signal for each collected charge. The pads directly underneath the avalanche point, $q_{2'}$ and $q_{3'}$, are saturated while pads farther away, $q_1$ and $q_4$ are not saturated.}
+\label{fig:satpad}
+\end{figure}
+
+Shown in Fig.~\ref{fig:cocktail} is a typical cocktail event, where one particle enters the TPC volume at a time and parallel to the pad plane, representing an ideal case for momentum and $dE/dx$ determination; as it does not suffer from inefficiencies of high multiplicity events seen in the collision experimental data.  
+
+\begin{figure}[ht!]
+\includegraphics[width=\linewidth]{cocktail.png}
+\caption{Pad plane projection for a cocktail event in the TPC.}
+\label{fig:cocktail}
+\end{figure}
+
+\begin{figure}[ht!]
+\includegraphics[width=\linewidth]{data.png}
+\caption{Pad plane projection for a collision event in the TPC. Highlighted by red arrows are two regions of anode wires which had a reduced voltage of 1214 V. The voltage of the rest of the TPC anode wires are 1460 V. The reduction in voltage reduces the gain by a factor of about 10. }
+\label{fig:data}
+\end{figure}
+
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\linewidth]{dedx_compare}
+\caption{The left panel shows the high gain stopping power vs low gain when the method of desaturation was not applied. In the right panel the desaturation technique was applied to the high gain region. The low gain does not suffer from saturation and represents the true $dE/dx$ value.}
+\label{fig:lowvshigh}
+\end{figure*}
+
+\begin{figure*}[t]
+\includegraphics[width=\linewidth]{cocktail_combine.png}
+\caption{Uncorrected (left panel) and desaturated (right panel) cocktail data.}
+\label{fig:cocktail_combine}
+\end{figure*}
+
+\begin{figure*}[t]
+\includegraphics[width=\linewidth]{data_combine}
+\caption{Uncorrected (left panel) and desaturated (right panel) collision data at polar angles of $\theta < 40^{\circ}$ and azimuthal angles between $-80^{\circ} < \phi < 80^{\circ}$}
+\label{fig:data_combine}
+\end{figure*}
+
+\subsection{Low gain vs corrected high gain}
+
+Tracks which saturate pads in the high gain region are not saturated in the low gain region. By comparing the dE/dx values of these two sections, we can directly measure the success of the desaturation in the high gain regions using the method described above.  
+ 
+In Fig.~\ref{fig:lowvshigh}, the effect of saturation can be seen in the high gain region for the uncorrected data. For signals below 400 ADC/mm \footnote{Un-calibrated ADC channels in arbitrary units.} the electronics are not saturated, and therefore the high and low gain sections agree. The data starts to saturate above 400 ADC/mm in the high gain channels eventually reaching a plateau while the low gain sections are not saturated and provide the true $dE/dx$ values.
+ After applying the desaturation method, the correlation between the high and low gain sections is restored, as seen in Fig.~\ref{fig:lowvshigh}. From this comparison, we infer that the correction works up to signals of 2000 ADC/mm, increasing the dynamic range by a factor of at least 5.
+
+\subsection{Particle Identification (PID)}
+
+
+Comparing the low to high gain sections directly validates the desaturation technique, but the goal  of this exercise is to improve the particle identification (PID). In the following PID plots the red lines represent the most probable energy loss as given by Geant4 straggling functions. A linear calibration was performed to convert keV in Geant4 to ADC in the experiment given by $ADC/mm = 19\;keV/cm$.
+
+There are pronounced PID lines of several particle species in both the uncorrected and corrected cocktail beam PID shown in the subplots of Fig.~\ref{fig:cocktail_combine}. Three ovals around a momentum of 1700~MeV/$c$/q and two near 900~MeV/$c$/q correspond to the three $B\rho$ settings injected into the TPC. The tails of the PID lines are resulting from the particles passing through the walls and other materials outside the main detector volume, therefore lowering the initial momentum. 
+
+The uncorrected data in Fig.~\ref{fig:cocktail_combine} shows the effects of saturation; the PID lines deviate from their theoretical expectations starting at around 400~ADC/mm eventually reaching a plateau. After applying the desaturation technique, we see a large improvement, most notably for the He and Li particles, which suffer the most from saturation. A more subtle improvement of the lighter particles, (p, d, t), can also be seen in the PID lines at lower momenta.
+
+Looking at the collision data, shown in Fig.~\ref{fig:data_combine}, we also see a similar result. In the collision data, the PID suffers from more background and inefficiencies than the cocktail beam, nevertheless we can see a similar improvement in the PID lines when comparing before and after applying desaturation. Notably the largest improvement is the separation of particle species at lower momenta and the separation of the Li species into ${}^{6}$Li and ${}^{7}$Li. In these regions, there was little to no PID resolution before desaturation. 
+
+The dynamic range was extended by at least a factor of 5, as demonstrated by the improved PID lines, and quantified by direct comparison to low gain sections of the TPC. This improved PID will allow for us to extend the momentum distributions of all species to lower momenta and to heavier ions than what was previously available. 
+
 
 \subsection{Space Charge Corrections}
-
+\label{sec:spacecharge}
 
 MAYBE ADD A LITTLE NAPKIN CALCULATION OF SPACE CHARGE TO SHOW ORDER OF EFFECT. 
 
