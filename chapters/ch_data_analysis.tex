@@ -253,14 +253,10 @@ Shown in Fig.~\ref{fig:cocktail} is a typical cocktail event, where one particle
 \label{fig:data_combine}
 \end{figure*}
 
-\subsection{Low gain vs corrected high gain}
-
 Tracks which saturate pads in the high gain region are not saturated in the low gain region. By comparing the dE/dx values of these two sections, we can directly measure the success of the desaturation in the high gain regions using the method described above.  
  
 In Fig.~\ref{fig:lowvshigh}, the effect of saturation can be seen in the high gain region for the uncorrected data. For signals below 400 ADC/mm \footnote{Un-calibrated ADC channels in arbitrary units.} the electronics are not saturated, and therefore the high and low gain sections agree. The data starts to saturate above 400 ADC/mm in the high gain channels eventually reaching a plateau while the low gain sections are not saturated and provide the true $dE/dx$ values.
  After applying the desaturation method, the correlation between the high and low gain sections is restored, as seen in Fig.~\ref{fig:lowvshigh}. From this comparison, we infer that the correction works up to signals of 2000 ADC/mm, increasing the dynamic range by a factor of at least 5.
-
-\subsection{Particle Identification (PID)}
 
 
 Comparing the low to high gain sections directly validates the desaturation technique, but the goal  of this exercise is to improve the particle identification (PID). In the following PID plots the red lines represent the most probable energy loss as given by Geant4 straggling functions. A linear calibration was performed to convert keV in Geant4 to ADC in the experiment given by $ADC/mm = 19\;keV/cm$.
@@ -564,8 +560,5 @@ Add Figures of efficiency vs angles in TPC polar angle plot for pions
 
 Since the \spirit TPC is a fixed target experiment it's angular coverage is certainly not 4$\pi$. Because the target is several cm away from the widow of the field cage the geometric acceptance is not even 2$\pi$. The rectangular design complicates the calculation of the geometric acceptance, or the efficiency.
 
-\section{Beam Particle Identification}
-Figures of beam contaminants in our beam PID line. 
-Table of beam purity reference to Jon's thesis paper
 
 \section{Solid angle coverage}
