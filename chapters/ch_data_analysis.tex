@@ -39,11 +39,6 @@ Clustering in this way gives us better position resolution for calculating the p
 \label{fig:topview}
 \end{figure}
 
-\begin{figure}[H]
-\includegraphics[width=\linewidth]{padsat_Large}
-\caption{A cartoon illustration of the charge distribution resulting from an electron avalanche on one wire and the projections of the distribution onto the two axis $\rho(x)$ onto the x-axis and $\rho(z)$ onto the z-axis. The orientation of the wire planes is flipped upside down to display the perspective better.}
-\label{fig:prf}
-\end{figure}
 
 
 
@@ -187,12 +182,12 @@ Several techniques have been employed to increase the observable range of energy
 
 
 
-
-\begin{figure}[ht!]
-\includegraphics[scale=.5]{top_view_helix_ext.pdf}
-\caption{Cartoon of a top down view of a fit to a track passing through several pads. The bolded pads and the charges $q_i$ represent the hits belonging to that pad and the clusters of the track representing the average position of the track. The three clusters at the bottom are clustered in the $x$-direction for the upper three are clustered in the $z$-direction. The estimated position of the avalanche is given by the track fit, and the position from the center to each pad to the $\bar{x}$ position is given as $\lambda_i$.}
-\label{fig:topview}
-\end{figure}
+%DOUBLY DEFINED? IS THIS SUPPOSED TO BE HERE
+%\begin{figure}[ht!]
+%\includegraphics[scale=.5]{top_view_helix_ext.pdf}
+%\caption{Cartoon of a top down view of a fit to a track passing through several pads. The bolded pads and the charges $q_i$ represent the hits belonging to that pad and the clusters of the track representing the average position of the track. The three clusters at the bottom are clustered in the $x$-direction for the upper three are clustered in the $z$-direction. The estimated position of the avalanche is given by the track fit, and the position from the center to each pad to the $\bar{x}$ position is given as $\lambda_i$.}
+%\label{fig:topview}
+%\end{figure}
 
 We define the clustering direction depending on the angle of the track, at the point of each cluster, with respects to the $x$ axis, defined as $\theta$. For example, the crossing angle is defined as $90^{\circ}$ for a track going along the $z$ axis, and $0^{\circ}$ for a track going along the $x$ axis. In the case that the crossing angle is $45^{\circ} < \theta \leq 90^{\circ} $ the clustering direction is along the $x$ axis. For $0^{\circ} < \theta \leq 45^{\circ}$ it is along the $z$ axis. 
 
@@ -334,7 +329,7 @@ The electric field in the presence of the sheet charge can be calculated by solv
  
  It has been shown before that the amount of space charge present in the chamber is related to observables such as the distance of closest approach of each track to the vertex point \cite{starSC}. This is easily understood, as the space charge distorts the electrons as they drift through the chamber eventually distorting the overall shape of the measured track. In the presence of no space charge, you would correctly expect the distance of closest approach of each track to the vertex point would be a distribution centered around zero. In the presence of space charge the tracks are distorted and the distribution has some mean bias. 
 
-Shown in Fig.~\ref{fig:sc_shift} is an example of the distortion map in the TPC for left-going tracks in blue, and right-going tracks in green, with the vectors of distortion magnified. The space charge affects left and right going tracks differently, with the right-going tracks going to higher momentum values and the left-going tracks going to lower momentum values. The inset figure of Fig.~\ref{fig:sc_shift} shows the shift in the x-position distance to vertex for the displaced left-going track given by $\Delta\mathrm{V}_\mathrm{x}$, with the opposite direction for right-going tracks. We are able to measure the amount of distortion the space charge creates by measuring the difference between the most probable values of the left-going and right-going tracks which we define as $\Delta\mathrm{V}_\mathrm{LR}$.
+Shown in Fig.~\ref{fig:sc_shift} is an example of the distortion map in the TPC for left-going tracks in blue, and right-going tracks in green, with the vectors of distortion magnified. The space charge affects left and right going tracks differently, with the right-going tracks going to higher momentum values and the left-going tracks going to lower momentum values. The inset figure of Fig.~\ref{fig:sc_shift} shows the shift in the x-position distance to vertex for the displaced left-going track given by $\Delta\mathrm{V}_\mathrm{x}$, with the opposite direction for right-going tracks. We are able to measure the amount of distortion the space charge creates by measuring the difference between the most probable values of the left-going and right-going tracks which we define as $\Delta\mathrm{V}_\mathrm{LR}$, see Fig.~\ref{fig:VLR}.mom
  
 
 Overview
@@ -344,7 +339,7 @@ Discuss the relevant time scales, drift lengths, magnitudes, and locations of sp
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{DVTP_raw.pdf}
 \caption{$\Delta\mathrm{V}_\mathrm{x}$ distribution for left-going and right-going tracks in the TPC for the }
-\label{fig:spacechg_cartoon}
+\label{fig:VLR}
 \end{figure}
 
 
@@ -471,27 +466,39 @@ Number of e^{-} = 28 keV/cm
 \end{equation}
 
 \subsection{Pad Response Task}
-After the avalanche process of the previous task, the total charge of the event is split over several pads defined by the Pad Response Function (as discussed in section ????). As shown in Fig.~\ref{fig:onepad}, there are three wires that lie directly above a given pad. The $z$ coordinate of the avalanche can only be one of these three wires, where as the $x$ coordinate can be any value along the wire. The functional form of the software PRF (given in Eq.~\ref{eq:softPRF}), was tuned to match the experimental data. Shown in Fig.~\ref{fig:mcdataPRF}, we see the tuned software PRF can match the experimental PRF from data over several crossing angles (as mentioned in Chapter ???? governs the shape of the PRF). 
+The total charge of the event is split over several pads defined by thePRF (as discussed in section \ref{sec:prf}. As shown in Fig.~\ref{fig:2DPRF}, there are three wires that lie directly above a given pad. The $z$ coordinate of the avalanche is limited to one of these three wires, where as the $x$ coordinate can be any value along the wire. A 2-dimensional Gaussian was enough to describe the experimental PRF, 
 
 \begin{equation}
-PRF(x,z) = \frac{1}{2\pi\sigma_z\sigma_x}\exp^{\frac{-{(x-x_o)}^2}{2\sigma_x^2}}\exp^{\frac{-{(z-z_o)}^2}{2\sigma_z^2}}
-\label{eq:softPRF}
+PRF(x,z) = \frac{1}{2\pi\sigma_z\sigma_x}\exp^{\frac{-{(x-x_o)}^2}{2\sigma_x^2}}\exp^{\frac{-{(z-z_o)}^2}{2\sigma_z^2}},
+\label{eq:2DPRF}
 \end{equation}
 
-\begin{figure}
-\includegraphics[scale=.005]{place}
-\caption{A cartoon of the wires over one pad. }
-\label{fig:onepad}
+where the location of the avalanche is ($x_o$,$z_o$). The $\sigma$ values were tuned to match the experimental data. Figure~\ref{mcdataPRF} shows the PRF response of $\pi^-$ tracks. The black line is the PRF fit to the experimental data. We can see a good agreement between the MC, Fig.~\ref{fig:prfpimMC}, and experimental data, Fig.~\ref{fig:prfpimData}.
+
+
+
+\begin{figure}[!htb]
+         \centering
+         \includegraphics[width=\textwidth]{PRFs_MC_wcut.png}
+         \caption{PRF response of Monte Carlo simulation of $\pi^-$}
+         \label{fig:prfpimMC}
 \end{figure}
 
-\begin{figure}
-\includegraphics[scale=.005]{place}
-\caption{Comparison of MC and data PRF}
-\label{fig:mcdataPRF}
-\end{figure}
+
 
 \subsection{Electronics Task}
-The electronics task takes the total charge on each pad and simulates the electronics response, converting electronics into ADC channels. Accounting for the pedestal, the measured output in ADC channels (for a given gain setting) is given in Eq.~\ref{eq:etoADC}.
+The electronics task simulates the electronics response to induced charge on a pad, converting electronics into ADC channels.
+The ADC value of a channel, R, is modeled as, 
+
+
+\begin{equation}
+\mathrm{R}= \frac{ADC_{\mathrm{Max}} - ADC_{\mathrm{Pedestal}}}{G*f_c},
+\label{eq:etoADC}
+\end{equation}
+
+where $\mathrm{ADC_{Max}}$ is the maximum allowed ADC value (4096), $\mathrm{ADC_{Pedestal}}$ is the baseline or pedestal value used in the experiment (???), $G$ is the gas gain, and $f_c$ is the dynamic range setting (\SI{120}{\femto\coulomb}). Later a section is dedicated to small particle dependent corrections which account for small changes in the charge calibration which may be due to a whole host of detector effects that are not modeled. 
+
+The induced current in the pad goes through a pre-amplifier and shaping amplifier which determine the final pulse shape read out. The pulse shape did not change significantly in any circumstance, such as pulse height, data type, or particle type; for a given shaping constant. This allows us to assume the pulse shape is constant with the only two variables being the height of the pulse, Q, and the starting time bucket of the pulse, $t_o$. The shaping constant was set to \SI{117}{\nano\second} for most of the data. Figure~\ref{fig:pulseshape} shows the pulse shape for a normal pulse that is within the dynamic range as the dashed blue curve, the pulse is normalized so the maximum height is 1. 
 
 
 \begin{figure}[!hbt]
@@ -501,14 +508,63 @@ The electronics task takes the total charge on each pad and simulates the electr
 \end{figure}
 
 
+\subsection{Simulating Saturation}
+There are several types of saturation that must be simulated or accounted for to correctly model the TPC response. They all are varying degrees of the same effect which manifest in different ways in the detector. In general all amplifiers have a finite range of output values set by a positive and negative rail (typically -12V and +12V). If the input charge into a charge sensitive pre-amplifier causes the output voltage to reach the max (or min) output voltage, the electronics is considered saturated and the response may be non-linear. The picture is complicated by the fact that there is usually an RC feedback loop which dissipates the input charge. The time in which a pre-amplifier returns to its typical linear behavior depends on the input charge and how quickly it can be dissipated \cite{akiGET}. The pad is otherwise considered dead and no further charge can be measured until the electronics recover. 
+ 
+Due to the long high energy tail in energy loss distributions of a particle traversing matter, it is common to see pads along the track which have very high energy loss values and saturate the electronics of that pad, even for minimum ionizing tracks. Saturation in this case is infrequent and not an issue as many other clusters are not saturated. As the particle's charge gets higher, or the momentum gets lower, the mean energy loss value gets much higher and a significant fraction of pads in a track may be saturated. While earlier we outlined and algorithm to correct the saturation for the track measurement itself, saturation also affects surrounding tracks. 
+
+As mentioned earlier the pad is dead for some time, which depends on the total input charge. For charges that are relatively at or above the threshold for saturation the pad is certainly dead for the remainder of time of the measurement; i.e. $T_{dead}$ > \SI{10}{\micro\second}. This will cause signals from other tracks passing underneath the offending track to not be measured; the saturated pad ``shadows" any future signal. In the case where two tracks are separated in time due to different polar angles, but have significant overlap in a pad-plane projection, a significant portion of the later track may be shadowed and the track itself will suffer in quality significantly. For events with high track multiplicity this causes a significant shadowing effects, in that the upward going tracks recorded at earlier times shadow the downward going tracks recorded at later times. This will change event by event and is very difficult to simulate except through a MC track embedding approach which will be discussed later. 
+
+In the case where the input signal is very large, the electronics can be dead for up to \SI{35}{\milli\second} \cite{akiGET}. The beam rate in the experiment was about \SI{10}{\kilo\hertz}, which corresponds to an average of \SI{10}{\micro\second} between subsequent beams. Pads can be effectively dead for several events before recovering. Due to the large charge of the beam, a large amount of very high energy electrons are produced via scattering from the beam passing through the gas. In the presence of the magnetic field the radius of curvature of most of the electrons are within several \si{cm}. Figure~\ref{fig:deltaE} shows the horizontal extent of the electrons in a top down view of the TPC. While some of the electrons can stop in the gas, a significant fraction can travel to the top and bottom of the TPC. These electron can pass through the gating grid without being blocked and either terminate on the pad or possibly deposit their charge directly in the pad. The charge induced on the pad was large enough to kill the pad for a time long enough to last until at least the next event. These pads are dead for the whole event and are randomly distributed around the beam path projection on the pad plane. 
+
+
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{deltaE_topview} 
+        \caption{Top view} \label{fig:deltaE_topview}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{deltaE_sideview} 
+        \caption{Side view} \label{fig:deltaE_sideview}
+    \end{subfigure}
+    \caption{Geant4 simulation of ${}^{108}$Sn beam at 270 MeV/A in P10 gas. Notice the extent of the delta electrons in the vertical direction as compared to the horizontal extent. }
+\label{fig:deltaE}
+\end{figure}
+
+
+\begin{figure}[!htb]
+\includegraphics[width=\textwidth]{padplane_sat.png}
+\caption{Tagging the saturated pads.}
+\label{fig:satTag}
+\end{figure}
+
+Simulation of saturation is handled naturally by embedding MC tracks into real data, by correctly identifying when in the time bucket spectrum saturation has occurred in each pad. Once the time of saturation has been identified, no further signals are embedded as the pad is assumed to be dead. In the case a pad is dead for the whole event the time of saturation is set to the first time bucket and no signal is embedded. The characteristic signature of a saturated signal is the fast fall time of the falling edge of the pulse going quickly to zero, as opposed to the long tail of normal pulses as seen in Fig.~\ref{fig:pulseshape}. The long exponential tail can be effectively removed by a simple software technique which is similar to the electronics concept of ``pole-zero compensation". If the raw ADC value at a particular time, $i$, is represented as $f_i$, the corrected pulse which differentiates out the exponential tail, $f_i^{'}$ can be expressed as, 
+
 \begin{equation}
-\mathrm{1 ADC }= \frac{ADC_{\mathrm{Max}} - ADC_{\mathrm{Pedestal}}}{G*f_c}
-\label{eq:etoADC}
+f_i^{'} = \frac{-b_1\cdot f_{i-1}^{'} + a_o\cdot f_i + a_1 \cdot f_{i-1}}{b_o}
+\label{eq:satpolez}
 \end{equation}
 
-\subsection{Simulating Saturation}
-Add figure showing saturated time bucket spectra with location of saturation identified and with pulse shape from embedding I would like to add and how it blocks it.
-Add Figure with 2D pad plane response with and without saturation flag
+where $a_o$ = .9723, $a_1$=-.9453, $b_o$=.9545, and $b_1$=-.9203. These numbers are experimentally fit to give the fastest, non-zero, correction to the tail of a normal pulse. This correction produces a negative undershoot for the saturated pulse, since there was no long exponential tail to begin with. Figure~\ref{fig:pulseshape} shows before the correction technique as the red curves, and after the technique as the blue curves for both the normal and saturated pulse. 
+As the program is looking for and identifying positive peaks in the spectrum, we also calculate the corrected ADC value of that particular time bucket according to Eq.~\ref{eq:satpolez}. A peak is identified as a saturated signal if it is less than -20$\cdot G$ for more than 8 Tbs, where $G$ is the gain calibration of the pad, and the max ADC value is > $G\cdot$500 to eliminate false negative pulses which come from the gating grid subtraction in dead pads. The saturated flag is set to true and the data time bucket position of saturation is set to $t_{peak} - 5$, where $t_{peak}$ is the time bucket of the negative peak. The MC time bucket position is set to $t_{peak} - 30$ to ensure that the MC signals do not overlap the saturating data signal.
+
+Saturation can also occur if the sum of all the pulse heights are over the max ADC threshold of 3500 ADC. This is because the fall time of the pre-amplifier circuit is much longer than the time bucket window and pulses are allowed to pile up. While pads that saturate via this method still are identified through the same algorithm described above, nothing is done in the MC class to take this into account when embedding signals. We assume this method of saturation is a higher order correction and the current algorithm approximates most of the saturation effects. Figure~\ref{fig:satTag} shows the tagging algorithm for an event in the TPC. The max ADC values in a given pad are colored and the black dots are pads tagged as saturated. Some pads appear to be below 3500 ADC, but upon further inspection they satisfy the sum of all the signals causes saturation though the max ADC never goes over 3500. 
+
+Dead pads are identified earlier in the software in the STCore.cc class. A dead pad is classified as having a r.m.s. value  < 50 ADC and a max ADC < 50. The saturated flag is set to true, and the time bucket position of saturation in both the data and MC are set to the first time bucket. 
+
+
+%maybe simple pream fig
+%maybe example from aki paper about times
+%maybe 
+
+%Add figure showing saturated time bucket spectra with location of saturation identified and with pulse shape from embedding I would like to add and how it blocks it.
+%Add Figure with 2D pad plane response with and without saturation flag
 
 
 \section{Monte Carlo Track Embedding}
@@ -561,4 +617,3 @@ Add Figures of efficiency vs angles in TPC polar angle plot for pions
 Since the \spirit TPC is a fixed target experiment it's angular coverage is certainly not 4$\pi$. Because the target is several cm away from the widow of the field cage the geometric acceptance is not even 2$\pi$. The rectangular design complicates the calculation of the geometric acceptance, or the efficiency.
 
 
-\section{Solid angle coverage}

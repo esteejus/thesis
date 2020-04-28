@@ -4,6 +4,61 @@
 Figures of beam contaminants in our beam PID line. 
 Table of beam purity reference to Jon's thesis paper
 
+Beam tracking was handled by the BigRIPS spectrometer tracking system. Each individual beam particles coming down the spectrometer was measured using a dE-Time-of-Flight method where the charge, Z, and mass to charge ratio, A/Q, of each particle was measured. Individual particle species represent a two-dimensional Gaussian in this space; both the $\tin{132}{112}$ and $\tin{108}{124}$ systems are shown in Fig.~\ref{fig:beampid}. Clear separation is seen for each particle species and the correct value of Z and A/Q gives us the correct species type. Each species of interest is fitted with multivariate normal distribution with two variables defined as,
+
+\begin{equation}
+  f(x,y)=\frac1{2\pi\sigma_x\sigma_y\sqrt{1-\rho^2}}\exp\left\{
+  \frac{-(x - \mu_{x})^2/\sigma_x^2-(y-\mu_{y})^2/\sigma_y^2+2\rho
+  xy/\sigma_x\sigma_y}{2(1-\rho^2)}\right\},
+   \label{multiGauss}
+\end{equation}
+where x=A/Q, y=Z, $\mu$ is the mean values, and $\sigma$ are the Gaussian widths. 
+
+The resulting fit parameters are summarized in Table~\ref{beamParameters}. 
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{cccccc}
+      \hline 
+      Particle Type & $\mu_\mathrm{A/Q}$ & $\sigma_\mathrm{A/Q}$ & $\mu_\mathrm{Z}$ &
+      $\sigma_\mathrm{Z}$ & $\rho$\\
+      \hline\hline 
+      ${}^{132}$Sn & 2.64 & 0.0014 & 49.95 & 0.209 & -0.052 \\
+    %  $\tin{124}{112}$ & 2.24005 & 0.00150934 & 49.9906 & 0.194804 & -0.0671999 \\
+    %  $\tin{112}{124}$ & 2.47995 & 0.00182327 & 49.961 & 0.214745 & -0.0742297 \\
+      ${}^{108}$Sn & 2.16 & 0.0015 & 49.99 & 0.207 & -0.059 \\
+      \hline
+    \end{tabular}
+    \caption{Multivariate normal distribution fit parameters for four beams.
+    \label{beamParameters}}
+  \end{center}
+\end{table}
+
+For both ${}^{132}$Sn an ${}^{108}$Sn a 2.83$\sigma$ cut is taken around the mean values; as seen in Fig.~\ref{beampid132,beampid108}.
+
+
+\begin{figure}[!htb]
+     \centering
+     \begin{subfigure}[b]{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{beam-Sn132.png}
+         \caption{$\tin{132}{124}$ Beam particle identification.}
+         \label{fig:beampid132}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{beam-Sn108.png}
+         \caption{$\tin{132}{124}$ $\pi^-$ angular spectra.}
+         \label{fig:beampid108}
+     \end{subfigure}
+        \caption{$\tin{108}{112}$ Beam particle identification. }
+        \label{fig:beampid}
+\end{figure}
+
+
+
+
+
 \section{Edge Cuts}
 As seen in Fig.~\ref{fig:edge}, edges of the measurement volume of the TPC we can see several edge effects distortion the clusters positions. The last pads on the edges of the pad-plane naturally have no neighbors on the outsides, therefore their cluster position is biased towards the inside of the TPC. Also since we measure a finite window in time for the vertical direction, pulses near the edge of the time-bucket window are clipped and the reconstructed times are biased towards inside the TPC volume. 
 
@@ -20,19 +75,19 @@ The number of affected clusters is small, but the deviation at the end of the tr
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{clusterLR.png} 
-        \caption{Generic} \label{fig:mom_S_before}
+        \caption{Generic} \label{fig:clusterLR}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{clusterTop.png} 
-        \caption{Competitors} \label{fig:mom_L_before}
+        \caption{Competitors} \label{fig:clusterTop}
     \end{subfigure}
     
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{clusterBottom.png} 
-        \caption{Generic} \label{fig:mom_S_after}
+        \caption{Generic} \label{fig:clusterBottom}
     \end{subfigure}
    
 \label{fig:edge}
@@ -44,34 +99,66 @@ The density of tracks near the target region is very high and most of electronic
 Add picture of ellipsoid 
 
 \section{Beam angle selection}
-The beam is bent by the magnetic field before hitting the target. The BDCs track the beam outside of the magnet. The beam is then propagated through the magnetic field until the target position. The beam angle on target is categorized by two angles $\theta_{a_{proj}}$ and $\theta$
+The beam is deflected by the magnetic field and impinges on the target at some angle. The BDCs track the beam as a straight line right up until the magnet.  To calculate the incidence angle, the beam is then propagated through the magnetic field until the target position. The beam angle on target is categorized by two angles $\theta_{a_{proj}}$ and $\theta_{b_{proj}}$ defined as, 
+
+%define angles 
+%define selection
+
+\begin{equation}
+  \theta_\mathrm{a,proj}=\tan^{-1}\frac{p_x}{p_z},\quad
+  \theta_\mathrm{b,proj}=\tan^{-1}\frac{p_y}{p_z},
+  \label{beamAngle}
+\end{equation}
+
+where $p_x$, $p_y$, and $p_z$ are the components of beam momentum vector.
+
+Figure~\ref{beamAngleFig} shows the beam angle distribution for ${}^{132}$Sn and ${}^{108}$Sn. 
+
+
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{ccccc}
+      \hline 
+      System & $\mu_{\theta_\mathrm{a,proj}}$ &
+      $\sigma_{\theta_\mathrm{a,proj}}$ & $\mu_{\theta_\mathrm{b,proj}}$ &
+      $\sigma_{\theta_\mathrm{b,proj}}$ \\
+      \hline\hline 
+      $\tin{132}{124}$ & 0.61 & 2.94 & -44.18 & 1.96 \\
+    %  $\tin{112}{124}$ & -0.41 & 1.58 & -53.52 & 0.90 \\
+      $\tin{108}{112}$ & -0.42 & 1.95 & -55.17 & 0.97 \\
+      \hline
+    \end{tabular}
+    \caption{2D Gaussian fit parameters for $^{132}$Sn, $^{112}$Sn and
+      $^{108}$Sn beam angle. \label{beamAngleParameters}}
+  \end{center}
+\end{table}
 
 \begin{figure}[!htb]
     \centering
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{beamAngle-Sn108.png} 
-        \caption{Generic} \label{fig:mom_S_before}
+        \caption{Generic} \label{fig:beamangle108}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{beamAngle-Sn112.png} 
-        \caption{Competitors} \label{fig:mom_L_before}
+        \caption{Competitors} \label{fig:beamangle112}
     \end{subfigure}
     
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{beamAngle-Sn124.png} 
-        \caption{Generic} \label{fig:mom_S_after}
+        \caption{Generic} \label{fig:beamangle124}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{beamAngle-Sn132.png} 
-        \caption{Competitors} \label{fig:mom_L_after}
+        \caption{Competitors} \label{fig:beamangle132}
     \end{subfigure}
-\label{fig:mom_sc}
+\label{fig:beamangle}
 \end{figure}
 
 
@@ -168,4 +255,68 @@ Assuming tracks are mostly continuous in clusters, i.e. only randomly missing a 
 
 
 \section{Angular Quality Cuts}
+Since the TPC has no spherical symmetry, there are geometric constraints on measuring tracks. Most notably tracks going up and down in the TPC where the path of the track would be shortest. Tracks traveling up and down in the TPC will have the shortest track length and will correspond to low regions of efficiency. The relevant geometries for this discussion are the corners of the field cage. Figure~\ref{fig:angleEffExplanation} shows a cartoon drawing of the field cage were the angles of each corner is given. Since the window to the field cage was slightly higher, the upper angles are slightly smaller than the lower angles. The $\phi$ angles location of each corner is are $\ang{0}\substack{+24 \\ -34}$ and $\ang{180}\substack{-24 \\ +34}$, with a width of about \ang{58}. While it depends on polar angle $\theta$, a clear cut off around these angles can be seen in Fig.~\ref{fig:angleEffExplanation} in the $\phi$ angles. 
 
+The efficiency in these regions are either zero or very small. Typically it is not wise to efficiency correct already small numbers with small efficiency values. Therefore we have taken the practice to cut away the regions of very low efficiencies. The cuts we have made are for $\theta_{C.M.}$ < 90 and for \ang{326} < $\phi$ < \ang{24} and \ang{1} < $\phi$ < \ang{24}.
+
+Maybe add a table of cuts for each system. 
+
+We need to correct for the solid angles not measured, or cut away, to arrive at the correct total yields in $4\pi$. The correction is simple given,
+
+\begin{equation}
+\Delta\Omega = \Delta\phi(\cos(\theta_1) - \cos(\theta_2)),
+\end{equation}
+
+where $\Delta\phi$ is the $\phi$ and $\theta_{1,2}$ are the $\theta$ angular coverage after cuts. The multiplicitive correction factor to the data, C, for the missing angular coverage is simply,  
+
+\begin{equation}
+C = \frac{4\pi}{\Delta\phi}.
+\end{equation}
+
+%As the spherical angle of the track, $\theta$, increases the track gets even shorter and shorter until there are very few clusters at all. We see around $\phi$=\ang{90} and $\phi$=\ang{270}, representing up and down in the TPC respectively, there is near zero efficiency for nearly all angles $\theta$>\ang{30} and for a wide range of $\phi$ angles around these two values.  
+
+\begin{figure}[!htb]
+\includegraphics[width=\textwidth]{tpcAngle.pdf}
+\caption{Rough Geometry of the TPC field cage.}
+\label{fig:angleEffExplanation}
+\end{figure}
+
+
+\begin{figure}[!htb]
+     \centering
+     \begin{subfigure}[b]{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{angularCut-pim-Sn108.png}
+         \caption{$y=x$}
+         \label{fig:pim108angle}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{angularCut-pim-Sn132.png}
+         \caption{$\tin{132}{124}$ $\pi^-$ angular spectra.}
+         \label{fig:pim132angle}
+     \end{subfigure}
+        \caption{Three simple graphs}
+        \label{fig:pim}
+\end{figure}
+
+
+\begin{figure}[!htb]
+     \centering
+     \begin{subfigure}[b]{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{angularCut-pip-Sn108.png}
+         \caption{$\tin{108}{112}$ $\pi^-$ angular spectra.}
+         \label{fig:pip108angle}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{angularCut-pip-Sn132.png}
+         \caption{$\tin{132}{124}$ $\pi^-$ angular spectra.}
+         \label{fig:pip132angle}
+     \end{subfigure}
+        \caption{Three simple graphs}
+        \label{fig:pip}
+\end{figure}

@@ -9,14 +9,39 @@ Where $N$ is the number density of electrons in the medium, $e$ the elementary c
 
 
 \section{Pad Response Function}
-The charge distribution on the pad plane resulting from an electron avalanche is two dimensional, as illustrated in Fig.~\ref{fig:prf}, with the projections onto the $x$ and $z$ axis of this distribution labeled as $\rho(x)$ and $\rho(z)$ respectively. The charge observed on each pad is the integral of this distribution over the pad's dimensions, which is called the Pad Response Function (PRF).
+\label{sec:prf}
+Each electron avalanche produces an two-dimensional image charge on the pad plane, as shown in the cartoon in Fig.~\ref{fig:2DPRF}, where the projection of the charge distribution onto the $x$ and $z$ axis of this distribution are labeled as $\rho(x)$ and $\rho(z)$ respectively. If $\rho(x,z)$ represents the charge distribution on the pad-plane, the total charge observed on each pad, Q, is given as,
+
+\begin{equation}
+Q(x_o,z_o) = \int_{z_o - \frac{l}{2}}^{z_o + \frac{l}{2}} \int_{x_o - \frac{w}{2}}^{x_o + \frac{w}{2}} \rho(x,z) dxdz,
+\label{eq:prfpadCharge}
+\end{equation}
+
+where $x_o$ and $z_o$ represent the x and z coordinates of the center of each pad, w is the width, and l is the length. This function is commonly refered to as the Pad Respons Funciton (PRF). The total charge observed for this track is a superposition of PRFs of each avalanches on all the anode wires. It is the use of this PRF that allows for sub-millimeter accuracy in the position resolution of the TPC \cite{blumrol}. Typically in a TPC, hits are grouped into clusters and it is practical to cluster in only one direction. The PRF can be expressed in a way that is independent of the location of the avalanche. If the true position of the avalanche is ($x_o^{'}$,$z_o^{'}$), and the charge distribution can be written in a position independent way %$\rho(\lambda_x,\lambda_z)$, where $\lambda_x = x - x_o^'$ and $\lambda_z = z - z_o^'$. The PRF for layer clustering can be written as,
+
+\begin{equation}
+Q(\lambda_x) = \int_{z_o - \frac{l}{2}}^{z_o + \frac{l}{2}} \int_{x_o - \frac{w}{2}}^{x_o + \frac{w}{2}} \rho(\lambda_x,\lambda_z) dxdz,
+\label{eq:prflayer}
+\end{equation}
+
+and the PRF for row clustering can be written as, 
+
+\begin{equation}
+Q(\lambda_z) = \int_{z_o - \frac{l}{2}}^{z_o + \frac{l}{2}} \int_{x_o - \frac{w}{2}}^{x_o + \frac{w}{2}} \rho(\lambda_x,\lambda_z) dxdz.
+\label{eq:prfrow}
+\end{equation}
+
+The The direction most perpendicular to the track's direction of travel provides the most accurate position resolution.  Clustering in the \spirit TPC is done for several pads containing charge in the direction most perpendicular to the track's direction of travel. 
 
 In this example the clustering direction would be along the $x$ axis, as illustrated by the bolded pads. By choosing to cluster only in one direction, we have not included the charge in adjacent pads along the $z$ axis resulting from the tails of $\rho(z)$. Therefore the charge not included in the the bolded pads will be incorporated into adjacent clusters, introducing small correlations in charge between neighboring clusters. 
 
+\begin{figure}[!htb]
+\includegraphics[width=\linewidth]{padsat_Large}
+\caption{A cartoon illustration of the charge distribution resulting from an electron avalanche on one wire and the projections of the distribution onto the two axis $\rho(x)$ onto the x-axis and $\rho(z)$ onto the z-axis. The orientation of the wire planes is flipped upside down to display the perspective better.}
+\label{fig:2DPRF}
+\end{figure}
 
-\subsection{Gatti Pad Response Function}
-Gatti \cite{gatti} derived a semi-empirical formula for the charge distribution in a simple multi-wire TPC. The function given in Eq.~\ref{eq:gatti}, depends only on the width of a pad ($w$), the distance of the anode plane to the pad plane ($h$), and the distance of the pad center to the avalanche point $\lambda$. It is a single parameter equation where the two parameters $K_1 = \frac{K_{2}\sqrt{K_3}}{4 \arctan(\sqrt{K_3})}$ and $K_2 = \frac{\pi}{2}\left(1-\frac{\sqrt{K_{3}}}{2}\right)$ depend on the parameter $K_3$, which is a function of the ratio of the anode wire diameter to the distance of the anode wires to the pad plane. $K_3$ can be looked up in a graph in \cite{blumrol} and \cite{gatti}.
-
+Gatti \cite{gatti} derived a semi-empirical formula for the charge distribution in a simple multi-wire TPC given as, 
 \begin{equation}\label{eq:gatti}
 \begin{split}
 PRF_{\mathrm{Gatti}}(\lambda)
@@ -24,6 +49,10 @@ PRF_{\mathrm{Gatti}}(\lambda)
 & - \arctan(\sqrt{K_{3}}\tanh\bigl[K_{2}\bigl(\frac{\lambda}{h}-\frac{w}{2h}\bigr)\bigr])\bigr] \\
 \end{split}
 \end{equation}
+
+where $w$ is the width of the pad, $h$ is the distance of the anode plane to the pad plane, and $\lambda$ is the distance of the pad center to the avalanche point. It is a single parameter equation where the two parameters $K_1 = \frac{K_{2}\sqrt{K_3}}{4 \arctan(\sqrt{K_3})}$ and $K_2 = \frac{\pi}{2}\left(1-\frac{\sqrt{K_{3}}}{2}\right)$ depend on the parameter $K_3$, which is a function of the ratio of the anode wire diameter to the distance of the anode wires to the pad plane. $K_3$ can be looked up in a graph in \cite{blumrol} and \cite{gatti}.
+
+
 
 \subsection{Experimental Pad Response Function}
 
@@ -41,8 +70,8 @@ Averaging over many events in the experimental data, the resulting PRF for the S
 PRF_{\mathrm{Gaus}}(\lambda) = N_0 e^\frac{-\lambda^2}{2\sigma^2}
 \end{equation}
 
-\begin{figure}[ht!]
-\begin{overpic}[width=\linewidth]{expprf}
+\begin{figure}[ht!]s
+\begin{overpic}[width=\linewidth]{fig5.pdf}
 \put(61,55){\contour{white}{ PRF${}_{\mathrm{Gaus}}(\lambda)$ eq. \ref{eq:gaus}  }}
 \put(61,49){\contour{white}{ PRF${}_{\mathrm{Gatti}}(\lambda)$ eq. \ref{eq:gatti} }}
 \end{overpic}
@@ -50,19 +79,21 @@ PRF_{\mathrm{Gaus}}(\lambda) = N_0 e^\frac{-\lambda^2}{2\sigma^2}
 \label{fig:expprf}
 \end{figure}
 
-\section{Pad Response Function vs. crossing angle}
-The shape of the PRF depends on the crossing angle of the track \cite{gatti}. Plotted in Fig.~\ref{fig:prfangle} is the PRF of $\pi^-$ tracks vs. the crossing angle $\theta$. The PRF gets wider starting from $90^{\circ}$  and going to $45^{\circ}$; if we did not switch clustering directions the PRF would become wider until it was a uniform distribution and there was no position resolution. Since we switch the clustering direction from $x$ to the $z$ direction at $45^{\circ}$, the opposite trend is seen where the PRF becomes narrower as the position resolution gets better going from $45^{\circ}$ to $0^{\circ}$.
+The shape of the PRF depends on the crossing angle of the track \cite{gatti}. Plotted in Fig.~\ref{fig:prfpimData} is the PRF of $\pi^-$ tracks vs. the crossing angle $\theta$. The PRF gets wider starting from $90^{\circ}$  and going to $45^{\circ}$; if we did not switch clustering directions the PRF would become wider until it was a uniform distribution and there was no position resolution. Since we switch the clustering direction from $x$ to the $z$ direction at $45^{\circ}$, the opposite trend is seen where the PRF becomes narrower as the position resolution gets better going from $45^{\circ}$ to $0^{\circ}$.
 
-\begin{figure}[ht!]
-\includegraphics[width=\linewidth]{PRF_vsAngle}
-\caption{Experimental pad response function as a function of the crossing angle $\theta$ with the corresponding fits.}
-\label{fig:prfangle}
+
+
+
+\begin{figure}[!htb]
+     \centering
+	 \includegraphics[width=\textwidth]{PRFs_data_wcut.png}
+     \caption{PRF response from $\pi^-$ data. }
+     \label{fig:prfpimData}
 \end{figure}
 
-
 \begin{figure}[ht!]
-\begin{overpic}[width=\linewidth]{normsigma}
-\end{overpic}
+\vspace{5mm}
+\includegraphics[width=\linewidth]{fig7}
 \caption{Parameters $N_{0}$ and $\sigma$ as a function of the crossing angle $\theta$ with the $4^{th}$ order polynomial fits.}
 \label{fig:normsigma}
 \end{figure}
