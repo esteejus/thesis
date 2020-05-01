@@ -4,6 +4,7 @@ Need to explain pedestal subtraction
 GG noise subtraction 
 
 \section{Software}
+\label{sec:software}
 
 The S$\pi$RITROOT software is modular tasked based code based on the FAIRROOT package written in C++ \cite{fairroot}. The main tasks in the S$\pi$RITROOT software reconstruction are:
 \begin{itemize}
@@ -40,7 +41,8 @@ Clustering in this way gives us better position resolution for calculating the p
 \end{figure}
 
 
-
+\subsection{Pulse Shape Algorithm}
+\label{sec:psa}
 
 \section{Calibrations and Corrections}
 
@@ -443,9 +445,9 @@ A grid of electrons uniformly distributed in the TPC model space were drifted to
 
 
 \section{Monte Carlo Simulation}
-We use Geant4 as and event generator for performing Monte Carlo Simulations in the TPC. A scale model of field cage, front window, front window frame, pad plane, and aluminum top plate are modeled. The correct materials are used as well as the field cage is modeled with P-10 gas at a density of ????. By using Geant4 we can also input the the magnetic field map of the SAMURAI dipole magnet (as calculated by the SAMURAI group via a TOSCA simulation).  In this way any particle type may be studied and the full interactions (scattering, decay, energy loss, path taken, etc.), are accounted for. The output of this simulation is a series of energy loss points which contain the amount of energy lost in $keV/cm$ and the position in $(x,y,z)$.
+The monte carlo (MC) simulation is a to part simulation. The first is the modeling of the fundamental interactions of a particle through material which we utilize Geant4 as an event generator. A scale model of field cage, front window, front window frame, pad plane, and aluminum top plate are modeled with the correct material type and dimensions assuming P-10 gas at a density of 1 atm. We also import the the magnetic field map of the SAMURAI dipole magnet (as calculated by the SAMURAI group via a TOSCA simulation) \cite{magnet}.  In this way any particle type may be studied and the full interactions (scattering, decay, energy loss, path taken, etc.), are accounted for. The output of this simulation is a series of energy loss points which contain the amount of energy lost in $keV/cm$ and the position in $(x,y,z)$. The second part of the MC simulation simulates the physical processes involved in the measurement of the TPC such as the drift, avalanche, and signal creation in the electronics, to simulate the detector response of the MC event. This is separated into several software tasks; the drift, pad response, and electronics task. 
 
-Separate software tasks model the converting energy loss into electrons, the drifting of electrons, the avalanche process, and the electronics response.
+Here we will only discuss in detail, the tasks involved in simulating the TPC response. The discussion of how we use Geant4 is not particularly interesting, since we use it only to get the energy loss in a gas and through basic materials. 
 
 \begin{figure}
 \includegraphics[scale=.01]{place}
@@ -454,7 +456,14 @@ Separate software tasks model the converting energy loss into electrons, the dri
 \end{figure}
 
 \subsection{Drift Task}
-The interaction point in the gas and the energy loss information from Geant4 is converted into total number of electrons by the ionization coefficient of P10 gas given in Table~\ref{tb:gas}.The electric field set up by the field cage is uniform for the area covered by the pad plane. Each electron drift is simulated by a straight line trajectory until reaching an anode wire, where the total length drifted is given by $L_{anode}$.
+Geant4 returns the primary ionization points and energy loss information in the gas volume. In the drift task this is converted into the total number of electrons, $N_{e^-}$,
+
+\begin{equation}
+N_{e^{-}} =  \frac{\Delta E}{I},
+\label{eq:kev2el}
+\end{equation}
+ 
+where the ionization coefficient of P10 gas, $I$, given in Table~\ref{tb:gas} and the energy loss, $\Delta E$, given in \si{\electronvolt}.Since the electric field set up by the field cage is uniform for the area covered by the pad plane, we assume also each electron drifts in a straight line trajectory until reaching an anode wire, where the total length drifted is given by $L_{anode}$. In this task the option to put in space charge effects and non-uniform electric fields are allowed but we do not use them for the further discussion of calculating efficiency. 
 
 
 \begin{table*}\centering
@@ -472,73 +481,38 @@ Gas Ionization & 26.2 $\si{\eV}$\\
 \label{tb:gas}
 \end{table*}
 
-
-The stochastic motion of the electrons can be categorized by the longitudinal, $c_{l}$, and transverse, $c{t}$, diffusion coefficients which are determined by Garfield++ calculations in the presence of a 0.5T magnetic field. The diffusion of electrons can be modeled by a Gaussian process where the sigma of the longitudinal and transverse directions are given as a function of the total length, $\sigma_{l}=c_{l}\cdot\sqrt{L_{anode}}$ and $\sigma_{t}=c_{t}\cdot\sqrt{L_{anode}}$. Where the magnitude of deviation in the transverse direction ($dr$) can be randomly sampled from,
-
-\begin{equation}
-dr = e^{-\frac{r^2}{2\sigma_{t}^2}}
-\end{equation}. 
-
-The cartesian directions are given by $dx = dr \cdot \cos(\alpha)$ and $dz = dr \cdot \sin(\alpha)$, where $\alpha$ is a random angle from 0 to 2$\pi$, as there is no preferential angle in the transverse emission. The longitudinal diffusion is simulated in the same manner by randomly sampling from, 
+The drifting electrons exhibit stochastic motion which can be described by a longitudinal, $c_{l}$, and transverse, $c_{t}$, diffusion coefficients, which are determined by Garfield++ calculations -- in the presence of a 0.5T magnetic field. The diffusion of electrons can be modeled by randomly sampling from a Gaussian distribution in both the longitudinal and transverse directions of the electron drift. The stochastic deviation in the transverse direction, $dr$, can be randomly sampled from,
 
 \begin{equation}
-dt = e^{-\frac{t^2}{2\sigma_{l}^2}}
+dr = e^{-\frac{r^2}{2\sigma_{t}^2}},
+\end{equation}
+
+where $\sigma_{t}=c_{t}\cdot\sqrt{L_{anode}}$.The Cartesian directions are given by $dx = dr \cdot \cos(\alpha)$ and $dz = dr \cdot \sin(\alpha)$, where $\alpha$ is a random angle from 0 to 2$\pi$, as there is no preferential angle in the transverse directions. The longitudinal diffusion is simulated in the same manner by randomly sampling from, 
+
+\begin{equation}
+dt = e^{-\frac{t^2}{2\sigma_{l}^2}},
 \end{equation}.
 
- The total drift time is calculated as,
- $t = L_{anode}/v_d + dt + t_{offset}$, 
-  from the drift velocity, longitudinal diffusion, and $t_{offset}$, a parameter added to calibrate the absolute MC time spectrum with the data. 
+where $\sigma_{l}=c_{l}\cdot\sqrt{L_{anode}}$. 
 
-The z-position each electron is terminated onto the nearest anode wire. There are three anode wires lying below each pad as shown in FIGURE [add andode wire fig]. In the near vicinity of an anode wire the electric fields are high enough to cause the electron to be greaty accelerated and create and avalanche of electrons to be produced. This distribution of the total number of electrons produced from an avalanche of a single electron was simulated in Garfield++, Fig.~\ref{fig:gaincalib}. Two anode wire voltages were applied which correspond to two different anode gains, high and low. 
-
-  
-While the overall gain describes the MC data (as compared to the data) quite well, there are small momentum dependent corrections to the dE/dx applied to each particle type as a final calibration of the dE/dx of the MC. 
-
-
-
-
-
-
-
-
-
-The drift task takes the energy loss points calculated from Geant4 and converts them into electrons.  and then modeling their drift behavior in the field cage. As discussed previously the various processes[CITE To formula about drifting electronc]
-
-
- A full microscopic treatment of the stochastic nature of each electron would be too cumbersome; most of the properties of the electrons are described by macroscopic quantities can be described by 
-The charge of each MC point is converted to the total number of electrons liberated in the P-10 gas. This is a well understood property of proportional counters and is stable over a wide range of velocities and particle types [CITE BOOK]. The conversion factor of P-10 can be calculated by considering the partial volumes of each component of the gas.  \ref{eq:kev2el}.
+The total drift time, $t$, is calculated as,
 
 \begin{equation}
-Number of e^{-} = 28 keV/cm
-\label{eq:kev2el}
+ t = L_{anode}/v_d + dt + t_{offset},
 \end{equation}
+ 
+ where $v_d$ is the drift velocity and $t_{offset}$ is an offset parameter added to align the MC time bucket spectrum with the data. The electron is assumed to terminate on the nearest anode wire which will fix the z-position to be the same as the that anode wire. 
+
+The total number of electrons produced in the avalanche process of a single electron was simulated in Garfield++, Fig.~\ref{fig:gaincalib}. Two anode wire voltages were applied which correspond to two different anode gains, high and low, in the TPC experiment. We randomly sample from these two distributions, depending on which anode wire section the electron terminated on and store the number of electrons as an effective gain value. We do not assume there is much lateral movement along the wire in the avalanche process. 
 
 \subsection{Pad Response Task}
-
-The signals induced on the pads from an avalanche event create a distribution of charges on the pad plane. A simple two dimensional Gaussian pad response function in both the x and z direction,
-
-\begin{equation}
-PRF(x,z) = \iint e^{-\frac{(x-x_0)^2}{2\sigma_x^2}} e^{-\frac{(z-z_0)^2}{2\sigma_z^2}}dxdz
-\end{equation},
-
-where $\sigma_x = 3.4$ and $\sigma_z = 3.5$, and $x_0$ and $z_0$ are the endpoints of each electron. The experimentally observed PRF in data depends on the crossing angle of the track due to how the charge is collected on a pad. Performing a MC simulation and comparing the MC to data PRF shows that a simple Guassian PRF is all that is needed to simulate the data PRF. The PRF does not have any significant dependence on the particle type. 
-
-
-
-
-
-
-
-The total charge of the event is split over several pads defined by thePRF (as discussed in section \ref{sec:prf}. As shown in Fig.~\ref{fig:2DPRF}, there are three wires that lie directly above a given pad. The $z$ coordinate of the avalanche is limited to one of these three wires, where as the $x$ coordinate can be any value along the wire. A 2-dimensional Gaussian was enough to describe the experimental PRF, 
+The total charge of the event is split over several pads defined by the PRF, as discussed in section \ref{sec:prf}. We simulate the PRF as the double integral of a 2-dimensional Gaussian with the final output charge on each pad being the superposition of the PRFs of all drifted electrons. The MC PRF is expressed as, 
 
 \begin{equation}
-PRF(x,z) = \frac{1}{2\pi\sigma_z\sigma_x}\exp^{\frac{-{(x-x_o)}^2}{2\sigma_x^2}}\exp^{\frac{-{(z-z_o)}^2}{2\sigma_z^2}},
-\label{eq:2DPRF}
+PRF(x,z) = \iint e^{-\frac{(x-x_o)^2}{2\sigma_x^2}} e^{-\frac{(z-z_o)^2}{2\sigma_z^2}}dxdz,
 \end{equation}
 
-where the location of the avalanche is ($x_o$,$z_o$). The $\sigma$ values were tuned to match the experimental data. Figure~\ref{mcdataPRF} shows the PRF response of $\pi^-$ tracks. The black line is the PRF fit to the experimental data. We can see a good agreement between the MC, Fig.~\ref{fig:prfpimMC}, and experimental data, Fig.~\ref{fig:prfpimData}.
-
-
+where $\sigma_x = 3.4$ and $\sigma_z = 3.5$, and $x_0$ and $z_0$ are the final position of the drifted electron. The $\sigma$ parameters were determined through an iterative comparison between the MC and experimental data set. We can see good agreement between the MC PRF for $\pi^-$ in Figure~\ref{mcdataPRF}, and the data PRF, Fig.~\ref{prfpimData}, where the black line is the PRF fit to the experimental data.
 
 \begin{figure}[!htb]
          \centering
@@ -550,84 +524,38 @@ where the location of the avalanche is ($x_o$,$z_o$). The $\sigma$ values were t
 
 
 \subsection{Electronics Task}
-The dynamic range, $d_{range}$, of the TPC electronics was set to 120 $\si{\femto \coulomb}$ over the full 12 bit resolution resulting in 4096 channels, $ADC_{max}$. The pedestal ($ADC_{pedestal}$) was set to 300 channels. Therefore the conversion from number of electrons to ADC channels is calculated as, 
+%The dynamic range, $d_{range}$, of the TPC electronics was set to 120 $\si{\femto \coulomb}$ over the full 12 bit resolution resulting in 4096 channels, $ADC_{max}$. The pedestal ($ADC_{pedestal}$) was set to 300 channels. The response of an electronics signal is simulated by measuring the standard pulse response to an input signal in the data. It was found the pulse shape did not depend on the momenta, angle, or particle type in any significant way. Therefore a standard pulse was extracted from an average over all particle types and signal heights -- as long as it were not saturating-- shown in Fig.~\ref{fig:pulsea}. The superposition of the individual pulses from each electron makes up the Monte Carlo (MC) time bucket spectra in ADC. This can be directly fed into the software. The experimental electronic noise (RMS) was measured to be around 6 ADC; a random number --drawn from a Guassian with a sigma of 6 ADC and 0 mean -- was assigned to each time bucket to simulate the experimental noise. 
+
+
+The electronics task simulates the electronics response, converting  the induced charge on a pad into ADC channels. The conversion from number of electrons to the response, $R$, in ADC channels is calculated as, 
 
 \begin{equation}
-ADC = A_{tot} \cdot e \cdot\frac{ADC_{max} - ADC_{pedestal}}{d_{range}}
+R = A_{tot} \cdot e \cdot\frac{ADC_{max} - ADC_{pedestal}}{f_c}
+\label{eq:etoADC}
 \end{equation},
 
-where $e$ is the typical charge of an electron in $\si{\femto \coulomb}$, and $A_{tot}$ is the total number of avalanche electrons. The response of an electronics signal is simulated by measuring the standard pulse response to an input signal in the data. It was found the pulse shape did not depend on the momenta, angle, or particle type in any significant way. Therefore a standard pulse was extracted from an average over all particle types and signal heights -- as long as it were not saturating-- shown in Fig.~\ref{fig:pulsea}. The superposition of the individual pulses from each electron makes up the Monte Carlo (MC) time bucket spectra in ADC. This can be directly fed into the software. The experimental electronic noise (RMS) was measured to be around 6 ADC; a random number --drawn from a Guassian with a sigma of 6 ADC and 0 mean -- was assigned to each time bucket to simulate the experimental noise. 
+where $e$ is the typical charge of an electron in $\si{\femto \coulomb}$, $A_{tot}$ is the total number of avalanche electrons, $ADC_{pedestal}$) is the pedestal (300 ADC, $\mathrm{ADC_{Max}}$ is the maximum allowed ADC value (4096), and $f_c$ is the dynamic range setting (\SI{120}{\femto\coulomb}). We add random Gaussian noise as measured from the experimental simulating the electronic noise; (RMS) was measured to be around 6 ADC. 
+
+The induced current in the pad goes through a pre-amplifier and shaping amplifier which determine the final pulse shape that is read out. The pulse shape did not change significantly in any circumstance, such as pulse height, data type, or particle type, for a given shaping constant. This allows us to assume the pulse shape is constant with the only two variables being the height of the pulse, $Q$, and the starting time bucket of the pulse, $t_o$. The shaping constant was set to \SI{117}{\nano\second} for the data analyzed here. Figure~\ref{fig:pulseshape} shows the pulse shape experimentally extracted from signals that did not saturate the electronics over a wide range of ADC values; it is normalized so the maximum height is 1. 
 
 
 
-
-
-
-
-
-
-The electronics task simulates the electronics response to induced charge on a pad, converting electronics into ADC channels.
-The ADC value of a channel, R, is modeled as, 
-
-
-\begin{equation}
-\mathrm{R}= \frac{ADC_{\mathrm{Max}} - ADC_{\mathrm{Pedestal}}}{G*f_c},
-\label{eq:etoADC}
-\end{equation}
-
-where $\mathrm{ADC_{Max}}$ is the maximum allowed ADC value (4096), $\mathrm{ADC_{Pedestal}}$ is the baseline or pedestal value used in the experiment (???), $G$ is the gas gain, and $f_c$ is the dynamic range setting (\SI{120}{\femto\coulomb}). Later a section is dedicated to small particle dependent corrections which account for small changes in the charge calibration which may be due to a whole host of detector effects that are not modeled. 
-
-The induced current in the pad goes through a pre-amplifier and shaping amplifier which determine the final pulse shape read out. The pulse shape did not change significantly in any circumstance, such as pulse height, data type, or particle type; for a given shaping constant. This allows us to assume the pulse shape is constant with the only two variables being the height of the pulse, Q, and the starting time bucket of the pulse, $t_o$. The shaping constant was set to \SI{117}{\nano\second} for most of the data. Figure~\ref{fig:pulseshape} shows the pulse shape for a normal pulse that is within the dynamic range as the dashed blue curve, the pulse is normalized so the maximum height is 1. 
-
-
-\begin{figure}[!hbt]
-\includegraphics[width=\linewidth]{pulseshape}
-\caption{Pulse shapes for normal and saturated signals. Both are normalized to a max height of 1.}
-\label{fig:pulseshape}
+\begin{figure}[!htb]
+    \centering       
+    \includegraphics[width=\linewidth]{satpulse.png} 
+    \caption{Standard pulse }
+    \label{fig:pulseshape}
 \end{figure}
 
 
 \subsection{Simulating Saturation}
 
-Saturation of the electronics manifests itself in two different ways. Some channels are dead for the full time bucket range in an event. These channels are randomly distributed along the beam path. Though the gating grid of the TPC is closed, an un-reacted beam produces several delta electrons. The electrons emitted in directions along the magnetic field lines can physically pierce this grid and avalanche on the anode wire causing channels along the beam path to be saturated. The recovery time depends on the input charge and can take several ms to recover, killing the pad for future events. 
-Tracks depositing enough energy may saturate an electronics channel for the event shadowing tracks that may cross below. 
+%Saturation of the electronics manifests itself in two different ways. Some channels are dead for the full time bucket range in an event. These channels are randomly distributed along the beam path. Though the gating grid of the TPC is closed, an un-reacted beam produces several delta electrons. The electrons emitted in directions along the magnetic field lines can physically pierce this grid and avalanche on the anode wire causing channels along the beam path to be saturated. The recovery time depends on the input charge and can take several ms to recover, killing the pad for future events. 
+%Tracks depositing enough energy may saturate an electronics channel for the event shadowing tracks that may cross below. 
 
-From the time a channel has been saturated, no further signals can be read out. To simulate this behavior when embedding signals from Monte Carlo tracks, we must first identify when in a pad a saturating signal has occurred. Non-saturating signals have a characteristic long exponential tail where as saturated signals have no long tail and prematurely end. By applying a software pole-zero correction technique, the long tail of the non-saturated signal can be removed. In the case of saturated pules this creates a negative undershoot which we use to identify when a channel has been saturated. 
+%From the time a channel has been saturated, no further signals can be read out. To simulate this behavior when embedding signals from Monte Carlo tracks, we must first identify when in a pad a saturating signal has occurred. Non-saturating signals have a characteristic long exponential tail where as saturated signals have no long tail and prematurely end. By applying a software pole-zero correction technique, the long tail of the non-saturated signal can be removed. In the case of saturated pules this creates a negative undershoot which we use to identify when a channel has been saturated. 
 
-Before embedding any MC signals into the software, the pole-zero compensation is applied to see when in time the saturation has occurred. The point in which MC signals cannot be embedded is set to 30 Tbs prior to this negative undershoot to prevent any MC signals from superimposing upon the saturated signal. Another routine identifies if a pad is ``dead" for the event and no MC signals may be embedded. 
-
-
-\begin{equation}
-Corrected(i) = (b_1\cdot Corrected(i-1) + a_0\cdot Pulse(i) - a_1\cdot Pulse(i-1))/b_0
-\end{equation}
-
-
-
-\begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{satpulse.png} 
-        \caption{Standard pulse } \label{fig:pulsea}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{satpulsepz.png} 
-        \caption{Pole zero correction} \label{fig:pulseb}
-    \end{subfigure}
-\label{fig:pulse}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
+%Before embedding any MC signals into the software, the pole-zero compensation is applied to see when in time the saturation has occurred. The point in which MC signals cannot be embedded is set to 30 Tbs prior to this negative undershoot to prevent any MC signals from superimposing upon the saturated signal. Another routine identifies if a pad is ``dead" for the event and no MC signals may be embedded. 
 
 There are several types of saturation that must be simulated or accounted for to correctly model the TPC response. They all are varying degrees of the same effect which manifest in different ways in the detector. In general all amplifiers have a finite range of output values set by a positive and negative rail (typically -12V and +12V). If the input charge into a charge sensitive pre-amplifier causes the output voltage to reach the max (or min) output voltage, the electronics is considered saturated and the response may be non-linear. The picture is complicated by the fact that there is usually an RC feedback loop which dissipates the input charge. The time in which a pre-amplifier returns to its typical linear behavior depends on the input charge and how quickly it can be dissipated \cite{akiGET}. The pad is otherwise considered dead and no further charge can be measured until the electronics recover. 
  
@@ -635,9 +563,15 @@ Due to the long high energy tail in energy loss distributions of a particle trav
 
 As mentioned earlier the pad is dead for some time, which depends on the total input charge. For charges that are relatively at or above the threshold for saturation the pad is certainly dead for the remainder of time of the measurement; i.e. $T_{dead}$ > \SI{10}{\micro\second}. This will cause signals from other tracks passing underneath the offending track to not be measured; the saturated pad ``shadows" any future signal. In the case where two tracks are separated in time due to different polar angles, but have significant overlap in a pad-plane projection, a significant portion of the later track may be shadowed and the track itself will suffer in quality significantly. For events with high track multiplicity this causes a significant shadowing effects, in that the upward going tracks recorded at earlier times shadow the downward going tracks recorded at later times. This will change event by event and is very difficult to simulate except through a MC track embedding approach which will be discussed later. 
 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth]{satpulsepz.png} 
+\caption{Pole zero correction} 
+\label{fig:pulseSatTag}
+\end{figure}
+
+
 In the case where the input signal is very large, the electronics can be dead for up to \SI{35}{\milli\second} \cite{akiGET}. The beam rate in the experiment was about \SI{10}{\kilo\hertz}, which corresponds to an average of \SI{10}{\micro\second} between subsequent beams. Pads can be effectively dead for several events before recovering. Due to the large charge of the beam, a large amount of very high energy electrons are produced via scattering from the beam passing through the gas. In the presence of the magnetic field the radius of curvature of most of the electrons are within several \si{cm}. Figure~\ref{fig:deltaE} shows the horizontal extent of the electrons in a top down view of the TPC. While some of the electrons can stop in the gas, a significant fraction can travel to the top and bottom of the TPC. These electron can pass through the gating grid without being blocked and either terminate on the pad or possibly deposit their charge directly in the pad. The charge induced on the pad was large enough to kill the pad for a time long enough to last until at least the next event. These pads are dead for the whole event and are randomly distributed around the beam path projection on the pad plane. 
-
-
 
 
 \begin{figure}[!htb]
@@ -688,30 +622,41 @@ Dead pads are identified earlier in the software in the STCore.cc class. A dead 
 
 
 \section{Monte Carlo Track Embedding}
+ The TPC monte carlo simulation was built upon Geant4, including the dimensions, materials, and gas composition. Several classes were built to simulate the operations of a Time Projection Chamber (TPC). This included the drift properties of electrons, avalanche process, and electronics response to input signals. Combined, these classes simulate the response of the TPC to any input MC track and can be directly input into the \spirit TPC software reconstruction algorithm. 
 
-The flow of the software implementation of embedding is shown in Fig.~\ref{fig:flow}. The raw digitized signals of the MC track are embedded into the experimental data time bucket spectrum pad by pad, we refer to this as the embedded data. The Pulse Shape Algorithm (PSA) task reconstructs hits from the experimental, MC, and embedded data set independently. By comparing the hits identified in the embedded set against the experimental data set we can identify which embedded hits belong to the original experimental hits; for hits to match they must satisfy two criteria. The difference between the two charges be less than 5\% of the charge value of the data hit and the time difference between hits must be less than 3 Tb. We then remove the hits in the embedded data set which satisfy the original experimental data hits. The surviving candidates are then compared with the MC hit set, where the criteria for a matching hit is the time difference is less than 3 Tb. We do not require a matching criteria for the charge values since the pions we wish to study induce small signals relative to most of the particles producing signals in the experimental data. Since we embed these small signals on top of larger signals, the PSA reconstruction of the charge value was found to be $>$ 5\% of the charge value of the embedded hit. Since we removed almost all of the experimental hits in the first step, requiring only a Tb cut in the second comparison is sufficient to tag the embedded MC hits. 
-
-Each hit is tagged as an embedded hit. From here the hits are then organized into helix tracks by the tracking algorithm. If a track has one hit that is embedded it will be tagged as embedded. Once the hits are sorted into independent tracks adjacent hits are clustered together into one ``cluster". If any of the hits which constitute a cluster are flagged as embedded, the cluster is also tagged as embedded. 
-
-After the clustering algorithm, the final momenta of each track is fit from the collection of clusters and these final tracks are tagged as embedded if they comprise of any embedded clusters. The goal of this na\"ive tagging is to preserve all the information of where the embedded hits, clusters have gone. Out of all the reconstructed tracks, which are tagged as embedded, must satisfy two criteria to finally be tagged as a true embedded track. The embedded track must have more than 5 embedded clusters in the track and the fraction of embedded clusters to the total number of clusters in a track must be $\geq$ 50\%. The first criteria is a simple minimum bias cut where the second criteria is the strongest cut on identifying tracks. This cuts out tracks which may have picked up a couple of embedded hits from being close in proximity in some regions. Each track that passes these two criteria is labeled as the embedded track. A track may be split for several reasons, physically introduced by crossing tracks, or by saturation, and each track is saved into an array containing all embedded tracks. 
-
-For efficiency analysis 
+While the goal of these tasks are to simulate important properties of a TPC, there are several effects which cannot be easily simulated. Several examples are biases due to triggering detectors (preferential selection of a reaction plane), saturation effects in the electronics, track multiplicity, and several other systematic sources common to all experiments. Simulating each issue individually would be impractical and time consuming, if not impossible. By embedding monte carlo tracks into experimental data -- and propagating through the tracking and reconstruction algorithm -- one can account for all sources these type of sources with a monte carlo type approach.
 
 
-\begin{sidewaysfigure}[H]
-\centering
-\includegraphics[width=\textwidth]{FlowEmbedding.pdf}
-\caption{Flow of embedding implementation in the software.}
-\label{fig:flow}
-\end{sidewaysfigure}
+Track embedding is the process of taking a simulated MC track from Geant4 and embedding its response into a real data event. After reconstructing this new embedded event we match the input MC track to its corresponding final reconstructed track.  By doing so we can evaluate the response of the entire TPC system to any given input value. The TPC system is composed of three major components, each which can introduce errors and or biases; the software, the detector, and the experimental setup.  
 
+As discussed in Section~\ref{sec:software}, the software is composed of several task, each which introduce errors through assumptions made in the tracking algorithm. The detector system itself introduces errors related to the physical measurement itself. By modeling the TPC, and its materials, the a Geant4 simulation provides an accurate description of interactions of a particles traversing the materials of the TPC. 
+
+% Evaluating the errors introduced by the software is the most straight forward exercise; let the software routine process an input and measure the result. Understanding the physical measurement requires modeling the physics involved in the theory and operations of TPCs and the electronics.
+ 
+ % The experimental setup itself is quite large and complex, several ancillary detectors such as the Kyoto multiplicity array, Krakow veto array, Active veto array, beam identification detectors, etc. Even if a full accurate model could be constructed the complex trigger logic of the DAQ system would be impossible to model. If we notice that the biases and errors of the entire experimental setup is contained in the measured experimental data. Therefore, by inputting the MC data into a real experimental event (and measuring the output of that MC track) we can estimate the errors of the experimental setup. 
+Before begging the detailed description of the embedding software, it is worth noting that the MC embedding was analyzed as a separate data set from the published data to avoid any issue of MC embedded tracks making it into the final published data. 
+
+The detailed flow diagram of the software implementation of embedding is shown in Fig.~\ref{fig:flow}. 
+
+
+
+
+
+
+
+%\begin{sidewaysfigure}[H]
+%\centering
+%\includegraphics[width=\textwidth]{FlowEmbedding.pdf}
+%\caption{Flow of embedding implementation in the software.}
+%\label{fig:flow}
+%\end{sidewaysfigure}
 
 
 %\clearpage
 %\pagestyle{lscape} % first clear the page and change the pagestyle
 %\begin{landscape}
 % your landscape table(s) or figure(s) here
-
+%CONSIDER ROTATING THIS FIGURE IF ALLOWED
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{FlowEmbedding.pdf}
@@ -722,23 +667,23 @@ For efficiency analysis
 %\end{landscape}
 %\pagestyle{plain}
 
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{mcresponse.png}
+        \caption{200 MeV/c $\pi^-$ MC digitized track} \label{fig:mcevent}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{event5.png} 
+        \caption{Experimental data event.} \label{fig:dataevent}
+    \end{subfigure}
+    \caption{A 200 MeV/c $\pi^-$ embedded into a nuclear collision type event. The embedded track identified by the software is highlighted by the solid green line. }
 
-
-
-
-
-
-
-
-
-
-
-
-
-Geant4 has considerably simplified the understanding the response and inefficiencies of a particular experimental setup. The TPC monte carlo simulation was built upon Geant4, including the dimensions, materials, and gas composition. Several classes were built to simulate the operations of a Time Projection Chamber (TPC). This included the drift properties of electrons, avalanche process, and electronics response to input signals. Combined, these classes simulate the response of the TPC to any input MC track and can be directly input into the \spirit TPC software reconstruction algorithm. 
-
-While the goal of these tasks are to simulate important properties of a TPC, there are several effects which cannot be easily simulated. Several examples are biases due to triggering detectors (preferential selection of a reaction plane), saturation effects in the electronics, track multiplicity, and several other systematic sources common to all experiments. Simulating each issue individually would be impractical and time consuming if not impossible, as in the case of trigger logic bias. By embedding monte carlo signals into experimental data -- and propagating through the tracking and reconstruction algorithm -- one can account for all sources, known or unknown. Details of the MC simulation and the embedding technique are described in this paper. 
-
+\label{fig:embedtrack}
+\end{figure}
 
 
 
@@ -768,27 +713,17 @@ While the goal of these tasks are to simulate important properties of a TPC, the
 
 
 
+Once the MC simulation of a track response in the TPC is created, we directly embed the MC signals into data by superimposing the MC signals into the data time bucket spectrum, pad-by-pad. We will refer to this superimposed data as ``embedded data", only the MC signals as ``MC data", and data only containing the experimental signals as ``experimental data". The three set of data are each independently analyzed by the PSA algorithm, Section~\ref{sec:psa}, finding the hits in each data set. Part of the PSA task is to identify which hits in the embedded data are MC hits and which are from the original data. Once identified the embedded hits can be tagged and tracked through the entire software.
+
+ By comparing the hits identified in the embedded set against the experimental data set we can first identify which embedded hits belong to the original experimental hit subset. For hits to match, they must satisfy two criteria; $\left|(Q_{\mathrm{Data}} - Q_{\mathrm{Embed} })/Q_{\mathrm{Data}}\right| < .05$ and $\left|t_{\mathrm{Embed} } - t_{\mathrm{Data} }\right| < 3$ where $Q$ and $t$ represent the charge and time of the hit respectively. We then remove these hits in the embedded data set which satisfy the conditions of experimental data hits. 
+
+The surviving hits are then compared with the MC hit data set, where the criteria for a matching MC hit is, $\left|t_{\mathrm{Embed} } - t_{\mathrm{MC} }\right| < 3$.  We do not require a matching criteria for the charge values since the pions we wish to study induce small signals relative to most of the particles producing signals in the experimental data as not to bias the charge values in the embedded data.  Since we removed almost all of the experimental hits in the first step, requiring only a time bucket cut in the second comparison is sufficient to tag the embedded MC hits. Each embedded hit that passes both criteria is tagged as an MC embedded hit. From here, the embedded data is treated as if it were real data passing through all the software algorithms as we use in the real data analysis. If a helix track has one hit that is embedded it will be tagged as embedded. Hits in a helix track are then clustered; if a cluster contains one embedded hit it is itself tagged as an embedded cluster. If a track that is reconstructed contains any embedded clusters, it is an embedded track.  
+
+The goal of this na\"ive tagging is to preserve all the information of where the embedded hits, clusters, and tracks have gone. The  job of the embedded correlation task is to identify which of the embedded tracks are candidates for the original input track. Several things may happen along the process of embedding. A track could break up, lose or share its charge with and adjacent track, or maybe not be identified for other reasons. For the embedded track to be a candidate it must satisfy two conditions, $N_{sat} > 5$ and $N_{\mathrm{sat}}/N_{\mathrm{Total}} \geq .5$, where $N_{\mathrm{sat}}$ is the number of saturated clusters in a track and $N_{\mathrm{Total}}$ is the number of total clusters. The first criteria is a simple minimum cut where to ensure there exists an embedded track and the second criteria is the strongest cut ensuring the track has at least half of its clusters coming from embedded MC signals. The set of tracks which satisfy both conditions are saved into an array of tracks which the user can use to study efficiency or track splitting. 
+
+In the case of efficiency analysis the user must select what they believe to be the track which most represents the original track. In this thesis, the track with the minimum distance to vertex is identified as the correct track. Though track splitting may occur, typically the split track has a distance to vertex which is very large and cut out from the analysis. The details of the efficiency analysis will be described later. 
 
 
-
-
-
-
-
-Add Figure of MC track embedding 
-
-
-
-Track embedding is the process of taking a simulated MC track from Geant4 and embedding its response into a real data event. After reconstructing this new embedded event we match the input MC track embedded to its corresponding final reconstructed track.  By doing so we can evaluate the response of the entire TPC system to any given input value. The TPC system is composed of three major components (each which can introduce errors and or biases) the software, the detector, and the experimental setup.  
-
-As discussed in [SOFTWARE CHAPTER] the software is composed of several task, each which introduce some error. Table {REF TABLE] listing some of the errors each task may introduce illustrating how difficult propagating the errors would be through each system. 
-
-The detector system itself introduces errors related to the physical processes of the measurement itself. To address this we model the TPC (and its materials) in a Geant4 simulation which provides an accurate description of various interactions of a particle traversing the materials (including the gas volume) of the TPC. 
-
-
- software is the most straight forward; let the software routine process an input and measure the result. Understanding the measurement requires modeling the physics involved in the theory and operations of TPC's and the  electronics. The experimental setup itself is quite large and complex, several ancillary detectors such as the Kyoto multiplicity array, Krakow veto array, Active veto array, beam identification detectors, etc. Even if a full accurate model could be constructed the complex trigger logic of the DAQ system would be impossible to model. If we notice that the biases and errors of the entire experimental setup is contained in the measured experimental data. Therefore, by inputting the MC data into a real experimental event (and measuring the output of that MC track) we can estimate the errors of the experimental setup. 
-
-The software analysis routine and the bias introduced by the trigger settings of the experiment introduce systematic errors in the reconstruction of tracks
 
 \subsection{MC and Data Comparison}
 
