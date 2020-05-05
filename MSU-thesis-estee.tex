@@ -51,7 +51,7 @@
 \usepackage{rotating}
 
 
-\graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} {images/dynamicrange/} {images/dataAnalysis/}}
+\graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} {images/dynamicrange/} {images/dataAnalysis/} {images/experiment/} }
 
 
 %
@@ -72,17 +72,23 @@
 %
 \dedication{This thesis is dedicated to someone.}
 %
-
 %User defined commands
 \newcommand{\spirit}{S$\pi$RIT }
 \newcommand{\tin}[2]{{}^{#1}\mathrm{Sn} + {}^{#2}\mathrm{Sn}}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 
+
+\DeclareSIUnit\torr{Torr}
+\DeclareSIUnit\eVperc{\eV\per\clight}
+\DeclareSIUnit\micron{\micro\metre}
+\DeclareSIUnit\mrad{\milli\rad}
+\DeclareSIUnit\gauss{G}
+
 \includeonly{
 %chapters/ch_intro,
 %chapters/ch_theory,
 chapters/ch_experiment,
-chapters/ch_data_analysis,
+%chapters/ch_data_analysis,
 %chapters/ch_data_analysis_2,
 %chapters/ch_results
 }
@@ -139,7 +145,7 @@ Your acknowledgements here.
 %\include{chapters/ch_intro}
 %\include{chapters/ch_theory}
 \include{chapters/ch_experiment}
-\include{chapters/ch_data_analysis}
+%\include{chapters/ch_data_analysis}
 %\include{chapters/ch_data_analysis_2}
 %\include{chapters/ch_results}
 

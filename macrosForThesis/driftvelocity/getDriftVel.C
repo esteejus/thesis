@@ -73,8 +73,8 @@ int main(int argc, char *argv[])
   MediumMagboltz* gas = new MediumMagboltz();
   //gas->LoadGasFile("ar-90-ch4-10-exb.gas"); //for electrons
   //  gas->LoadGasFile("Ar90methane10_bfield.5T.gas"); //for electronsw
-  //  if(!gas->LoadGasFile("ar-90-ch4-10-forplot.gas")) //for electrons
-  if(!gas->LoadGasFile("ar-90-ch4-10-exb_highprec.gas")) //for electrons
+  if(!gas->LoadGasFile("ar-90-ch4-10-forplot.gas")) //for electrons
+  //  if(!gas->LoadGasFile("ar-90-ch4-10-exb_highprec.gas")) //for electrons
     return 0;
   gas->SetComposition("ar",90.0,"ch4",10.0);
   gas->SetTemperature(293.15);
@@ -99,6 +99,7 @@ int main(int argc, char *argv[])
       double efield = i * estep + emin;
        gas->ElectronVelocity(0,efield,0,0,B_y,0,vx,vy,vz); //convert cm/ns to cm/us
 	vy *= 1e3;
+	efield /= 760;
 	e_driftvel -> SetPoint(i,efield,abs(vy));
     }
   

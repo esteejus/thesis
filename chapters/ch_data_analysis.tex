@@ -1,7 +1,6 @@
 \chapter{Data Analysis I: Calibration and Corrections}
 
 Need to explain pedestal subtraction 
-GG noise subtraction 
 
 \section{Software}
 \label{sec:software}
@@ -45,6 +44,16 @@ Clustering in this way gives us better position resolution for calculating the p
 \label{sec:psa}
 
 \section{Calibrations and Corrections}
+
+
+\subsection{Gating grid noise subtraction}
+The gating grid essentially is a fast switch which allows the charges of adjacent wires to reach equilibrium as fast as possible. In practice the impedance of both sides was not entirely matched properly and this caused an oscillating current to bounce back and forth in an under-dampened manner. This charge bouncing back and forth caused induced signals early in the time bucket spectrum which created and extra source of noise in the data. The ground grid shielded some of the noise, but since the path to ground was located at the ends of the TPC, the gating grid noise varied in intensity across the pads. 
+
+The gating grid itself was not always stable an only the ${}^{132}$Sn and ${}^{124}$Sn beams were relatively stable. Several times during the ${}^{108}$Sn and ${}^{112}$Sn beams the gating grid broke. After several data runs were taken, we took what is called gating grid noise runs to get the profile of the gating grid noise throughout the experiment. To achieve this the anode wires would be turned off and the trigger was allowed to otherwise operate normally, firing the gating grid to open as usual. Since the anode wires were all turned off no signals would be seen except those coming from the gating grid noise. Several thousand triggers of the gating grid were taken to get a good noise profile. 
+
+The average noise profile was constructed by averaging all the events in the gating grid runs, pad-by-pad; each pad had a slightly different noise profile since the impedance to each pad was slightly different. It is worth noting that the small electronics noise would be effectively canceled out by averaging over thousands of events. During the first stages of the software, the gating grid noise profile closest to that run would be subtracted from the raw data canceling the gating grid noise in that run. 
+
+
 
 
 \subsection{Cocktail calibration}
@@ -97,25 +106,6 @@ ${}^{4}$He   & 1613 & 1698 &  5.3 & 1595  & -1.1\\
 \end{table*}
 
 
-\begin{table*}\centering
-\ra{1.3}
-\begin{tabular}{@{}rrrrcrrrcrrr@{}}\toprule
-& \multicolumn{3}{c}{$100 MeV$} & \multicolumn{3}{c}{$100 MeV$} & \multicolumn{3}{c}{$300 MeV$}\\
-\cmidrule{2-4} \cmidrule{6-8} \cmidrule{10-12}
-& &\multicolumn{2}{c}{Measured} & & \multicolumn{2}{c}{Measured} & & \multicolumn{2}{c}{Measured}\\
-\cmidrule{3-4} \cmidrule{7-8} \cmidrule{11-12}
-Particle &\phantom{abc} & Measured & E$\times$B\\
-\midrule
-p   & 882.8 & 929.5 & 877.3 & 903.5 & 929.5 & 889 &\phantom{abcdef} & f & f \\
-d   & 817.1 & 831.15 & d & 898.5 & e & e & 1621.1 & 1704 & 1612\\
-t   & 589.5 & d & d & 887 & e & e & 1612.4 & f & f  \\
-$^{3}$He  & 1617.3  & d & d & 1795.2 & e & e & 3236.4 & f & f\\
-$^{4}$He  & 1405.6  & d & d & 1782.9 & e & e & 3226.4 & f & f \\
-\bottomrule
-\end{tabular}
-\caption{Summary of expected cocktail. }
-\label{tb:cocktailsummary}
-\end{table*}
 
 Light charged particles (p,d,t,${}^{3}$He,${}^{4}$He), beams were produced and measured in the TPC. The magnetic and slit settings of the dipoles in the BIGRIPS spectrometer was set so that the measured momentum resolution of the beam was $\frac{\delta p}{p}$ < 1\%. Two magnetic rigidity settings were studied, with an empty target. A thick Aluminum target was used to provide a slightly lower point for part of the lower rigidity setting, effectively creating three calibration points over several particle species. The production of certain particles (t,${}^{3}$He), produced too few counts to make a good measurement, and in the high momentum rigidity setting protons could not propagate down the line and there were no counts. 
 
@@ -624,24 +614,12 @@ Dead pads are identified earlier in the software in the STCore.cc class. A dead 
 \section{Monte Carlo Track Embedding}
  The TPC monte carlo simulation was built upon Geant4, including the dimensions, materials, and gas composition. Several classes were built to simulate the operations of a Time Projection Chamber (TPC). This included the drift properties of electrons, avalanche process, and electronics response to input signals. Combined, these classes simulate the response of the TPC to any input MC track and can be directly input into the \spirit TPC software reconstruction algorithm. 
 
-While the goal of these tasks are to simulate important properties of a TPC, there are several effects which cannot be easily simulated. Several examples are biases due to triggering detectors (preferential selection of a reaction plane), saturation effects in the electronics, track multiplicity, and several other systematic sources common to all experiments. Simulating each issue individually would be impractical and time consuming, if not impossible. By embedding monte carlo tracks into experimental data -- and propagating through the tracking and reconstruction algorithm -- one can account for all sources these type of sources with a monte carlo type approach.
+While the goal of these tasks are to simulate important properties of a TPC, there are several effects which cannot be easily simulated. Several examples are biases due to triggering detectors (preferential selection of a reaction plane), saturation effects in the electronics, track multiplicity, and several other systematic sources common to all experiments. Simulating each issue individually would be impractical and time consuming, if not impossible. By embedding monte carlo tracks into experimental data -- and propagating through the tracking and reconstruction algorithm -- one can account for all sources with a monte carlo type approach.
 
 
 Track embedding is the process of taking a simulated MC track from Geant4 and embedding its response into a real data event. After reconstructing this new embedded event we match the input MC track to its corresponding final reconstructed track.  By doing so we can evaluate the response of the entire TPC system to any given input value. The TPC system is composed of three major components, each which can introduce errors and or biases; the software, the detector, and the experimental setup.  
 
-As discussed in Section~\ref{sec:software}, the software is composed of several task, each which introduce errors through assumptions made in the tracking algorithm. The detector system itself introduces errors related to the physical measurement itself. By modeling the TPC, and its materials, the a Geant4 simulation provides an accurate description of interactions of a particles traversing the materials of the TPC. 
-
-% Evaluating the errors introduced by the software is the most straight forward exercise; let the software routine process an input and measure the result. Understanding the physical measurement requires modeling the physics involved in the theory and operations of TPCs and the electronics.
- 
- % The experimental setup itself is quite large and complex, several ancillary detectors such as the Kyoto multiplicity array, Krakow veto array, Active veto array, beam identification detectors, etc. Even if a full accurate model could be constructed the complex trigger logic of the DAQ system would be impossible to model. If we notice that the biases and errors of the entire experimental setup is contained in the measured experimental data. Therefore, by inputting the MC data into a real experimental event (and measuring the output of that MC track) we can estimate the errors of the experimental setup. 
-Before begging the detailed description of the embedding software, it is worth noting that the MC embedding was analyzed as a separate data set from the published data to avoid any issue of MC embedded tracks making it into the final published data. 
-
-The detailed flow diagram of the software implementation of embedding is shown in Fig.~\ref{fig:flow}. 
-
-
-
-
-
+As discussed in Section~\ref{sec:software}, the software is composed of several tasks, each introduce biases through assumptions made in the tracking algorithm. The detector system introduces errors related to the physical measurement itself which can be addressed through modeling the TPC, and its materials. The biases involved in the the experimental set up are not always obvious but present in the experimental data. All three of these can be simultaneously addressed by embedding of MC tracks. Before beginning  the detailed description of the embedding software, it is worth noting that the MC embedding was analyzed as a separate data set from the published data to avoid any issue of MC embedded tracks making it into the final published data. 
 
 
 %\begin{sidewaysfigure}[H]
@@ -712,16 +690,15 @@ The detailed flow diagram of the software implementation of embedding is shown i
 \end{figure}
 
 
+The detailed flow diagram of the software implementation of embedding is shown in Fig.~\ref{fig:flow}. Once the MC simulation of a track response in the TPC is created, we directly embed the MC signals into data by superimposing the MC signals into the data time bucket spectrum, pad-by-pad. Figure~\ref{fig:mcevent} shows the response of a 200 MeV/c $\pi^-$ track in the TPC; we will embed this track into the data event, Fig.~\ref{fig:dataevent}, for an example. We will refer to experimental data containing embedded MC signals as ``embedded data", data only containing the MC signals as ``MC data", and data only containing only the experimental signals as ``experimental data". The three set of data are each independently analyzed by the PSA algorithm, Section~\ref{sec:psa},  which finds all the hits in each data set. 
 
-Once the MC simulation of a track response in the TPC is created, we directly embed the MC signals into data by superimposing the MC signals into the data time bucket spectrum, pad-by-pad. We will refer to this superimposed data as ``embedded data", only the MC signals as ``MC data", and data only containing the experimental signals as ``experimental data". The three set of data are each independently analyzed by the PSA algorithm, Section~\ref{sec:psa}, finding the hits in each data set. Part of the PSA task is to identify which hits in the embedded data are MC hits and which are from the original data. Once identified the embedded hits can be tagged and tracked through the entire software.
+After this, the PSA algorithm contains the first and most important part of the embedding software. Here to the PSA task has the job to identify which hits in the embedded data are originally MC hits and which are from the original experimental data. Once identified, the embedded hits can be tagged and tracked through the entire software. By comparing the hits identified in the embedded set against the experimental data set we can first identify which embedded hits belong to the original experimental hit subset. For hits to match, they must satisfy two criteria, $\left|(Q_{\mathrm{Data}} - Q_{\mathrm{Embed} })/Q_{\mathrm{Data}}\right| < .05$ and $\left|t_{\mathrm{Embed} } - t_{\mathrm{Data} }\right| < 3$ where $Q$ and $t$ represent the charge and time of the hit respectively. We then remove these hits in the embedded data set which satisfy the conditions of experimental data hits. 
 
- By comparing the hits identified in the embedded set against the experimental data set we can first identify which embedded hits belong to the original experimental hit subset. For hits to match, they must satisfy two criteria; $\left|(Q_{\mathrm{Data}} - Q_{\mathrm{Embed} })/Q_{\mathrm{Data}}\right| < .05$ and $\left|t_{\mathrm{Embed} } - t_{\mathrm{Data} }\right| < 3$ where $Q$ and $t$ represent the charge and time of the hit respectively. We then remove these hits in the embedded data set which satisfy the conditions of experimental data hits. 
+The surviving hits are then compared with the MC hit data set, where the criteria for a matching MC hit is, $\left|t_{\mathrm{Embed} } - t_{\mathrm{MC} }\right| < 3$.  We do not require a matching criteria for the charge values since as not to bias the charge values selected as identified MC hits.  This is only accomplished by first removing almost all of the experimental hits in the first step. Each embedded hit that passes this criteria is tagged as an MC embedded hit. From here, the embedded data is treated as if it were real data passing through the same software analysis. 
 
-The surviving hits are then compared with the MC hit data set, where the criteria for a matching MC hit is, $\left|t_{\mathrm{Embed} } - t_{\mathrm{MC} }\right| < 3$.  We do not require a matching criteria for the charge values since the pions we wish to study induce small signals relative to most of the particles producing signals in the experimental data as not to bias the charge values in the embedded data.  Since we removed almost all of the experimental hits in the first step, requiring only a time bucket cut in the second comparison is sufficient to tag the embedded MC hits. Each embedded hit that passes both criteria is tagged as an MC embedded hit. From here, the embedded data is treated as if it were real data passing through all the software algorithms as we use in the real data analysis. If a helix track has one hit that is embedded it will be tagged as embedded. Hits in a helix track are then clustered; if a cluster contains one embedded hit it is itself tagged as an embedded cluster. If a track that is reconstructed contains any embedded clusters, it is an embedded track.  
+The goal of this na\"ive tagging is to preserve all the information of where the embedded hits, clusters, and tracks have gone. If a helix track has one hit that is embedded it will be tagged as embedded. When the hits in a helix track are clustered, if a cluster contains one embedded hit it is itself tagged as an embedded cluster. Furthermore, if a track that is reconstructed contains any embedded clusters, it is an embedded track.  It is the job of the embedded correlation task is to identify which of the final embedded tracks are candidates for the original input track. Several things may happen along the process of embedding. A track could break up, lose or share its charge with and adjacent track, or maybe not be identified at all for a variety of other reasons. For the embedded track to be a candidate of the input MC track, it must satisfy two conditions, $N_{sat} > 5$ and $N_{\mathrm{sat}}/N_{\mathrm{Total}} \geq .5$, where $N_{\mathrm{sat}}$ is the number of saturated clusters in a track and $N_{\mathrm{Total}}$ is the number of total clusters. The first criteria is a simple minimum cut where to ensure there exists an embedded track. The second criteria is the strongest cut ensuring the track has at least half of its clusters coming from embedded MC signals. The set of tracks which satisfy both conditions are saved into an array of tracks which the user can use to study efficiency or track splitting. 
 
-The goal of this na\"ive tagging is to preserve all the information of where the embedded hits, clusters, and tracks have gone. The  job of the embedded correlation task is to identify which of the embedded tracks are candidates for the original input track. Several things may happen along the process of embedding. A track could break up, lose or share its charge with and adjacent track, or maybe not be identified for other reasons. For the embedded track to be a candidate it must satisfy two conditions, $N_{sat} > 5$ and $N_{\mathrm{sat}}/N_{\mathrm{Total}} \geq .5$, where $N_{\mathrm{sat}}$ is the number of saturated clusters in a track and $N_{\mathrm{Total}}$ is the number of total clusters. The first criteria is a simple minimum cut where to ensure there exists an embedded track and the second criteria is the strongest cut ensuring the track has at least half of its clusters coming from embedded MC signals. The set of tracks which satisfy both conditions are saved into an array of tracks which the user can use to study efficiency or track splitting. 
-
-In the case of efficiency analysis the user must select what they believe to be the track which most represents the original track. In this thesis, the track with the minimum distance to vertex is identified as the correct track. Though track splitting may occur, typically the split track has a distance to vertex which is very large and cut out from the analysis. The details of the efficiency analysis will be described later. 
+In the case of efficiency analysis the user must select what they believe to be the track which most represents the original track. In this thesis, the track with the minimum distance to vertex is identified as the correct track. This is to get rid of the situation of track splitting where typically the split track has a distance to vertex which is very large and cut out from the analysis. The details of how the embedding is used to calculate the efficiency will be described later. 
 
 
 
@@ -751,6 +728,56 @@ Add Figure of track residuals? MC vs data?
 \section{Aligning TPC}
 
 \section{CoBo timing correction}
+
+The arrival time of signals originating from each pad may differ due to timing delays in the electronics and cabling. The timing differences will affect the y-position measurement of each track. The y-residuals reveal that the timing differences correspond to about $\pm$\SI{2}{\milli\metre} in position differences. The timing difference is stable for each pad across several runs. Figure~\ref{fig:coboCorr} shows the y-residuals, across all the rows , for three different layers. Before the correction one can see large deviations in the y-residuals which correspond to timing differences. The mean value of the y-residual distribution is fitted and a map is constructed for each pad. The data is then reconstructed subtracting the value of that map, $dy$, for each pad. The resulting corrected distribution is shown in Fig.~\ref{fig:coboCorr} for the same layer set. Figure~\ref{fig:yoff} also show the summary of all the pads before the correction and after the correction. There is a significant improvement in the width of the distribution going from \SI{1.5}{\milli\metre} to \SI{0.6}{\milli\metre}. 
+
+\begin{figure}[!htb]
+  \begin{center}
+    \includegraphics[width=0.33\textwidth]{before_row_at_layer10_yoffset.pdf}
+    \includegraphics[width=0.33\textwidth]{before_row_at_layer30_yoffset.pdf}
+    \includegraphics[width=0.33\textwidth]{before_row_at_layer50_yoffset.pdf}
+ 
+    \includegraphics[width=0.33\textwidth]{after_row_at_layer10_yoffset.pdf}
+    \includegraphics[width=0.33\textwidth]{after_row_at_layer30_yoffset.pdf}
+    \includegraphics[width=0.33\textwidth]{after_row_at_layer50_yoffset.pdf}
+ 
+    \caption{TBW\label{TBD}}
+  \end{center}
+  \label{fig:coboCorr}
+\end{figure}
+
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{before_layer_yoffset.pdf}
+        \caption{Y-offset for all layers before correction.} \label{fig:yoff_beforeLayer}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{after_layer_yoffset.pdf} 
+        \caption{Y-offset for all layers after correction.} \label{fig:yoff_afterLayer}
+    \end{subfigure}
+     \hfill
+    \begin{subfigure}[t]{.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{before_all_yoffset.pdf} 
+        \caption{Distribution for all pads before correction.} \label{fig:yoff_allBefore}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{after_all_yoffset.pdf} 
+        \caption{Distribution for all pads after correction.} \label{fig:yoff_allAfter}
+    \end{subfigure}
+    \caption{ }
+\label{fig:yoff}
+\end{figure}
+
+
 
 \section{Efficiency Corrections}
 Add Figures of efficiency vs angles in TPC polar angle plot for pions
