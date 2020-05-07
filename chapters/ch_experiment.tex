@@ -8,6 +8,9 @@ The average energy loss in a material can be described by the Bethe-Bloch equati
 Where $N$ is the number density of electrons in the medium, $e$ the elementary charge, $mc^2$ is the rest mass of the electron, $Z$ is the charge of the traversing particle, $I$ is the mean excitation energy of the medium, and $\beta$ is the velocity of the particle. There is a large variation in energy loss around this mean value, with a long high energy loss tail. A full description of the energy loss distribution can be described in CITE HERE.
 
 
+\section{Time Projection Chambers}
+%explain in breif the basics of a time projection chamber 
+
 \section{Pad Response Function}
 \label{sec:prf}
 Each electron avalanche produces an two-dimensional image charge on the pad plane, as shown in the cartoon in Fig.~\ref{fig:2DPRF}, where the projection of the charge distribution onto the $x$ and $z$ axis of this distribution are labeled as $\rho(x)$ and $\rho(z)$ respectively. If $\rho(x,z)$ represents the charge distribution on the pad-plane, the total charge observed on each pad, Q, is given as,
@@ -140,7 +143,7 @@ Just below the pad plane were a set of three wire planes; the gating grid, groun
 
 The front and sides of the field cage were assembled from 8 independent rigid circuit boards. The downstream window served as the downstream wall of the field cage all though it was was a large polycarbonate frame in which a removable kapton window could be installed. This thin window minimized the scattering of exiting neutrons and charged particles for downstream detectors. 
 
-The voltage step down takes the high voltage of the field cage cathode and steps the voltage down through a set of copper rings and a resistor chain, minimizing the chance for sparking. 
+The voltage step down takes the high voltage of the  cathode and steps the voltage down through a set of copper rings and a resistor chain, minimizing the chance for sparking. 
 
 \begin{table*}\centering
 \ra{1.3}
@@ -175,6 +178,8 @@ The skeleton of the enclosure is composed of a rigid aluminum angle-iron frame. 
 The gap between the field cage's cathode and the ground of the enclosure is quite small. To prevent electric breakdown in the gas between this gap a series of concentric copper rings safely stepped down the voltage to ground; where each ring was separated by a resistor. There were 7 concentric rings with a \SI{10}{\mega\ohm} resistors in between, creating a resistor chain which steps down the voltage each ring by approximately \SI{1000}{\volt}.
 
 \subsection{Field Cage}
+
+ADD info how to calculate cathode voltage from HW supply. 
 
 The field cage holds the detector gas and sets up a uniform electric field in which electrons can drift upwards toward the anode wires. It was designed to hang from the top plate and therefore needed to be of a lightweight construction. Also the materials needed to be thin to allow for light charged particle and neutrons to pass through without significant scattering for ancillary detectors. Therefore instead of a downstream wall, a large thin exit window was constructed. The cathode was constructed of an aluminum honeycomb laminate. Two sheets of ??? aluminum were bonded to a core of aluminum honeycomb structure providing a lightweight yet rigid structure for the cathode. 
 
@@ -228,10 +233,28 @@ The cathode itself is connected to the HV supply through a \SI{10}{\mega\ohm} re
 
 
 \subsection{Pad Plane}
+The pad-plane is a multi-layer circuit board which is segmented into \SI{11.5}{\milli\metre} x \SI{7.5}{\milli\metre} charge sensitive pads; arranged in an array of 108 x 112 pads in the x and z-directions respectively making 12096 pads in total. There is an insulating gap of \SI{0.5}{\milli\metre} on each side separating the pads. The effective area covered by the pads is \SI{1344}{\milli\metre} x \SI{864}{\milli\metre}. There is a via and trace coming from each pad to the opposite side of the pad plane and is arranged in a surface pads which may be readout by a surface mount SAMTEC connector CITE HERE. 
 Add figure of close up of pad plane 
 
 
 \subsection{Wire Planes}
+
+ \begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rrrrrrr@{}}\toprule 
+\multicolumn{2}{c}{GET electronics settings}\\
+\midrule
+ Plane & Material & Diameter \si{\micro\metre} & Pitch \si{\milli\metre} & Distance to pad-plane & Tension \si{\newton} & Voltage \si{\volt}\\ [0.5ex] 
+ Anode  & Au-plated W   &  20  &  4  &  4   &  0.5  &  1460  \\
+ Ground & BeCu          &  75  &  1  &  8   &  1.2  &  0     \\ 
+ Gating & BeCu          &  75  &  1  &  14   &  1.2 &  -110$\pm$ 70\\ 
+ \bottomrule
+\end{tabular}
+\caption{Wire plane properties}
+\label{tb:wireplane}
+\end{table*}
+
+
 %Add figure of gating grid transparency closed and open configuration 
 There are three wire planes that sit underneath the pad-plane. The wire plane closest to the pad-plane (\SI{4}{\milli\metre}), is the anode wire. The next plane (\SI{12}{\milli\metre}), is the ground plane or frisch grid, and the last plane (\SI{14}{\milli\metre}), is the gating grid. The gating grid is the first plane that electrons meet as they drift upward towards the anode plane. The gating grid is operated as a gate either allowing electrons and ions through or blocking them entirely. The ground plane shields the inside volume of the TPC from the high voltages of the anode wires where the avalanche process of the electron takes place. 
 
@@ -240,11 +263,22 @@ The ground plane is the least interesting plane and is shorted to the enclosure 
 In the open configuration the gating grid is transparent to electrons coming from the TPC volume and also allows for ions to move from the avalanche region into the TPC volume. It functions as the gate of the TPC where we only open the gating grid when an event meets the selection trigger criteria; minimizing the excessive exposure to the un-reacted beams which would quickly build up enormous amounts of space charge. We close the TPC after reading out approximately one TPC volume -- about \SI{10}{\micro\second}  -- of space to prevent the back-flow of ions from the avalanche region of that event. Since ions move with a velocity much slower than that of elections, the ions only move several \si{\micro\metre} in the time the gate is open; this allows for electrons to pass through while preventing the back-flow of ions into the FC volume. Figure~\ref{fig:gg_onoff} shows a Garfield simulation of the gating grid in both the on and off configurations. In the on configuration, all the wires share the same average voltage, $V_{g.g.}$, which is optimized for the case of 100\% electron transparency. In the off configuration the reference voltage $V_{g.g.}$ remains the same, but alternating wires get an offset voltage of $\pm \Delta V$, so that the electric field between wires is great enough to block incoming electrons; opening the grid from this closed bi-polar mode is simply done by removing the offset voltage and allowing the two wires to connect and equilibrate their charges back to the reference voltage. 
 
 
-\begin{figure}
-\includegraphics[width=\textwidth]{wires_open.pdf}
-\caption{Cartoon graphic of the wire plane structures}
-\label{fig:wires_open}
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{wires_open.pdf} 
+        \caption{Wires open} \label{fig:wires_open}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{wires_closed.pdf} 
+        \caption{Wires closed.} \label{fig:wires_closed}
+    \end{subfigure}
+\label{fig:wires}
 \end{figure}
+
 
 
 \begin{figure}[!htb]
@@ -358,46 +392,126 @@ Gas properties &
 \subsection{Kyoto Multiplicity Trigger}
 %kyoto array sets multiplicity trigger
 %scintillator bars
-
+The Kyoto Multiplicity Array consists of two arrays of plastic scintillating bars on each side of the TPC, each consisting of 30 bars. The entire TPC structure was designed so that light charged particles could easily pass through  the field cage and  side walls of the TPC enclosure. In this way the number of tracks passing through the sides of the TPC could be measured by this array. In heavy ion collisions the more central a nuclear collision is, the more nucleons participate in the collision, resulting in more measured tracks. It is this correlation between the number of tracks and centrality of the collision that makes the Kyoto Array sensitive to the centrality of events. It is more likely that in very central collisions more tracks are going to the peripheral angles and measured by the Kyoto array. In the experiment the trigger selection criteria was $n_{Kyoto} > 4$, where $n_{Kyoto}$ is the total number of tracks measured by both arrays. 
 
 \begin{figure}[!htb]
-\includegraphics[width=\textwidth]{kyotoarray}
-\label{fig:kyoto}
-\caption{Kyoto array overview}
+\includegraphics[width=\textwidth]{TPCAux.png}
+\label{fig:aux}
+\caption{Exploded views of Kyoto and KATANA arrays.}
 \end{figure}
 
 
-\subsection{Krakow ?????? (KATANA)}
+\subsection{Krakow KATANA Veto and Multiplicity Array}
 %beam veto
 %beam trigger optional
+The Krakow KATANA array consists of 12 plastic scintillating bars mounted to the downstream wall of the TPC enclosure. Three of the 12 bars were thin and operated as a beam veto in the event the beam did not make a nuclear collision with the target; this was a majority of the time. The 9 other bars operated as an additional multiplicity array similar to the Kyoto array. Since most of the particles are focus forward in a cone in the laboratory frame, it was found the condition on the Kyoto array was sufficient to trigger on central events; thus the KATANA array was used in primarily the beam veto mode. This was accomplished by positioning the array so that the expected position of the beam exiting the TPC would be centered on the three thin paddles. The threshold of the veto paddles were set so that the charge of a particle, $Z$, was $Z > 20$. This allowed the selection of very central events and we did not trigger on very peripheral or no collision events. 
 
 
 \subsection{Active Veto Array}
+The beam was tuned by two sets of quadropole  magnets, STQ 1 and STQ2, so that the beam spot was focused on the TPC target location. Because of the inherent angular dispersion of the beam there were incoming beam events which significantly deviated from the target location. To veto these type of events an active veto array was set at the entrance of the TPC consisting of four small scintillating bars arranged to be slightly larger than the target size. The threshold was set so that any beam particle which passed through any of the bars it would send a trigger signal to not trigger the system since the beam path would not be on target but on some other material inside the TPC. 
 
 \section{Radio Isotope Beam Factory (RIBF) Facility }
-Cyclotron facility overview.
-Samurai line overview.
-Beam line element overview.
-Big rips beam PID. reference 
-
-
-\section{S$\pi$RIT at RIBF}
-Picture of setup. 
+%Cyclotron facility overview.
+%Samurai line overview.
+%Beam line element overview.
+%Big rips beam PID. reference 
+The primary and secondary beams were produced at the Radioactive Isotope Beam Factory (RIFB) facility at RIKEN, in Wako-shi, Japan. The RIBF facility starts with two primary beam types, ${}^{132}$Xe and ${}^{238}$U, which produced by an ion-source and accelerated to progressively higher kinetic energies by 1 linear accelerator (RILAC), and 4 different cyclotrons (RRC, fRC, IRC, and SRC), reaching a primary beam energy of \SI{345}{\MeVA}. 
 
 
 
-
-SAMURAI (Superconducting Analyzer for Multi-particles from Radioisotope beams) is a large-acceptance multi-particle spectrometer for radioactive-beam experiments.
-\begin{figure}[H]
+\begin{figure}[!htb]
 \includegraphics[width=\linewidth]{SAMURAI-beamline.png}
 \caption{Overview of the RIBF, BigRIPS, and SAMURAI beamline.}
-\label{fig:sambl}
+\label{fig:samuraiBeamLine}
 \end{figure}
+
+After the SCR, the primary beams impinge on a rotating \SI{3}{\milli\metre} Be target which produces many different species by fragmentation. These fragments are then separated by the BigRIPS spectrometer which is tuned to the particular secondary fragment of interest. This is accomplished through several dipole magnets, slits, and wedge degraders. The resulting secondary beam is not pure and the purity depends on the primary beam and target beam desired.
+
+In these set of experiments several beams were produced with varying intensities and purities. Table~\ref{tb:beams} summarizes the average qualities of the 4 secondary beams produced in the two experimental campaigns. 
+
+ \begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rrrrr@{}}\toprule 
+ Primary Beam & Secondary Beam & Energy at mid target \si{\MeVA} & Intensity \si{\kilo\hertz} & Purity (\%) \\ [0.5ex] 
+ \midrule
+ ${}^{238}$U   & ${}^{132}$Sn   &  269.2  &  9.5  &  54   \\
+ ${}^{238}$U   & ${}^{124}$Sn   &  270.3  &  9.1  &  10  \\
+ ${}^{124}$Xe  & ${}^{112}$Sn   &  270.4  &  7.6  &  48  \\
+ ${}^{124}$Xe  & ${}^{108}$Sn   &  269.3  &  7.5  &  52   \\
+ \bottomrule
+\end{tabular}
+\caption{Primary and secondary beam properties produced in the \spirit TPC experimental campaigns. }
+\label{tb:beams}
+\end{table*}
+
+
 
 \section{Experimental Setup}
 
+The \spirit TPC was designed to fit exactly into the dipole gap of the  dipole magnet at the end of the BigRIPS beam line. Figure~\ref{fig:experiment} shows a drawing of the \spirit TPC inside of the SAMURAI magnet chamber which was rotated to the $\ang{0}$ configuration. Typically the SAMURAI (Superconducting Analyzer for Multi-particles from Radioisotope beams) is operated under vacuum as a large-acceptance multi-particle spectrometer for radioactive-beam experiments. This magnet can reach magnetic fields up to \SI{3}{\tesla} at the center of the pole gap. The space between the magnetic pole faces is further complicated by large bolts which protrude from the pole faces. These bolts secure the vacuum chamber to the magnet which is not practically removable; though the inside of the magnet was not operated under vacuum. This required an extensive rail system and support frame to slowly slide in the TPC over the bolts, finally raising the TPC several \si{\centi\metre} to the final height. 
+
+The height of the TPC was roughly aligned with a self-leveling laser system to match the center of target with the center of the beam line. Once the TPC was adjusted to the final location, the position of the TPC was measured in fine detail with a photogrametry system CITE HERE. Small highly reflective targets were placed all over the TPC both inside and out and pictures were taken with a calibrated lens and camera system. Using the commercial software provided the set of different camera perspectives reconstruct a point cloud of all the targets into 3-dimensional coordinates. Since the magnet was also measured with the same system after installation, we can match the two systems to get the absolute position of the TPC -- and several of its internal components-- relative to the magnet frame. The position resolution of this type of system was estimated to be around \SI{200}{\micro\metre} for each coordinate, which is much more precise than needed CITE HERE or Show data.
+
+Maybe put a position table summary here of the TPC position and definition of the coordinates system in the TPC frame and the Magnet frame
+
+
+\begin{figure}
+\includegraphics[width=\textwidth]{perspective.png}
+\caption{Drawing of the experimental setup with the TPC inside of the SAMURAI magnet at $\ang{0}$ configuration.}
+\label{fig:experiment}
+\end{figure}
+
+
+\section{Data Acquisition (DAQ) }
+The Data AcQuisition (DAQ) consisted of three different systems. The RIBFDAQ system served as the master DAQ for the BigRIPS beam identificaiton DAQ, the TPC DAQ, the NeuLAND neutron wall DAQ, and the Kyoto Array DAQ systems. The TPC DAQ was handled by the NARVAL framework to readout the GET electronics for the \spirit TPC. A General Trigger Operator (GTO) trigger was supplied to each DAQ synchronizing the subsystems. 
+
 \section{Trigger Condition}
-How it was made using kyoto krakow
+Signals from all of the auxiliary detectors were combined into several logic combinations to form a trigger logic for triggering the data acquisition  (DAQ) to record data. An upstream scintillating bar formed the start counter signal, triggering on any beam coming down the beam line. The active veto will trigger for any beam that is incident off the target location. The KATANA veto produces a signal if the beam passed through the TPC un-reacted, causing no nuclear collision; this produces a veto signal with a width of \SI{4}{\micro\second} which is the approximate time it takes for the beam to drift and clear the field cage volume. The Kyoto multiplicity trigger produces a signal when the total number of tracks passing through both Kyoto arrays are greater than 4. 
+
+
+\begin{figure}[!htb]
+\includegraphics[width=\linewidth]{KatanaLogic.png}
+\caption{KATANA trigger box logic.}
+\label{fig:katanaLogic}
+\end{figure}
+
+\begin{figure}[!htb]
+\includegraphics[width=\linewidth]{TriggerLogic.png} 
+\caption{Master trigger logic.}
+\label{fig:trigLogic} 
+\end{figure}
+
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{DataTrigger1.png} 
+        \caption{${}^{124}$Xe primary beam trigger.} \label{fig:dataTrigger1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{DataTrigger2.png} 
+        \caption{${}^{238}$U primary beam trigger.} \label{fig:dataTrigger2}
+    \end{subfigure}
+\label{fig:datatrigger}
+\end{figure}
+
+
+There were several special trigger considerations when we built the trigger for the TPC. We required that the gating grid be opened fast to not miss any signal; as soon as there was a condition satisfying the Start Counter, Kyoto Multiplicity, the DAQ was not busy, and there was not a KATANA Veto signal. This was referred to as the Fast Trigger. If the KATANA trigger box is not satisfied --described later-- this will trigger a Fast Clear signal which will not trigger the DAQ and will quickly close the gating grid. Figure~\ref{fig:trigLogic} shows the logic of both of these triggers. 
+
+The master trigger for the DAQ was different for each primary beam as the experiment got progressively better. During the ${}^{124}$Xe primary beam, the KATANA trigger box was an input into the trigger logic where as in the ${}^{238}$U primary beam, the KATANA trigger box functioned as the trigger logic utilizing the internal trigger electronics. In either case the differences in the trigger were very minor and they both behaved practically the same except for minor details on the gating grid trigger CITE HERE JONS THESIS. Figure~\ref{fig:katanaLogic} summarizes the KATANA trigger box logic. 
+
+Figure~\ref{fig:dataTrigger1} summarizes the ${}^{132}$Xe primary beam, where the condition to produce a true KATANA trigger output was there must be a Start Counter, KATANA multiplicity, no Veto, and no DAQ busy signal. The KATANA trigger, Kyoto Muliplicity, and Start Counter together trigger the DAQ. 
+
+ Where as Fig.~\ref{fig:dataTrigger2} summarizes the ${}^{132}$Xe primary beam, where the condition to produce a true KATANA trigger output was there must be a Start Counter, Kyoto or KATANA multiplicity, no Veto, and no DAQ busy signal. Here the KATANA trigger and the SC SUM??? togethere trigger the DAQ. 
+ 
+ It is worth mentioning how the busy signals for the experiment were handled. The DAQ system itself produces a busy signal which was combined with the busy signals from either opening or closing the gating grid. When opening the gating grid it is assumed the full volume of the TPC will be read out and therefore  a \SI{11}{\micro\second} gate is produced; which is slightly more than the time it takes for all the electrons to drift in the field cage. In the case were the gating grid should be fast closed, either due to the fast clear circuit or the end of the TPC measurement, a \SI{5}{\micro\second} gate is produced to allow for the gating grid to settle to a closed configuration and clear the drift volume of any residual electrons from the beam. Both of these gates are included with the DAQ in an OR configuration which makes the overall busy signal. 
+ 
+
+
 
 \section{Collision Data Taken}
 
