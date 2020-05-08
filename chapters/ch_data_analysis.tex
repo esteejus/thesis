@@ -439,12 +439,6 @@ The monte carlo (MC) simulation is a to part simulation. The first is the modeli
 
 Here we will only discuss in detail, the tasks involved in simulating the TPC response. The discussion of how we use Geant4 is not particularly interesting, since we use it only to get the energy loss in a gas and through basic materials. 
 
-\begin{figure}
-\includegraphics[scale=.01]{place}
-\caption{A summary of all the effects modeled in the TPC MC simulation.}
-\label{fig:place}
-\end{figure}
-
 \subsection{Drift Task}
 Geant4 returns the primary ionization points and energy loss information in the gas volume. In the drift task this is converted into the total number of electrons, $N_{e^-}$,
 

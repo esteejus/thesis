@@ -1,15 +1,284 @@
 \chapter{Experiment}
 
+\section{Operational Principles of Time Projection Chambers}
+
+
+\begin{figure}
+\includegraphics[width=\textwidth]{tpcPrinciple.pdf}
+\label{fig:tpcPrinciple}
+\caption{Operation principle of the TPC}
+\end{figure}
+%explain in breif the basics of a time projection chamber 
+Time projection chambers are a class of detectors which reconstruct charged particles in all 3-dimensions. Here we will outline the physical principles involved in the TPC measurement. A detector gas is housed in a field cage, which also sets up a constant electric field. As charged particles pass through the gas, electron-ion pairs are separated from by passing tracks, the electrons are accelerated by the electric field and the ions move in the opposite direction. Since the mean free path of the electrons is very small they quickly collide with a gas molecule slowing down the electron which goes on to repeat the cycle. This microscopic behavior manifests into the electron appearing to drift at a constant velocity. These electrons drift up towards a set of wire planes eventually reaching a set of high voltage anode wires where they accelerate under the high electric field liberating more electron-ion pairs from the gas creating an avalanche. The avalanche electrons finally terminate either on the anode wire while the ions from the avalanche move slowly away from the anode wires creating a large signal which is distributed over the pad-plane where the charge and time information of the signal is measured by the  electronics. 
+
+Two of the 3 coordinates are determined from the charge distribution on the pad plane. The third dimension comes from projecting the electrons back in time utilizing the known constant drift velocity $v_d$; the distance the electron has traveled , $d$, -- along the electric field direction-- is calculated as $d = v_d \cdot t$, where $t$ is the time it took for the electrons to reach the electronics. The momentum information is extracted from measuring the radius of curvature of the track and the constant magnetic field value. The energy loss (<dE/dx>) is measured by a segmented charge sensitive pads on the pad-plane which are connected to the readout electronics. Particle identification is achieve through knowledge of the rigidity and the <dE/dx> of the tracks as will be discussed in latter sections. In this chapter we will discuss in more detail the process described above in the context of the specific TPC used in this thesis. 
+
+\section{S$\pi$RIT TPC Overview}
+%Add Overview image with labels
+
+\begin{figure}[!htb]
+\includegraphics[width=\textwidth]{exploded.png}
+\caption{Overview of the \spirit TPC}
+\label{fig:tpcExplode}
+\end{figure}
+
+
+The Samurai Pion-Reconstruction and Ion Tracker Time Projection Chamber (\spirit TPC) is a multi-wire proportional counter developed to measure pions and other light charge particles resulting from radioactive heavy ion collisions in a fixed target experiment.  The TPC is enclosure is an aluminum angle iron skelleton with thin aluminum sheet walls all around in order to minimize neutron scattering and to allow for light charged particles to reach auxilliary detectors on the sides and downstream of the TPC. The \spirit TPC was developed to fit inside the SAMURAI dipole magnet used at the Rare Isotope Beam Factory (RIBF) at RIKEN in Wako-shi, Japan \cite{riken}; the dipole gap limited the vertical space of the TPC. More detail and specifications of the SAMURAI dipole magnet are given in \cite{samurai}. 
+
+A target mechanism allowed for up to 5 fixed targets to be mounted with the ability for changing the targets during the experiment without needing to open or move the TPC. The field cage contained the detector gas and set up the constant electric field, which was mounted to a large aluminum top plate. The pad plane and wire plane structures are also mounted to the bottom of the top plate with the electronics are mounted on the top of the top plate. Several aluminum ribs were mounted to the top. Holes on the top plate allowed the electronics to be connected to the surface mount pads on the pad-plane. 
+
+
+\begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rr@{}}\toprule 
+\multicolumn{2}{c}{\spirit TPC Overview} \\
+ \midrule
+Pad plane area & 1.3 m x .9 m\\
+Pad size       & 1.2 cm x .8 cm \\
+Number of pads & 12096 (112 x 108) \\
+Gas composition& 90\% Ar + 10\% CH${}_4$ (1 atm)  \\
+Multiplicity limit & 200  \\
+dE/dx range        & Z=1-3, $\pi$, p, d, t, He, Li \\
+Drift length       & 50 cm \\
+\bottomrule
+\end{tabular}
+\caption{An overview of the properties of the \spirit TPC}
+\label{tb:spiritoverview}
+\end{table*}
+
+
+\subsection{Enclosure}
+The skeleton of the enclosure is composed of a rigid aluminum angle-iron frame. All walls are constructed of a aluminum frame with think sheet metal. All materials were made to be as thin to allow charged particles and neutrons to exit the TPC without scattering too much. This allows for a trigger to be created by placing detectors on the sides and downstream of the TPC. The enclosure itself is made to be gas tight with respects to the outside and the field cage. This is to allow for the possibility to run a different gas inside the enclosure than the field cage. Although, in this set of experiments we ran the same gas in the field cage and enclosure volume. 
+
+\subsection{Voltage Step Down}
+The gap between the field cage's cathode and the ground of the enclosure is quite small. To prevent electric breakdown in the gas between this gap a series of concentric copper rings safely stepped down the voltage to ground; where each ring was separated by a resistor. There were 8 concentric rings with a \SI{10}{\mega\ohm} resistors in between, creating a resistor chain which steps down the voltage each ring by approximately \SI{1000}{\volt} each time. The first ring is the same voltage as the cathode and the last ring is connected to ground. All together the total resistance of the resistor chain is \SI{700}{\mega\ohm}.
+
+\subsection{Field Cage}
+
+The field cage holds the detector gas and sets up a uniform electric field in which electrons can drift upwards toward the anode wires. It was designed to hang from the top plate and therefore needed to be of a lightweight construction. Also the materials needed to be thin to allow for light charged particle and neutrons to pass through without significant scattering for ancillary detectors. Therefore instead of a downstream wall, a large thin exit window was constructed which consisted of a lexan frame with \SI{10}{\micro\metre} Kapton window with evaporated aluminum strips. The cathode was constructed of an aluminum honeycomb laminate where two sheets of aluminum were bonded to a core of aluminum honeycomb structure providing a lightweight yet rigid structure for the cathode. 
+
+\begin{figure}[!htb]
+\includegraphics[width=\textwidth]{fc_overview.png}
+\label{fig:fc_overview}
+\caption{FC overview}
+\end{figure}
+
+
+\begin{figure}[!htb]
+\includegraphics[width=\textwidth]{fc_overview2.png}
+\label{fig:fc_overview2}
+\caption{FC overview 2}
+\end{figure}
+
+The field cage was constructed from several panels of printed circuit boards (PCBs). The epoxy in the common PCB substrate FR4 contains bromine which is not suitable for the long term operation of a TPC, as the bromine will eventually cause gain reduction of the wires CITE HERE. The halogen free material chosen was Cryogenic-G10. We built the TPC with the option to run explosive gases such hydrogen, thus we decided to have field cage an isolated volume from the rest of the TPC enclosure. While the risk of a high voltage spark was minimized using the voltage step down, the risk of sparking when using an explosive gas could be further minimized by isolating the detector volume from the enclosure volume thereby allowing you to run an insulating gas between the field cage while running the explosive gas inside the detector volume only. The front of the field cage was made of two PCBs and each side was constructed of three PCBs supported by Lexan pieces. 
+
+\begin{equation}
+V_n = V_{cath} \frac{R_p + (50 - n)R}{49\cdot R + R_p}
+\label{eq:FCstrip}
+\end{equation}
+
+\begin{equation}
+R_p = 49 \cdot R  \left(\frac{ y_{g.g.} - y_{cath} }{ y_{TP} - y_{cath} \frac{V_{cath} - V_{gg}}{V_{cath}} }- 1 \right)
+\label{eq:TP_resistor}
+\end{equation}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.6]{FC_schematic.pdf}
+\caption{Schematic of the electric connections relevant to the Field Cage system.}
+\label{fig:FC_schematic}
+\end{figure}
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{TPC_schematic.pdf}
+\caption{Schematic of the TPC system}
+\label{fig:TPC_schematic}
+\end{figure}
+
+The cathode itself is connected to the HV supply through a \SI{10}{\mega\ohm} resistor and has an effective capacitance to ground of \SI{4}{\nano\farad}, $C_{VSD}$. The cathode voltage $V_{cath}$ can be calculated from the schematic of the TPC system in Fig.~\ref{fig:TPC_schematic}, as
+
+\begin{equation}
+V_{cath} = \frac{V_{HV}}{ 1 + \frac{10}{ \left( \frac{1}{245 + R_{eff}} + \frac{1}{700} \right)^{-1} } },
+\end{equation}
+
+where $R_{eff} = \left( 1/20 + 1/R_{TP2} \right)^{-1}$, and $V_{HV}$ is the high voltage supply; all resistor values are given in \si{\mega\ohm}.
+
+
+Figure~\ref{fig:FC_schematic} shows a cartoon drawing of the electrode geometry of the field cage walls. The field cage is made of 50 inside copper strips and 49 outside copper strips; the strip thickness is exaggerated in the figure to show the detail. The first inside strip is connected to the cathode which is connected by an effective \SI{5}{\mega\ohm} resistor ($R$) to the next inside strip and the first outside strip. The resistor chain creates a voltage divider in which each strip is separated by a constant difference voltage at a fixed distance setting up a constant electric field. The last strip of the field cage is composed of partially a small inner strip on the PCB board and the aluminum top perimeter piece which holds the field cage together with the top plate of the TPC. Together their thickness is equal to the \SI{6}{\milli\metre} strip width of the other strips. The top perimeter is connected to electrical ground through a \SI{20}{\mega\ohm} resistor ($R_{TP1}$) with the option to place an additional resistor ($R_{TP2}$) in parallel to tune the voltage of the top perimeter. 
+
+
+\subsection{Wire Planes}
+
+\begin{figure}[!htb]
+\includegraphics[width=\textwidth]{gain.png}
+\caption{Number of electrons produced in a single avalanche on an anode wire. Two different voltages were simulated using Garfield++ at 1470 $V$ and 1214 $V$. The expected Polya distribution fit is also given in yellow.}
+\label{fig:anodegain}
+\end{figure}
+
+
+
+ \begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rrrrrrr@{}}\toprule 
+\multicolumn{2}{c}{GET electronics settings}\\
+\midrule
+ Plane & Material & Diameter \si{\micro\metre} & Pitch \si{\milli\metre} & Distance to pad-plane & Tension \si{\newton} & Voltage \si{\volt}\\ [0.5ex] 
+ Anode  & Au-plated W   &  20  &  4  &  4   &  0.5  &  1460  \\
+ Ground & BeCu          &  75  &  1  &  8   &  1.2  &  0     \\ 
+ Gating & BeCu          &  75  &  1  &  14   &  1.2 &  -110$\pm$ 70\\ 
+ \bottomrule
+\end{tabular}
+\caption{Wire plane properties}
+\label{tb:wireplane}
+\end{table*}
+
+
+%Add figure of gating grid transparency closed and open configuration 
+There are three wire planes that sit underneath the pad-plane. The wire plane closest to the pad-plane (\SI{4}{\milli\metre}), is the anode wire. The next plane (\SI{12}{\milli\metre}), is the ground plane or frisch grid, and the last plane (\SI{14}{\milli\metre}), is the gating grid. The gating grid is the first plane that electrons meet as they drift upward towards the anode plane. The gating grid is operated as a gate either allowing electrons and ions through or blocking them entirely. The ground plane shields the inside volume of the TPC from the high voltages of the anode wires where the avalanche process of the electron takes place. 
+
+The ground plane is the least interesting plane and is shorted to the enclosure ground by a BNC terminator on the outside of the TPC. If we would like to calibrate the electronics of the TPC we typically inject a pulser into one end of the ground plane and terminate the other end with a \SI{50}{\ohm} termination. 
+
+In the open configuration the gating grid is transparent to electrons coming from the TPC volume and also allows for ions to move from the avalanche region into the TPC volume. It functions as the gate of the TPC where we only open the gating grid when an event meets the selection trigger criteria; minimizing the excessive exposure to the un-reacted beams which would quickly build up enormous amounts of space charge. We close the TPC after reading out approximately one TPC volume -- about \SI{10}{\micro\second}  -- of space to prevent the back-flow of ions from the avalanche region of that event. Since ions move with a velocity much slower than that of elections, the ions only move several \si{\micro\metre} in the time the gate is open; this allows for electrons to pass through while preventing the back-flow of ions into the FC volume. Figure~\ref{fig:gg_onoff} shows a Garfield simulation of the gating grid in both the on and off configurations. In the on configuration, all the wires share the same average voltage, $V_{g.g.}$, which is optimized for the case of 100\% electron transparency. In the off configuration the reference voltage $V_{g.g.}$ remains the same, but alternating wires get an offset voltage of $\pm \Delta V$, so that the electric field between wires is great enough to block incoming electrons; opening the grid from this closed bi-polar mode is simply done by removing the offset voltage and allowing the two wires to connect and equilibrate their charges back to the reference voltage. 
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{wires_open.pdf} 
+        \caption{Wires open} \label{fig:wires_open}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.42\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{wires_closed.pdf} 
+        \caption{Wires closed.} \label{fig:wires_closed}
+    \end{subfigure}
+\label{fig:wires}
+\end{figure}
+
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{gg_onoff.pdf}
+\caption{On and off configurations of the gating grid.}
+\label{fig:gg_onoff}
+\end{figure}
+
+The anode wires are typically biased to \SI{e3}{\volt} and are very thin, about \SI{20}{\micro\metre} in diameter. This creates a very high electric field very close to the anode wire in which the electron gains significant kinetic energy producing electrons until it terminates on the anode wire. The amount of electrons it produces depends on the anode wire voltage and the gas properties. The absolute gas gain was not experimentally measured but was simulated by a Garfield simulation. During the experiment the anode wires were biased to two different voltages. We will refer to the voltage \SI{1460}{\volt} as the ``high voltage" and \SI{1214}{\volt} as the ``low voltage". Only two sections were biased with the lower voltage setting due to concerns of a high current issue. Figure~\ref{fig:anodegain} shows the expected number of electrons distributions for electrons produced in a avalanche process of an electron creating a single avalanche. The distribution follows a Polya distribution as expected and the MC data in the simulation was fit with a Polya function \cite{blumrol}. 
+
+
+
+\subsection{Pad Plane}
+The pad-plane is a multi-layer circuit board which is segmented into \SI{11.5}{\milli\metre} x \SI{7.5}{\milli\metre} charge sensitive pads; arranged in an array of 108 x 112 pads in the x and z-directions respectively making 12096 pads in total. There is an insulating gap of \SI{0.5}{\milli\metre} on each side separating the pads. The effective area covered by the pads is \SI{1344}{\milli\metre} x \SI{864}{\milli\metre}. There is a via and trace coming from each pad to the opposite side of the pad plane and is arranged in a surface pads which may be readout by a surface mount SAMTEC connector CITE HERE. 
+Add figure of close up of pad plane 
+
+
+
+\subsection{Electronics}
+
+Signals in the S$\pi$RIT TPC are amplified and digitized by the recently developed Generic Electronics for TPCs (GET) \cite{get}.  Short cables transmit the signals from the pads to the inputs of the AGET chips. Each AGET chip services 64 pads (63 pads are connected in our case), contains a pre-amplifier, and a Switched Capacitor Array (SCA), with a maximum of 512 time buckets with an adjustable sampling frequency of 1 to 100 MHz. Four AGET chips are mounted on one AsAd (ASIC and ADC) motherboard. The gain of each AGET can be configured as 0.12, 0.24, 1.0, or 10 pC over the whole dynamic range, and the ADCs on each AsAd board provides 12 bit resolution. The peaking times of the shaping amplifiers can be set to 69, 117, 232, 501, 720, or 1014 ns. In this experiment, the gain was set to the highest setting, 0.12 pC, the peaking time 117 ns, and the sampling frequency 25 MHz (resulting in 40 ns time buckets). The Aget 2.0, asad 2.1, and cobo 1.0 firmware versions were used. The variations in the electronics were calibrated by measuring the response of each channel to a injected reference pulse, covering the full dynamic range of each channel. 
+
+
+\begin{table*}\centering
+\ra{1.3}
+\begin{tabular}{@{}rr@{}}\toprule 
+\multicolumn{2}{c}{GET electronics settings}\\
+\midrule
+ADC bit range       & 14 bits \\
+Sampling frequency  & 1-100 MHz \\
+Dynamic range       & .12, .24, 1.0, 10pC \\
+Peaking time        & 69,117,232,501,720,1014 ns \\
+Time bucket range   & 512\\
+\bottomrule
+\end{tabular}
+\caption{Summary of range of GET electronics settings. }
+\label{tb:getoverview}
+\end{table*}
+
+
 \section{Energy loss in material}
 The average energy loss in a material can be described by the Bethe-Bloch equation,
 \begin{equation}\label{eq:bb}
 \frac{dE}{dx} = \frac{4\pi NZ^2e^4}{mc^2\beta^2} (ln \frac{2mc^2\beta^2\gamma^2}{I} - \beta^2).
 \end{equation}
-Where $N$ is the number density of electrons in the medium, $e$ the elementary charge, $mc^2$ is the rest mass of the electron, $Z$ is the charge of the traversing particle, $I$ is the mean excitation energy of the medium, and $\beta$ is the velocity of the particle. There is a large variation in energy loss around this mean value, with a long high energy loss tail. A full description of the energy loss distribution can be described in CITE HERE.
+Where $N$ is the number density of electrons in the medium, $e$ the elementary charge, $mc^2$ is the rest mass of the electron, $Z$ is the charge of the traversing particle, $I$ is the mean excitation energy of the medium, and $\beta$ is the velocity of the particle. There is a large variation in energy loss around this mean value, with a long high energy loss tail. 
+
+The statistical variation of energy loss in a material was described by Landau \cite{landau} and later better described by Shulek \cite{shulek} and Bichsel \cite{bichsel1}. In both approximations it is described by a most probable energy loss value with a long, high-energy loss tail. Because of this long tail, for a finite set of energy loss measurements along a given track, the fluctuation of the mean value energy loss is a very unreliable observable. The most probable energy loss is the most desirable observable either through fitting of the observed distribution or through the truncated mean method. The truncated mean is the average mean value calculated after throwing away the top fraction of the highest energy loss entries, where the fraction used in this thesis was 30\%. This approximates the most probable value without performing a fit to a known distribution. There are 
 
 
-\section{Time Projection Chambers}
-%explain in breif the basics of a time projection chamber 
+%Suppose $E$ represents the set of $N$ energy loss points measured, sorted from lowest to highest energy loss. The $j^{th}$ index marks the position where  $i > j$ entries represent the highest value of energy loss measurements, where their fraction of the total set is expressed as, $f_c = \sum_{i>j} E_i/ \sum_i E_i$. The truncated mean is expressed as the mean value of the remaining energy loss measurements, throwing away the top $f_c$ fraction, expressed as,
+
+%\begin{equation}
+%<dE/dx>_t = \frac{\sum_{i < j} E_i}{N}
+%\label{eq:truncatedM}
+%\end{equation}
+
+ A full description of the energy loss distribution can be described in CITE HERE.
+
+
+\subsection{Gas Properties}
+The gas contained by the field cage was a mixture of 90\% Ar and 10\% Methane ($\mathrm{CH_4}$) by volume (P10 gas), and operated just under atmospheric pressure (1 atm). The  gas was continually flowed through the field cage and exited into the enclosure volume, finally passing through a bubbler to atmosphere. The gas purity was monitored with an oxygen and water monitor which are the two most concerning contaminants. The water never exceed  ??? ppm  and the oxygen level never exceeded ??? ppm. Figure~\ref{fig:driftvel} shows the drift velocity of P10 gas at 1 atm as a function of electric field value in \si{\volt\per\centi\metre}. Operating near the peak value of the drift velocity curve minimizes the change in the drift velocity as the effective field slightly changes due to slight variations in the pressure. The electric field in the experiment was \SI{125}{\volt\per\centi\per\metre} at \SI{760}{\torr}, giving a reduced electric field \SI{0.17}{\volt\per\centi\metre\per\torr}.
+
+\begin{figure}[H]
+\includegraphics[width=\linewidth]{driftvel.png}
+\caption{Drift velocity of electrons in P10 gas.}
+\label{fig:driftvel}
+\end{figure}
+
+The general formula for the drift velocity, $d\vec{x}/dt$, of an electron in the presence of electric and magnetic fields, $\vec{E}$ and $\vec{B}$, can be expressed in the Langevin equation as,  
+
+\begin{equation}
+\frac{d\vec{x}}{dt} = \frac{\mu}{1+(\omega\tau)^2}\Big(\vec{E} + \omega\tau\frac{\vec{E}\times\vec{B}}{|\vec{B}|}+\omega^2\tau^2\frac{\vec{E}\cdot\vec{B}}{|\vec{B}|^2}\vec{B}\Big),
+\label{eq:elecdrift}
+\end{equation}
+
+where $\mu$ is the signed drift velocity, $\omega$ is the cyclotron frequency, and $\tau$ is the collision parameter for a particular gas \cite{blumrol}.
+
+Several properties of the gas were also simulated in Garfield such as the longitudinal and transverse diffusion, $sigma_l$ and $sigma_t$ respectively, and the electron and ion drift velocities, $v_d$ and $v_i$ respectively for the experimental electric field of \SI{125}{\volt\per\centi\metre}; summarized in Table~\ref{tb:gasprop}.
+
+
+\begin{table}[!htp] % not just 'h!'
+\centering % not a center environment
+\begin{tabular}{
+  @{}
+  l
+  S[table-format=1.2]
+  S[table-format=1.2]
+  S[table-format=1.2]
+  S[table-format=1.2]
+  S[table-format=5.2]
+  S[table-format=5.2]
+  @{}
+}
+\toprule
+Gas properties &
+ {$\sigma_{t}$} &
+ {$\sigma_{l}$} &
+ {$v_{d}$} &
+ {$v_{i}$}  &
+ {$G_{h}$} &
+ {$G_{l}$} \\
+&
+  {($\si{\centi\meter}^{-1/2}$)} &
+  {($\si{\centi\meter}^{-1/2}$)} &
+  {(\si{\centi\meter\per\micro\second})} &
+ {(\si{\centi\meter\per\micro\second})} \\
+
+\midrule
+\phantom{abc}   &.024   &.034  &5.43  &  \num{2.05e-4} &  903   &150     \\
+\bottomrule
+\end{tabular}
+
+\caption{}
+\label{tb:gasprop}
+\end{table}
+
+
+%Add table for gas diffusion 
 
 \section{Pad Response Function}
 \label{sec:prf}
@@ -129,261 +398,12 @@ The shape of the PRF depends on the crossing angle of the track \cite{gatti}. Pl
 Fits were performed to the experimental data with  $5^{\circ}$ width bins from $0^{\circ} < \theta \leq 90^{\circ}$. The two parameters of the Gaussian fits are plotted versus $\theta$ in Fig.~\ref{fig:normsigma}; a $4^{th}$ order polynomial fit between these points allowed for interpolating between $\theta$.
 
 
-
-
-\section{S$\pi$RIT TPC Overview}
-%Add Overview image with labels
-The Samurai Pion-Reconstruction and Ion Tracker Time Projection Chamber (S$\pi$RI TPC) is a Multi-Wire Proportional Counter developed to measure pions and other light charge particles resulting from radioactive heavy ion collisions in a fixed target experiments.  The TPC is enclosed in a thin aluminum sheet walls all around in order to minimize neutron scattering and to allow for light charged particles to reach the arrays of scintillating bars detectors on the sides and downstream of the TPC. The S$\pi$RI TPC was developed to fit inside the Samurai dipole magnet used at the Rare Isotope Beam Factory (RIBF) at RIKEN in Wako-shi, Japan \cite{riken}; the dipole gap limited the vertical space of the TPC. More detail and specifications of the Samurai dipole magnet are given in \cite{samurai}. 
-
-A target ladder allowed for up to 5 fixed targets to be mounted. A ACME worm gear allowed for the x-axis motion for changing the targets during the experiment, without needing to open or move the TPC. The motion of this worm gear was translated through the target motion feed-through by several brass gears and non-magnetic gear boxes. The motion of the target ladder could be controlled by hand or by operation of the drill. The targets were mounted on stand-offs on the target ladder and also had z-axis motion. This allowed for the targets to be positioned as close as possible to the thin window of the field cage, maximizing the geometric acceptance. 
-
-The electronics were mounted to the aluminum top plate. Several aluminum ribs were mounted to the top of the plate to bring structural rigidity. A flatness within 150$\mu$m was achieved across the whole top plate as measured by a laser position system. The charge sensitive pads of the pad plane were etched into several circuit boards were recessed and glued to the bottom portion of the top plate. Vias through the pad plane circuit boards brought the signal traces from the pads to surface mount pads on the other side of the boards. Several holes cut through the top plate allowed for the interface cables of the electronics to be connected to these surface pads. 
-
-Just below the pad plane were a set of three wire planes; the gating grid, ground, and anode wire planes. The detailed function of these wires will be explained later but they served to separate the boundary between the drift volume and the avalanche volume. 
-
-The front and sides of the field cage were assembled from 8 independent rigid circuit boards. The downstream window served as the downstream wall of the field cage all though it was was a large polycarbonate frame in which a removable kapton window could be installed. This thin window minimized the scattering of exiting neutrons and charged particles for downstream detectors. 
-
-The voltage step down takes the high voltage of the  cathode and steps the voltage down through a set of copper rings and a resistor chain, minimizing the chance for sparking. 
-
-\begin{table*}\centering
-\ra{1.3}
-\begin{tabular}{@{}rr@{}}\toprule 
-\multicolumn{2}{c}{\spirit TPC Overview} \\
- \midrule
-Pad plane area & 1.3 m x .9 m\\
-Pad size       & 1.2 cm x .8 cm \\
-Number of pads & 12096 (112 x 108) \\
-Gas composition& 90\% Ar + 10\% CH${}_4$  \\
-Multiplicity limit & 200  \\
-dE/dx range        & Z=1-8, $\pi$, p,d,t,He,Li-O \\
-Drift length       & 50 cm \\
-\bottomrule
-\end{tabular}
-\caption{An overview of the properties of the \spirit TPC}
-\label{tb:spiritoverview}
-\end{table*}
-
-
-
-\begin{figure}[!htb]
-\includegraphics[width=\textwidth]{exploded.png}
-\caption{Overview of the \spirit TPC}
-\label{fig:tpcExplode}
-\end{figure}
-
-\subsection{Enclosure}
-The skeleton of the enclosure is composed of a rigid aluminum angle-iron frame. All walls are constructed of a aluminum frame with think sheet metal. All materials were made to be as thin to allow charged particles and neutrons to exit the TPC without scattering too much. This allows for a trigger to be created by placing detectors on the sides and downstream of the TPC. The enclosure itself is made to be gas tight with respects to the outside and the field cage. This is to allow for the possibility to run a different gas inside the enclosure than the field cage. Although, in this set of experiments we ran the same gas in the field cage and enclosure volume. 
-
-\subsection{Voltage Step Down}
-The gap between the field cage's cathode and the ground of the enclosure is quite small. To prevent electric breakdown in the gas between this gap a series of concentric copper rings safely stepped down the voltage to ground; where each ring was separated by a resistor. There were 7 concentric rings with a \SI{10}{\mega\ohm} resistors in between, creating a resistor chain which steps down the voltage each ring by approximately \SI{1000}{\volt}.
-
-\subsection{Field Cage}
-
-ADD info how to calculate cathode voltage from HW supply. 
-
-The field cage holds the detector gas and sets up a uniform electric field in which electrons can drift upwards toward the anode wires. It was designed to hang from the top plate and therefore needed to be of a lightweight construction. Also the materials needed to be thin to allow for light charged particle and neutrons to pass through without significant scattering for ancillary detectors. Therefore instead of a downstream wall, a large thin exit window was constructed. The cathode was constructed of an aluminum honeycomb laminate. Two sheets of ??? aluminum were bonded to a core of aluminum honeycomb structure providing a lightweight yet rigid structure for the cathode. 
-
-\begin{figure}[!htb]
-\includegraphics[width=\textwidth]{fc_overview.pdf}
-\label{fig:fc_overview}
-\caption{FC overview}
-\end{figure}
-
-
-\begin{figure}[!htb]
-\includegraphics[width=\textwidth]{fc_overview2.pdf}
-\label{fig:fc_overview2}
-\caption{FC overview 2}
-\end{figure}
-
-The field cage was constructed from several panels of printed circuit boards (PCBs). The epoxy in the common PCB substrate FR4 contains bromine which is not suitable for the long term operation of a TPC, as the bromine will eventually cause gain reduction of the wires [CITE]. The halogen free material chosen was Cryogenic-G10. We built the TPC with the option to run explosive gases such hydrogen, thus we decided to have field cage an isolated volume from the rest of the TPC enclosure. While the risk of a high voltage spark was minimized using the voltage step down, the risk of sparking when using an explosive gas could be further minimized by isolating the detector volume from the enclosure volume thereby allowing you to run an insulating gas between the field cage while running the explosive gas inside the detector volume only.  
-
-The front of the field cage was made of two PCBs and each side was constructed of three PCBs. The exit window was a 10$\mu$m thick Kapton window with evaporated aluminum strips on the inside and outside; mounted on a polycarbonate frame.
-
-
-\begin{equation}
-V_n = V_{cath} \frac{R_p + (50 - n)R}{49\cdot R + R_p}
-\label{eq:FCstrip}
-\end{equation}
-
-\begin{equation}
-R_p = 49 \cdot R  \left(\frac{ y_{g.g.} - y_{cath} }{ y_{TP} - y_{cath} \frac{V_{cath} - V_{gg}}{V_{cath}} }- 1 \right)
-\label{eq:TP_resistor}
-\end{equation}
-
-\begin{figure}[!htb]
-\includegraphics[width=\textwidth]{FC_schematic.pdf}
-\label{fig:FC_schematic}
-\caption{Schematic of the electric connections relevant to the Field Cage system.}
-\end{figure}
-\subsection{Voltage Step Down}
-
-
-
-\begin{figure}[!htb]
-\includegraphics[width=\textwidth]{TPC_schematic.pdf}
-\caption{Schematic of the TPC system}
-\label{fig:TPC_schematic}
-\end{figure}
-
-Figure~\ref{fig:FC_schematic} shows a cartoon drawing of the electrode geometry of the field cage walls. The basic idea of the field cage is to set up a constant electric field in the field cage volume to allow for a constant drift, in the presence of gas, for electrons. To accomplish this the field cage is composed of a set of copper strips which are set at a defined voltage by a resistor chain for a fixed distance between strips; setting up a constant electric field. 
-
-The cathode itself is connected to the HV supply through a \SI{10}{\mega\ohm} resistor and has an effective capacitance to ground of \SI{4}{\nano\farad}, $C_{VSD}$. The field cage is made of 50 inside copper strips and 49 outside copper strips; the strip thickness is exaggerated in the figure to show the detail. The first inside strip is connected to the cathode which is connected by an effective \SI{5}{\mega\ohm} resistor, $R$, to the next inside strip and the first outside strip. The resistor chain creates a voltage divider in which each strip is separated by a constant difference voltage at a fixed distance setting up a constant electric field. The last strip of the field cage is composed of partially a small inner strip on the PCB board and the aluminum top perimeter piece which holds the field cage together with the top plate of the TPC. Together their thickness is equal to the \SI{6}{\milli\metre} strip width of the other strips. The top perimeter is connected to electrical ground through a \SI{20}{\mega\ohm} resistor with the option to place an additional resistor in parallel to tune the voltage of the top perimeter. 
-
-
-
-\subsection{Pad Plane}
-The pad-plane is a multi-layer circuit board which is segmented into \SI{11.5}{\milli\metre} x \SI{7.5}{\milli\metre} charge sensitive pads; arranged in an array of 108 x 112 pads in the x and z-directions respectively making 12096 pads in total. There is an insulating gap of \SI{0.5}{\milli\metre} on each side separating the pads. The effective area covered by the pads is \SI{1344}{\milli\metre} x \SI{864}{\milli\metre}. There is a via and trace coming from each pad to the opposite side of the pad plane and is arranged in a surface pads which may be readout by a surface mount SAMTEC connector CITE HERE. 
-Add figure of close up of pad plane 
-
-
-\subsection{Wire Planes}
-
- \begin{table*}\centering
-\ra{1.3}
-\begin{tabular}{@{}rrrrrrr@{}}\toprule 
-\multicolumn{2}{c}{GET electronics settings}\\
-\midrule
- Plane & Material & Diameter \si{\micro\metre} & Pitch \si{\milli\metre} & Distance to pad-plane & Tension \si{\newton} & Voltage \si{\volt}\\ [0.5ex] 
- Anode  & Au-plated W   &  20  &  4  &  4   &  0.5  &  1460  \\
- Ground & BeCu          &  75  &  1  &  8   &  1.2  &  0     \\ 
- Gating & BeCu          &  75  &  1  &  14   &  1.2 &  -110$\pm$ 70\\ 
- \bottomrule
-\end{tabular}
-\caption{Wire plane properties}
-\label{tb:wireplane}
-\end{table*}
-
-
-%Add figure of gating grid transparency closed and open configuration 
-There are three wire planes that sit underneath the pad-plane. The wire plane closest to the pad-plane (\SI{4}{\milli\metre}), is the anode wire. The next plane (\SI{12}{\milli\metre}), is the ground plane or frisch grid, and the last plane (\SI{14}{\milli\metre}), is the gating grid. The gating grid is the first plane that electrons meet as they drift upward towards the anode plane. The gating grid is operated as a gate either allowing electrons and ions through or blocking them entirely. The ground plane shields the inside volume of the TPC from the high voltages of the anode wires where the avalanche process of the electron takes place. 
-
-The ground plane is the least interesting plane and is shorted to the enclosure ground by a BNC terminator on the outside of the TPC. If we would like to calibrate the electronics of the TPC we typically inject a pulser into one end of the ground plane and terminate the other end with a \SI{50}{\ohm} termination. 
-
-In the open configuration the gating grid is transparent to electrons coming from the TPC volume and also allows for ions to move from the avalanche region into the TPC volume. It functions as the gate of the TPC where we only open the gating grid when an event meets the selection trigger criteria; minimizing the excessive exposure to the un-reacted beams which would quickly build up enormous amounts of space charge. We close the TPC after reading out approximately one TPC volume -- about \SI{10}{\micro\second}  -- of space to prevent the back-flow of ions from the avalanche region of that event. Since ions move with a velocity much slower than that of elections, the ions only move several \si{\micro\metre} in the time the gate is open; this allows for electrons to pass through while preventing the back-flow of ions into the FC volume. Figure~\ref{fig:gg_onoff} shows a Garfield simulation of the gating grid in both the on and off configurations. In the on configuration, all the wires share the same average voltage, $V_{g.g.}$, which is optimized for the case of 100\% electron transparency. In the off configuration the reference voltage $V_{g.g.}$ remains the same, but alternating wires get an offset voltage of $\pm \Delta V$, so that the electric field between wires is great enough to block incoming electrons; opening the grid from this closed bi-polar mode is simply done by removing the offset voltage and allowing the two wires to connect and equilibrate their charges back to the reference voltage. 
-
-
-\begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{wires_open.pdf} 
-        \caption{Wires open} \label{fig:wires_open}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{wires_closed.pdf} 
-        \caption{Wires closed.} \label{fig:wires_closed}
-    \end{subfigure}
-\label{fig:wires}
-\end{figure}
-
-
-
-\begin{figure}[!htb]
-\includegraphics[width=\textwidth]{gg_onoff.pdf}
-\caption{On and off configurations of the gating grid.}
-\label{fig:gg_onoff}
-\end{figure}
-
-The anode wires are typically biased to \SI{e3}{\volt} and are very thin, about \SI{20}{\micro\metre} in diameter. This creates a very high electric field very close to the anode wire in which the electron gains significant kinetic energy producing electrons until it terminates on the anode wire. The amount of electrons it produces depends on the anode wire voltage and the gas properties. The absolute gas gain was not experimentally measured but was simulated by a Garfield simulation. During the experiment the anode wires were biased to two different voltages. We will refer to the voltage \SI{1460}{\volt} as the ``high voltage" and \SI{1214}{\volt} as the ``low voltage". Only two sections were biased with the lower voltage setting due to concerns of a high current issue. Figure~\ref{fig:anodegain} shows the expected number of electrons distributions for electrons produced in a avalanche process of an electron creating a single avalanche. The distribution follows a Polya distribution as expected and the MC data in the simulation was fit with a Polya function \cite{blumrol}. 
-
- 
-\begin{figure}[!htb]
-\includegraphics[width=\linewidth]{gain.png}
-\caption{Number of electrons produced in a single avalanche on an anode wire. Two different voltages were simulated using Garfield++ at 1470 $V$ and 1214 $V$. The expected Polya distribution fit is also given in yellow.}
-\label{fig:anodegain}
-\end{figure}
-
-
-\subsection{Electronics}
-
-Signals in the S$\pi$RIT TPC are amplified and digitized by the recently developed Generic Electronics for TPCs (GET) \cite{get}.  Short cables transmit the signals from the pads to the inputs of the AGET chips. Each AGET chip services 64 pads (63 pads are connected in our case), contains a pre-amplifier, and a Switched Capacitor Array (SCA), with a maximum of 512 time buckets with an adjustable sampling frequency of 1 to 100 MHz. Four AGET chips are mounted on one AsAd (ASIC and ADC) motherboard. The gain of each AGET can be configured as 0.12, 0.24, 1.0, or 10 pC over the whole dynamic range, and the ADCs on each AsAd board provides 12 bit resolution. The peaking times of the shaping amplifiers can be set to 69, 117, 232, 501, 720, or 1014 ns. In this experiment, the gain was set to the highest setting, 0.12 pC, the peaking time 117 ns, and the sampling frequency 25 MHz (resulting in 40 ns time buckets). The Aget 2.0, asad 2.1, and cobo 1.0 firmware versions were used. The variations in the electronics were calibrated by measuring the response of each channel to a injected reference pulse, covering the full dynamic range of each channel. 
-
-
-\begin{table*}\centering
-\ra{1.3}
-\begin{tabular}{@{}rr@{}}\toprule 
-\multicolumn{2}{c}{GET electronics settings}\\
-\midrule
-ADC bit range       & 14 bits \\
-Sampling frequency  & 1-100 MHz \\
-Dynamic range       & .12, .24, 1.0, 10pC \\
-Peaking time        & 69,117,232,501,720,1014 ns \\
-Time bucket range   & 512\\
-\bottomrule
-\end{tabular}
-\caption{Summary of range of GET electronics settings. }
-\label{tb:getoverview}
-\end{table*}
-
 \subsection{Considerations when constructing a TPC}
 Several considerations went into the construction of the S$\pi$RI TPC which I wish to summarize and document here. All materials and glues of the TPC were selected as low out-gassing materials. Several materials (that are common place in nuclear labs), such as vacuum grease, viton o-rings, all out-gas organic chemicals into the counter gas which damage the TPC by permanently lowering the gain over time. The organic molecules responsible are difficult to identify exactly, but lists of good and bad materials are well known in the literature from experiments. If a material we wished to used was not on these lists we placed the material in a clean chamber with the counter gas and flowed this counter gas through a small proportional counter making sure the gain did not drop at high collection rates when exposed to a high rate alpha Americium source. 
 
 Sparking
 Two volumes of gas. 
 
-
-\subsection{Gas Properties}
-The gas used inside of the field cage was a mixture of 90\% Ar and 10\% Methane ($\mathrm{CH_4}$) by volume --so called P10--  gas, operated just under atmospheric pressure (1 atm). The  gas was continually flowed through the field cage and exited into the enclosure volume, finally passing through a bubbler to atmosphere. The gas purity was monitored with an oxygen and water monitor which are the two most concerning contaminants. The water never exceed  ??? ppm  and the oxygen level never exceeded ??? ppm. Figure~\ref{fig:driftvel} shows the drift velocity of P10 gas at 1 atm as a function of electric field value in \si{\volt\per\centi\metre}. Operating near the peak value of the drift velocity curve minimizes the change in the drift velocity as the effective field slightly changes due to slight variations in the pressure. The electric field in the experiment was \SI{125}{\volt\per\centi\per\metre} at \SI{760}{\torr}, giving a reduced electric field \SI{0.17}{\volt\per\centi\metre\per\torr}.
-
-\begin{figure}[H]
-\includegraphics[width=\linewidth]{driftvel.png}
-\caption{Drift velocity of electrons in P10 gas.}
-\label{fig:driftvel}
-\end{figure}
-
-The general formula for the drift velocity, $d\vec{x}/dt$, of an electron in the presence of electric and magnetic fields, $\vec{E}$ and $\vec{B}$, can be expressed in the Langevin equation as,  
-
-\begin{equation}
-\frac{d\vec{x}}{dt} = \frac{\mu}{1+(\omega\tau)^2}\Big(\vec{E} + \omega\tau\frac{\vec{E}\times\vec{B}}{|\vec{B}|}+\omega^2\tau^2\frac{\vec{E}\cdot\vec{B}}{|\vec{B}|^2}\vec{B}\Big),
-\label{eq:elecdrift}
-\end{equation}
-
-where $\mu$ is the signed drift velocity, $\omega$ is the cyclotron frequency, and $\tau$ is the collision parameter for a particular gas \cite{blumrol}.
-
-Several properties of the gas were also simulated in Garfield such as the longitudinal and transverse diffusion, $sigma_l$ and $sigma_t$ respectively, and the electron and ion drift velocities, $v_d$ and $v_i$ respectively for the experimental electric field of \SI{125}{\volt\per\centi\metre}; summarized in Table~\ref{tb:gasprop}.
-
-
-\begin{table}[!htp] % not just 'h!'
-\centering % not a center environment
-\begin{tabular}{
-  @{}
-  l
-  S[table-format=1.2]
-  S[table-format=1.2]
-  S[table-format=1.2]
-  S[table-format=1.2]
-  S[table-format=5.2]
-  S[table-format=5.2]
-  @{}
-}
-\toprule
-Gas properties &
- {$\sigma_{t}$} &
- {$\sigma_{l}$} &
- {$v_{d}$} &
- {$v_{i}$}  &
- {$G_{h}$} &
- {$G_{l}$} \\
-&
-  {($\si{\centi\meter}^{-1/2}$)} &
-  {($\si{\centi\meter}^{-1/2}$)} &
-  {(\si{\centi\meter\per\micro\second})} &
- {(\si{\centi\meter\per\micro\second})} \\
-
-\midrule
-\phantom{abc}   &.024   &.034  &5.43  &  \num{2.05e-4} &  903   &150     \\
-\bottomrule
-\end{tabular}
-
-\caption{}
-\label{tb:gasprop}
-\end{table}
-
-
-%Add table for gas diffusion 
 
 
 \section{Ancillary Detectors }
