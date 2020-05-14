@@ -30,28 +30,87 @@ void plotTransparency_vdiff()
   TGraphErrors *garf_5 = new TGraphErrors(garf_v_5.size(),garf_v_5.data(),garf_trans_5.data());
 
 
-  data_0->SetMarkerColor(2);
-  data_5->SetMarkerColor(2);
+
+  TCanvas *c1 = new TCanvas("c1","c1",1000,800);
+  c1->SetTopMargin(.05);
+  c1->SetBottomMargin(.12);
+  c1->SetRightMargin(.05);
+  c1->SetLeftMargin(.12);
+
+  gPad->SetFrameLineWidth(10);
+  gStyle->SetLineWidth(10);
+    
+  garf_5->GetXaxis()->SetTitle("#DeltaV (V)");
+  garf_5->GetXaxis()->CenterTitle();
+  garf_5->GetYaxis()->SetTitle("e^{-} Transparency (%)");
+  garf_5->GetYaxis()->CenterTitle();
+
+  garf_5->GetXaxis()->SetTitleSize(.05);
+  garf_5->GetYaxis()->SetTitleSize(.05);
   
-  data_0->SetMarkerStyle(20);
-  garf_0->SetMarkerStyle(20);
+  garf_5->GetXaxis()->SetLabelSize(.05);
+  garf_5->GetYaxis()->SetLabelSize(.05);
+  garf_5->GetXaxis()->SetTitleOffset(1.1);
+  garf_5->GetYaxis()->SetTitleOffset(1.1);
 
-  data_5->SetMarkerStyle(22);
-  garf_5->SetMarkerStyle(22);
+  data_0->SetMarkerColor(kBlue - 4);
+  data_5->SetMarkerColor(kGreen - 4);
+  
+  garf_0->SetMarkerColor(kBlue - 4);
+  garf_5->SetMarkerColor(kGreen - 4);
+  
+  data_0->SetLineColor(kBlue - 4);
+  data_5->SetLineColor(kGreen - 4);
+  garf_0->SetLineColor(kBlue - 4);
+  garf_5->SetLineColor(kGreen - 4);
 
-  data_0->SetMarkerSize(1.);
-  garf_0->SetMarkerSize(1.);
+  data_0->SetLineWidth(6);
+  data_5->SetLineWidth(6);
 
-  data_5->SetMarkerSize(1.);
-  garf_5->SetMarkerSize(1.);
+  garf_0->SetLineWidth(10);
+  garf_5->SetLineWidth(10);
+
+  garf_0->SetLineStyle(10);
+  garf_5->SetLineStyle(10);
+
+
+  data_0->SetMarkerStyle(24);
+  garf_0->SetMarkerStyle(24);
+
+  data_5->SetMarkerStyle(32);
+  garf_5->SetMarkerStyle(32);
+
+  data_0->SetMarkerSize(3.);
+  garf_0->SetMarkerSize(2.);
+
+  data_5->SetMarkerSize(3.);
+  garf_5->SetMarkerSize(2.);
 
   //  garf_5->GetXaxis()->SetRangeUser(-200,-40);
   //  garf_5->GetYaxis()->SetRangeUser(.8,1.05);
 
-  garf_5->Draw("APO");
+  garf_5->SetTitle("");
+
+  TLegend *leg = new TLegend(.4,.6,.75,.9);
+  leg->AddEntry(garf_0,"Garfield sim. B = 0","l");
+  leg->AddEntry(garf_5,"Garfield sim. B = 0.5","l");
+  leg->SetBorderSize(0);
+  leg->SetFillColorAlpha(kWhite,0);
+ 
+  TLegend *leg2 = new TLegend(.7,.6,1.,.9);
+  leg2->AddEntry(data_0,"Data B = 0","ep");
+  leg2->AddEntry(data_5,"Data  B = 0.5 T","ep");
+  leg2->SetBorderSize(0);
+  leg2->SetFillColorAlpha(kWhite,0);
+  
+  garf_5->Draw("ACO");
   data_5->Draw("same PO");
 
-  garf_0->Draw("same PO");
+  garf_0->Draw("same CO");
   data_0->Draw("same PO");
+  leg->Draw();
+  leg2->Draw();
+
+  c1->SaveAs("transparencyDeltaV.png");
 
 }
