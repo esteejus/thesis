@@ -50,7 +50,7 @@
 \usepackage{cleveref}
 \usepackage{rotating}
 \usepackage{mathtools}
-
+\usepackage{comment}
 
 \graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} {images/dynamicrange/} {images/dataAnalysis/} {images/experiment/} }
 
@@ -78,10 +78,16 @@
 \newcommand{\tin}[2]{{}^{#1}\mathrm{Sn} + {}^{#2}\mathrm{Sn}}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 
+\makeatletter
+\DeclareTextCommand{\textprime}{\encodingdefault}{%
+  \mbox{$\m@th'\kern-\scriptspace$}% 
+}
+\makeatother
 
 \DeclareSIUnit\torr{Torr}
 \DeclareSIUnit\eVperc{\eV\per\clight}
 \DeclareSIUnit\MeVA{\mega\eV A}
+\DeclareSIUnit\clight{\text{\ensuremath{c}}}
 \DeclareSIUnit\micron{\micro\metre}
 \DeclareSIUnit\mrad{\milli\rad}
 \DeclareSIUnit\gauss{G}

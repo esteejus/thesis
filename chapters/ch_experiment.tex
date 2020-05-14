@@ -11,7 +11,7 @@
 %explain in breif the basics of a time projection chamber 
 Time projection chambers are a class of detectors which reconstruct charged particles in all 3-dimensions. Here we will outline the physical principles involved in the TPC measurement and discuss the particular details of the TPC used in this thesis. Inside of at TPC the detector gas is housed in a field cage, which also sets up a constant electric field. As charged particles pass through the gas, electron-ion pairs from neutral gas molecules by passing tracks; the electrons are accelerated opposite to the electric field and the ions move in the opposite direction. Since the mean free path of the electrons inside the gas is very small, they quickly collide with other gas molecules, slowing down the electron, which is then accelerated again repeating the cycle. This microscopic behavior manifests into a constant drift velocity when averaged over several gas collisions. These electrons drift up towards a set of wire planes eventually reaching a set of high voltage anode wires where they accelerate under the high electric field, liberating more electron-ion pairs from the gas creating an avalanche. The avalanche electrons finally terminate either on the anode wire or the grounded pad readout plane,  while the ions from the avalanche move slowly away from the anode wires; creating a large signal which is distributed over the pad-plane where the charge and time information of the signal is measured by the  electronics. 
 
-Two of the 3 coordinates are determined from the charge distribution on the pad plane. The third dimension comes from projecting the electrons back in time, utilizing the known constant drift velocity $v_d$; the distance the electron has traveled , $d$, -- along the electric field direction-- is calculated as $d = v_d \cdot t$, where $t$ is the time it took for the electrons to reach the electronics. The radius of curvature is related to the magnetic rigidity, and therefore the momentum of each track. The energy loss  deposited (<dE/dx>) is measured by the segmented charge sensitive pads on the pad-plane, which are connected to the readout electronics. Particle identification is achieved through since unique particles exist on unique rigidity and <dE/dx>  lines, which will be discussed in latter sections. In this chapter we will discuss in more detail the process described above in the context of the specific TPC used in this thesis. 
+Two of the 3 coordinates are determined from the charge distribution on the pad plane. The third dimension comes from projecting the electrons back in time, utilizing the known constant drift velocity $v_d$; the distance the electron has traveled , $d$, -- along the electric field direction-- is calculated as $d = v_d \cdot t$, where $t$ is the time it took for the electrons to reach the electronics. The radius of curvature is related to the magnetic rigidity, and therefore the momentum of each track. The energy loss  deposited ($\langle dE/dx\rangle$) is measured by the segmented charge sensitive pads on the pad-plane, which are connected to the readout electronics. Particle identification is achieved through since unique particles exist on unique rigidity and $\langle dE/dx\rangle$  lines, which will be discussed in latter sections. In this chapter we will discuss in more detail the process described above in the context of the specific TPC used in this thesis. 
 
 \section{S$\pi$RIT TPC Overview}
 %Add Overview image with labels
@@ -25,7 +25,7 @@ Two of the 3 coordinates are determined from the charge distribution on the pad 
 
 The Samurai Pion-Reconstruction and Ion Tracker Time Projection Chamber (\spirit TPC) is a multi-wire proportional counter developed to measure pions and other light charge particles resulting from radioactive heavy ion collisions in fixed target experiments.  The TPC is built on an aluminum angle iron skeleton with thin aluminum sheet walls all around, in order to minimize neutron scattering and to allow for light charged particles to reach auxilliary detectors on the sides and downstream of the TPC. The \spirit TPC was developed to fit inside the SAMURAI dipole magnet used at the Rare Isotope Beam Factory (RIBF) at RIKEN in Wako-shi, Japan \cite{riken}; the dipole gap limited the vertical space of the TPC to around \SI{75}{\centi\metre}. More detail and specifications of the SAMURAI dipole magnet are given in \cite{samurai}. 
 
-A target mechanism allowed for up to 5 fixed targets to be mounted at anytime, with the ability to change targets on the outside of the TPC. The field cage contained the detector gas and set up the constant electric field, which was mounted to a large aluminum top plate, though electrically isolated by a lexan top perimeter ring with o-rings to provide as gas seal. The pad plane and wire plane structures are also mounted to the inside face of the top plate with the electronics being mounted on the outside face of the top plate; several aluminum ribs were also mounted to provide extra rigidity to the top plate, keeping it flat to within \SI{150}{\micro\metre}, as measured by a laser CITE HERE JONS THESIS. Holes on the top plate allowed for the readout of the individual charge sensitive pads on the pad plane, through surface mount pads which were connected through short cables to the electronics. The exploded drawing shown in Fig.~\ref{fig:tpcExplode} pictures all of the major internal components of the  of the \spirit TPC
+A target mechanism allowed for up to 5 fixed targets to be mounted at anytime, with the ability to change targets on the outside of the TPC. The field cage contained the detector gas and set up the constant electric field, which was mounted to a large aluminum top plate, though electrically isolated by a lexan top perimeter ring with o-rings to provide as gas seal. The pad plane and wire plane structures are also mounted to the inside face of the top plate with the electronics being mounted on the outside face of the top plate; several aluminum ribs were also mounted to provide extra rigidity to the top plate, keeping it flat to within \SI{150}{\micro\metre}, as measured by a laser \cite{jon}. Holes on the top plate allowed for the readout of the individual charge sensitive pads on the pad plane, through surface mount pads which were connected through short cables to the electronics. The exploded drawing shown in Fig.~\ref{fig:tpcExplode} pictures all of the major internal components of the  of the \spirit TPC
 
 
 \begin{table*}\centering
@@ -67,7 +67,7 @@ The field cage contains the detector gas and sets up a uniform electric field in
 \caption{FC overview 2}
 \end{figure}
 
-The field cage was constructed from several panels of printed circuit boards (PCBs). The front of the field cage was made of two PCBs and each side was constructed of three PCBs supported by Lexan pieces. The epoxy in the common PCB substrate FR4 contains bromine which is not suitable for the long term operation of a TPC, as the bromine will eventually cause gain reduction of the wires CITE HERE. The halogen free material used was Cryogenic-G10.  The field cage is an isolated volume from the enclosure of the TPC for the option to run explosive gases such hydrogen in the field cage, where the enclosure can be filled with an insulating gas. While the risk of a high voltage spark was minimized using the voltage step down, the risk of sparking when using an explosive gas could be further minimized by isolating the detector volume from the enclosure volume thereby allowing you to run an insulating gas between the field cage while running the explosive gas inside the detector volume only. Instead of a downstream wall, a large thin exit window was constructed which consisted of a lexan frame bonded to a \SI{10}{\micro\metre} Kapton window with evaporated aluminum strips. The PCB boards were epoxied into the cathode which was constructed of an aluminum honeycomb laminate where two sheets of aluminum were bonded to a core of aluminum honeycomb structure providing a lightweight yet rigid structure. On the other end the boards were epoxied into an aluminum top perimeter which also served as the last ring in the TPC. Together with the cathode bottom, the field cage proved to be a rigid lightweight structure. A lexan ring containing o-rings was placed in-between the top perimeter piece and the top plate of the TPC. Screws with nylon washers, and collars, were used to mount the top perimeter, and the field cage, to the top plate. The top plate could be removed and rotated with the field cage on without damaging any internal components. 
+The field cage was constructed from several panels of printed circuit boards (PCBs). The front of the field cage was made of two PCBs and each side was constructed of three PCBs supported by Lexan pieces. The epoxy in the common PCB substrate FR4 contains bromine which is not suitable for the long term operation of a TPC, as the bromine will eventually cause gain reduction of the wires \cite{tpcAging}. The halogen free material used was Cryogenic-G10.  The field cage is an isolated volume from the enclosure of the TPC for the option to run explosive gases such hydrogen in the field cage, where the enclosure can be filled with an insulating gas. While the risk of a high voltage spark was minimized using the voltage step down, the risk of sparking when using an explosive gas could be further minimized by isolating the detector volume from the enclosure volume thereby allowing you to run an insulating gas between the field cage while running the explosive gas inside the detector volume only. Instead of a downstream wall, a large thin exit window was constructed which consisted of a lexan frame bonded to a \SI{10}{\micro\metre} Kapton window with evaporated aluminum strips. The PCB boards were epoxied into the cathode which was constructed of an aluminum honeycomb laminate where two sheets of aluminum were bonded to a core of aluminum honeycomb structure providing a lightweight yet rigid structure. On the other end the boards were epoxied into an aluminum top perimeter which also served as the last ring in the TPC. Together with the cathode bottom, the field cage proved to be a rigid lightweight structure. A lexan ring containing o-rings was placed in-between the top perimeter piece and the top plate of the TPC. Screws with nylon washers, and collars, were used to mount the top perimeter, and the field cage, to the top plate. The top plate could be removed and rotated with the field cage on without damaging any internal components. 
 
 \begin{figure}[!htb]
 \centering
@@ -188,7 +188,13 @@ To measure the electron transparency as a function of the difference voltage $\D
 
 
 
-The anode wires are typically biased to \SI{e3}{\volt} and are very thin, about \SI{20}{\micro\metre} in diameter. This creates a very high electric field very close to the anode wire in which the electron gains kinetic energy producing electrons until it terminates on the anode wire or the pad plane. The amount of electrons it produces depends on the anode wire voltage and the gas properties. The absolute gas gain was not experimentally measured but was simulated by a Garfield simulation. During the experiment the anode wires were biased to two different voltages. We will refer to the voltage \SI{1460}{\volt} as the ``high voltage" and \SI{1214}{\volt} as the ``low voltage". Only two sections were biased with the lower voltage setting due to concerns of a high current issue. Figure~\ref{fig:anodegain} shows the expected number of electrons distributions for electrons produced in a avalanche process of an electron creating a single avalanche. The distribution follows the expected Polya distribution and the MC data in the simulation was fit with a Polya function \cite{blumrol}. 
+The anode wires are made of very thin Gold plated Tungsten wires, about \SI{20}{\micro\metre} in diameter. They are biased to high voltages around \SI{e3}{\volt} which creates a very high electric field very close to the anode wire. As the eletron drifts towards the anode wire, it gains kinetic energy knocking out more electron-ion pairs in the gas until it terminates on the anode wire or the pad plane. The amount of electrons produced depends on the anode wire voltage and the gas properties. The absolute gas gain was not experimentally measured but was calculated in a Garfield simulation. During the experiment the anode wires were biased to two different voltages. We will refer to the voltage \SI{1460}{\volt} as the ``high voltage" and \SI{1214}{\volt} as the ``low voltage". Only two sections were biased with the lower voltage setting due to concerns of a high current issue. Figure~\ref{fig:anodegain} shows the expected number of electrons distributions for electrons produced in a avalanche process of an electron creating a single avalanche. The distribution follows the expected Polya distribution and the MC data in the simulation was fitted with a Polya function \cite{blumrol}, described as,
+
+\begin{equation}
+P(x) = A_0^{-1}\cdot \frac{A_1^{A_1}}{\Gamma(A_1)} \left(\frac{x}{A_0}\right)^{A_1-1}e^{\frac{-A_1x}{A_0}}.
+\end{equation}
+
+For the voltage of \SI{1460}{\volt} the parameters of the fit are $A_0=903.9$ and $A_1=1.50$ and for the voltage of \SI{1214}{\volt} the parameters are $A_0=150.0$ and $A_1=1.47$. 
 
 
 
@@ -220,17 +226,22 @@ where the relevant vertical dimensions are $y_{g.g.} - y_{cath} = \SI{497.3}{\mi
 
 
 \subsection{Pad Plane}
-The pad-plane is a multi-layer circuit board which is segmented into \SI{11.5}{\milli\metre} x \SI{7.5}{\milli\metre} charge sensitive pads; arranged in an array of 108 x 112 pads in the x and z-directions respectively making 12096 pads in total. There is an insulating gap of \SI{0.5}{\milli\metre} on each side separating the pads. The effective area covered by the pads is \SI{1344}{\milli\metre} x \SI{864}{\milli\metre}. There is a via and trace coming from each pad to the opposite side of the pad plane and is arranged in a surface pads which may be readout by a surface mount SAMTEC connector CITE HERE. 
-Add figure of close up of pad plane 
+The pad-plane is a multi-layer circuit board which is segmented into \SI{11.5}{\milli\metre} x \SI{7.5}{\milli\metre} charge sensitive pads; arranged in an array of 108 x 112 pads in the x and z-directions respectively making 12096 pads in total. There is an insulating gap of \SI{0.5}{\milli\metre} on each side separating the pads. The effective area covered by the pads is \SI{1344}{\milli\metre} x \SI{864}{\milli\metre}. There is a via and trace coming from each pad to the opposite side of the pad plane and is arranged in a surface pads which may be readout by a surface mount SAMTEC connector. Figure~\ref{fig:padplane} shows the pad plane boards being glued to the top plate and the holes which allow for the readout of pads. The pads were gold plated for excellent electric conduction properties. 
 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{3boards_ps.jpg}
+\caption{Figure of the pad plane boards being glued to the top plate. }
+\label{fig:padplane}
+\end{figure}
 
 
 \subsection{Electronics}
 
-Signals in the S$\pi$RIT TPC are amplified and digitized by the recently developed Generic Electronics for TPCs (GET) \cite{get}.  Short cables transmit the signals from the pads to the inputs of the AGET chips. Each AGET chip services 64 pads (63 pads are connected in our case), contains a pre-amplifier, and a Switched Capacitor Array (SCA), with a maximum of 512 time buckets with an adjustable sampling frequency of 1 to 100 MHz. Four AGET chips are mounted on one AsAd (ASIC and ADC) motherboard. The gain of each AGET can be configured as 0.12, 0.24, 1.0, or 10 pC over the whole dynamic range, and the ADCs on each AsAd board provides 12 bit resolution. The peaking times of the shaping amplifiers can be set to 69, 117, 232, 501, 720, or 1014 ns. In this experiment, the gain was set to the highest setting, 0.12 pC, the peaking time 117 ns, and the sampling frequency 25 MHz (resulting in 40 ns time buckets). The Aget 2.0, asad 2.1, and cobo 1.0 firmware versions were used. The variations in the electronics were calibrated by measuring the response of each channel to a injected reference pulse, covering the full dynamic range of each channel. 
+Signals in the S$\pi$RIT TPC are amplified and digitized by the recently developed Generic Electronics for TPCs (GET) \cite{get}.  Short cables transmit the signals from the pads to through a circuit protection board called ZAP, to the inputs of the AGET chips mounted to the AsAd board as seen in Fig.~\ref{fig:getzap}. Each AGET chip services 64 pads (63 pads are connected in our case), contains a pre-amplifier, and a Switched Capacitor Array (SCA), with a maximum of 512 time buckets with an adjustable sampling frequency of 1 to 100 MHz. Four AGET chips are mounted on one AsAd (ASIC and ADC) motherboard. The gain of each AGET can be configured as 0.12, 0.24, 1.0, or 10 pC over the whole dynamic range, and the ADCs on each AsAd board provides 12 bit resolution. The peaking times of the shaping amplifiers can be set to 69, 117, 232, 501, 720, or 1014 ns. In this experiment, the gain was set to the highest setting, 0.12 pC, the peaking time 117 ns, and the sampling frequency 25 MHz (resulting in 40 ns time buckets). 
 
-
-\begin{table*}\centering
+\begin{table*}[!htb]
+\centering
 \ra{1.3}
 \begin{tabular}{@{}rr@{}}\toprule 
 \multicolumn{2}{c}{GET electronics settings}\\
@@ -246,6 +257,31 @@ Time bucket range   & 512\\
 \label{tb:getoverview}
 \end{table*}
 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=.5\textwidth]{GET_and_ZAP.pdf}
+\caption{•}
+\label{fig:getzap}
+\end{figure}
+
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{AGETfncn.jpg}
+\caption{Schematic of the internals of the AGET chip from \cite{get2}}
+\label{fig:aget}
+\end{figure}
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=.5\textwidth]{GETlayout.jpg}
+\caption{Readout structure of the AsAd boards and CoBo board structures. Also the relevant components of the DAQ system.}
+\label{fig:coboDAQ}
+\end{figure}
+
+After each AsAd board has digitized the data it is sent to the Concentration Boards (CoBo). Each CoBo board can concentrate the data from 4 AsAd boards. The Multiplicity, Trigger, and Time module (MuTanT) \cite{get} provides the common trigger signal for all CoBo boards.  Each board sends the data to the DAQ server which writes to disk the data from each board, which was handled by two separete DAQ servers; saving to one common analysis server. The data could then be analyzed using the RIKEN High Performace Computing cluster or moved to the NSCL or MSU cluster for analysis. The Aget 2.0, asad 2.1, and cobo 1.0 firmware versions were used. 
 
 \section{Energy loss in material}
 The average energy loss in a material can be described by the Bethe-Bloch equation,
@@ -254,21 +290,37 @@ The average energy loss in a material can be described by the Bethe-Bloch equati
 \end{equation}
 Where $N$ is the number density of electrons in the medium, $e$ the elementary charge, $mc^2$ is the rest mass of the electron, $Z$ is the charge of the traversing particle, $I$ is the mean excitation energy of the medium, and $\beta$ is the velocity of the particle. There is a large variation in energy loss around this mean value, with a long high energy loss tail. 
 
-The statistical variation of energy loss in a material was described by Landau \cite{landau} and later better described by Shulek \cite{shulek} and Bichsel \cite{bichsel1}. In both approximations it is described by a most probable energy loss value with a long, high-energy loss tail. Because of this long tail, for a finite set of energy loss measurements along a given track, the fluctuation of the mean value energy loss is a very unreliable observable. The most probable energy loss is the most desirable observable either through fitting of the observed distribution or through the truncated mean method. The truncated mean is the average mean value calculated after throwing away the top fraction of the highest energy loss entries, where the fraction used in this thesis was 30\%. This approximates the most probable value without performing a fit to a known distribution. There are 
+The statistical variation of energy loss in a material was described by Landau \cite{landau} and later better described by Shulek \cite{shulek} and Bichsel \cite{bichsel1}. In both approximations it is described by a most probable energy loss value with a long, high-energy loss tail. Because of this long tail, for a finite set of energy loss measurements along a given track, the fluctuation of the mean value energy loss is a very unreliable observable. The most probable energy loss is the most desirable observable either through fitting of the observed distribution or through the truncated mean method. The solid curve in Fig.~\ref{fig:straggling} shows the energy loss distribution in Ar gas for a proton with momentum \SI{3.4}{\giga\eVperc}. The dashed line is the distribution under the Landau assumptions. The mean energy loss $\langle\Delta\rangle$ is significantly shifted from the most probable value $\Delta_p$, due to the long high energy tail. 
+
+\begin{figure}
+\includegraphics[width=\textwidth]{bichsel.png}
+\caption{Energy loss of a $\beta\gamma$ = 3.6 particle in Ar gas taken from \cite{bichsel}}
+\label{fig:straggling}
+\end{figure}
+
+The truncated mean is the average mean value calculated after throwing away the top fraction of the highest energy loss entries. This approximates the most probable value without performing a fit to a known distribution. To calculate the truncated mean $C$, the $n$ energy loss values in a given track $\Delta_i/x$ are sorted from smallest to largest, and the mean value of a reduced set of points $n_t = f_r n$ is calculated as,
+
+\begin{equation}
+C = \frac{1}{n} \sum\limits_{i}^{n_t} \Delta_i/x,
+\end{equation}
+
+where $f_r$ is the cut off fraction; in this thesis, a value of 0.7 was used. 
+
+
 
 
 %Suppose $E$ represents the set of $N$ energy loss points measured, sorted from lowest to highest energy loss. The $j^{th}$ index marks the position where  $i > j$ entries represent the highest value of energy loss measurements, where their fraction of the total set is expressed as, $f_c = \sum_{i>j} E_i/ \sum_i E_i$. The truncated mean is expressed as the mean value of the remaining energy loss measurements, throwing away the top $f_c$ fraction, expressed as,
 
 %\begin{equation}
-%<dE/dx>_t = \frac{\sum_{i < j} E_i}{N}
+%\langledE/dx\rangle_t = \frac{\sum_{i < j} E_i}{N}
 %\label{eq:truncatedM}
 %\end{equation}
 
- A full description of the energy loss distribution can be described in CITE HERE.
+ %A full description of the energy loss distribution can be described in CITE HERE.
 
 
 \subsection{Gas Properties}
-The gas contained by the field cage was a mixture of 90\% Ar and 10\% Methane ($\mathrm{CH_4}$) by volume (P10 gas), and operated just under atmospheric pressure (1 atm). The  gas was continually flowed through the field cage and exited into the enclosure volume, finally passing through a bubbler to atmosphere. The gas purity was monitored with an oxygen and water monitor which are the two most concerning contaminants. The water never exceed  ??? ppm  and the oxygen level never exceeded ??? ppm. Figure~\ref{fig:driftvel} shows the drift velocity of P10 gas at 1 atm as a function of electric field value in \si{\volt\per\centi\metre}. Operating near the peak value of the drift velocity curve minimizes the change in the drift velocity as the effective field slightly changes due to slight variations in the pressure. The electric field in the experiment was \SI{125}{\volt\per\centi\per\metre} at \SI{760}{\torr}, giving a reduced electric field \SI{0.17}{\volt\per\centi\metre\per\torr}.
+The gas contained by the field cage was a mixture of 90\% Ar and 10\% Methane ($\mathrm{CH_4}$) by volume (P10 gas), and operated just under atmospheric pressure 1 atm. The  gas was continually flowed through the field cage and exited into the enclosure volume, finally passing through a bubbler to atmosphere. The gas purity was monitored with an oxygen and water monitor which are the two most concerning contaminants. The water never exceed  ??? ppm  and the oxygen level never exceeded ??? ppm. Figure~\ref{fig:driftvel} shows the drift velocity of P10 gas at 1 atm (\SI{760}{\torr}) as a function of the reduced electric field value given in units of \si{\volt\per\centi\metre\per\torr}. Operating near the peak value of the drift velocity curve minimizes the change in the drift velocity as the effective field slightly changes due to slight variations in the pressure. The electric field in the experiment was \SI{125}{\volt\per\centi\per\metre} at \SI{760}{\torr}, giving a reduced electric field \SI{0.17}{\volt\per\centi\metre\per\torr}.
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{driftvel.png}
@@ -285,7 +337,7 @@ The general formula for the drift velocity, $d\vec{x}/dt$, of an electron in the
 
 where $\mu$ is the signed drift velocity, $\omega$ is the cyclotron frequency, and $\tau$ is the collision parameter for a particular gas \cite{blumrol}.
 
-Several properties of the gas were also simulated in Garfield such as the longitudinal and transverse diffusion, $sigma_l$ and $sigma_t$ respectively, and the electron and ion drift velocities, $v_d$ and $v_i$ respectively for the experimental electric field of \SI{125}{\volt\per\centi\metre}; summarized in Table~\ref{tb:gasprop}.
+Several properties of the gas were also simulated in Garfield such as the longitudinal and transverse diffusion, $\sigma_l$ and $\sigma_t$ respectively, and the electron and ion drift velocities, $v_d$ and $v_i$ respectively for the experimental electric field of \SI{125}{\volt\per\centi\metre}; summarized in Table~\ref{tb:gasprop}.
 
 
 \begin{table}[!htp] % not just 'h!'
@@ -329,30 +381,41 @@ Gas properties &
 
 \section{Pad Response Function}
 \label{sec:prf}
-Each electron avalanche produces an two-dimensional image charge on the pad plane, as shown in the cartoon in Fig.~\ref{fig:2DPRF}, where the projection of the charge distribution onto the $x$ and $z$ axis of this distribution are labeled as $\rho(x)$ and $\rho(z)$ respectively. If $\rho(x,z)$ represents the charge distribution on the pad-plane, the total charge observed on each pad, Q, is given as,
+Each electron avalanche produces an two-dimensional image charge on the pad plane, as shown in the cartoon in Fig.~\ref{fig:2DPRF}, where the projection of the charge distribution onto the $x$ and $z$ axis of this distribution are labeled as $\rho(x)$ and $\rho(z)$ respectively. If $\rho(x,z)$ represents the charge distribution on the pad-plane, the total charge observed on each pad, Q, is expressed as,
 
 \begin{equation}
-Q(x_o,z_o) = \int_{z_o - \frac{l}{2}}^{z_o + \frac{l}{2}} \int_{x_o - \frac{w}{2}}^{x_o + \frac{w}{2}} \rho(x,z) dxdz,
+Q(x_o,z_o) = \int_{z_o - \frac{l}{2}}^{z_o + \frac{l}{2}} \int_{x_o - \frac{w}{2}}^{x_o + \frac{w}{2}} \rho(x-x_o\textprime,z - z_o\textprime) dxdz,
 \label{eq:prfpadCharge}
 \end{equation}
 
-where $x_o$ and $z_o$ represent the x and z coordinates of the center of each pad, w is the width, and l is the length. This function is commonly refered to as the Pad Respons Funciton (PRF). The total charge observed for this track is a superposition of PRFs of each avalanches on all the anode wires. It is the use of this PRF that allows for sub-millimeter accuracy in the position resolution of the TPC \cite{blumrol}. Typically in a TPC, hits are grouped into clusters and it is practical to cluster in only one direction. The PRF can be expressed in a way that is independent of the location of the avalanche. If the true position of the avalanche is ($x_o^{'}$,$z_o^{'}$), and the charge distribution can be written in a position independent way %$\rho(\lambda_x,\lambda_z)$, where $\lambda_x = x - x_o^'$ and $\lambda_z = z - z_o^'$. The PRF for layer clustering can be written as,
+where $x_o$ and $z_o$ represent coordinates of the center of each pad, $x_0\textprime$ and $z_o\textprime$ are the coordinates of the avalanche, $w$ is the width, and $l$ is the length. The total charge observed for this track is a superposition of each avalanches on all the anode wires. Typically in a TPC, hits are grouped into clusters and it is practical to cluster in only one direction. The marginal probability distribution over a given z-layer can be written as,
 
 \begin{equation}
-Q(\lambda_x) = \int_{z_o - \frac{l}{2}}^{z_o + \frac{l}{2}} \int_{x_o - \frac{w}{2}}^{x_o + \frac{w}{2}} \rho(\lambda_x,\lambda_z) dxdz,
+\rho_x(x) = \int_{z_o - \frac{l}{2}}^{z_o + \frac{l}{2}} \rho(x,z)dz,
+\end{equation}
+
+and over a given z-layer can be written as,
+
+\begin{equation}
+\rho_z(z) = \int_{x_o - \frac{w}{2}}^{x_o + \frac{w}{2}} \rho(x,z)dx.
+\end{equation}
+
+By substituting the variables  $\lambda_x = x - x_o\textprime$, and $\lambda_z = z - z_o\textprime$, we can express the charge distribution independent of the avalanche location. The Pad Response Function (PRF) along the direction x can be written as,
+
+\begin{equation}
+P_X(\lambda_{x_o}) = \frac{ \int_{\lambda_{x_o}-\frac{w}{2}}^{\lambda_{x_o} + \frac{w}{2}} \rho_x(\lambda_x)d\lambda_x } {\int_{-\infty}^\infty \rho_x(\lambda_x)d\lambda_x     },
 \label{eq:prflayer}
 \end{equation}
 
-and the PRF for row clustering can be written as, 
+where $\lambda_{x_o} = x_o - x_o\textprime$; in a similar manner for the situation we cluster along the z-direction the PRF can be written as,
 
 \begin{equation}
-Q(\lambda_z) = \int_{z_o - \frac{l}{2}}^{z_o + \frac{l}{2}} \int_{x_o - \frac{w}{2}}^{x_o + \frac{w}{2}} \rho(\lambda_x,\lambda_z) dxdz.
+P_Z(\lambda_{z_o}) = \frac{ \int_{\lambda_{z_o}-\frac{l}{2}}^{\lambda_{z_o} + \frac{l}{2}} \rho_z(\lambda_z)d\lambda_z }{\int_{-\infty}^\infty \rho_z(\lambda_z)d\lambda_z  },
 \label{eq:prfrow}
 \end{equation}
 
-The The direction most perpendicular to the track's direction of travel provides the most accurate position resolution.  Clustering in the \spirit TPC is done for several pads containing charge in the direction most perpendicular to the track's direction of travel. 
+where $\lambda_{z_o} = z_o - z_o\textprime$.
 
-In this example the clustering direction would be along the $x$ axis, as illustrated by the bolded pads. By choosing to cluster only in one direction, we have not included the charge in adjacent pads along the $z$ axis resulting from the tails of $\rho(z)$. Therefore the charge not included in the the bolded pads will be incorporated into adjacent clusters, introducing small correlations in charge between neighboring clusters. 
 
 \begin{figure}[!htb]
 \includegraphics[width=\linewidth]{padsat_Large}
@@ -372,24 +435,7 @@ PRF_{\mathrm{Gatti}}(\lambda)
 where $w$ is the width of the pad, $h$ is the distance of the anode plane to the pad plane, and $\lambda$ is the distance of the pad center to the avalanche point. It is a single parameter equation where the two parameters $K_1 = \frac{K_{2}\sqrt{K_3}}{4 \arctan(\sqrt{K_3})}$ and $K_2 = \frac{\pi}{2}\left(1-\frac{\sqrt{K_{3}}}{2}\right)$ depend on the parameter $K_3$, which is a function of the ratio of the anode wire diameter to the distance of the anode wires to the pad plane. $K_3$ can be looked up in a graph in \cite{blumrol} and \cite{gatti}.
 
 
-
-\subsection{Experimental Pad Response Function}
-
-The correlations we introduced by only clustering along one direction do not play a significant role in the particle identification, but cause deviations from the expected Gatti distribution. Also, analytic PRFs only exist for classical multi-wire TPCs. For these reasons it is useful to experimentally measure the PRF and fit it with an empirical function, typically a Gaussian, to describe its behavior. 
-
-As in Fig.~\ref{fig:topview}, we postulate that the PRF is a function of the total charge deposited in a cluster $Q = \sum_i q_i$, and the difference in position of the center of the $i^{th}$ pad, $x_i$, to the mean position $\bar{x} = \sum_i x_i q_i/Q$, defined as $\lambda_i = x_i-\bar{x}$. The PRF is simply defined as the charge fraction of each pad as a function of $\lambda$, as shown in Equation \ref{eq:prf}. 
-
-\begin{equation}\label{eq:prf}
-PRF(\lambda_i) = \frac{q_i(\lambda_i)}{Q}
-\end{equation}
-
-Averaging over many events in the experimental data, the resulting PRF for the S$\pi$RIT TPC is shown in Fig.~\ref{fig:expprf}. Here we see the deviations from the expected analytic Gatti distribution (black curve), whereas fitting with a two parameter Gaussian function (red curve) gives a better description of the  data, Eq.~\ref{eq:gaus}, with the two parameters being the normalization coefficient, $N_0$, width $\sigma$, and with a mean value assumed to be 0.
-
-\begin{equation}\label{eq:gaus}
-PRF_{\mathrm{Gaus}}(\lambda) = N_0 e^\frac{-\lambda^2}{2\sigma^2}
-\end{equation}
-
-\begin{figure}[ht!]s
+\begin{figure}[!htb]
 \begin{overpic}[width=\linewidth]{fig5.pdf}
 \put(61,55){\contour{white}{ PRF${}_{\mathrm{Gaus}}(\lambda)$ eq. \ref{eq:gaus}  }}
 \put(61,49){\contour{white}{ PRF${}_{\mathrm{Gatti}}(\lambda)$ eq. \ref{eq:gatti} }}
@@ -398,84 +444,25 @@ PRF_{\mathrm{Gaus}}(\lambda) = N_0 e^\frac{-\lambda^2}{2\sigma^2}
 \label{fig:expprf}
 \end{figure}
 
-The shape of the PRF depends on the crossing angle of the track \cite{gatti}. Plotted in Fig.~\ref{fig:prfpimData} is the PRF of $\pi^-$ tracks vs. the crossing angle $\theta$. The PRF gets wider starting from $90^{\circ}$  and going to $45^{\circ}$; if we did not switch clustering directions the PRF would become wider until it was a uniform distribution and there was no position resolution. Since we switch the clustering direction from $x$ to the $z$ direction at $45^{\circ}$, the opposite trend is seen where the PRF becomes narrower as the position resolution gets better going from $45^{\circ}$ to $0^{\circ}$.
+
+Since we take the marginal distributions only along one layer or row of pad  correlations are introduced in the PRF from adjacent layers or rows which cause slight deviations from the expected Gatti distribution. Also, analytic PRFs only exist for classical multi-wire TPCs. For these reasons it is useful to experimentally measure the PRF and fit it with an empirical function, typically a Gaussian, to describe its behavior. The method for extracting the experimental PRF will be discussed latter, by averaging over many events in the experimental data, the resulting PRF for the S$\pi$RIT TPC is shown in Fig.~\ref{fig:expprf}. Here we see the deviations from the expected analytic Gatti distribution (black curve), whereas fitting with a two parameter Gaussian function (red curve) gives a better description of the  data, Eq.~\ref{eq:gaus}, with the two parameters being the normalization coefficient, $N_0$, width $\sigma$, and with a mean value assumed to be 0.
+
+\begin{equation}\label{eq:gaus}
+PRF_{\mathrm{Gaus}}(\lambda) = N_0 e^\frac{-\lambda^2}{2\sigma^2}
+\end{equation}
 
 
 
 
-\begin{figure}[!htb]
-     \centering
-	 \includegraphics[width=\textwidth]{PRFs_data_wcut.png}
-     \caption{PRF response from $\pi^-$ data. }
-     \label{fig:prfpimData}
-\end{figure}
-
-\begin{figure}[ht!]
-\vspace{5mm}
-\includegraphics[width=\linewidth]{fig7}
-\caption{Parameters $N_{0}$ and $\sigma$ as a function of the crossing angle $\theta$ with the $4^{th}$ order polynomial fits.}
-\label{fig:normsigma}
-\end{figure}
 
 \begin{comment}
-\begin{table}
-\centering
- \begin{tabular}{||c c c c c c||} 
- \hline
- Coefficient & $c_0$ & $c_1$ & $c_2$ & $c_3$ & $c_4$ \\ [0.5ex] 
- \hline\hline
- $0 < \theta < 45$ & & & & &  \\ [.25ex]
- \hline
- $N_0$ & .897 & 5.766E-3 & -4.263E-4 & 7.444E-6 & 5.705E-8 \\ 
- \hline
- $\sigma$ & 5.496 & -3.920E-2 & 2.693E-3 & -5.208E-5 & 5.334E-7\\
- \hline
- $45 < \theta < 90$ & & & &  & \\ [.25ex]
- \hline	
- $N_0$ & 1.220 & -6.258E-2 & 1.608E-3 & -1.492E-5  & 4.654E-8 \\
- \hline
- $\sigma$ & 31.368 & -1.109 & 1.779E-2 & -1.336E-4 & 3.940E-7\\
- \hline
-\end{tabular}
-\caption{Coefficients of the $4_th$ order polynomial fit to the Gaussian parameters $N_0$ and $\sigma$. The polynomial form is given as $c_0 + c_1 x + c_2 x^2 + c_3 x^3 + c_4 x^4$}
-\label{tb:coeff}
-\end{table}
-\end{comment}
- 
-Fits were performed to the experimental data with  $5^{\circ}$ width bins from $0^{\circ} < \theta \leq 90^{\circ}$. The two parameters of the Gaussian fits are plotted versus $\theta$ in Fig.~\ref{fig:normsigma}; a $4^{th}$ order polynomial fit between these points allowed for interpolating between $\theta$.
-
-
 \subsection{Considerations when constructing a TPC}
 Several considerations went into the construction of the S$\pi$RI TPC which I wish to summarize and document here. All materials and glues of the TPC were selected as low out-gassing materials. Several materials (that are common place in nuclear labs), such as vacuum grease, viton o-rings, all out-gas organic chemicals into the counter gas which damage the TPC by permanently lowering the gain over time. The organic molecules responsible are difficult to identify exactly, but lists of good and bad materials are well known in the literature from experiments. If a material we wished to used was not on these lists we placed the material in a clean chamber with the counter gas and flowed this counter gas through a small proportional counter making sure the gain did not drop at high collection rates when exposed to a high rate alpha Americium source. 
 
 Sparking
 Two volumes of gas. 
+\end{comment}
 
-
-
-\section{Ancillary Detectors }
-
-
-\subsection{Kyoto Multiplicity Trigger}
-%kyoto array sets multiplicity trigger
-%scintillator bars
-The Kyoto Multiplicity Array consists of two arrays of plastic scintillating bars on each side of the TPC, each consisting of 30 bars. The entire TPC structure was designed so that light charged particles could easily pass through  the field cage and  side walls of the TPC enclosure. In this way the number of tracks passing through the sides of the TPC could be measured by this array. In heavy ion collisions the more central a nuclear collision is, the more nucleons participate in the collision, resulting in more measured tracks. It is this correlation between the number of tracks and centrality of the collision that makes the Kyoto Array sensitive to the centrality of events. It is more likely that in very central collisions more tracks are going to the peripheral angles and measured by the Kyoto array. In the experiment the trigger selection criteria was $n_{Kyoto} > 4$, where $n_{Kyoto}$ is the total number of tracks measured by both arrays. 
-
-\begin{figure}[!htb]
-\includegraphics[width=\textwidth]{TPCAux.png}
-\label{fig:aux}
-\caption{Exploded views of Kyoto and KATANA arrays.}
-\end{figure}
-
-
-\subsection{Krakow KATANA Veto and Multiplicity Array}
-%beam veto
-%beam trigger optional
-The Krakow KATANA array consists of 12 plastic scintillating bars mounted to the downstream wall of the TPC enclosure. Three of the 12 bars were thin and operated as a beam veto in the event the beam did not make a nuclear collision with the target; this was a majority of the time. The 9 other bars operated as an additional multiplicity array similar to the Kyoto array. Since most of the particles are focus forward in a cone in the laboratory frame, it was found the condition on the Kyoto array was sufficient to trigger on central events; thus the KATANA array was used in primarily the beam veto mode. This was accomplished by positioning the array so that the expected position of the beam exiting the TPC would be centered on the three thin paddles. The threshold of the veto paddles were set so that the charge of a particle, $Z$, was $Z > 20$. This allowed the selection of very central events and we did not trigger on very peripheral or no collision events. 
-
-
-\subsection{Active Veto Array}
-The beam was tuned by two sets of quadropole  magnets, STQ 1 and STQ2, so that the beam spot was focused on the TPC target location. Because of the inherent angular dispersion of the beam there were incoming beam events which significantly deviated from the target location. To veto these type of events an active veto array was set at the entrance of the TPC consisting of four small scintillating bars arranged to be slightly larger than the target size. The threshold was set so that any beam particle which passed through any of the bars it would send a trigger signal to not trigger the system since the beam path would not be on target but on some other material inside the TPC. 
 
 \section{Radio Isotope Beam Factory (RIBF) Facility }
 %Cyclotron facility overview.
@@ -498,7 +485,7 @@ In these set of experiments several beams were produced with varying intensities
 
  \begin{table*}\centering
 \ra{1.3}
-\begin{tabular}{@{}rrrrr@{}}\toprule 
+\begin{tabular}{@{}ccccc@{}}\toprule 
  Primary Beam & Secondary Beam & Energy at mid target \si{\MeVA} & Intensity \si{\kilo\hertz} & Purity (\%) \\ [0.5ex] 
  \midrule
  ${}^{238}$U   & ${}^{132}$Sn   &  269.2  &  9.5  &  54   \\
@@ -517,16 +504,41 @@ In these set of experiments several beams were produced with varying intensities
 
 The \spirit TPC was designed to fit exactly into the dipole gap of the  dipole magnet at the end of the BigRIPS beam line. Figure~\ref{fig:experiment} shows a drawing of the \spirit TPC inside of the SAMURAI magnet chamber which was rotated to the $\ang{0}$ configuration. Typically the SAMURAI (Superconducting Analyzer for Multi-particles from Radioisotope beams) is operated under vacuum as a large-acceptance multi-particle spectrometer for radioactive-beam experiments. This magnet can reach magnetic fields up to \SI{3}{\tesla} at the center of the pole gap. The space between the magnetic pole faces is further complicated by large bolts which protrude from the pole faces. These bolts secure the vacuum chamber to the magnet which is not practically removable; though the inside of the magnet was not operated under vacuum. This required an extensive rail system and support frame to slowly slide in the TPC over the bolts, finally raising the TPC several \si{\centi\metre} to the final height. 
 
-The height of the TPC was roughly aligned with a self-leveling laser system to match the center of target with the center of the beam line. Once the TPC was adjusted to the final location, the position of the TPC was measured in fine detail with a photogrametry system CITE HERE. Small highly reflective targets were placed all over the TPC both inside and out and pictures were taken with a calibrated lens and camera system. Using the commercial software provided the set of different camera perspectives reconstruct a point cloud of all the targets into 3-dimensional coordinates. Since the magnet was also measured with the same system after installation, we can match the two systems to get the absolute position of the TPC -- and several of its internal components-- relative to the magnet frame. The position resolution of this type of system was estimated to be around \SI{200}{\micro\metre} for each coordinate, which is much more precise than needed CITE HERE or Show data.
-
-Maybe put a position table summary here of the TPC position and definition of the coordinates system in the TPC frame and the Magnet frame
-
-
 \begin{figure}
 \includegraphics[width=\textwidth]{perspective.png}
 \caption{Drawing of the experimental setup with the TPC inside of the SAMURAI magnet at $\ang{0}$ configuration.}
 \label{fig:experiment}
 \end{figure}
+
+The height of the TPC was roughly aligned with a self-leveling laser system to match the center of target with the center of the beam line. Once the TPC was adjusted to the final location, the position of the TPC was measured in fine detail with a the VStars-N photogrametry system \cite{vstars}. Small highly reflective targets were placed all over the TPC both inside and out and pictures were taken with a calibrated lens and camera system. Using the commercial software provided the set of different camera perspectives reconstruct a point cloud of all the targets into 3-dimensional coordinates. Since the magnet was also measured with the same system after installation, we can match the two systems to get the absolute position of the TPC -- and several of its internal components-- relative to the magnet frame. The position resolution of this type of system was estimated to be around \SI{200}{\micro\metre} for each coordinate, which is much more precise than needed or Show data.
+
+%Maybe put a position table summary here of the TPC position and definition of the coordinates system in the TPC frame and the Magnet frame
+
+
+\section{Ancillary Detectors }
+Several ancillary detectors were placed inside and outside of the \spirit TPC to facilitate making the trigger for the experiment. Placing detectors around the TPC was one of the important considerations we made when designing the TPC. A brief description of each detector system is given here with particular focus on how the experimental trigger was made. 
+
+\subsection{Kyoto Multiplicity Trigger}
+%kyoto array sets multiplicity trigger
+%scintillator bars
+The Kyoto Multiplicity Array consists of two arrays of plastic scintillating bars on each side of the TPC, each consisting of 30 bars. The entire TPC structure was designed so that light charged particles could easily pass through  the field cage and  side walls of the TPC enclosure. In this way the number of tracks passing through the sides of the TPC could be measured by this array. In heavy ion collisions the more central a nuclear collision is, the more nucleons participate in the collision, resulting in more measured tracks. It is this correlation between the number of tracks and centrality of the collision that makes the Kyoto Array sensitive to the centrality of events. It is more likely that in very central collisions more tracks are going to the peripheral angles and measured by the Kyoto array. In the experiment the trigger selection criteria was $n_{Kyoto} > 4$, where $n_{Kyoto}$ is the total number of tracks measured by both arrays. 
+
+\begin{figure}[!htb]
+\includegraphics[width=\textwidth]{TPCAux.png}
+\label{fig:aux}
+\caption{Exploded views of Kyoto and KATANA arrays.}
+\end{figure}
+
+
+\subsection{Krakow KATANA Veto and Multiplicity Array}
+%beam veto
+%beam trigger optional
+The Krakow KATANA array consists of 12 plastic scintillating bars mounted to the downstream wall of the TPC enclosure. Three of the 12 bars were thin and operated as a beam veto in the event the beam did not make a nuclear collision with the target; this was a majority of the time. The 9 other bars operated as an additional multiplicity array similar to the Kyoto array. Since most of the particles are focus forward in a cone in the laboratory frame, it was found the condition on the Kyoto array was sufficient to trigger on central events; thus the KATANA array was used in primarily the beam veto mode. This was accomplished by positioning the array so that the expected position of the beam exiting the TPC would be centered on the three thin paddles. The threshold of the veto paddles were set so that the charge of a particle, $Z$, was $Z > 20$. This allowed the selection of very central events and we did not trigger on very peripheral or no collision events. 
+
+
+\subsection{Active Veto Array}
+The beam was tuned by two sets of quadropole  magnets, STQ 1 and STQ2, so that the beam spot was focused on the TPC target location. Because of the inherent angular dispersion of the beam there were incoming beam events which significantly deviated from the target location. To veto these type of events an active veto array was set at the entrance of the TPC consisting of four small scintillating bars arranged to be slightly larger than the target size. The threshold was set so that any beam particle which passed through any of the bars it would send a trigger signal to not trigger the system since the beam path would not be on target but on some other material inside the TPC. 
+
 
 
 \section{Data Acquisition (DAQ) }
@@ -569,7 +581,7 @@ Signals from all of the auxiliary detectors were combined into several logic com
 
 There were several special trigger considerations when we built the trigger for the TPC. We required that the gating grid be opened fast to not miss any signal; as soon as there was a condition satisfying the Start Counter, Kyoto Multiplicity, the DAQ was not busy, and there was not a KATANA Veto signal. This was referred to as the Fast Trigger. If the KATANA trigger box is not satisfied --described later-- this will trigger a Fast Clear signal which will not trigger the DAQ and will quickly close the gating grid. Figure~\ref{fig:trigLogic} shows the logic of both of these triggers. 
 
-The master trigger for the DAQ was different for each primary beam as the experiment got progressively better. During the ${}^{124}$Xe primary beam, the KATANA trigger box was an input into the trigger logic where as in the ${}^{238}$U primary beam, the KATANA trigger box functioned as the trigger logic utilizing the internal trigger electronics. In either case the differences in the trigger were very minor and they both behaved practically the same except for minor details on the gating grid trigger CITE HERE JONS THESIS. Figure~\ref{fig:katanaLogic} summarizes the KATANA trigger box logic. 
+The master trigger for the DAQ was different for each primary beam as the experiment got progressively better. During the ${}^{124}$Xe primary beam, the KATANA trigger box was an input into the trigger logic where as in the ${}^{238}$U primary beam, the KATANA trigger box functioned as the trigger logic utilizing the internal trigger electronics. In either case the differences in the trigger were very minor and they both behaved practically the same except for minor details on the gating grid trigger \cite{jon}. Figure~\ref{fig:katanaLogic} summarizes the KATANA trigger box logic. 
 
 Figure~\ref{fig:dataTrigger1} summarizes the ${}^{132}$Xe primary beam, where the condition to produce a true KATANA trigger output was there must be a Start Counter, KATANA multiplicity, no Veto, and no DAQ busy signal. The KATANA trigger, Kyoto Muliplicity, and Start Counter together trigger the DAQ. 
 
@@ -577,7 +589,6 @@ Figure~\ref{fig:dataTrigger1} summarizes the ${}^{132}$Xe primary beam, where th
  
  It is worth mentioning how the busy signals for the experiment were handled. The DAQ system itself produces a busy signal which was combined with the busy signals from either opening or closing the gating grid. When opening the gating grid it is assumed the full volume of the TPC will be read out and therefore  a \SI{11}{\micro\second} gate is produced; which is slightly more than the time it takes for all the electrons to drift in the field cage. In the case were the gating grid should be fast closed, either due to the fast clear circuit or the end of the TPC measurement, a \SI{5}{\micro\second} gate is produced to allow for the gating grid to settle to a closed configuration and clear the drift volume of any residual electrons from the beam. Both of these gates are included with the DAQ in an OR configuration which makes the overall busy signal. 
  
-
 
 
 \section{Collision Data Taken}
