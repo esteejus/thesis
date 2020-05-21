@@ -448,7 +448,7 @@ where $w$ is the width of the pad, $h$ is the distance of the anode plane to the
 
 Since we take the marginal distributions only along one layer or row of pad, correlations are introduced in the PRF from adjacent layers or rows which cause slight deviations from the expected Gatti distribution. Also, analytic PRFs only exist for classical multi-wire TPCs. For these reasons it is useful to experimentally measure the PRF and fit it with an empirical function, typically a Gaussian, to describe its behavior. The method for extracting the experimental PRF will be discussed latter, but by averaging over many events in the experimental data, the resulting PRF for the S$\pi$RIT TPC is shown in Fig.~\ref{fig:expprf}. Here we see the deviations from the expected analytic Gatti distribution (black curve), whereas fitting with a two parameter Gaussian function (red curve) gives a better description of the  data, Eq.~\ref{eq:gaus}, with the two parameters being the normalization coefficient, $N_0$, width $\sigma$, and with a mean value assumed to be 0.
 
-\begin{equation}\label{eq:gaus}
+\begin{equation}\label{eq:prfgaus}
 PRF_{\mathrm{Gaus}}(\lambda) = N_0 e^\frac{-\lambda^2}{2\sigma^2}
 \end{equation}
 
@@ -592,5 +592,19 @@ Figure~\ref{fig:dataTrigger1} summarizes the ${}^{132}$Xe primary beam, where th
  
 
 
-%\section{Collision Data Taken}
+\section{Collision Data Taken}
 
+Shown in Fig.~\ref{fig:cocktail} is a typical cocktail event, where one particle enters the TPC volume at a time and parallel to the pad plane, representing an ideal case for momentum and $dE/dx$ determination; as it does not suffer from inefficiencies of high multiplicity events seen in the collision experimental data.  tb
+
+
+\begin{figure}[ht!]
+\includegraphics[width=\linewidth]{cocktail.png}
+\caption{Pad plane projection for a cocktail event in the TPC.}
+\label{fig:cocktail}
+\end{figure}
+
+\begin{figure}[ht!]
+\includegraphics[width=\linewidth]{data.png}
+\caption{Pad plane projection for a collision event in the TPC. Highlighted by red arrows are two regions of anode wires which had a reduced voltage of 1214 V. The voltage of the rest of the TPC anode wires are 1460 V. The reduction in voltage reduces the gain by a factor of about 10. }
+\label{fig:data}
+\end{figure}
