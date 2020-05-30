@@ -1,0 +1,15 @@
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import pandas as pd
+import numpy as np
+from plotly.offline import iplot, init_notebook_mode
+import matplotlib.pyplot as plt
+
+#codes with all L values
+theory = pd.read_csv('Pion_Multiplicity_Theory - Double Ratio.csv', sep=',')
+
+theory_min = theory.reset_index()
+theory_min = theory_min.loc[theory.groupby('name')['L'].idxmin()]
+
+theory_max = theory.reset_index()
+theory_max = theory_max.loc[theory.groupby('name')['L'].idxmax()]

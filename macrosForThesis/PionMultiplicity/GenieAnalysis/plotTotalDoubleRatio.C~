@@ -1,0 +1,23 @@
+
+void plotTotalDoubleRatio()
+{
+
+
+  vector<TString>label = {"AMD+JAM","#chi BUU","UrQMD","IQMD-BNU","SMASH","TuQMD","pBUU"};
+
+  vector<double>stiff_dr = {2.010429448,2.3261826,1.831156419,2.014091353,1.846693731,2.139241691,2.053547455};//soft
+
+ vector<double>stiff_dr = {1.905637255,2.132652096,1.811179408,1.77183966,1.89199499,2.209500946,1.919319357};//stiff
+
+
+
+
+
+
+
+
+
+
+
+
+}

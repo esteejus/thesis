@@ -120,6 +120,11 @@ TH2 *style::make(TH2 *h) {
   h->GetYaxis()->SetLabelSize(fAxisLabelSize);
   h->GetZaxis()->SetLabelSize(fAxisLabelSize);
 
+  h->GetZaxis()->CenterTitle();
+  h->GetZaxis()->SetTitleOffset(fXTitleOffset);
+  h->GetZaxis()->SetTitleSize(fAxisTitleSize);
+  h->GetZaxis()->SetLabelSize(fAxisLabelSize);
+
   
   return h;
 }

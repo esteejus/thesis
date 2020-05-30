@@ -1,0 +1,41 @@
+#include "/home/justin/mythesis/thesis_style.h"
+
+using namespace style;
+
+void plotPolEfficiency()
+{
+  gStyle->SetOptStat(0);
+  
+  TGraphPolargram *toppol = new TGraphPolargram("toppol",0,90,0,2*TMath::Pi());
+
+  toppol->SetLineColorAlpha(0,0);
+
+  /*
+  toppol->SetPolarLabel(0,"x");
+  toppol->SetPolarLabel(2,"y");
+  toppol->SetPolarLabel(4,"180");
+  toppol->SetPolarLabel(6,"270");
+*/
+
+  toppol->SetRadialOffset(.01);
+
+  TFile *f = TFile::Open("EfficiencyPlot.root");
+  TH2D *mom_200_pol = (TH2D *)f->Get("mom_200_pol");
+
+  mom_200_pol->SetTitle("");
+  //  make(mom_200_pol);
+
+  TCanvas *cvs = new TCanvas("c1","c1",1000,800);
+  //  TCanvas *cvs = stdcvs();
+  //  cvs->SetRightMargin(.2);
+  //  cvs->SetLeftMargin(.2);
+
+  mom_200_pol->Draw("same pol lego2");
+  toppol->Draw("same");
+
+  gPad->SetTheta(90);
+  gPad->SetPhi(180);
+
+
+
+}

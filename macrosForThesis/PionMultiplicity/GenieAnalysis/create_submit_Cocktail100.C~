@@ -1,0 +1,8 @@
+void create_submit_Sn132() {
+  Int_t runNo[] = {3204,3205};
+  Int_t numRuns = sizeof(runNo)/sizeof(Int_t);
+
+  gInterpreter -> ProcessLine(".L create_submit.C");
+  for (auto i = 0; i < numRuns; i++)
+    gInterpreter -> ProcessLine(Form("create_submit(%d,%d);", runNo[i], runNo[i]));
+}

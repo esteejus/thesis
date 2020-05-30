@@ -1,0 +1,9 @@
+ls *.sh | sed -e 's/^/pjsub\ /' | sh
+
+or 
+
+ls *.sh | xargs -I{} pjsub {}
+
+
+
+

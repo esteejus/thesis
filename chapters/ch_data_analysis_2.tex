@@ -1,10 +1,10 @@
 \chapter{Data Analysis II}
 
 \section{Beam Particle Identification}
-Figures of beam contaminants in our beam PID line. 
-Table of beam purity reference to Jon's thesis paper
+%Figures of beam contaminants in our beam PID line. 
+%Table of beam purity reference to Jon's thesis paper
 
-Beam tracking was handled by the BigRIPS spectrometer tracking system. Each individual beam particles coming down the spectrometer was measured using a dE-Time-of-Flight method where the charge, Z, and mass to charge ratio, A/Q, of each particle was measured. Individual particle species represent a two-dimensional Gaussian in this space; both the $\tin{132}{112}$ and $\tin{108}{124}$ systems are shown in Fig.~\ref{fig:beampid}. Clear separation is seen for each particle species and the correct value of Z and A/Q gives us the correct species type. Each species of interest is fitted with multivariate normal distribution with two variables defined as,
+Each beam  was tracked by the BigRIPS spectrometer tracking system as it traveled down the beam pipe using the dE-Time-of-Flight method where the charge, Z, and mass to charge ratio, A/Q, of each particle was measured. Individual particle species represent a two-dimensional Gaussian in this space; both the $\tin{132}{112}$ and $\tin{108}{124}$ systems are shown in Fig.~\ref{fig:beampid}. Clear separation is seen for each particle species and the correct value of Z and A/Q gives us the correct species type. Each species of interest is fitted with multivariate normal distribution with two variables defined as,
 
 \begin{equation}
   f(x,y)=\frac1{2\pi\sigma_x\sigma_y\sqrt{1-\rho^2}}\exp\left\{
@@ -138,25 +138,25 @@ Figure~\ref{beamAngleFig} shows the beam angle distribution for ${}^{132}$Sn and
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{beamAngle-Sn108.png} 
-        \caption{Generic} \label{fig:beamangle108}
+        \caption{Beam angle of the $\tin{108}{124}$ system} \label{fig:beamangle108}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{beamAngle-Sn112.png} 
-        \caption{Competitors} \label{fig:beamangle112}
+        \caption{Beam angle of the $\tin{112}{124}$ system} \label{fig:beamangle112}
     \end{subfigure}
     
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{beamAngle-Sn124.png} 
-        \caption{Generic} \label{fig:beamangle124}
+        \caption{Beam angle of the $\tin{124}{112}$ system} \label{fig:beamangle124}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{beamAngle-Sn132.png} 
-        \caption{Competitors} \label{fig:beamangle132}
+        \caption{Beam angle of the $\tin{132}{124}$ system} \label{fig:beamangle132}
     \end{subfigure}
 \label{fig:beamangle}
 \end{figure}

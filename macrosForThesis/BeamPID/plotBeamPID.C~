@@ -1,0 +1,21 @@
+
+
+void plotBeamPID()
+{
+
+  TFile *f = TFile::Open("beampid.root");
+  TH2D *sn132 = (TH2D *)
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
