@@ -1,8 +1,6 @@
 \chapter{Data Analysis I: Calibration and Corrections}
 
-Need to explain pedestal subtraction 
-
-\section{Software}
+\section{S$\pi$RITROOT Software}
 \label{sec:software}
 
 The S$\pi$RITROOT software is modular tasked based code based on the FAIRROOT package written in C++ \cite{fairroot}. The main tasks in the S$\pi$RITROOT software reconstruction are:
@@ -15,23 +13,88 @@ The S$\pi$RITROOT software is modular tasked based code based on the FAIRROOT pa
   \item Vertex Fitting (RAVE package)
 \end{itemize}
 
-The decoder task converts the binary data file into a container class which maps the electronics channels into the corresponding pads and (x,z) coordinates. 
 
-There may be several pulses in a pad coming from two tracks passing under the same pad separated  by arrival time. Using an expected pulse shape the PSA task fits the signal pulses within a pad, giving the arrival time of the drifted electrons from each particular track. The height of the fitted pulse is proportional to the total charge of that event, Q and the y-coordinate is calculated as $y = v\cdot t_0$ where $v$ is the drift velocity and $t_0$ the arrival time. Combining the information from these first two tasks, (x,y,z,Q), we construct what is called a "hit". 
+\subsection{Decoder task}
+The decoder task reads in the raw the binary data output from the GET electronics and separates the data from the headers using the GETDecoder CITE HERE. The raw data is mapped from the cobo layout on the TPC to each individual channel and the information is stored in the STPad class. This is a container class which stores the row and layer information, and the raw ADC time bucket spectrum. All of the pads combined form the STRawEvent class which represents event information. 
 
- The Helix Track Finding Algorithm finds the collection of hits belonging to one track out of all the hits in an event. The hits within a track are then reduced into clusters. A cluster's position is the average position of the hits within a cluster, with the total charge of the cluster being the sum of the hits charges. 
+Three basic calibrations are performed at the raw data level within this class and will be described in more detail later. The gain calibration calibrates the electronics described in Section\ref{sec:elecCalib} and the anode gain calibration discussed in Section~\ref{sec:anodeCalib}. The gating grid noise subtraction and time bucket cut which is described in Section~\ref{sec:ggnoisesub}.
+%gain calibration 
+%ggnoise subtraction
+%GG time bucket cut
+
+
+\subsection{Pulse Shape Algorithm (PSA) Task}
+\label{sec:psa}
+%Yoffset match the TPC-Vertex_y with BDC_Y
+%YPedestalOffset what is it for?
+%cobo gain matching
+An algorithm loops over the raw time bucket spectrum to find the unique pules in each pad. It is very likely there are several pulses in a pad coming from multiple tracks passing under the same pad separated only in arrival time. Using an expected pulse shape the Pulse Shape Algorithm (PSA) task finds the first peak in the spectrum, fits the peak with the standard pulse shape. If the fit is successful the fitted pulse is subtracted from the raw ADC spectrum and the height of the pulse $Q$, which is related to the total charge, and the timing information $t_o$ is saved into a new container class which represent a ``hit", called STHit. The algorithm continues through the subtracted spectrum finding all the pules and assigning the fitted values to new hits until there are no more pules in a spectrum. Figure~\ref{fig:psaTask} shows the PSA task working on one particular pad in real experimental data. The shaded histogram in every sub-figure represents the ADC raw spectrum of the pad. In Fig.~\ref{fig:psa0} we see the PSA has identified the first pulse and fitted it with the standard pulse, the result of the fit is shown in the red line. The fitted red line is then subtracted from the ADC spectrum which is shown in the next Fig.~\ref{fig:psa1}. Here the second pulse is found and fitted again with the same procedure repeating were the red line will be subtracted from the raw ADC spectrum. Here the black line shows the sum of all the fitted pules. This continues for every pules in the spectrum until all pules are found or until it reaches the last bin in the spectrum. Figure~\ref{fig:psa4} shows the final result of all 4 fitted pules and their sum which is given in the black line. The agreement between the total summed line and the raw ADC spectrum is very good. 
+
+After the PSA processes each pad in the raw event, an entire hit cloud of the event is produced. The x and z-coordinates come from the center of the pad which is already stored in the map of STPad. Since the STHit class inherits from the STPad class this information is also carried over. The y-coordinate is calculated using the known drift velocity $v$ and time of the signal $t_o$ as $y = v\cdot t_0$, $t_0$. The hit class forms the fundamental structure from which all tracking is performed since it contains the x,y,z spacial coordinates, and charge information $Q$.
+
+
+\begin{figure}[!htb]
+     \centering
+     \begin{subfigure}[b]{0.24\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{psa0.png}
+         \caption{Fist step of the PSA}
+         \label{fig:psa0}
+     \end{subfigure}
+     \hfill
+     \centering
+     \begin{subfigure}[b]{0.24\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{psa1.png}
+         \caption{Second iteration of the PSA}
+         \label{fig:psa1}
+     \end{subfigure}
+     \hfill
+      \centering
+     \begin{subfigure}[b]{0.24\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{psa2.png}
+         \caption{Third iteration of the PSA}
+         \label{fig:psa2}
+     \end{subfigure}
+     \hfill
+      \centering
+     \begin{subfigure}[b]{0.24\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{psa3.png}
+         \caption{Fourth iteration of the PSA}
+         \label{fig:psa3}
+     \end{subfigure}
+     \hfill
+     \centering
+     \begin{subfigure}[b]{.5\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{psa4.png}
+         \caption{Final output of the PSA}
+         \label{fig:psa4}
+     \end{subfigure}
+     \hfill
+    
+\caption{Example of the pulse shape algorithm through each step of in processing a given pad. }
+\label{fig:psaTask}
+\end{figure}
+
+
+\subsection{Helix Tracking}
+%Cluster cut
+%ellipsoid cut
+
+ The function of the  helix track finding algorithm is to associate the collection of hits belonging to one track out of all the entire hit cloud produced by the PSA. This is performed by a Reimann track finding algorithm where the cartesian space is mapped onto a Reimann sphere. This is a particular transformation in which unique helices in the Cartesian space form unique circles on the Riemann sphere. This is particularly useful since hits which correspond to a track form a helix the Cartesian space of the TPC coordinates. It is quite difficult to search the hit cloud space fitting a general helix with different combinations of hits. It is much easier to search for collection of hits by fitting a plane to the unique great circles formed on the Riemann sphere. From here the hits which belong to unique circles are set into a new helix track container called the STHelixTrack. 
  
- A tracks average position is estimated by the cluster's average position. The clusters are then fitted in the GENFIT track fitting package \cite{genfit}, giving the final momentum of the track. A final vertex of the event is fitted from all tracks using the package RAVE \cite{rave}. 
 
 \paragraph{Definition of clustering}
+The hits within a helix track are dense and the position resolution of an individual hit is not precise. As mentioned in Section~\ref{sec:padResponse}, due to the PRF, the collection of hits perpendicular to the track gives the TPC sub millimeter position resolution. In the helix track finding task, the hits are further reduced into clusters. A brief description of the method of clustering is illustrated in Figure \ref{fig:topview}. It is impractical to cluster in both the x and z-axis at the same time and instead we only cluster in one direction. For example, the three clusters at the bottom of Figure \ref{fig:topview} are clustered along the x-axis and the upper three are along the z-axis. The bolded pads highlight an example from each set. The direction perpendicular to the track is the direction of the highest position resolution for a track. Since we decide to cluster only in one direction, there is a natural inflection point in a track at which the direction of clustering switches. This  depends on the crossing angle $\theta$, which is defined as the angle the tangent makes with respects to the x-axis. In this definition $\theta = \ang{90}$ when the track is going along the z-axis, and $\theta = \ang{0}$ for a track going along the x-axis. In the case that the crossing angle is $\ang{45} < \theta \leq \ang{90} $ the we cluster along the x-direction. For $\ang{0} < \theta \leq \ang{45}$ we cluster along the z-axis. 
 
-A brief description of the method of clustering is illustrated in Figure \ref{fig:topview}. It is impractical to cluster in both the x and z-axis and we only cluster the hits along one axis. The three clusters at the bottom of Figure \ref{fig:topview} are clustered along the x-axis and the upper three are along the z-axis, as shown by the bolded pads for one of the clusters in each direction.
 
- The clustering direction depends on the angle  of the track with respects to the x-axis, defined as $\theta$. For example, a track going along the z-axis the crossing angle is defined as $90^{\circ}$, and a track going along the x-axis defined as $0^{\circ}$. In the case that the crossing angle is $45^{\circ} < \theta \leq 90^{\circ} $ the clustering direction is along the x-axis. For $0^{\circ} < \theta \leq 45^{\circ}$ it is along the z-axis. 
-
- The position along the clustering direction is calculated by weighting the individual hit's positions by their charges $q_i$ and getting the mean value. The other direction is set to the center of the pad. For example if we are clustering along the x-axis for a cluster, the z-position is set to the center of the pad in the z-direction and vice versa. 
-
-Clustering in this way gives us better position resolution for calculating the position of each cluster. You could imagine if we calculated the clusters only along the x-axis for tracks with $\theta \approx 0^{\circ}$ the x-position is not well defined. By clustering in the direction most perpendicular to the track, we get a better position resolution.
+%A cluster's position is the average, charge-weighted position of the hits within a cluster and the total charge of the cluster is the sum of all the hits charges. 
+ 
+ %A tracks average position is estimated by the cluster's average position. The clusters are then fitted in the GENFIT track fitting package \cite{genfit}, giving the final momentum of the track. A final vertex of the event is fitted from all tracks using the package RAVE \cite{rave}. 
+ The position along the clustering direction, $\overline{X}$, is calculated as the charge-weighted average, $\overline{X} = \sum_i q_ix_i$, where $q_i$ and $x_i$ are the charge and position of the i-th hit. The other direction is set to the center of the pad. For example, if we are clustering hits along the x-axis, the z-position is set to the center of the pad in the z-direction and vice versa. Clustering in this way gives us better position resolution for calculating the position of each cluster. You can imagine if we calculated the clusters only along the x-axis for tracks with $\theta \approx 0^{\circ}$ the x-position is not well defined. 
 
 \begin{figure}[H]
 \includegraphics[scale=.5]{top_view_helix_ext.pdf}
@@ -39,14 +102,27 @@ Clustering in this way gives us better position resolution for calculating the p
 \label{fig:topview}
 \end{figure}
 
+\subsection{Correction Task}
 
-\subsection{Pulse Shape Algorithm}
-\label{sec:psa}
+\subsection{Space charge}
+
+\subsection{Pad response function cut}
+
+
+\subsection{Momentum and track reconstruction (GENFIT)}
+
+
+\subsection{Vertex tracking (RAVE)}
+\label{sec:vertex
+}
+
+
 
 \section{Calibrations and Corrections}
 
 
 \subsection{Gating grid noise subtraction}
+\label{sec:ggnoisesub}
 Opening the gating grid essentially short adjacent wires together allowing them to reach equilibrium as fast as possible. In practice the impedance of both sides was not entirely matched properly and this caused an oscillating current to bounce back and forth in an under-dampened manner. This caused residual induced signals early in the time bucket spectrum which created and extra source of noise in the data. The ground grid shielded some of the noise, but the path to ground was on two ends and was not sufficiency for this frequency. Figure~\ref{fig:ggNoiseSub} shows in the upper panel the gating grid noise ADC time bucket spectrum for 2000 events in a given pad. The signal is stable within a pad and the mean value --shown as the red line-- can be calculated after averaging over several thousands events. The raw gating grid noise lasts for 100 tbs extending into the real data with a decreasing amplitude. 
 
 \begin{figure}[!htb]
@@ -140,6 +216,7 @@ Momentum Resolution \% & <dE/dx> Resolution \% \\
 
 
 \subsection{Electronics calibration}
+\label{sec:elecCalib}
 The ADC channel number of the electronics was calibrated by measuring the response of each channel to an input pulse supplied by a pulse generator. The pulse was distributed to all the electronics channels by pulsing the ground plane for a range of input voltages. This distributed the pulse evenly across the entire pad plane. The input voltage is plotted as a function of the measured ADC channel in Fig.~\ref{fig:gaincalib} for every channel. The small variation in each channel can be seen as the wide band around each measurement point. A linear fit is performed to get the best fit line which provides a reference line which each channel is calibrated to. The right panel shows the resulting distribution of channels after calibration. This is a relative calibration technique with the intent to calibrate the varying gains in each channel relative to one another. 
 
 \begin{figure}[H]
@@ -149,7 +226,7 @@ The ADC channel number of the electronics was calibrated by measuring the respon
 \end{figure}
 
 \subsection{Anode gain calibration}
-
+\label{sec:anodeCalib}
 As mentioned earlier, the anode wires were separated into 14 independently biased sections. The high voltage of sections 12 and 14 were reduced during the experiment due to high currents being observed on the wires. The wire section voltages were lowered once and adjusted once again. Out of all the runs used in the analysis in this thesis \ref{tb:runList}, the anode sections 12 and 14 were lowered to \SI{1085}{\volt} for runs 2272-2371 and set to \SI{1214}{\volt} for all the other runs. By lowering the voltage on these anode wires, the gas gain is lowered as compared with all the other anode wire plane sections which operate at \SI{1460}{\volt}. To account for the drop in gain, in the software we increase the gain of the pads which lie above these anode wires to match the gain in the other channels. To do so, we compare the energy loss in the high gain sections to the low gain sections to get the relative calibration factor. 
 
 
@@ -807,18 +884,17 @@ Add Figure of track residuals? MC vs data?
 
 
 \section{CoBo timing correction}
-
-The arrival time of signals originating from each pad may differ due to timing delays in the electronics and cabling. The timing differences will affect the y-position measurement of each track. The y-residuals reveal that the timing differences correspond to about $\pm$\SI{2}{\milli\metre} in position differences. The timing difference is stable for each pad across several runs. Figure~\ref{fig:coboCorr} shows the y-residuals, across all the rows , for three different layers. Before the correction one can see large deviations in the y-residuals which correspond to timing differences. The mean value of the y-residual distribution is fitted and a map is constructed for each pad. The data is then reconstructed subtracting the value of that map, $dy$, for each pad. The resulting corrected distribution is shown in Fig.~\ref{fig:coboCorr} for the same layer set. Figure~\ref{fig:yoff} also show the summary of all the pads before the correction and after the correction. There is a significant improvement in the width of the distribution going from \SI{1.5}{\milli\metre} to \SI{0.6}{\milli\metre}. 
+The arrival time of signals originating from each pad may differ due to timing delays in the electronics and cabling. The timing differences will affect the y-position measurement of each track. The y-residuals reveal that the timing differences correspond to about $\pm$\SI{2}{\milli\metre} in position differences. The timing difference is stable for each pad across several runs.
 
 \begin{figure}[!htb]
   \begin{center}
-    \includegraphics[width=0.33\textwidth]{before_row_at_layer10_yoffset.pdf}
-    \includegraphics[width=0.33\textwidth]{before_row_at_layer30_yoffset.pdf}
-    \includegraphics[width=0.33\textwidth]{before_row_at_layer50_yoffset.pdf}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset6before_row_at_layer10.png}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset5before_row_at_layer30.png}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset4before_row_at_layer50.png}
  
-    \includegraphics[width=0.33\textwidth]{after_row_at_layer10_yoffset.pdf}
-    \includegraphics[width=0.33\textwidth]{after_row_at_layer30_yoffset.pdf}
-    \includegraphics[width=0.33\textwidth]{after_row_at_layer50_yoffset.pdf}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset6after_row_at_layer10.png}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset5after_row_at_layer30.png}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset4after_row_at_layer50.png}
  
     \caption{TBW\label{TBD}}
   \end{center}
@@ -828,34 +904,23 @@ The arrival time of signals originating from each pad may differ due to timing d
 
 
 \begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{before_layer_yoffset.pdf}
-        \caption{Y-offset for all layers before correction.} \label{fig:yoff_beforeLayer}
-    \end{subfigure}
-    \hfill
     \begin{subfigure}[t]{.49\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{after_layer_yoffset.pdf} 
-        \caption{Y-offset for all layers after correction.} \label{fig:yoff_afterLayer}
-    \end{subfigure}
-     \hfill
-    \begin{subfigure}[t]{.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{before_all_yoffset.pdf} 
+        \includegraphics[width=\linewidth]{run2905_yoffset1before_all.jpg} 
         \caption{Distribution for all pads before correction.} \label{fig:yoff_allBefore}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{.49\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{after_all_yoffset.pdf} 
+        \includegraphics[width=\linewidth]{run2905_yoffset1after_all.png}
         \caption{Distribution for all pads after correction.} \label{fig:yoff_allAfter}
     \end{subfigure}
     \caption{ }
 \label{fig:yoff}
 \end{figure}
 
+
+ Figure~\ref{fig:coboCorr} shows the y-residuals, across all the rows , for three different layers. Before the correction one can see large deviations in the y-residuals which correspond to timing differences. The mean value of the y-residual distribution is fitted and a map is constructed for each pad. The data is then reconstructed subtracting the value of that map, $dy$, for each pad. The resulting corrected distribution is shown in Fig.~\ref{fig:coboCorr} for the same layer set. Figure~\ref{fig:yoff} also show the summary of all the pads before the correction and after the correction. There is a significant improvement in the width of the distribution going from \SI{1.5}{\milli\metre} to \SI{0.6}{\milli\metre}. 
 
 
 \section{Efficiency Corrections}

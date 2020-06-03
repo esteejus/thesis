@@ -24,23 +24,38 @@ void plotBeamPID()
   sn108->SetTitle("");
   
 
-  TCanvas *cvs = new TCanvas("c1","c1",1500,700);
-  //  auto cvs = stdcvs();
-  cvs->SetRightMargin(.08);
-  cvs->SetLeftMargin(.08);
-  cvs->cd(1)->SetLeftMargin(.08);
-  cvs->cd(1)->SetBottomMargin(.1);
+  sn132->GetXaxis()->SetTitle("
+  sn124->
+  sn112->
+  sn108->
+
+
+
+
+  double botMar = .2;
+  
+  //  TCanvas *cvs = new TCanvas("c1","c1",1500,700);
+  TCanvas *cvs = new TCanvas("c1","c1",3000,1400);
+
+  cvs->SetBottomMargin(.2);
+  cvs->SetLeftMargin(.2);
+  cvs->SetRightMargin(.2);
+  //  cvs->SetTopMargin(.08);
+  
   cvs->Divide(2,1,0,0);
-  cvs->cd(1)->SetTopMargin(.05);
+  cvs->cd(1)->SetLeftMargin(.2);
+  cvs->cd(1)->SetTopMargin(.1);
+  cvs->cd(1)->SetBottomMargin(botMar);
+
   cvs->cd(1);
   cvs->cd(1)->SetLogz();
   sn132->Draw("col");
 
   cvs->cd(2);
-  cvs->cd(2)->SetBottomMargin(.1);
   cvs->cd(2)->SetLogz();
-  cvs->cd(2)->SetTopMargin(.05);
-  cvs->cd(2)->SetRightMargin(.1);
+  cvs->cd(2)->SetRightMargin(.15);
+  cvs->cd(2)->SetTopMargin(.1);
+  cvs->cd(2)->SetBottomMargin(botMar);
   sn124->GetXaxis()->SetRangeUser(2.36,2.7);
   sn124->Draw("colz");
 
