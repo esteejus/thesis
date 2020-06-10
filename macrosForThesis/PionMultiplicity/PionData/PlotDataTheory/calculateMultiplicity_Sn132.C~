@@ -1,0 +1,26 @@
+
+
+
+
+
+
+
+
+void calculateMultiplicity_Sn132()
+{
+  TFile *f = TFile::Open("../rootfiles/publishPions.root");
+  TH1D * pim_sn108 = (TH1D *)f->Get("pim_sn108");
+  TH1D * pip_sn108 = (TH1D *)f->Get("pip_sn108");
+
+
+
+
+
+
+
+
+
+
+
+
+}

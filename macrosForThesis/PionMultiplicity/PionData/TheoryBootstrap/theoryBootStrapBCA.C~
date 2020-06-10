@@ -1,0 +1,101 @@
+void loadVec(vector< vector<double>> &d, TGraphErrors *g)
+{
+  int num_bins = g->GetN();
+   for(int iBin = 0; iBin < num_bins; iBin++)
+    {
+      double x,y;
+      g->GetPoint(iBin,x,y);
+      d.at(iBin).push_back(y);
+    }
+}
+
+
+double BootStrap(vector< vector<double>> data)
+{
+
+  if(data.size() == 0)
+    {
+      cout<<"Data vec is EMPTY!!! "<<endl;
+      return -1;
+    }
+
+  vector<double> boot(data.at(0).size(),0);
+
+  for(int iTheory = 0; iTheory < data.size(); iTheory++)
+    {
+      for(int iBin = 0; iBin < data.at(iTheory).size(); iBin++)
+	{
+
+
+	}
+    }
+
+}
+
+
+
+void theoryBootStrapBCA()
+{
+
+    TFile *pBUU_soft_no_f = TFile::Open("/home/justin/Homework/pBUU/K210EM100/input_for_esym.info/pBUUSoft_r-1.root");
+  TGraphErrors *pBUU_soft_no_DR = (TGraphErrors *) pBUU_soft_no_f->Get("doubleRatio");
+
+  TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K210EM100/input_for_esym.info/pBUUStiff_r-1.root");
+  TGraphErrors *pBUU_stiff_no_DR = (TGraphErrors *) pBUU_stiff_no_f->Get("doubleRatio");
+
+  TFile *amdJAM55_f = TFile::Open("/home/justin/Homework/AMDJAM/highStat/input_for_esym.info/AMDJAML55new_r-1.root");
+  TGraphErrors *amdJAM55_DR = (TGraphErrors *) amdJAM55_f->Get("doubleRatio");
+
+  TFile *amdJAM152_f = TFile::Open("/home/justin/Homework/AMDJAM/highStat/input_for_esym.info/AMDJAML152new_r-1.root");
+  TGraphErrors *amdJAM152_DR = (TGraphErrors *) amdJAM152_f->Get("doubleRatio");
+
+
+  TFile *urQMD_46_f = TFile::Open("/home/justin/Homework/UrQMD/input_for_esym.info/UrQMDL46_r-1.root");
+  TGraphErrors *urQMD_46_DR = (TGraphErrors *) urQMD_46_f->Get("doubleRatio");
+
+  TFile *urQMD_104_f = TFile::Open("/home/justin/Homework/UrQMD/input_for_esym.info/UrQMDL104_r-1.root");
+  TGraphErrors *urQMD_104_DR = (TGraphErrors *) urQMD_104_f->Get("doubleRatio");
+
+
+  TFile *imQMD_05_f = TFile::Open("/home/justin/Homework/IQMD-BNU/input_for_esym.info/IQMD-BNUg05_r-1.root");
+  TGraphErrors *imQMD_05_DR = (TGraphErrors *) imQMD_05_f->Get("doubleRatio");
+
+  TFile *imQMD_20_f = TFile::Open("/home/justin/Homework/IQMD-BNU/input_for_esym.info/IQMD-BNUg20_r-1.root");
+  TGraphErrors *imQMD_20_DR = (TGraphErrors *) imQMD_20_f->Get("doubleRatio");
+
+
+  TFile *tuQMD_05_f = TFile::Open("/home/justin/Homework/TuQMD/new-highStat/input_for_esym.info/TuQMDg05_r-1.root");
+  TGraphErrors *tuQMD_05_DR = (TGraphErrors *) tuQMD_05_f->Get("doubleRatio");
+
+  TFile *tuQMD_20_f = TFile::Open("/home/justin/Homework/TuQMD/new-highStat/input_for_esym.info/TuQMDg20_r-1.root");
+  TGraphErrors *tuQMD_20_DR = (TGraphErrors *) tuQMD_20_f->Get("doubleRatio");
+
+
+  TFile *xbuu_f = TFile::Open("/home/justin/Homework/xBUU/old/input_for_esym.info/xBUU_r-1.root");
+  TGraphErrors *xbuu_DR = (TGraphErrors *) xbuu_f->Get("doubleRatio");
+
+  TFile *xbuu120_f = TFile::Open("/home/justin/Homework/xBUU/new/input_for_esym.info/xBUU_skyrmeL120_r-1.root");
+  TGraphErrors *xbuu120_DR = (TGraphErrors *) xbuu120_f->Get("doubleRatio");
+
+
+  vector< vector<double>> soft_data(7,vector<double>(0));
+  vector< vector<double>> stiff_data(7,vector<double>(0));
+
+  loadVec(soft_data,xbuu_DR);
+  loadVec(soft_data,tuQMD_05_DR);
+  loadVec(soft_data,pBUU_soft_no_DR);
+  loadVec(soft_data,amdJAM55_DR);
+  loadVec(soft_data,urQMD_46_DR);
+  
+  loadVec(stiff_data,xbuu_DR);
+  loadVec(stiff_data,tuQMD_20_DR);
+  loadVec(stiff_data,pBUU_stiff_no_DR);
+  loadVec(stiff_data,amdJAM152_DR);
+  loadVec(stiff_data,urQMD_104_DR);
+
+
+  for(int i = 0; i < soft_data.size(); i)
+    for(int j = 0; j < soft_data.at(i).size(); j++)
+      cout<<soft_data.at(i).at(j)<<endl;
+	
+}

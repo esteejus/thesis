@@ -1,0 +1,19 @@
+
+void SpiRITStyle()
+{
+  TStyle *thesis = new TStyle("thesis","thesis");
+  thesis -> SetTitleFont(22);
+  thesis -> SetLabelFont(22,"X");
+  thesis -> SetLabelFont(22,"Y");
+  thesis -> SetOptStat(0);
+  thesis -> SetCanvasColor(10);
+  thesis -> SetFillColor(10);
+  thesis -> SetTitleColor(10);
+  
+
+
+
+
+
+
+}

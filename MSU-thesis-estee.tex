@@ -50,9 +50,9 @@
 \usepackage{cleveref}
 \usepackage{rotating}
 \usepackage{mathtools}
-\usepackage{comment}
+\usepackage{comment}\renewcommand{\arraystretch}{1.5}
 
-\graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} {images/dynamicrange/} {images/dataAnalysis/} {images/experiment/} }
+\graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} {images/dynamicrange/} {images/dataAnalysis/} {images/experiment/} {images/results/} }
 
 %
 % If the thesis office requires Times, we'll give them Times
@@ -60,7 +60,8 @@
 % If you are using XeLaTeX or LuaLaTeX load the Times or Times New Roman font with \setmainfont
 \usepackage{newtxtext,newtxmath,booktabs,siunitx,caption,subcaption} 
 
-\sisetup{separate-uncertainty}
+%\sisetup{separate-uncertainty}
+\sisetup{input-uncertainty-signs}
 
 %
 % Load any extra packages here
@@ -77,8 +78,13 @@
 %
 %User defined commands
 \newcommand{\spirit}{S$\pi$RIT }
+\newcommand{\numerr}[3]{ \num[parse-numbers=false]{#1 \pm #2 (sys.) \pm #3 (stat.)}  }
+%\newcommand{\numerr}[3]{ \num[input-close-uncertainty]{#1 \pm #2 (sys.) \pm #3 (stat.)}  }
+
+
 \newcommand{\tin}[2]{{}^{#1}\mathrm{Sn} + {}^{#2}\mathrm{Sn}}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+
 
 \makeatletter
 \DeclareTextCommand{\textprime}{\encodingdefault}{%
@@ -99,8 +105,8 @@
 %/ch_theory,
 %chapters/ch_experiment,
 chapters/ch_data_analysis,
-chapters/ch_data_analysis_2,
-%chapters/ch_results
+%chapters/ch_data_analysis_2,
+chapters/ch_results
 }
 
 
@@ -156,8 +162,8 @@ Your acknowledgements here.
 %\include{chapters/ch_theory}
 %\include{chapters/ch_experiment}
 \include{chapters/ch_data_analysis}
-\include{chapters/ch_data_analysis_2}
-%\include{chapters/ch_results}
+%\include{chapters/ch_data_analysis_2}
+\include{chapters/ch_results}
 
 
 

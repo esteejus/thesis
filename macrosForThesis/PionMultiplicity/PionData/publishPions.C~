@@ -1,0 +1,90 @@
+#include "/home/justin/mythesis/thesis_style.h"
+
+using namespace style;
+
+void publishPions()
+{
+
+  TFile *f = TFile::Open("publishPions.root");
+  TH1D * pim_sn108 = (TH1D *)f->Get("pim_sn108");
+  TH1D * pip_sn108 = (TH1D *)f->Get("pip_sn108");
+
+  TH1D * pim_sn132 = (TH1D *)f->Get("pim_sn132");
+  TH1D * pip_sn132 = (TH1D *)f->Get("pip_sn132");
+
+  TH1D *singleRatio_sn132 = (TH1D *)f->Get("singleRatio_sn132");
+  TH1D *singleRatio_sn108 = (TH1D *)f->Get("singleRatio_sn108");
+
+  TH1D *doubleRatio = (TH1D *)f->Get("doubleRatio");
+
+  make(pim_sn108);
+  make(pim_sn132);
+  make(pip_sn108);
+  make(pip_sn132);
+  make(singleRatio_sn108);
+  make(singleRatio_sn132);
+  make(doubleRatio);
+
+  int pim_marker = 20;
+  int pip_marker = 20;
+  int singlesn132 = 20;
+  int singlesn108 = 20;
+  int doubler = 20; 
+
+  gStyle->SetEndErrorSize(8);
+
+
+  TLegend *leg = new TLegend(.2,.2,.55,.5);
+  leg->AddEntry(pim_sn132,"#pi^{-} {}^{132}Sn +{}^{124}Sn","lpe");
+  leg->AddEntry(pim_sn108,"#pi^{-} {}^{108}Sn +{}^{112}Sn","lpe");
+
+  TLegend *leg_2 = new TLegend(.2,.2,.55,.5);
+  leg_2->AddEntry(pip_sn132,"#pi^{+} {}^{132}Sn +{}^{124}Sn","lpe");
+  leg_2->AddEntry(pip_sn108,"#pi^{+} {}^{108}Sn +{}^{112}Sn","lpe");
+
+  TCanvas *cvs = style::stdcvs();
+  cvs->SetLogy();
+
+  pim_sn132->GetYaxis()->SetTitle("dM/dEd#Omega");
+  pim_sn132->GetYaxis()->CenterTitle();
+  pim_sn132->GetXaxis()->SetTitle("K.E. COM (MeV)");
+  pim_sn132->GetXaxis()->CenterTitle();
+  
+  pim_sn132->GetYaxis()->SetRangeUser(1e-5,2e-2);
+  pim_sn132->SetLineWidth(5);
+  pim_sn132->SetMarkerStyle(21);
+  pim_sn132->SetMarkerSize(2);
+  pim_sn132->DrawCopy("E1");
+
+  pim_sn108->SetLineWidth(5);
+  pim_sn108->SetMarkerStyle(25);
+  pim_sn108->SetMarkerSize(2);
+  pim_sn108->DrawCopy("same E1");
+
+  leg->SetBorderSize(0);
+  leg->Draw("same");
+  
+  TCanvas *cvs_2 = style::stdcvs("cvs_2");
+  cvs_2->SetLogy();
+
+
+  pip_sn132->GetYaxis()->SetTitle("dM/dEd#Omega");
+  pip_sn132->GetYaxis()->CenterTitle();
+  pip_sn132->GetXaxis()->SetTitle("K.E. COM (MeV)");
+  pip_sn132->GetXaxis()->CenterTitle();
+
+  pip_sn132->GetYaxis()->SetRangeUser(1e-5,3e-3);
+  pip_sn132->SetLineWidth(5);
+  pip_sn132->SetMarkerStyle(21);
+  pip_sn132->SetMarkerSize(2);
+  pip_sn132->DrawCopy("E1");
+
+  pip_sn108->SetLineWidth(5);
+  pip_sn108->SetMarkerStyle(25);
+  pip_sn108->SetMarkerSize(2);
+  pip_sn108->DrawCopy("same E1");
+
+  leg_2->SetBorderSize(0);
+  leg_2->Draw("same");
+
+}

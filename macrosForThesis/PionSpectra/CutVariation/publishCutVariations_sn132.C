@@ -90,7 +90,7 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
 
 
 
-void publishCutVariations_sn132(int this_var = 1,TString filename = "blank")
+void publishCutVariations_sn132(int this_var = 3,TString filename = "blank")
 {
   //  vector< vector<int>> labels = { {14,16,18,20,22,24,26}, {14,16,18,20,22,24,26}, {48,49,50,51,52,53,54}, {47,48,49,50,51,52,53} };
 

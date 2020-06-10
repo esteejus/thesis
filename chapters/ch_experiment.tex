@@ -117,6 +117,7 @@ The gap between the cathode and the ground of the enclosure is quite small. To p
 
 
 \subsection{Wire Planes}
+\label{sec:wireplanes}
 %Add figure of gating grid transparency closed and open configuration 
 
 There are three wire planes that are mounted underneath the pad-plane. The wire plane closest to the pad-plane (\SI{4}{\milli\metre}) are the anode wires. The next plane (\SI{8}{\milli\metre}) is the ground plane or frisch grid, and the last plane (\SI{14}{\milli\metre}) is the gating grid. The gating grid is the first plane that electrons meet as they drift upward from the field cage volume towards the anode plane. The gating grid is operated as a gate, either allowing electrons and ions through, or blocking them entirely. The ground plane functions to shield the inside volume of the TPC from the high electric field surrounding the anode wires. The ground plane is the least interesting plane and is held to ground by shorting the plane to the enclosure through  shorted BNC terminator on the outside of the TPC. We also use the ground plane to input a pulser which is used to spread the pulsed signal to all the pads on the TPC in order to calibrate the electronics of the TPC. This is done by replacing the shorted BNC with a \SI{50}{\ohm} termination and injecting the pulser on the other end. 
@@ -286,6 +287,8 @@ Time bucket range   & 512\\
 After each AsAd board has digitized the data it is sent to the Concentration Boards (CoBo). Each CoBo board can concentrate the data from 4 AsAd boards. The Multiplicity, Trigger, and Time module (MuTanT) \cite{get} provides the common trigger signal for all CoBo boards.  Each board sends the data to the DAQ server which writes to disk the data from each board, which was handled by two separete DAQ servers; saving to one common analysis server. The data could then be analyzed using the RIKEN High Performance Computing (HPC) cluster or moved to the NSCL or MSU cluster for analysis. The Aget 2.0, asad 2.1, and cobo 1.0 firmware versions were used in this analysis. 
 
 \section{Energy loss in material}
+\label{sec:energyloss}
+
 The average energy loss in a material can be described by the Bethe-Bloch equation,
 \begin{equation}\label{eq:bb}
 \frac{dE}{dx} = \frac{4\pi NZ^2e^4}{mc^2\beta^2} (ln \frac{2mc^2\beta^2\gamma^2}{I} - \beta^2),
@@ -302,6 +305,7 @@ The truncated mean is the average mean value calculated after throwing away the 
 
 \begin{equation}
 C = \frac{1}{n} \sum\limits_{i}^{n_t} \Delta_i/x,
+\label{eq:truncmean}
 \end{equation}
 
 where $f_r$ is the cut off fraction; in this thesis, a value of 0.7 was used. 
@@ -335,7 +339,7 @@ The general formula for the drift velocity, $d\vec{x}/dt$, of an electron in the
 \label{eq:elecdrift}
 \end{equation}
 
-where $\mu$ is the signed drift velocity, $\omega$ is the cyclotron frequency, and $\tau$ is the collision parameter for a particular gas \cite{blumrol}.
+where $\mu=\SI{5.43}{\centi\metre\per\second}$ is the signed drift velocity, $\omega=\SI{8.79e10}{\radian\per\sec}$ is the cyclotron frequency, and $\tau=\SI{2.48e-11}{\second}$ is the collision parameter for a particular gas \cite{blumrol}.
 
 Several properties of the gas were also simulated in Garfield such as the longitudinal and transverse diffusion, $\sigma_l$ and $\sigma_t$ respectively, and the electron and ion drift velocities, $v_d$ and $v_i$ respectively for the experimental electric field of \SI{125}{\volt\per\centi\metre}; summarized in Table~\ref{tb:gasprop}.
 
@@ -375,9 +379,6 @@ Gas properties &
 \caption{}
 \label{tb:gasprop}
 \end{table}
-
-ADD THE VALUES OF TAU AND MU HERE
-
 
 %Add table for gas diffusion 
 
@@ -516,6 +517,8 @@ PUT HERE THE TPC FRAME COORDINATE DEFINITION
 
 %Maybe put a position table summary here of the TPC position and definition of the coordinates system in the TPC frame and the Magnet frame
 
+\section{Beam Drift Chambers (BDC)}
+\label{sec:bdc}
 
 \section{Ancillary Detectors }
 Several ancillary detectors were placed inside and outside of the \spirit TPC to facilitate in making the trigger for the experiment. Placing detectors around the TPC was one of the important considerations we made when designing the TPC. A brief description of each detector system is given here with particular focus on how the experimental trigger was made. 

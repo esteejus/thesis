@@ -1,6 +1,7 @@
 \chapter{Data Analysis II}
 
 \section{Radio Isotope Beam Factory (RIBF) Facility }
+\label{sec:beam}
 %Cyclotron facility overview.
 %Samurai line overview.
 %Beam line element overview.
@@ -159,7 +160,7 @@ Near the edges of the detection volume, the clusters of tracks significantly dev
         \caption{Views showing the high density and edge cuts.}
         \label{fig:elipsecut}
 \end{figure}
-The high track multiplicity in each event is quite high and since the tracks all originate from a common vertex, the density of tracks near the target region is very high. In this region the track separation is too small for the software to correctly determine and sort the charge information into the appropriate track. The information provided by extra vertex point from external BDC tracking described in \ref{sec:bdc}, provides all the information about the vertex location. The bad quality of hit information near the target region only hurt in the tracking and PID of a track. Hits lying within an semi-ellipsoidal cut around the target are removed from the software and not included in the track and momentum reconstruction. Figure~\ref{fig:elipsecut} shows the extent of the ellipsoidal cut in the high density region, along with the edge cuts as shaded red regions in both views of the TPC. 
+The track multiplicity in each event is quite high and since the tracks all originate from a common vertex, the density of tracks near the target region is very high. In this region the track separation is too small for the software to correctly determine and sort the charge information into the appropriate track. The information provided by extra vertex point from external BDC tracking described in \ref{sec:bdc}, provides all the information about the vertex location. The bad quality of hit information near the target region only hurt in the tracking and PID of a track. Hits lying within an semi-ellipsoidal cut around the target are removed from the software and not included in the track and momentum reconstruction. Figure~\ref{fig:elipsecut} shows the extent of the ellipsoidal cut in the high density region, along with the edge cuts as shaded red regions in both views of the TPC. 
 
 \section{Beam angle selection}
 The incoming secondary beam is deflected by the magnetic field and impinges on the target at some small but significant angle. From the BDCs tracking information, the beam is projected as a straight line right up until entering the magnet.  The beam is then propagated through the magnetic field using a Runge-Kutta integration until reaching the target position. The beam angle on target can be categorized by two angles $\theta_{a_{proj}}$ and $\theta_{b_{proj}}$ defined as, 

@@ -5,7 +5,7 @@ using namespace style;
 void publishPionRatios()
 {
 
-  TFile *f = TFile::Open("publishPions_sm.root");
+  TFile *f = TFile::Open("./rootfiles/publishPions_sm.root");
   TH1D *singleRatio_sn132 = (TH1D *)f->Get("singleRatio_sn132");
   TH1D *singleRatio_sn108 = (TH1D *)f->Get("singleRatio_sn108");
 
@@ -46,7 +46,23 @@ void publishPionRatios()
   leg_2->AddEntry(pip_sn108,"#pi^{+} (x10^{-1} )","lpe");
   */
 
+  doubleRatio->GetYaxis()->SetTitle("Double Ratio");
+  doubleRatio->GetYaxis()->CenterTitle();
+  doubleRatio->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
+  doubleRatio->GetXaxis()->CenterTitle();
+
+  doubleRatio->GetYaxis()->SetRangeUser(1.8,3.5);
+  doubleRatio->SetLineWidth(5);
+  doubleRatio->SetLineStyle(1);
+  doubleRatio->SetLineColor(4);
+  doubleRatio->SetMarkerStyle(21);
+  doubleRatio->SetMarkerSize(3);
+  doubleRatio->SetMarkerColor(4);
+
+
   TCanvas *cvs = style::stdcvs();
+
+
   //  cvs->SetLogy();
   //  singleRatio_sn132->GetYaxis()->SetRangeUser(.5,20);
   
@@ -72,25 +88,36 @@ void publishPionRatios()
   singleRatio_sn108->SetMarkerSize(markSz108);
   singleRatio_sn108->SetMarkerColor(markC108);
   singleRatio_sn108->Draw("same E1");
+  cvs->Update();
+
+
+
+  double rightmax = 1.1*singleRatio_sn132->GetMaximum();
+  cout<<rightmax<<endl;
+  double rightlow    = singleRatio_sn132->GetMinimum();
+  cout<<gPad->GetUymin()<<endl;
+  double scale    = gPad->GetUymax()/(rightmax-rightlow);
+  cout<<scale<<endl;
+  doubleRatio->Scale(scale);
+  doubleRatio->Draw("same E1");
+
   //  singleRatio_sn108->DrawCopy("same hist L");
   leg->SetBorderSize(0);
   leg->Draw("same");
+
+
+
+    TGaxis *axis = new TGaxis(gPad->GetUxmax(),gPad->GetUymin(),
+   gPad->GetUxmax(), gPad->GetUymax(),1.8,3.5,510,"+L");
+
+	axis->SetLineColor(kRed);
+	axis->SetLabelColor(kRed);
+	axis->Draw("");
+
   
   cvs->SaveAs("singleRatio.png");
 
   TCanvas *cvs_2 = style::stdcvs("cvs_2");
-  doubleRatio->GetYaxis()->SetTitle("Double Ratio");
-  doubleRatio->GetYaxis()->CenterTitle();
-  doubleRatio->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
-  doubleRatio->GetXaxis()->CenterTitle();
-
-  doubleRatio->GetYaxis()->SetRangeUser(0,5);
-  doubleRatio->SetLineWidth(5);
-  doubleRatio->SetLineStyle(1);
-  doubleRatio->SetLineColor(4);
-  doubleRatio->SetMarkerStyle(21);
-  doubleRatio->SetMarkerSize(3);
-  doubleRatio->SetMarkerColor(4);
   doubleRatio->Draw("E1");
   //  doubleRatio->DrawCopy("same hist C");
 

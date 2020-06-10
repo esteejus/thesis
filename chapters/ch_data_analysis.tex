@@ -3,21 +3,23 @@
 \section{S$\pi$RITROOT Software}
 \label{sec:software}
 
-The S$\pi$RITROOT software is modular tasked based code based on the FAIRROOT package written in C++ \cite{fairroot}. The main tasks in the S$\pi$RITROOT software reconstruction are:
+The S$\pi$RITROOT software is modular code based on the FAIRROOT package written in C++ \cite{fairroot}. The code is separated into modules which can be turned on or off depending on the users needs. The base classes and frame work is provided by the FAIRROOT package, while the specifics of each detector need to be added into the base classes. In the following an outline of the main tasks in the S$\pi$RITROOT software will be briefly discussed with the details of each task discussed later. The discussion of the software is really a practical, base understanding, appropriate for this thesis. For more details about the tracking algorithm the reader is refered to \cite{spiritroot_paper}, and to actual software which is published on GitHub \cite{spiritroot_git}. 
+
+The main tasks which make up the reconstruction algorithm are:
+
 \begin{itemize}
   \item Decoder task
   \item Pulse Shape Algorithm (PSA Task)
   \item Helix Track Finding Algorithm
-  \item Clustering Algorithm
-  \item Track Fitting (GENFIT package)
-  \item Vertex Fitting (RAVE package)
+  \item Track Fitting and momentum reconstruction(GENFIT package)
+  \item Vertex Reconstruction (RAVE package).
 \end{itemize}
 
 
 \subsection{Decoder task}
-The decoder task reads in the raw the binary data output from the GET electronics and separates the data from the headers using the GETDecoder CITE HERE. The raw data is mapped from the cobo layout on the TPC to each individual channel and the information is stored in the STPad class. This is a container class which stores the row and layer information, and the raw ADC time bucket spectrum. All of the pads combined form the STRawEvent class which represents event information. 
+The decoder task reads in the raw data output from the GET electronics and separates the data from the headers using the GETDecoder \cite{getdecoder}. A map is stored mapping each channel in the CoBo board onto the physical pad plane, the information is stored in a pad container called the STPad class. This container stores the row, layer, and the raw ADC time bucket spectrum. All of the pads combined form the event container, STRawEvent class, which represents the raw event information. 
 
-Three basic calibrations are performed at the raw data level within this class and will be described in more detail later. The gain calibration calibrates the electronics described in Section\ref{sec:elecCalib} and the anode gain calibration discussed in Section~\ref{sec:anodeCalib}. The gating grid noise subtraction and time bucket cut which is described in Section~\ref{sec:ggnoisesub}.
+Three basic calibrations are performed at the raw data level within this task. The gain calibration calibrates the electronics will be described in Section\ref{sec:elecCalib} and the anode gain calibration is discussed in Section~\ref{sec:anodeCalib}. The gating grid noise subtraction and time bucket cut which is described in Section~\ref{sec:ggnoisesub}.
 %gain calibration 
 %ggnoise subtraction
 %GG time bucket cut
@@ -28,9 +30,13 @@ Three basic calibrations are performed at the raw data level within this class a
 %Yoffset match the TPC-Vertex_y with BDC_Y
 %YPedestalOffset what is it for?
 %cobo gain matching
-An algorithm loops over the raw time bucket spectrum to find the unique pules in each pad. It is very likely there are several pulses in a pad coming from multiple tracks passing under the same pad separated only in arrival time. Using an expected pulse shape the Pulse Shape Algorithm (PSA) task finds the first peak in the spectrum, fits the peak with the standard pulse shape. If the fit is successful the fitted pulse is subtracted from the raw ADC spectrum and the height of the pulse $Q$, which is related to the total charge, and the timing information $t_o$ is saved into a new container class which represent a ``hit", called STHit. The algorithm continues through the subtracted spectrum finding all the pules and assigning the fitted values to new hits until there are no more pules in a spectrum. Figure~\ref{fig:psaTask} shows the PSA task working on one particular pad in real experimental data. The shaded histogram in every sub-figure represents the ADC raw spectrum of the pad. In Fig.~\ref{fig:psa0} we see the PSA has identified the first pulse and fitted it with the standard pulse, the result of the fit is shown in the red line. The fitted red line is then subtracted from the ADC spectrum which is shown in the next Fig.~\ref{fig:psa1}. Here the second pulse is found and fitted again with the same procedure repeating were the red line will be subtracted from the raw ADC spectrum. Here the black line shows the sum of all the fitted pules. This continues for every pules in the spectrum until all pules are found or until it reaches the last bin in the spectrum. Figure~\ref{fig:psa4} shows the final result of all 4 fitted pules and their sum which is given in the black line. The agreement between the total summed line and the raw ADC spectrum is very good. 
+An algorithm loops over the raw time bucket spectrum to find all the unique pules in each pad. It is very likely that there are several pulses in a pad coming from multiple tracks passing under the same pad which are separated only in arrival time. Figure~\ref{fig:psaTask} shows the PSA task working on one particular pad in experimental data. The shaded histogram in every sub-figure represents the ADC raw spectrum of the pad. In Fig.~\ref{fig:psa0} we see the PSA has identified the first pulse and fitted it with the standard pulse, the result of the fit is shown by the red line. The fitted red line is then subtracted from the ADC spectrum, which is shown in the shaded histogram in Fig.~\ref{fig:psa1}. Here, the second pulse is found and fitted again with the same procedure, the red line will be subtracted from the raw ADC spectrum. The black line represents the sum of all the fitted pules in each step. This continues until all pules are found or until the PSA reaches the last bin in the spectrum. Figure~\ref{fig:psa4} shows the final result where 4 fitted pulses were found. The agreement between the total summed line and the raw ADC spectrum exemplifies how successful the PSA is in this particular set of data. 
 
-After the PSA processes each pad in the raw event, an entire hit cloud of the event is produced. The x and z-coordinates come from the center of the pad which is already stored in the map of STPad. Since the STHit class inherits from the STPad class this information is also carried over. The y-coordinate is calculated using the known drift velocity $v$ and time of the signal $t_o$ as $y = v\cdot t_0$, $t_0$. The hit class forms the fundamental structure from which all tracking is performed since it contains the x,y,z spacial coordinates, and charge information $Q$.
+%Mention about the minimum distance between hits? 
+
+
+
+The fit of each individual pulse contains the height of the pulse and the timing information of the start of the pulse, defined to be the location in time of 10\% of the rising edge. The height of the pulse, which is related to the charge induced on the pad, $Q$, and the timing information $t_o$, is saved into a new container representing a ``hit", called the STHit class. After the PSA processes each pad in the raw event, an entire hit cloud of the event is produced. The x and z-coordinates come from the center of the pad which is already stored in the map of STPad. Since the STHit class inherits from the STPad class this information is also carried over. The y-coordinate is calculated using the known drift velocity $v$ and time of the signal $t_o$ as $y = v\cdot t_0$, $t_0$. The hit class forms the fundamental structure from which all tracking is performed since it contains the x,y,z spacial coordinates, and charge information $Q$.
 
 
 \begin{figure}[!htb]
@@ -38,7 +44,7 @@ After the PSA processes each pad in the raw event, an entire hit cloud of the ev
      \begin{subfigure}[b]{0.24\textwidth}
          \centering
          \includegraphics[width=\textwidth]{psa0.png}
-         \caption{Fist step of the PSA}
+         \caption{$\mathrm{1^{st}}$ step of the PSA}
          \label{fig:psa0}
      \end{subfigure}
      \hfill
@@ -46,7 +52,7 @@ After the PSA processes each pad in the raw event, an entire hit cloud of the ev
      \begin{subfigure}[b]{0.24\textwidth}
          \centering
          \includegraphics[width=\textwidth]{psa1.png}
-         \caption{Second iteration of the PSA}
+         \caption{$\mathrm{2^{nd}}$ iteration}
          \label{fig:psa1}
      \end{subfigure}
      \hfill
@@ -54,7 +60,7 @@ After the PSA processes each pad in the raw event, an entire hit cloud of the ev
      \begin{subfigure}[b]{0.24\textwidth}
          \centering
          \includegraphics[width=\textwidth]{psa2.png}
-         \caption{Third iteration of the PSA}
+         \caption{$\mathrm{3^{rd}}$ iteration}
          \label{fig:psa2}
      \end{subfigure}
      \hfill
@@ -62,7 +68,7 @@ After the PSA processes each pad in the raw event, an entire hit cloud of the ev
      \begin{subfigure}[b]{0.24\textwidth}
          \centering
          \includegraphics[width=\textwidth]{psa3.png}
-         \caption{Fourth iteration of the PSA}
+         \caption{$\mathrm{4^{th}}$ iteration}
          \label{fig:psa3}
      \end{subfigure}
      \hfill
@@ -83,48 +89,54 @@ After the PSA processes each pad in the raw event, an entire hit cloud of the ev
 \subsection{Helix Tracking}
 %Cluster cut
 %ellipsoid cut
+\label{sec:helixtrack}
 
- The function of the  helix track finding algorithm is to associate the collection of hits belonging to one track out of all the entire hit cloud produced by the PSA. This is performed by a Reimann track finding algorithm where the cartesian space is mapped onto a Reimann sphere. This is a particular transformation in which unique helices in the Cartesian space form unique circles on the Riemann sphere. This is particularly useful since hits which correspond to a track form a helix the Cartesian space of the TPC coordinates. It is quite difficult to search the hit cloud space fitting a general helix with different combinations of hits. It is much easier to search for collection of hits by fitting a plane to the unique great circles formed on the Riemann sphere. From here the hits which belong to unique circles are set into a new helix track container called the STHelixTrack. 
+ The function of the  helix track finding algorithm is to sort hit cloud into unique sets of hits representing tracks. This is performed by a Riemann track finding algorithm where the Cartesian space is mapped onto a Riemann sphere. This is a particular transformation in which unique helices in the Cartesian space form great circles on the Riemann sphere. This is particularly useful since hits which correspond to a track form a helices the Cartesian space of the TPC coordinates. It is difficult to search for tracks in the hit cloud by fitting a general helix to different combinations of hits. It is much easier to search for collection of hits by fitting a plane to the great circles which are formed on the Riemann sphere. From here the set of hits which form a unique track are stored into a new helix track container called the STHelixTrack class. 
  
 
 \paragraph{Definition of clustering}
-The hits within a helix track are dense and the position resolution of an individual hit is not precise. As mentioned in Section~\ref{sec:padResponse}, due to the PRF, the collection of hits perpendicular to the track gives the TPC sub millimeter position resolution. In the helix track finding task, the hits are further reduced into clusters. A brief description of the method of clustering is illustrated in Figure \ref{fig:topview}. It is impractical to cluster in both the x and z-axis at the same time and instead we only cluster in one direction. For example, the three clusters at the bottom of Figure \ref{fig:topview} are clustered along the x-axis and the upper three are along the z-axis. The bolded pads highlight an example from each set. The direction perpendicular to the track is the direction of the highest position resolution for a track. Since we decide to cluster only in one direction, there is a natural inflection point in a track at which the direction of clustering switches. This  depends on the crossing angle $\theta$, which is defined as the angle the tangent makes with respects to the x-axis. In this definition $\theta = \ang{90}$ when the track is going along the z-axis, and $\theta = \ang{0}$ for a track going along the x-axis. In the case that the crossing angle is $\ang{45} < \theta \leq \ang{90} $ the we cluster along the x-direction. For $\ang{0} < \theta \leq \ang{45}$ we cluster along the z-axis. 
+The hits within a helix track are dense and the position resolution of an individual hit is not very precise. As mentioned in Section~\ref{sec:padResponse}, the TPC can achieve sub-millimeter position resolution by utilizing the PRF. In the helix track finding task, the hits are further reduced into more precise clusters. A brief description of the method of clustering is illustrated in Figure \ref{fig:topview}. As will be seen, it is sufficient to simply cluster hits along one direction, either along the x or z-direction, which ever is most perpendicular to the local track region. For example, the three clusters at the bottom of Figure \ref{fig:topview} are clustered along the x-axis, and the upper three are along the z-axis. The bold pads highlight the hits belonging to an example cluster from each set. Since we decide to cluster only in one direction, there is a natural inflection point in a track at which the direction of clustering must switch. This depends on the crossing angle of the track $\theta$, which is defined as the angle between the tangent of the track  at that cluster and the x-axis. In this definition $\theta = \ang{90}$ when the track is going along the z-axis and $\theta = \ang{0}$ for a track going along the x-axis.  The clustering direction in the case $\ang{45} < \theta \leq \ang{90} $ is along the x-direction. For $\ang{0} < \theta \leq \ang{45}$ we cluster along the z-axis. 
 
-
-%A cluster's position is the average, charge-weighted position of the hits within a cluster and the total charge of the cluster is the sum of all the hits charges. 
  
- %A tracks average position is estimated by the cluster's average position. The clusters are then fitted in the GENFIT track fitting package \cite{genfit}, giving the final momentum of the track. A final vertex of the event is fitted from all tracks using the package RAVE \cite{rave}. 
- The position along the clustering direction, $\overline{X}$, is calculated as the charge-weighted average, $\overline{X} = \sum_i q_ix_i$, where $q_i$ and $x_i$ are the charge and position of the i-th hit. The other direction is set to the center of the pad. For example, if we are clustering hits along the x-axis, the z-position is set to the center of the pad in the z-direction and vice versa. Clustering in this way gives us better position resolution for calculating the position of each cluster. You can imagine if we calculated the clusters only along the x-axis for tracks with $\theta \approx 0^{\circ}$ the x-position is not well defined. 
 
-\begin{figure}[H]
+\begin{figure}[!htb]
+\centering
 \includegraphics[scale=.5]{top_view_helix_ext.pdf}
 \caption{Cartoon graphic of a top down view of a fit to a track passing through several pads. The bolded pads and the charges $q_i$ represent the hits belonging to that pad and the clusters of the track representing the average position of the track. The three clusters at the bottom are clustered in the x-direction and for the upper three clustered in the z-direction. The estimate of the position of the avalanche is given by the track fit and the position from the center to each pad to the $\bar{x}$ position is given as $\lambda_i$.}
 \label{fig:topview}
 \end{figure}
 
+ The position along the clustering direction, $\overline{X}$, is calculated as the charge-weighted average, $\overline{X} = \sum_i q_ix_i$, where $q_i$ and $x_i$ are the charge and position of the i-th hit in the cluster. The other direction is set to the center of the pad. For example, if we are clustering hits along the x-axis, the z-position is set to the center of the pad in the z-direction and vice versa. Switching the clustering direction gives better position resolution than if we clustered only along one direction. You can imagine if we calculated the clusters only along the x-axis for tracks with $\theta \approx 0^{\circ}$ the x-position is not well defined. The cluster position and charge is stored into a new container represented the cluster called the STHitCluster class. All the clusters which belong to a particular helix track is also stored in the corresponding STHelixTrack class. 
+
 \subsection{Correction Task}
+%extend dynamic range
+%PRF cut
+%space charge correciton
+In this task the hit distribution, within a given cluster, is checked against the measured PRF discussed in Section~\ref{sec:prf}. Figure~\ref{fig:prfpimData} shows black lines around the measured PRF in the data, which form gates defining the acceptable PRF region. If less than 50\% of the hits within a cluster lie within this gate, the cluster is thrown out from the track. A majority of the clusters contains either 2 or 3 hits in total; in the case of 2 total hits, at least one of them needs to lie in the gate, in the case of 3 total hits, at least 2 hits need to lie within the gate. Clusters which do not follow this PRF gate usually have been corrupted. Typically charges from other nearby tracks is the typical way clusters become corrupt.  
 
-\subsection{Space charge}
+%CONSIDER SHOWING SOME PROOF OF IT IN ACTION 
 
-\subsection{Pad response function cut}
-
+This correction task also handles several other important corrections. The first is a novel algorithm which extends the dynamic range of the electronics and is discussed in detail in Section~\ref{sec:extendDynamicRange}. The other correction task that is handled here is the space charge correction which will be discussed in more detail in Section~\ref{sec:spacecharge}. 
 
 \subsection{Momentum and track reconstruction (GENFIT)}
+After all of the corrections are applied to the clusters, the cluster's position and charge values are passed to a software package which reconstructs the momentum of the track, called GENFIT \cite{genfit}. The details of Kalman fitting algorithm used in the GENFIT reconstruction are left for the reader here \cite{genfit}. GENFIT returns a momentum and charge value for the track which is stored into a new track container called the STRecoTrack class. 
 
+The task is repeated a second time, storing a second copy of the track class but this time with the BDC vertex point added as a constraining cluster. The momentum resolution is greatly improved by adding the vertex as a constraining point; since the BDC detectors, described in Section~\ref{sec:bdc}, give such an accurate vertex location. The energy loss of the track is calculated by the truncated mean method described in Eq.~\ref{eq:truncmean}. This is the final part of the analysis which pertains to tracks, and the PID can be constructed using the energy loss, momentum, and charge information. 
 
 \subsection{Vertex tracking (RAVE)}
-\label{sec:vertex
-}
-
+\label{sec:vertex}
+After all tracks are reconstructed by GENFIT, the tracks are then passed to the RAVE software package which reconstructs the event vertex from a collection of tracks \cite{rave}. Only tracks which are THIS CONDITION are used in making the event vertex. The vertex location along the beam axis determines whether or not the beam collided with the target. 
 
 
 \section{Calibrations and Corrections}
-
+In the following subsections we will discuss in detail the calibrations and corrections happening within the software framework that was outlined above.  
 
 \subsection{Gating grid noise subtraction}
 \label{sec:ggnoisesub}
-Opening the gating grid essentially short adjacent wires together allowing them to reach equilibrium as fast as possible. In practice the impedance of both sides was not entirely matched properly and this caused an oscillating current to bounce back and forth in an under-dampened manner. This caused residual induced signals early in the time bucket spectrum which created and extra source of noise in the data. The ground grid shielded some of the noise, but the path to ground was on two ends and was not sufficiency for this frequency. Figure~\ref{fig:ggNoiseSub} shows in the upper panel the gating grid noise ADC time bucket spectrum for 2000 events in a given pad. The signal is stable within a pad and the mean value --shown as the red line-- can be calculated after averaging over several thousands events. The raw gating grid noise lasts for 100 tbs extending into the real data with a decreasing amplitude. 
+The opening of the gating grid is essentially shorting adjacent wires in the grid together, allowing them to reach equilibrium as fast as possible. Since the impedance of both sides was not entirely matched properly this caused an imbalance of charge which bounce back and forth in the grid in an under-dampened manner. This oscillating charged induced  residual induced signals early in the time bucket spectrum creating extra source of noise in the data. Figure~\ref{fig:ggNoiseSub} shows in the upper panel the gating grid noise ADC time bucket spectrum for 2000 events in a given pad. The gating grid noise is stable for a given pad and the mean value --shown as the red line-- can be calculated after averaging over several thousands events. The raw gating grid noise lasts for 100 Tbs extending into the real data with a exponentially decreasing ampli 
 
+ %The ground grid shielded some of the noise, but the path to ground was on two ends and was not sufficiency for this frequency.
+ 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{ggNoise.png}
@@ -132,15 +144,17 @@ Opening the gating grid essentially short adjacent wires together allowing them 
 \label{fig:ggNoiseSub}
 \end{figure}
 
+The gating grid noise profile is measured by recording experimental data, only turning off the anode wires. By doing so there are no signals originating from tracks in the TPC and there is only the gating grid noise, since the grid is still being triggered.  The mean value of each pad is calculated from several thousand events of the gating grid noise profile. Once the mean value response in each pad is calculated, we can subtract the mean profile from the real data and remove the noise of the gating grid.
 
-The gating grid itself was not always stable an only the ${}^{132}$Sn and ${}^{124}$Sn beams were relatively stable. Several times during the ${}^{108}$Sn and ${}^{112}$Sn beams the gating grid broke. After several data runs were taken, we took what is called gating grid noise runs to get the profile of the gating grid noise throughout the experiment. To achieve this the anode wires would be turned off and the trigger was allowed to otherwise operate normally, firing the gating grid to open as usual. Since the anode wires were all turned off no signals would be seen except those coming from the gating grid noise. Several thousand triggers of the gating grid were taken to get a good noise profile. 
+The bottom panel of Fig.~\ref{fig:ggNoiseSub} shows the gating grid noise self correcting itself; a best case scenario. We can see the pedestal, which is around 3800 ADC in the upper pannel,  is automatically taken into account when subtracting the mean profile, and the subtracted ADC spectra is centered around 0. The residual gating grid noise that was not canceled by the subtraction remains, but is significantly reduced to a much smaller time bucket region. Most of the residual noise happens in regions where the derivative of the gating grid noise is large. In these areas the ADC value is dependent upon small jitters in the timing of the signal and as a result varies wildly. The residual noise in the subtracted spectra is removed by cutting away all the bins below 30 tb. 
 
-Once the mean value response in each pad is calculated, we can use the gating grid noise profile runs to correct the real data and remove the noise of the gating grid. To show the best case scenario of this technique, the bottom panel of Fig.~\ref{fig:ggNoiseSub} shows the gating grid noise self correcting itself. We can see the pedestal is already subtracted naturally when using this technique, and the subtracted ADC spectra is centered around 0. Residual gating grid noise that was not canceled by the subtraction remains but is significantly reduced to a much smaller time bucket region. This happens in regions where the gating grid noise is changing rapidly, where the ADC value is dependent upon small jitters in the timing of the signal. All time buckets below 30 tb were cut away from the spectrum to get rid of the small region where the gating grid is still opening and to remove the residual noise. 
+In the experiment the gating grid itself was quite stable in the  ${}^{132}$Sn and ${}^{124}$Sn systems and was not very stable in the ${}^{108}$Sn and ${}^{112}$Sn beams, where the gating grid broke several times. The gating grid noise was monitored and we regularly took gating grid noise profiles, especially after a gating grid board was replaced. 
 
 
 %The average noise profile was constructed by averaging all the events in the gating grid runs, pad-by-pad; each pad had a slightly different noise profile since the impedance to each pad was slightly different. It is worth noting that the small electronics noise would be effectively canceled out by averaging over thousands of events. During the first stages of the software, the gating grid noise profile closest to that run would be subtracted from the raw data canceling the gating grid noise in that run. 
 
 \subsection{Cocktail calibration}
+\label{sec:cocktail}
 
 \begin{table*}\centering
 \ra{1.3}
@@ -153,7 +167,7 @@ p   & 882.8 & 929.5 & 877.3   &  3.7  & -1.0  \\
 d   & 817.1 & 831.15 & 797.94 &  1.7  & -2.3\\
 \bottomrule
 \end{tabular}
-\caption{Summary of expected cocktail. }
+\caption{Summary of expected cocktail for the calibration run taken with the Al target. }
 \label{tb:cocktail100tar}
 \end{table*}
 
@@ -164,11 +178,11 @@ d   & 817.1 & 831.15 & 797.94 &  1.7  & -2.3\\
 \cmidrule{2-4}
 Particle & Expected & Measured & Corrected & \% Difference & \% Difference\\
 \midrule
-p   & 882.8 & 903.5 & 889   &  2.0   & -1.6  \\
+p   & 882.8 & 903.5 & 889.0 &  2.0   & -1.6  \\
 d   & 817.1 & 898.5 & 874.5 &  2.1   & -2.7\\
 \bottomrule
 \end{tabular}
-\caption{Summary of expected cocktail. }
+\caption{Summary of expected cocktail from the lower beam energy.}
 \label{tb:cocktail100}
 \end{table*}
 
@@ -185,27 +199,29 @@ ${}^{4}$He   & 1613 & 1698 &  5.3 & 1595  & -1.1\\
 
 \bottomrule
 \end{tabular}
-\caption{Summary of expected cocktail. }
+\caption{Summary of expected cocktail from the higher beam energy.}
 \label{tb:cocktail300}
 \end{table*}
 
-A cocktail of several light charged particles were produced (p,d,t,${}^{3}$He,${}^{4}$He), and measured in the TPC to provide a momentum calibration of the TPC. The magnetic and slit settings of the dipoles in the BIGRIPS spectrometer was set so that the measured momentum resolution of the beam was $\delta p/p$ < 1\%. Two magnetic rigidity settings were studied, with an empty target. A thick Aluminum target was used to provide a slightly lower energy point for part of the lower rigidity setting, effectively creating three calibration points over several particle species. The production of certain particles (t,${}^{3}$He), produced too few counts to make a good measurement, and in the high momentum rigidity setting protons could not propagate down the line and there were no counts. 
+A cocktail of several light charged particles was produced (p,d,t,${}^{3}$He,${}^{4}$He), and measured in the TPC to provide a momentum calibration of the TPC. The magnetic and slit settings of the dipoles in the BigRIPS spectrometer was set so that the momentum resolution of the beam was $\delta p/p$ < 1\%. Two magnetic rigidity settings were studied, with an empty target. A thick Aluminum target was also inserted to provide a slightly lower energy point for part of the lower rigidity setting, effectively creating three energy calibration points over several particle species. In some cases the certain particles were not able to propagate or were strongly attenuated. 
 
-Since the expected momentum resolution resulting from the spectrometer was less than 1\%, the observed momentum resolution measured by the TPC is a good representation of the combined momentum resolution of the software and TPC (intrinsic detection) system. The momentum resolution depends on several factors such as the particle's angle, momentum, charge, track multiplicity, etc. This calibration beam represents and ideal situation where the track was parallel to the pad plane and only one particle was measured at one time. The energy loss resolution can also be directly measured since each energy setting represents a monochromatic source of each particle species, which has a well defined energy loss distribution. An average momentum resolution of $dp/p = 2\%$ and the energy loss resolution of $d\langle dE/dx \rangle/\langle dE/dx \rangle = 5\%$ was measured for particles ranging from $H$ to ${}^{4}$He, over the range of momenta measured in the calibration beam as summarized in Table~\ref{tb:momresolution}.
+Since the cocktail beam was a mono-energetic source of particles and the actual momentum resolution was less than 1\%, the observed momentum resolution can be interpreted as the intrinsic TPC momentum resolution. The momentum resolution in general depends on several factors such as the particle's angle, momentum, charge, track multiplicity, etc. This calibration beam represents and ideal situation where the track was parallel to the pad plane and only one particle was measured at one time. The average momentum resolution was measured to be $dp/p = 2\%$ over the full range of particle species for all settings. 
 
-Since the magnetic dipole setting of the BIGRIPS spectrometer defined the energy of each particle type, we can calculate the expected momenta of each particle species measured. Small corrections were propagated using LISE++ software which can calculate the energy loss through several materials in the beam line. These corrections resulted in a small change in the momenta. The measured momenta of the calibration beam differed significantly from the expected values as seen in Tables~\cref{tb:cocktail100tar,tb:cocktail100,tb:cocktail300}. This effect is attributed to inhomogenatities in the magnetic field which introduces electron drift velocity in the direction of $\vec{E}\times\vec{B}$ direction as seen from Eq.\ref{eq:elecdrift}. The $\vec{E}\times\vec{B}$ drift velocity causes the electron trajectories to shift toward the +x-axis in the TPC coordinates causing particles of positive charge (going in the -x-axis) to have a higher measured momenta than in reality. The disagreement in measured and expected momenta is upwards of ~5\% difference in the higher momentum calibration settings. The details of the correcting for the $\vec{E}\times\vec{B}$ effect will be discussed in the later Section~\ref{sec:spacecharge} in a more general way which also includes correction for the space charge, which this cocktail beam does not have. The same correction technique was applied here in the special case of zero space charge, which is the special case of only having $\vec{E}\times\vec{B}$ components.
+The energy loss resolution can also be directly measured since each energy setting represents a monochromatic source of each particle species, which have a well defined energy loss distribution. The energy loss resolution was measured to be 5\% for all particles over the energy setting measured and is summarized in Table~\ref{tb:momresolution}.
 
-The values under the corrected column seen in Tables~\cref{tb:cocktail100tar,tb:cocktail100,tb:cocktail300}, represent the data corrected for the $\vec{E}\times\vec{B}$ effect. A significant improvement is seen in the high momentum setting going from around ~5\% disagreement to within ~1\% agreement in the corrected data. For the lower momentum settings (Tables~\cref{tb:cocktail100tar,tb:cocktail100}), protons see a slight improvement of about ~1\% where as the deuterons are over corrected in both settings. The level of agreement of the all corrected values is still within the estimated momentum resolution of the TPC. 
+Since the magnetic dipole setting of the BigRIPS spectrometer is well defined, we can calculate the expected momenta of each particle species measured. The enegy losses through various materials in the beam line were propagated using LISE++ software \cite{lise++}. The measured momenta of the calibration beam differed significantly from the expected values -- up to 5\% in the high momentum calibration -- as seen in Tables~\cref{tb:cocktail100tar,tb:cocktail100,tb:cocktail300}. This effect is attributed to inhomogenatities in the magnetic field which introduces electron drift velocities in the direction of $\vec{E}\times\vec{B}$ direction as seen from Eq.\ref{eq:elecdrift}. The $\vec{E}\times\vec{B}$ drift velocity causes the electron trajectories to shift toward the +x-axis in the TPC coordinates causing particles of positive charge (going in the -x-axis) to have a higher measured momenta than in reality.  The details of the correcting for the $\vec{E}\times\vec{B}$ effect will be discussed later in Section~\ref{sec:spacecharge} in a  general way which also includes the correction for the positive space charge. The same correction technique was applied here where the cocktail beam is the special case of zero space charge, only having $\vec{E}\times\vec{B}$ components.
+
+The values under the corrected column in Tables~\cref{tb:cocktail100tar,tb:cocktail100,tb:cocktail300}, represent the corrected data. A significant improvement is seen in the high momentum setting going from around ~5\% disagreement to within ~1\% agreement in the corrected data. For the lower momentum settings (Tables~\cref{tb:cocktail100tar,tb:cocktail100}), protons see a slight improvement of about ~1\% where as the deuterons are over corrected in both settings. The level of agreement of the all corrected values is still well within the estimated momentum resolution of the TPC. 
 
 \begin{table*}\centering
 \ra{1.3}
-\begin{tabular}{@{}rr@{}}\toprule
+\begin{tabular}{@{}cc@{}}\toprule
 Momentum Resolution \% & <dE/dx> Resolution \% \\
 \midrule
 1.6  & 4.6\\
 \bottomrule
 \end{tabular}
-\caption{Summary of expected cocktail. }
+\caption{Summary of the estimated momentum and energy loss resolutions.}
 \label{tb:momresolution}
 \end{table*}
 
@@ -217,35 +233,44 @@ Momentum Resolution \% & <dE/dx> Resolution \% \\
 
 \subsection{Electronics calibration}
 \label{sec:elecCalib}
-The ADC channel number of the electronics was calibrated by measuring the response of each channel to an input pulse supplied by a pulse generator. The pulse was distributed to all the electronics channels by pulsing the ground plane for a range of input voltages. This distributed the pulse evenly across the entire pad plane. The input voltage is plotted as a function of the measured ADC channel in Fig.~\ref{fig:gaincalib} for every channel. The small variation in each channel can be seen as the wide band around each measurement point. A linear fit is performed to get the best fit line which provides a reference line which each channel is calibrated to. The right panel shows the resulting distribution of channels after calibration. This is a relative calibration technique with the intent to calibrate the varying gains in each channel relative to one another. 
 
-\begin{figure}[H]
+\begin{figure}[!htb]
 \includegraphics[width=\linewidth]{gaincalib.png}
-\caption{Calibration of electronics}
+\caption{Repose of each channel in the electronics to various input voltages of an input signal supplied by a pulse generator.}
 \label{fig:gaincalib}
 \end{figure}
 
+The electronics were calibrated by measuring the response of each channel to an input signal supplied by a pulse generator. This is a relative calibration technique with the intent to calibrate the varying gains in each channel relative to one another, and not an absolute calibration. The pulse was distributed to all the electronics channels by pulsing the ground plane for a range of input voltages. This distributed the pulse evenly across the entire pad plane. The input voltage is plotted as a function of the measured height of the pulse in the electronics channel given in units of ADC in Fig.~\ref{fig:gaincalib}, for every channel. The small variation in each channel can be seen as the wide band around each measurement point. A linear fit is performed for each channel to get the calibration line for each channel. A channel is chosen which provides a reference calibration to which all other channels are calibrated too. This is done by matching the slopes of each channel to the reference calibration slope.  The right panel shows the resulting distribution of channels after calibration.
+
+
+
 \subsection{Anode gain calibration}
 \label{sec:anodeCalib}
-As mentioned earlier, the anode wires were separated into 14 independently biased sections. The high voltage of sections 12 and 14 were reduced during the experiment due to high currents being observed on the wires. The wire section voltages were lowered once and adjusted once again. Out of all the runs used in the analysis in this thesis \ref{tb:runList}, the anode sections 12 and 14 were lowered to \SI{1085}{\volt} for runs 2272-2371 and set to \SI{1214}{\volt} for all the other runs. By lowering the voltage on these anode wires, the gas gain is lowered as compared with all the other anode wire plane sections which operate at \SI{1460}{\volt}. To account for the drop in gain, in the software we increase the gain of the pads which lie above these anode wires to match the gain in the other channels. To do so, we compare the energy loss in the high gain sections to the low gain sections to get the relative calibration factor. 
+As discussed in Section~\ref{sec:wireplanes} the voltage of the anode sections 12 and 14 were reduced during the experiment due to high currents being observed on the wires. Out of all the runs used in the analysis in this thesis \ref{tb:runList}, the anode sections 12 and 14 were lowered to \SI{1085}{\volt} for runs 2272-2371 and set to \SI{1214}{\volt} for all the other runs. By lowering the voltage on these anode wires, the gas gain is lowered as compared with all the other anode wire plane sections which operate at \SI{1460}{\volt}. To account for the drop in gain, we increase the gain of the pads which lie above these anode wires  in the software gain of the other channels. The gain factor is found by plotting the energy loss in the high gain sections to the low gain sections.
 
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{highlowcal.png}
-\caption{Calibration of low high.}
+\caption{Calibration of low and high gain sections of the anode wires.}
 \label{fig:highlowcal}
 \end{figure}
 
-Figure~\ref{fig:highlowcal} shows the correlation plot of $\langle dE/dx\angle$ of the high versus the low gain sections. The effects of the high gain channel saturation can around a value of 400 ADC\si{\per\milli\metre} and plateaus, where as the low gain does not. A linear fit was performed for the calibration  between the high gain channel $h_c = G\cdot l_c$, where $l_c$ is the value of the low gain channel and $G$ is the gain factor. In the case where the low anode voltage was \SI{1214}{\volt}, the gain factor was 9.8 where as in the case of \SI{1085}{\volt}, the gain factor was ???.  The calibration factor was applied inside of the decoder task. A map of the channels which are impacted by the low anode wire voltages and the relevant gain was input into the software. In the decoder task the raw ADC spectra was multiplied by the input gain for a given channel. The thresholds of those channels also were multiplied by the same factor since the noise levels were also artificially magnified by the same gain factor. 
+Figure~\ref{fig:highlowcal} shows the correlation plot of $\langle dE/dx\angle$ of the high versus the low gain sections. The effects of the high gain channel saturation can around a value of 400 ADC\si{\per\milli\metre} and plateaus, where as the low gain does not; this region is left out of the fit. A linear fit was performed for the calibration between the high gain channel $h_c = G\cdot l_c$, where $l_c$ is the value of the low gain channel and $G$ is the gain factor. In the case where the low anode voltage was \SI{1214}{\volt}, the $G=9.8$, where in the case of \SI{1085}{\volt}, the $G = $.  
+
+ A map of the channels which are affected by the low gain and the relevant gain factor was input into the software. In the decoder task the raw ADC spectra was multiplied by the input gain for a given channel. The thresholds of those channels also were multiplied by the same gain factor since the noise levels were also artificially magnified by this method. 
 
 \subsection{Extending the dynamic range of the Electronics}
-Using a TPC for measurements of HIC in nuclear physics presents a different set of challenges as opposed to higher energy experiments. Typically in higher energy experiments the charge of particles is Z$e$, where Z=1. Also, the particles are traveling at higher energies in which the energy losses are near or close to the minimum in the energy loss curve. The dynamic range of electronics in such experiments can cover a wide range of particle energies in the energy loss curve. In nuclear HICs, we are interested in measured particles ranging from Z=1-3 resulting from the collision, and even higher in some applications. As seen in Eq.~\ref{eq:bb}, the energy loss is proportional to $Z^2$; the energy values in nuclear HIC of intermediate beam energies (around \SI{300}{\MeVA}) in which the resulting particles are at much lower energies which are in the $1/\beta^2$ region. The energy range and particle types covered by the electronics are significantly limited by the dynamic range limitations of the electronics as the charge of a particle increases and the velocity decreases. 
+\label{sec:extendDynamicRange}
 
-Several TPCs have tried to address this issue by having regions of low and high gain, either in amplification gain or in electronics gain. Here we run into the issue that high velocity particles will have little to no signal in the low gain regions. At lower velocities, particles will deposit much charge over the low gain regions but will saturate the high gain regions, whose charge values are usually lost. Only within the dynamic range will tracks have the best momentum resolution, outside the dynamic range clusters will be missing in the sections which depend on the track velocity, lowering the momentum resolution of tracking. There are ongoing efforts in the nuclear community to develop new electronics which hope to mitigate these persistent issues in TPC electronics CITE HERE, by being able to switch to a lower gain value when the maximum range is reached. Though, it is quite useful to develop a software technique which may extend the dynamic range of TPC electronics without the use of external hardware, especially in experiments which have already been performed with preexisting electronics technologies. 
+Using a TPC for measurements of HIC in nuclear physics presents a different set of challenges as opposed to higher energy experiments. Typically in higher energy experiments fundamental particles are produced with charge $\pm e$. Also, the particles are traveling at higher energies in which the energy losses are near or close to the minimum in the energy loss curve. The dynamic range of most TPC electronics can cover a wide range of particles in these types of experiments. In nuclear HICs, we are interested in measured particles with charges $Ze$ where Z=1-3, and even higher in some applications. The energy loss in the Bethe-Bloch equation, Eq.~\ref{eq:bb}, is proportional to $Z^2$. Even more, low energy nuclear HIC of intermediate beam energies (around \SI{300}{\MeVA}) produce low velocity particles which exist in the $1/\beta^2$ region of Eq.~\ref{eq:bb}, where the energy loss grows dramatically. The dynamic range of electronics significantly limit the PID as the charge of a particle increases and the velocity decreases where the electronics will be saturated.
 
-In TPCs, the effective dynamic range can be very different from the single channel dynamic range depending on the application. Typically TPCs are operated inside of a magnetic field for reconstructing momentum of each particle, which requires sub-millimeter precision in the position determination of the track path. This is achieved by averaging the charge distribution over several pads. Therefore the effective dynamic range is related to the relative charge values of adjacent pads (between the center pad and outside pads). For example, to measure minimum ionizing particles the signal to noise ratio of the pad with the smallest charge in the distribution should be some reasonable value above noise, say at least 6:1 signal-to-noise ratio (SNR). From Section \ref{sec:prf}, we know the central pad in the cluster holds 80\% of the total charge, where as the two adjacent pads each hold the remaining 10\%. If we require the adjacent pads to have a SNR of 6:1, then the central pad would have a SNR of 50:1. Considering this is the SNR for minimum ionizing particles, and the maximum SNR in a channel is 800:1, this means the effective dynamic range in the TPC is roughly 16 times that of minimum ionizing particles, if we intend to have adequate position and tracking resolution. 
+Several TPCs have tried to address this issue by having regions of low and high gain, either in amplification gain or in electronics gain. This mitigates the complete loss of information but introduces a new problem. Though particles which deposit large amounts of charge will now have good measurements in the low gain areas, particles which deposit minimal energy losses will lose information in the same low gain areas. The reconstruction of such tracks will suffer. There are ongoing efforts in the nuclear community to develop new electronics which hope to mitigate these issues by developing more sophisticated  pre-amplifiers and electronics CITE HERE.  Never the less it is quite useful to develop a software technique which may extend the dynamic range of TPC electronics without the use of new external hardware, especially for experiments which have already been performed with older electronics technologies. In this section we will outline a novel software technique that takes advantage of the PRF described in Section~\ref{sec:prf} and can effectively extend the dynamic range of the TPC electronics. 
 
-The dashed lines and vertical blue bar in Fig.~ \ref{fig:intro} are separated by a factor of 20, representing the typical effective dynamic range in a TPC. This dynamic range estimate should be regarded as approximate because the energy loss fluctuates significantly about the most probable energy loss, with a long ``Landau'' like tail, as described by Bichsel \cite{bichsel}. Nevertheless, the blue dashed lines and vertical blue bar illustrate that the range of energy losses sampled in a fixed gain readout system is limited. One can change the gain and shift the energy loss range that can be sampled, but the dynamic range itself cannot be increased.
+In TPCs, the effective dynamic range is very different from the single channel dynamic range depending on how the TPC measurement is used. Typically TPCs are operated inside of a magnetic field for the purpose of reconstructing the momentum of a track, which requires sub-millimeter precision in the position determination of the track path. This is achieved by clustering several pads together as discussed in Section~\ref{sec:helixtrack}. To achieve this at least 2 adjacent pads must be measured, and the precision increases as the number of adjacent pads increases. 
+
+The effective dynamic range is then not the single channel dynamic range, but the dynamic range between central pad --holding the largest charge-- and the adjacent pads --holding the smaller charges in the PRF distribution. For example, to measure minimum ionizing particles, the Signal-to-Noise-Ratio (SNR) of the pad with the smallest charge in the distribution should be some reasonable value above noise, so that the signals can be measured. From the PRF in Section~\ref{sec:prf}, we know the central pad in the cluster holds 80\% of the total charge, where as the two adjacent pads each hold the remaining 10\%. In the \spirit TPC the electronics gain was set so that the the pads have a SNR of 6:1 for minimum ionizing tracks, and therefore the central pad had a SNR of 50:1. In the case of the maximum charge is collected in the central pad, before the electronics saturate, the SNR is 800:1. Therefore the maximum SNR is roughly 16 times that  --800 over 50 -- of minimum ionizing particles. This is order to have a complete measurement, where adjacent pads are all measured and position resolution is not compromised. 
+
+Figure~\ref{fig:intro} shows the theoretical energy loss curves for several particles as a function of the momentum over charge. Minimum ionization can be seen to take place around \SI{10}{\kilo\electronvolt\per\centi\metre}. The dashed lines and vertical blue bar in are separated by a factor of 16, representing the effective dynamic range in the \spirit TPC. This dynamic range should be regarded as approximate because the energy loss fluctuates significantly about the most probable energy loss as described in Section~\ref{sec:energyloss}. Nevertheless, the blue dashed lines and vertical blue bar illustrate that the range of energy losses sampled in a fixed gain readout system is limited. One can change the gain and shift the energy loss range that can be sampled, but the dynamic range itself cannot be increased.
 
   
 \begin{figure}[ht!]
@@ -255,18 +280,16 @@ The dashed lines and vertical blue bar in Fig.~ \ref{fig:intro} are separated by
 \label{fig:intro}
 \end{figure}
 
-The rapid increase in the stopping powers at low momentum illustrates the degree to which the effective dynamic range can be exceeded and highlights the problems encountered in studies of intermediate HICs, in which light particles with low momenta are abundantly produced along with highly charged particles. Similar problems are encountered when TPCs are used as active targets in direct reaction studies with rare isotope beams \cite{pattpc}. Several techniques have been employed to increase the observable range of energy losses; typically by lowering the electronics gain of selected readout channels, or by changing the gas amplification at the readout plane in certain areas of the TPC \cref{eos,pattpc}. The results of changing the gas-gain, or the electronics gain, are rather similar in that reducing the gain to sample a range of higher energy loss makes the TPC effectively blind to minimum ionizing particles in  the regions of lower gain.
-
 
 \subsection{Experimental Pad Response Function}
-
+\label{sec:expPRF}
 The pad response function of the TPC was extracted from non-saturating hits and clusters in tracks at various track crossing angles. As in Fig.~\ref{fig:topview}, we postulate that the PRF is a function of the total charge deposited in a cluster $Q = \sum_i q_i$, and the difference in position of the center of the $i^{th}$ pad, $x_i$, to the mean position $\bar{x} = \sum_i x_i q_i/Q$, defined as $\lambda_i = x_i-\bar{x}$. The PRF is simply defined as the charge fraction of each pad as a function of $\lambda$, as shown in Equation \ref{eq:prf}. 
 
 \begin{equation}\label{eq:prf}
 PRF(\lambda_i) = \frac{q_i(\lambda_i)}{Q}
 \end{equation}
 
-Averaging over many events in the experimental data, the resulting PRF for the S$\pi$RIT TPC is shown in Fig.~\ref{fig:expprf}. Here we see the deviations from the expected analytic Gatti distribution (black curve), whereas fitting with a two parameter Gaussian function (red curve) gives a better description of the  data, Eq.~\ref{eq:gaus}, with the two parameters being the normalization coefficient, $N_0$, width $\sigma$, and with a mean value assumed to be 0.
+Averaging over many events in the experimental data, the resulting PRF for the S$\pi$RIT TPC is shown in Fig.~\ref{fig:expprf}. Here we see the deviations from the expected analytic Gatti distribution (black curve), whereas fitting with a two parameter Gaussian function (red curve) gives a better description of the data, Eq.~\ref{eq:gaus}, with the two parameters being the normalization coefficient, $N_0$, width $\sigma$.
 
 \begin{equation}\label{eq:gaus}
 PRF_{\mathrm{Gaus}}(\lambda) = N_0 e^\frac{-\lambda^2}{2\sigma^2}
@@ -284,15 +307,12 @@ PRF_{\mathrm{Gaus}}(\lambda) = N_0 e^\frac{-\lambda^2}{2\sigma^2}
 \end{comment}
 
 
-The shape of the PRF depends on the crossing angle of the track \cite{gatti}, which determines how wide the charge is distributed along the wire. Figure~\ref{fig:prfpimData} shows the PRF of $\pi^-$ tracks versus the crossing angle $\theta$ of the track. The PRF gets wider starting from $90^{\circ}$  and until where we switch clustering directions at $\ang{45}$; if we did not switch clustering directions the PRF would become wider until it was a uniform distribution and there was no position resolution. Switching from $x$ to the $z$ direction clustering the opposite trend is seen where the PRF becomes narrower  going from $45^{\circ}$ to $0^{\circ}$, as the position resolution gets better.
-
-
-
+The shape of the PRF depends on the crossing angle of the track, which determines how wide the charge is distributed along the wire \cite{gatti}. Figure~\ref{fig:prfpimData} shows the PRF for $\pi^-$ tracks versus the crossing angle $\theta$ of the track. The PRF gets wider starting from $90^{\circ}$  and until where we switch clustering directions at $\ang{45}$. If we did not switch clustering directions the PRF would become wider until it was a uniform distribution and there was no position resolution. Switching from $x$ to the $z$ direction clustering the opposite trend is seen where the PRF becomes narrower  going from $45^{\circ}$ to $0^{\circ}$, as the position resolution gets better.
 
 \begin{figure}[!htb]
      \centering
 	 \includegraphics[width=\textwidth]{PRFs_data_wcut.png}
-     \caption{PRF response from $\pi^-$ data. }
+     \caption{PRF from $\pi^-$ tracks in experimental data. }
      \label{fig:prfpimData}
 \end{figure}
 
@@ -328,7 +348,7 @@ The shape of the PRF depends on the crossing angle of the track \cite{gatti}, wh
 \end{table}
 \end{comment}
  
-A Gaussian fit was performed were performed to the experimental data with  $\ang{5}$ width bins from $\ang{0} < \theta \leq \ang{90}$. Figure~\ref{fig:normsigma} shows the two parameters resulting from fitting the the Gaussian function given in Eq.~\ref{eq:prfgaus} are plotted versus $\theta$. A $4^{th}$ order polynomial fit of these parameters allowed for interpolating for any given $\theta$ value as seen by the black line. 
+A Gaussian fit was performed to the experimental PRF in $\ang{5}$ width bins ranging from $\ang{0} < \theta \leq \ang{90}$. Figure~\ref{fig:normsigma} shows the two parameters resulting from fitting the the Gaussian function given in Eq.~\ref{eq:prfgaus} which are are plotted versus $\theta$. A $4^{th}$ order polynomial fit of these parameters allowed for interpolating for any given $\theta$ value, which is shown as the black line. 
 
 
 \subsection{Method of Desaturation}
@@ -340,38 +360,39 @@ A Gaussian fit was performed were performed to the experimental data with  $\ang
 \label{fig:satpad}
 \end{figure}
 
+In the following, we will use the term ``desaturation'' to describe the technique described here of correcting the charge values of the saturated pads. Figure~\ref{fig:satpad} shows a typical situation of saturated hits in a cluster. When an avalanche causes a large enough induced signal, the pads directly underneath the avalanche collect the largest charge becoming saturated, denoted here as $q_{2\textprime}$ and $q_{3\textprime}$. Pads further away collect less charge and typically are not saturated, detonated here as $q_{1}$ and $q_{4}$. Though the charge values in the saturated channels are lost, we know that the distribution of all charges must follow the PRF which is a fixed function, and a fundamental operating principle of all TPCs. We have already measured the PRF as a function of crossing angle in Section~\ref{sec:expPRF}, and from the tracking information, we know the crossing angle of the track at a given cluster and therefore the PRF corresponding to that cluster. 
 
-We will use the term ``desaturation'' to describe the process of correcting the charge values of the saturated pads. Figure~\ref{fig:satpad} shows a typical situation of saturated signals in a given cluster of hits. When an avalanche causes a large enough induced signal, it is the pads directly underneath which collect the largest charge becoming saturated; denoted here as $q_{2\textprime}$ and $q_{3\textprime}$. Pads further away collect less charge and typically are not saturated; the non-saturated pads are detonated here as $q_{1}$ and $q_{4}$. Though the true charge value in the saturated channels are lost, we know that the distribution of all charges must follow the PRF which is a fixed feature of all TPCs, and has been experimentally measured above. From the tracking information, we know a given clusters crossing angle and can interpolate to get the corresponding parameters for the PRF described in Fig.~\ref{fig:normsigma}.
-
-We assume the distance of each pad to the track, $\lambda_i$, is fixed, defining the fraction of charge each pad receives as given by the $PRF(\lambda_i)$ function. To determine the best estimate for the charge values of each saturated pad, a chi squared function is minimized,
+We assume the distance of each pad to the track, $\lambda_i$, is fixed, defining the fraction of charge each pad receives as defined by the $PRF(\lambda_i)$ function. To determine the best estimate for the charge values of each saturated pad, a chi squared function is minimized,
 
 \begin{equation}\label{eq:chi}
 \chi^2 = \sum_i \frac{(q_i^{\mathrm{obs}} - q_i^{\mathrm{expect}})^2}{q_i^{\mathrm{expect}}},
 \end{equation}
 
 
-where $q_i^{\mathrm{obs}}$ are the non-saturated charges and $q_i^{\mathrm{expect}}$ are the charge values expected from the PRF calculated as $q_i^{\mathrm{expected}} = Q\cdot PRF(\lambda_i)$. The saturated charge values $q_{i}^{\textprime}$ are treated as unknown variables and are allowed to vary in the $\chi^2$ minimization; the values calculated by the minimizer are added to the total expected charge $Q$. 
+where $q_i^{\mathrm{obs}}$ are the non-saturated charges and $q_i^{\mathrm{expect}}$ are the charge values expected for that pad as calculated from the PRF; $q_i^{\mathrm{expect}} = Q\cdot PRF(\lambda_i)$. The saturated charge values $q_{i}^{\textprime}$ are treated as unknown variables and are allowed to vary in the $\chi^2$ minimization, they enter the minimization routine when they are added to get the total charge $Q = \sum q_i + \sum q_i^{'}$. 
 
 
-\begin{figure*}[t]
+\begin{figure*}[!htb]
+\centering
 \includegraphics[width=\linewidth]{data_combine}
 \caption{Uncorrected (left panel) and desaturated (right panel) collision data at polar angles of $\theta < 40^{\circ}$ and azimuthal angles between $-80^{\circ} < \phi < 80^{\circ}$}
 \label{fig:data_combine}
 \end{figure*}
 
-Tracks which saturate pads in the high anode wire voltage region are not saturated in the low anode voltage region. By comparing the $\langle dE/dx\rangle$ values of these two sections, we can directly measure the success of the desaturation in the high gain regions. While this desaturation technique avoids the need to lower the gain of any region, the low anode voltage region proved to be a direct measurement of the success of this technique.
+
+\begin{figure*}[!htb]
+\centering
+\includegraphics[width=\linewidth]{lowvshigh.png}
+\caption{Uncorrected (left panel) and desaturated (right panel) collision data comparing the low gain region to the high gain anode regions of the TPC.}
+\label{fig:lowvshigh}
+\end{figure*}
+
+Tracks which saturate pads in the high anode wire voltage region are not saturated in the low anode voltage region. By comparing the $\langle dE/dx\rangle$ values of these two sections. While this desaturation technique avoids the need to lower the gain of any region, the low anode voltage region proved to be a direct measurement of the success of this technique.
  
-Figure~\ref{fig:lowvshigh} shows the the $\langle dE/dx\rangle$ values of the high gain region compared with the calibrated low gain region. The effect of saturation can be seen in the high gain region for the uncorrected data above values of 400 ADC/mm where the values plateau, where as the low gain region still returns accurate values\footnote{Un-calibrated ADC channels in arbitrary units.} Below this value the electronics are not saturated, and therefore the high and low gain sections agree. 
+Figure~\ref{fig:lowvshigh} shows the the $\langle dE/dx\rangle$ values of the high gain region compared with the calibrated low gain region. The effect of saturation can be seen in the high gain region for the uncorrected data above values of 400 ADC/mm where the values plateau, where as the low gain region still returns accurate values. Below this value the electronics are not saturated, and therefore the high and low gain sections agree. After applying the desaturation method, the correlation between the high and low gain sections is restored, as seen in Fig.~\ref{fig:lowvshigh}. From this comparison, we can approximate that the correction has corrected the high gain sections to agree with low gain sections to values of 2000 ADC/mm, increasing the dynamic range by a factor of at least 5.
 
- After applying the desaturation method, the correlation between the high and low gain sections is restored, as seen in Fig.~\ref{fig:lowvshigh}. From this comparison, we can approximate that the correction has corrected the high gain sections to agree with low gain sections to values of 2000 ADC/mm, increasing the dynamic range by a factor of at least 5.
+The success of the desaturation becomes more clear when looking at the particle identification (PID) lines from the experimental data in Fig.~\ref{fig:data_combine}. In the following PID plots the red lines represent the most probable energy loss as given by Geant4 straggling functions. The uncorrected data in the left panel shows the effects of saturation, where the PID lines deviate significantly from their theoretical expectations starting at around 400~ADC/mm. After applying the desaturation technique -- in the right panel-- we see a large improvement, most notably for the He and Li particles, which suffer the most from saturation. Even the ${}^{6}Li$ and ${}^{7}Li$ particles can be separated and a more subtle improvement of the lighter particles, (p, d, t), can also be seen in the PID lines at lower momenta. In these regions, there was little to no PID resolution before desaturation technique was applied.  
 
-The success of the desaturation becomes more clear when looking at the particle identification (PID) lines. In the following PID plots the red lines represent the most probable energy loss as given by Geant4 straggling functions. A linear calibration was performed to convert keV in Geant4 to ADC in the experiment given by $ADC/mm = 19;keV/cm$.
-
-There are pronounced PID lines of several particle species in both the uncorrected and corrected cocktail beam PID shown in the subplots of Fig.~\ref{fig:cocktail_combine}. The uncorrected data in the left panel shows the effects of saturation; the PID lines deviate from their theoretical expectations starting at around 400~ADC/mm eventually reaching a plateau. After applying the desaturation technique -- in the right panel-- we see a large improvement, most notably for the He and Li particles, which suffer the most from saturation and even ${}^{6}Li$ and ${}^{7}Li$ can be separated. A more subtle improvement of the lighter particles, (p, d, t), can also be seen in the PID lines at lower momenta.
-
-A similar effect is seen in the experimental collision data. In Figure~\ref{fig:data_combine} though the PID suffers from more background and inefficiencies than the cocktail beam we see a similar improvement in the PID lines when comparing before -- the left panel-- and after applying desaturation -- the right panel. Notably the largest improvement is the separation of particle species at lower momenta and the separation of the Li species into ${}^{6}$Li and ${}^{7}$Li. In these regions, there was little to no PID resolution before desaturation. 
-
-The dynamic range was extended by at least a factor of 5, as demonstrated by the improved PID lines, and quantified by direct comparison to low gain sections of the TPC. 
 
 %Give some failures of the assumptions made
 
@@ -380,9 +401,7 @@ The dynamic range was extended by at least a factor of 5, as demonstrated by the
 
 %MAYBE ADD A LITTLE NAPKIN CALCULATION OF SPACE CHARGE TO SHOW ORDER OF EFFECT. 
 
-As the beam passes through the field cage it ionizes the gas creating electron-ion pairs. The drift velocities of the ions are typically \SI{e4} times slower than the electron drift velocities \cite[blumrol]. Any source of ions have the potential to build up creating a positive space charge distorting the drifting electrons, biasing the track momentum. There are several regions of the TPC in which ion are created. The largest source of positive ions is created in the avalanche process near the anode wires. These ions slowly drift toward the cathode. If the gating grid is closed the ions will terminate there; though it opens occasionally  for \SI{11}{\micro\second} the ions only move \SI{1}{\micro\metre} in this time and will be captured by grid when it closes. For this reason, the source of ions resulting from the avalanche region is negligible. 
-
-The other source of ions come from the primary ionization produced by the beam and reaction products in the detector gas. The energy loss  $\langle dE/dx\rangle \propto Z^2$, where Z is the charge of the particle type. Because the charge of the un-reacted beam is around Z~50, the ionization due to the beam is a factor of \num{2.5e3} times that of the light charged particles which mostly are of charge Z~1. It is the largest source of positive ions in the TPC. 
+As the beam passes through the field cage it ionizes the gas creating electron-ion pairs. The drift velocities of the ions are typically \SI{e4} times slower than electron drift velocities \cite[blumrol]. Any source of ions have the potential to build up in the drift volume, creating a positive space charge, distorting the drifting electrons and  biasing the track momentum measurement. There are several regions of the TPC in which ions are created. The largest source of positive ions is created in the avalanche process near the anode wires. But as discussed in Section~\ref{sec:wireplanes}, the gating grid captures all of the ions from this region. The other source of ions come from the primary ionization produced by the beam and reaction products in the detector gas. The energy loss  $\langle dE/dx\rangle \propto Z^2$, where Z is the charge of the particle type. Because the charge of the un-reacted beam is around Z~50, the ionization due to the beam is a factor of \num{2e3} times that of the light charged particles which mostly are of charge Z~1. Therefore the ions resulting from the un-reacted beam is the largest source of positive ions in the TPC. 
 
 
 NEED TO PUT IN ABOUT THE GATING GRID LEAK 
@@ -434,9 +453,9 @@ $\si{\kilo\eV\per\centi\meter}$ & 11.2   &.034  &5.43   &  903   &150     \\
 \end{figure}
  
  
- The beam is positioned about 25\si{\centi\metre} below the anode plane in the TPC. It takes electrons approximately 5\si{\micro\sec} to drift to the anode plane where as it takes the ions \num{5e4}\si{\micro\sec}. The beam rate in the experiment varied around a value of about 10\si{\kilo\hertz}, which has an average occurrence of 1 beam every \SI{100}{\micro\sec}; this is shorter than the time it takes for the ions to terminate on the cathode plane, resulting in a build up of positive ions. Figure~\ref{fig:spacechg_cartoon} gives an idea of the shape of the sheet of space charge carved out by the beam path. The ions from each beam create a line charge which drifts towards the cathode with a constant velocity. The average distance between sequential ion paths is about \SI{25}{\micro\metre} apart, therefore we expect the average number of beam paths that compose the sheet charge is around \num{1440} tracks -- where the distance to the cathode is \SI{29.6}{\centi\metre}. Though the arrival time of each beam track is random, the large number of tracks and small inter beam spacing allows us to approximate the sheet charge as an uniform sheet charge. 
+ The beam is positioned about \SI{25}{\centi\metre} below the anode plane and \SI{29.6}{\centi\metre} above the cathode in the TPC. It takes electrons approximately 5\si{\micro\sec} to drift to the anode plane where as it takes the ions \num{5e4}\si{\micro\sec} to drift to the cathode. The beam rate in the experiment was approximately \SI{10}{\kilo\hertz}, which has an average occurrence of 1 beam every \SI{100}{\micro\sec}. This is  much shorter than the time it takes for the ions to terminate on the cathode plane, resulting in a build up of positive ions. Figure~\ref{fig:spacechg_cartoon} gives an idea of the shape of the sheet of space charge carved out by the beam path. The ions from each beam create a line charge which drifts towards the cathode with a constant velocity. The average distance between sequential ion paths is about \SI{25}{\micro\metre} apart, therefore we expect the average number of beam paths that make up the sheet charge is around \num{1440} tracks. Since the number of tracks in the sheet charge is large, and inter beam spacing is very small, this allows us to approximate the sheet charge as an uniform sheet charge density. 
  
- The secondary beams entering the TPC are also composed of many species of particles distributed in a finite range around the target beam. Assuming a beam of ${}^{132}$Sn were the energy loss in gas is \SI{11.2}{\kilo\electronvolt\per\centi\metre}, using the number of beams above, the conversion to electrons given in \ref{tb:gasprop}, and the beam path length of \SI{135}{\centi\metre}, the total charge density expected is \SI{3e-8}{\coulomb\per\metre\squared}. 
+ The secondary beams entering the TPC are also composed of many species of particles distributed in a finite range around the target beam as will be discussed in Section~\ref{sec:beam}. Let us assume a beam of ${}^{132}$Sn where the energy loss in P10 gas, at 270 AMeV, is \SI{11.2}{\kilo\electronvolt\per\centi\metre}. From the total number of beams above, and the beam path length of \SI{135}{\centi\metre}, the estimated charge density would be on the order of \SI{3e-8}{\coulomb\per\metre\squared}. 
  
 
 The electric potential can be calculated by solving Poisson's equation, 
@@ -445,29 +464,24 @@ The electric potential can be calculated by solving Poisson's equation,
 \nabla^2 \phi = \rho,
 \end{equation}
 
- where $\phi$ is the electric potential and $\rho$ is the free charge.  Since the Dirichlet boundary conditions of the field cage are defined by the cathode, walls, and pad plane, a numerical solution to the electric potential is solved through the ??? technique. The electric field is simply the gradient of the potential  $\vec{E}= -\nabla \phi$. 
+ where $\phi$ is the electric potential and $\rho$ is the free charge. The numerical solution is provided by the Jacobi method \cite{poisson} provided all 6 sides have defined Dirchlet boundary conditions for the potentials. We neglect the wire plane region since the drift details are not important for the space charge effects we are discussing here. The pad plane and cathode are trivial, where the side walls of the field cage are given linearly varying potentials on the surface such that the electric field is the same strength as the real TPC with no space charge present. Once the electric potential is solved, the electric field is simply the gradient of the potential  $\vec{E}= -\nabla \phi$. 
  
- To reduce the need to compute a new electric field for a new value of the space charge, we notice that $\vec{E}\propto \rho$, we can therefore solve the electric field for a certain reference charge value $\rho_o$, and scale the solution for any other free charge $\rho$ by the ratio $\rho/\rho_o$. The full magnetic field map is provided by the SAMURAI collaboration \cite{magnet}. The velocity field map can be calculated from Eq.~\ref{eq:elecdrift}. The path an electron drifts through this velocity map is propagated by using a time stepped $\mathrm{4}^{\mathrm{th}}$-Order Runge-Kutta integration from a given starting point of the electron. We do not add details of the electric field around the anode wires which is only relevant for the small gap between the ground and anode plane. Over this small gap the space charge corrections have very little effect. 
- 
- The correction map is calculated by starting from the anode y-position and the measured position on the pad-plane (x,z), and stepping backward in time in the Runge-Kutta integration through the velocity field map until the electron reaches the measured y-position, which is split into a grid that fills the 3-dimensional volume of the field cage. 
- 
- The correction is handled within the STCorrection task in the software. A data base of the sheet charge values for every run is read in and the electric field is calculated for the reference charge for a given beam path. The electric field and velocity map is scaled by the ratio of the space charge in the particular run and the reference run $\rho/\rho_o$ and the correction map is calculated. The measured clusters value (x,y,z) position is input into the correction map which interpolates and outputs the correction values $dx$ and $dz$ which correspond to that cluster. The cluster position is shifted to new positions $x\textprime = x + dx$ and $z\textprime = z + dz$, before going on to the momentum and vertex finding algorithms.  
- 
- It has been shown before that the amount of space charge present in the chamber is related to observables such as the distance of closest approach of each track to the vertex point \cite{starSC}. In the presence of no space charge, you would correctly expect the distance of closest approach of each track to the vertex point would be a distribution centered around the true vertex location. Since the tracks are distorted by the space charge, which affects different regions of the TPC differently, a bias is introduced to the measured vertex location and widens the distribution to vertex of each track.  
+It has been shown before that the amount of space charge present in the chamber is related to observables such as the distance-of-closest-approach (dOCA) of each track to the vertex point \cite{starSC}. In the presence of no space charge, the dOCA distribution of each track would be a centered around the true vertex location. Since the tracks are distorted by the space charge, which affects different regions of the TPC differently, a bias is introduced to the measured vertex location and widens the distribution to vertex of each track.  
 
-An example of the distortion map in the TPC is shown in Fig.~\ref{fig:sc_shift} with left-going tracks shown in blue, and right-going tracks shown in green; the vectors show the direction of distortion and their magnitude have been magnified by ??? times to show the detail. The dashed lines show the effects the track shifted due to the space charge map where left and right-going tracks are affected differently. Right-going tracks tend to higher momentum values and the left-going tracks going to lower momentum values, for positively charged particles. 
+An example of the distortion map in the TPC is shown in Fig.~\ref{fig:sc_shift} where left-going tracks shown in blue, and right-going tracks shown in green. The vectors show the direction of distortion, and their magnitude have been magnified by 10 times to show the detail. The dashed lines show the shifted track due to the space charge where left and right-going tracks are affected differently. Right-going tracks tend to higher momentum values and the left-going tracks going to lower momentum values, for positively charged particles.  
+ 
 
 \begin{figure}[!htb]
 \includegraphics[width=\linewidth]{Effect_SC.pdf}
-\caption{Shift of tracks}
+\caption{Example of the map of the electron shift. The effect is also shown on left-going (blue) and right-going (green) tracks. The original tracks are shown in the solid line and the shifted track in the dotted line.}
 \label{fig:sc_shift}
 \end{figure}
 
-The inset figure of Fig.~\ref{fig:sc_shift} shows the shift in the x-position distance to vertex for the displaced left-going track given by $\Delta\mathrm{V}_\mathrm{x}$, with the opposite direction for right-going tracks. We will define the DOCA for left going tracks as $V_x^L$ and for right-going tracks as $V_x^R$. We are able to measure the amount of distortion the space charge creates by measuring the difference between the most probable values of the left-going and right-going tracks which we define as $\Delta\mathrm{V}_\mathrm{LR} = \Delta\mathrm{V}_\mathrm{x}^L - \Delta\mathrm{V}_\mathrm{x}^R$ as seen in Figure~\ref{fig:VLR}.
+The inset figure of Fig.~\ref{fig:sc_shift} shows the effects of the space charge have on the x-component of the dOCA to the vertex for the displaced left-going track given by $\Delta\mathrm{V}_\mathrm{x}$, with the opposite direction for right-going tracks. Figure~\ref{fig:VLR} shows the amount of distortion caused by the space charge effect as a new observable $\Delta\mathrm{V}_\mathrm{LR} = \Delta\mathrm{V}_\mathrm{x}^L - \Delta\mathrm{V}_\mathrm{x}^R$ , where  $V_x^L$ and $V_x^R$ are the most probable value of the dOCA distribution for left and right-going tracks respectively. 
 
-\begin{figure}[H]
+\begin{figure}[!htb]
 \includegraphics[width=\linewidth]{DVTP_raw.pdf}
-\caption{$\Delta\mathrm{V}_\mathrm{x}$ distribution for left-going and right-going tracks in the TPC for the }
+\caption{$\Delta\mathrm{V}_\mathrm{x}$ distribution for left-going and right-going tracks. }
 \label{fig:VLR}
 \end{figure}
 
@@ -500,6 +514,11 @@ This is done for several runs which vary in beam intensity though the solution f
 
 Following this algorithm the space charge is estimate for each run and system. Figure~\ref{fig:scDensity} shows the summary of the extracted space charge values for each secondary beam. The linear fits relating the space charge density to the beam rate for each system is shown in Fig.~\ref{fig:spacechg_br_all} where the space charge value is inferred from the measured beam rate. Notice that in the $\tin{112}{124}$ system a constant value of was assumed since the beam rate did not span a large enough range to warrant a more detailed analysis. 
 
+To reduce the need to compute a new electric field for each space charge value, notice that $\vec{E}\propto \rho$, we can therefore solve the electric field for a certain reference charge value $\rho_o$, and scale the solution for any other free charge $\rho$ by the ratio $\rho/\rho_o$. The full magnetic field map is provided by the SAMURAI collaboration \cite{magnet}. The velocity field map is calculated following Eq.~\ref{eq:elecdrift}. The electron drift through this velocity map is propagated by using a time stepped $\mathrm{4}^{\mathrm{th}}$-Order Runge-Kutta integration from a certain starting point.
+  
+ The correction map is calculated by starting from the anode y-position and the measured position on the pad-plane (x,z), and stepping backward in time in the Runge-Kutta integration, through the velocity field map until the electron reaches the measured y-position. This is done over a 3-dimensional grid where points in between are interpolated by a trilinear interpolation. The measured clusters value (x,y,z) position is input into the correction map which outputs the interpolated correction values $dx$ and $dz$ which correspond to that cluster. The cluster position is then shifted to new positions $x\textprime = x + dx$ and $z\textprime = z + dz$.
+ 
+
 %What is the best figure to put in? VLR vs Charge density? 
 %estimate of the error of VLR and how it corresponds to charge density
 
@@ -517,7 +536,7 @@ Following this algorithm the space charge is estimate for each run and system. F
 \label{fig:vlrResidual}
 \end{figure}
 
-Adding the BDC vertex greatly improves the momentum resolution of the track fitting, but there is a systematic shift when as compared with the momentum value without using a vertex as an extra constraint. Since the space charge affects right-going and left-going tracks differently making right-going tracks differently than left-going tracks, it appears they no longer originate from the BDC which is not affected by the space charge. For tracks at polar angles of $\theta < 40 \deg$, the disagreement between momentum values with and without the BDC are much less because the projection of the track does not disagree as much with the BDC point as shown in Fig.~\ref{fig:mom_S_before}. Figure~\ref{fig:mom_L_before} shows the momentum value of tracks going at polar angles of $\theta > 40 \deg$ are more sensitive to small changes in the BDC when including it as an extra constraining point. After correcting for the space charge, adding the BDC point as an extra constraint on the track does not bias the reconstructed momentum value for either $\theta < 40 \deg$ or $\theta > 40 \deg$, which has the greatest improvement, as seen in Fig.~\ref{fig:mom_S_after} and Fig.~\ref{fig:mom_L_after} respectively. Recall that only the relative distance between left and right-going tracks was minimized; there was no guarantee that the corrected tracks coincide with the absolute BDC position at the target. This is one of the evidences of the correction's success. The others being the agreement with the expected cocktail calibration beam as described above. Later we will show how the space charge corrects the momentum distributions of left and right-going pions in the TPC. 
+Adding the BDC vertex greatly improves the momentum resolution of the track fitting, but there is a systematic shift when as compared with the momentum value without using a vertex as an extra constraint. Since the space charge affects right-going and left-going tracks differently making right-going tracks differently than left-going tracks, it appears they no longer originate from the BDC which is not affected by the space charge. For tracks at polar angles of $\theta_{Lab} < \ang{40}$, the disagreement between momentum values with and without the BDC are much less because the projection of the track does not disagree as much with the BDC point as shown in Fig.~\ref{fig:mom_S_before}. Figure~\ref{fig:mom_L_before} shows the momentum value of tracks going at polar angles of $\theta > 40 \deg$ which are more sensitive to small changes in the BDC when including it as an extra constraining point. After correcting for the space charge and adding the BDC point, the reconstructed momentum value agrees with or without the BDC included for both  $\theta_{Lab} < \ang{40}$ or $\theta_{Lab} > \ang{40}$, as seen in Fig.~\ref{fig:mom_S_after} and Fig.~\ref{fig:mom_L_after} respectively. 
 
 
 \begin{figure}[!htb]
@@ -525,28 +544,29 @@ Adding the BDC vertex greatly improves the momentum resolution of the track fitt
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{BDC_P_small_angle.pdf} 
-        \caption{Generic} \label{fig:mom_S_before}
+        \caption{Compare the momentum before and after including the BDC vertex for tracks with $\theta_{Lab} < \ang{40}$, before the space charge correciton.} \label{fig:mom_S_before}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{BDC_P_large_angle.pdf} 
-        \caption{Competitors} \label{fig:mom_L_before}
+        \caption{Comparison of the momentum before and after including the BDC vertex for tracks with $\theta_{Lab} > \ang{40}$, before the space charge correction.} \label{fig:mom_L_before}
     \end{subfigure}
     
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{BDC_P_aftercor_small_angle.pdf} 
-        \caption{Generic} \label{fig:mom_S_after}
+        \caption{Compare the momentum before and after including the BDC vertex for tracks with $\theta_{Lab} < \ang{40}$, after the space charge correction. } \label{fig:mom_S_after}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\linewidth]{BDC_P_aftercor_large_angle.pdf} 
-        \caption{Competitors} \label{fig:mom_L_after}
+        \caption{Compare the momentum before and after including the BDC vertex for tracks with $\theta_{Lab} < \ang{40}$, after the space charge correction.} \label{fig:mom_L_after}
     \end{subfigure}
 \label{fig:mom_sc}
 \end{figure}
+
 
 
 \begin{comment}
@@ -570,6 +590,75 @@ Adding the BDC vertex greatly improves the momentum resolution of the track fitt
 \end{comment}
 
 
+
+
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{sn132_SC} 
+        \caption{$\tin{132}{123}$ system.} \label{fig:132momdist_sc}
+    \end{subfigure}
+   
+    \begin{subfigure}[t]{\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{sn108_SC} 
+        \caption{$\tin{108}{112}$ system.} \label{fig:108momdist_sc}
+    \end{subfigure}
+\label{fig:sc_momdist}
+\end{figure}
+
+
+
+Recall that only the relative distance between left and right-going tracks was minimized, and there was no guarantee that the corrected tracks coincide with the absolute BDC position at the target. This is one of the evidences of the correction's success. The others being the agreement with the expected cocktail calibration beam as described in Section~\ref{sec:cocktail}.
+
+Here we will discuss some of the final results of the pion kinetic energy spectrum as it pertains to the verification of the space charge analysis,  the details of the pion PID analysis is discussed in detail in Section~\ref{sec:pid}. Figure~\ref{fig:sc_momdist} shows the $\pi^+$ and $\pi^-$ kinetic energy distributions in the center of mass system for the $\tin{132}{124}$ and $\tin{108}{112}$ systems. The momentum distributions are split into the beam-left and beam-right side of the TPC. In central collisions, one would expect no difference between the two momentum distributions due to the symmetry of the emission. Though as seen in the left panels of both figures, the data without the space charge correction is shown, where as in the right panel the data after the space charge correction is shown. There is a significant improvement in the matching of the left and right side momentum distributions for both particle species, in both systems.   It is remarkable that the dOCA observable which was used to calculate the amount of space charge was able to also correct the pion momentum distributions. There is no reason to assume correcting the dOCA distribution would be related to the momentum distribution, and is the strongest evidence to the success of the space charge correction.
+
+
+
+\section{CoBo timing correction}
+The arrival time of signals originating from each pad may differ due to timing delays in the electronics and cabling. The timing differences will affect the y-position measurement of each track. The y-direction track residuals reveal that the timing differences correspond to about $\pm$\SI{2}{\milli\metre} in position differences. The timing difference is stable for each pad across several runs.
+
+\begin{figure}[!htb]
+  \begin{center}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset6before_row_at_layer10.png}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset5before_row_at_layer30.png}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset4before_row_at_layer50.png}
+ 
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset6after_row_at_layer10.png}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset5after_row_at_layer30.png}
+    \includegraphics[width=0.33\textwidth]{run2907_yoffset4after_row_at_layer50.png}
+ 
+    \caption{Cobo timing correction.}
+  \end{center}
+  \label{fig:coboCorr}
+\end{figure}
+
+
+
+\begin{figure}[!htb]
+    \begin{subfigure}[t]{.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{run2905_yoffset1before_all.jpg} 
+        \caption{Y-residual distribution for all pads before correction.} \label{fig:yoff_allBefore}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{run2905_yoffset1after_all.png}
+        \caption{Y-residual distribution for all pads after correction.} \label{fig:yoff_allAfter}
+    \end{subfigure}
+    \caption{ }
+\label{fig:yoff}
+\end{figure}
+
+
+ Figure~\ref{fig:coboCorr} shows the y-residuals, across all the rows, for three different layers. Before the correction, one can see large deviations in the y-residuals which correspond to timing differences. The mean value of the y-residual distribution is fitted and an inverse correction map is constructed for each pad. The data is then reconstructed subtracting value from the inverse map, $dy$, for each pad. The resulting corrected distribution is shown in Fig.~\ref{fig:coboCorr} for the same layer set. Figure~\ref{fig:yoff} also show the summary of all the pads before the correction and after the correction. There is a significant improvement in the width of the distribution going from \SI{1.5}{\milli\metre} to \SI{0.6}{\milli\metre}. 
+
+
+
 %Reference appendix for poisson solver 
 %Tables for ion drift velocity in P-10 Gas reference Sauli
 %Figure of sDAC or POCA 
@@ -581,18 +670,19 @@ Adding the BDC vertex greatly improves the momentum resolution of the track fitt
 
 
 \section{Monte Carlo Simulation}
-The monte carlo (MC) simulation is composed of two separate simulations. The first simulation is an accurate model of the fundamental interactions of a particle passing through the various materials in the TPC; to accomplish this we have modled everything in Geant4 which also provies a particle generator. A scale model of field cage, front window, front window frame, pad plane, and aluminum top plate are modeled with the correct material type and dimensions assuming P-10 gas at a density of 1 atm. The magnetic field map of the SAMURAI dipole magnet was imported into Geant4 as well after assuming rotational symmetry along the axis perpendicular to the pole face. Along with the energy loss and particle transport, Geant4 also handles multiple scattering, and particle decay. The output of the particle generator is a series of energy loss points which contain the amount of energy lost in $\si{\kilo\electronvolt\per\centi\metre}$ and the location of the energy loss in Cartesian space $(x,y,z)$. 
+The MC simulation is composed of two separate simulations. The first simulation models the interactions of a particle passing through the various materials in the TPC using Geant4. A scale model of the field cage, and its materials, where the gas mixture is P-10 gas at a density of 1 atm. The magnetic field map of the SAMURAI dipole magnet was imported into Geant4 as well after assuming rotational symmetry along the axis perpendicular to the pole face. Along with the energy loss and particle transport, Geant4 also handles multiple scattering, and particle decay, which are all important effects for pions. The output of Geant4 is a series of energy loss points which contain the amount of energy lost in $\si{\kilo\electronvolt\per\centi\metre}$ and the location of the energy loss in Cartesian space $(x,y,z)$. 
 
-In the second part of the MC simulation, the physical processes involved in the operation and measurement of the TPC are simulated, such as the electron drift, avalanche process, and all processes involved in the signal creation in the electronics, simulating the detector's response to a MC track. This is separated into three software tasks, the drift, pad response, and electronics tasks. In the following section we will discuss these tasks in more detail, the discussion of Geant4 is not covered here and is left to the reader to explore.  
+In the second part of the MC simulation, the physical processes of the TPC measurement are simulated, such as the electron drift, avalanche process, and all processes involved in the signal creation in the electronics. This is separated into three software tasks, the drift, pad response, and electronics tasks. In the following section we will discuss these tasks in more detail, the discussion of Geant4 is not covered here and the reader is refered to \cite{geant4}.  
 
 \subsection{Drift Task}
- The first step of the drift task is to convert the primary ionization points of the MC track provided by Geant4 into electrons. The average number of electrons created in a gas,$N_{e^-}$, can be described as,
+ 
+ The first step of the drift task is to convert the primary ionization points of the MC track provided by Geant4 into electrons. The average number of electrons created in a gaseous detector,$N_{e^-}$, can be described as,
 \begin{equation}
 N_{e^{-}} =  \frac{\Delta E}{I},
 \label{eq:kev2el}
 \end{equation}
  
-where $I$ is the ionization coefficient of P10 gas (Table~\ref{tb:gas}) and $\Delta E$ is the energy loss deposited in units of \si{\electronvolt}. Since the electric field set up by the field cage is uniform for the most of the area covered by the pad plane, we assume a straight line trajectory for each electron until it reaches an anode wire. The total length drifted from the initial primary ionization point to the final anode wire is given by $L_{anode}$. 
+where $I$ is the ionization coefficient of P10 gas (Table~\ref{tb:gas}) and $\Delta E$ is the energy loss deposited. Each electron is propagated along the electric field lines assuming the electric field is uniform, which is true for mos tof the pad plane region. The total length drifted from the initial primary ionization point to the final anode wire is given by $L_{anode}$. 
 
 \begin{table*}\centering
 \ra{1.3}
@@ -605,11 +695,11 @@ Longitudinal diffusion &  340 $\si{\micro \meter \centi\meter}^{-1/2}$\\
 Gas Ionization & 26.2 $\si{\eV}$\\
 \bottomrule
 \end{tabular}
-\caption{An overview of the properties of the TPC}
+\caption{An overview of electron drift properties in P10 gas.}
 \label{tb:gas}
 \end{table*}
 
-Drifting electrons frequently collide with the detector gas causing them to change direction. This stochastic motion is  described by a a diffusion process occurring along the direction of travel (longitudinal) and transverse to the motion. The longitudinal ($c_{l}$) and transverse ($c_{t}$) diffusion coefficients are determined by Garfield++ calculation in the presence of a \SI{0.5}{\tesla} magnetic field, listed in Tb.~\ref{tb:gas}. The diffusion process is modeled by randomly sampling from a Gaussian distributions describing both of the directions. The random shift is then added to the final position of the electron. The deviation in the transverse direction, $dr$, is randomly sampled from,
+Drifting electrons frequently collide with the detector gas causing them to change direction. This stochastic motion is  described by a a diffusion process occurring along the direction of travel (longitudinal) and transverse to the motion. The longitudinal ($c_{l}$) and transverse ($c_{t}$) diffusion coefficients are determined by Garfield++ calculation  \cite{garfield++} in the presence of a \SI{0.5}{\tesla} magnetic field, listed in Tb.~\ref{tb:gas}. The diffusion process is modeled by randomly sampling from a Gaussian distributions describing both of the directions. The random displacement vector is then added to the final position of the electron. The deviation in the transverse direction, $dr$, is randomly sampled from,
 
 \begin{equation}
 dr = e^{-\frac{r^2}{2\sigma_{t}^2}},
@@ -623,39 +713,41 @@ dl = e^{-\frac{t^2}{2\sigma_{l}^2}},
 
 where $\sigma_{l}=c_{l}\cdot\sqrt{L_{anode}}$. 
 
-The final position of the electron along the wire is calculated  $x' = x + dx$. Since the electron will terminate on the closest anode wire the anode wire that is closest to the shifted z-position $z\textprime = z + dz$, the final electron z position is then updated to the anode wire it terminated on. The total drift time of the electron $t$ is calculated as,
+The final position of the electron along the wire is calculated  $x' = x + dx$. The electron will terminate on the closest anode wire, that is the anode wire that is closest to the shifted z-position $z\textprime = z + dz$, and the final electron z position is then updated to be the same as the anode wire it terminated on. The total drift time of the electron $t$ is calculated as,
 
 \begin{equation}
  t = \frac{L_{anode} + dl}{v_d} + t_{offset},
  \label{eq:electronTime}
 \end{equation}
  
- where $v_d$ is the drift velocity. The parameter $t_{offset}$ aligns the MC time bucket spectrum with the data. This is because the y-position corresponding to time zero in the data time bucket spectra does not correspond to the same position in the MC for time zero.  This value was found to be \SI{23}{\nano\second} by aligning the MC vertex to the data vertex.
+where $v_d$ is the drift velocity. The parameter $t_{offset} = \SI{49.92}{\nano\second}$ is to allow for an alignment of the MC time bucket spectrum with the data. This is because the y-position corresponding to $t=0$ in the data time bucket spectra, does not correspond to the same position in the MC.  This value was found to be \SI{23}{\nano\second} by aligning the MC vertex to the data vertex.
 
-The total number of electrons produced in the avalanche process of a single electron was simulated in Garfield++ as seen in Fig.~\ref{fig:gaincalib} for the anode wire voltages used in the experiment. The number of electrons produced in the avalanche is randomly sampled from the corresponding distribution depending on which anode wire section the electron terminated; the number of electrons produced is stored as a number instead of multiple instances of the original electron to save space and computation time. We assume that the lateral movement along the wire arising form $\vec{E}\times\vec{B}$ effect near the wire is negligible as compared with diffusion and other effects described later. 
+The total number of electrons produced in the avalanche process of a single electron was simulated in Garfield++ and discussed in Section~\ref{sec:wireplanes} for the anode wire voltages used in the experiment. The number of electrons produced in the avalanche is randomly sampled from the distribution depending on which anode wire section the electron terminated. The number of electrons produced is stored as a gain factor instead of multiple instances of the original electron to save space and computation time. 
 
-It is worth mentioning there is the possibility to simulate the space charge effects in this class where the inverse to the correction map described in \ref{sec:spacecharge} is applied to the drifting electrons. This is not used for calculating the response of the TPC for efficiency calculations since it is a trivial exercise to input the space charge map and correct for it using the same inverse map.  
+%We assume that the lateral movement along the wire arising form $\vec{E}\times\vec{B}$ effect near the wire is negligible as compared with diffusion and other effects described later. 
+
+It is worth mentioning there is the possibility to simulate the space charge effects in this task where as the inverse to the correction map described in Section~\ref{sec:spacecharge}. This is not used for calculating the response of the TPC for efficiency calculations since it is a trivial exercise to input the space charge map only to then correct for it using the inverse map.  
 
 \subsection{Pad Response Task}
-The total charge of each avalanche must be distributed according to the pad response function (PRF) described in section \ref{sec:prf}. The PRF is simulated as the double integral of a 2-dimensional Gaussian. The final output charge on all the pads are the superposition of the PRFs of all drifted electrons. The MC PRF is expressed as, 
+The total charge of each avalanche is distributed according to the pad response function (PRF) described in Section~\ref{sec:prf}. The PRF is simulated as the double integral of a 2-dimensional Gaussian. The final output charge on all the pads are the superposition of the PRFs of all drifted electrons. The MC PRF is expressed as, 
 
 \begin{equation}
 PRF(x,z) = \iint e^{-\frac{(x-x_o)^2}{2\sigma_x^2}} e^{-\frac{(z-z_o)^2}{2\sigma_z^2}}dxdz,
 \end{equation}
 
-where $\sigma_x = 3.4$ and $\sigma_z = 3.5$, and $x_0$ and $z_0$ are the final position of the drifted electron. The $\sigma$ parameters were determined through an iterative comparison matching the PRFs of the MC and experimental data sets. 
+where $\sigma_x = 3.4$ and $\sigma_z = 3.5$, and $x_0$ and $z_0$ are the final position of the drifted electron. The parameters were determined through an iterative comparison matching the PRFs of the MC and experimental data sets. 
 
 
 \subsection{Electronics Task}
 
-The purpose of the electronics task is to simulates the electronics response to the charge induced on each pad, converting charge into ADC channels. The induced current in the pad goes through a pre-amplifier and shaping amplifier which determine the final pulse shape that is read out. The pulse shape did not change significantly in any circumstance, such as pulse height, data type, or particle type, as long as the electronics settings are fixed. This allows us to assume the pulse shape is constant and can be described by two variables, the height of the pulse, $Q$, and the starting time bucket of the pulse, $t_o$. The starting time of the pulse is defined as the time at 10\% of the rising edge. The shape of the pulse depends on the shaping time constant which was set to \SI{117}{\nano\second} for the data analyzed here. Figure~\ref{fig:pulseshape} shows the pulse shape which was extracted from the experimental signals in the data. These were signals that did not saturate the electronics and was averaged over a wide range of ADC values. Here it is normalized so the maximum height is 1. 
+The purpose of the electronics task is to simulate the electronics response to charge induced on each pad, converting charge into ADC channels. The induced charge on each pad goes through a pre-amplifier and shaping amplifier which determine the final pulse shape that is read out. The pulse shape did not change significantly in any circumstance, such as pulse height, data type, or particle type, as long as the electronics settings are fixed. This allows us to assume the pulse shape is constant and can be described by two variables, the height of the pulse, $Q$, and the starting time bucket of the pulse, $t_o$. The starting time of the pulse is defined as the time at .1$\cdot Q$ of  the rising edge. The shape of the pulse depends on the shaping time constant which was set to \SI{117}{\nano\second} for the data analyzed here. Figure~\ref{fig:pulseshape} shows the pulse shape which was extracted from the experimental signals in the data. These were signals that did not saturate the electronics and was averaged over a wide range of ADC values. Here it is normalized so the maximum height is 1. 
 
 
 
 \begin{figure}[!htb]
     \centering       
     \includegraphics[width=\linewidth]{satpulse.png} 
-    \caption{Standard pulse }
+    \caption{The standard pulse shape and saturated pulse shape extracted from the experimental data, and used in the MC software.}
     \label{fig:pulseshape}
 \end{figure}
 
@@ -663,11 +755,11 @@ The purpose of the electronics task is to simulates the electronics response to 
 Converting the charge in each pad into the height of the ADC response in the electronics is calculated as, 
 
 \begin{equation}
-Q = f_G  A_{tot} \cdot e \cdot\frac{ADC_{max} - ADC_{pedestal}}{f_c}
+Q = f_G  N_{e}  \cdot e \cdot\frac{ADC_{max} - ADC_{pedestal}}{f_c}
 \label{eq:etoADC}
 \end{equation},
 
-where $e$ is the charge of an electron in $\si{\femto \coulomb}$, $A_{tot}$ is the total number of avalanche electrons, $ADC_{pedestal}$) is the pedestal (300 ADC, $\mathrm{ADC_{Max}}$ is the maximum allowed ADC value (4096), and $f_c$ is the dynamic range setting (\SI{120}{\femto\coulomb}). The pulse shape given in Fig.~\ref{fig:pulseshape} is multiplied by the pulse height $Q$ giving the full time bucket estimate of the TPC response. Random Gaussian noise is added to each time bucket where the root-mean-squared value of the electronics noise was measured to be around 6 ADC. The timing information of the pulse is calculated from Eq.~\ref{eq:electronTime}. The coefficient $f_G$ corresponds to a factor which allows for fine tuning of the ADC calibration. This factor is calculated by
+where $e$ is the charge of the electron in $\si{\femto \coulomb}$, $N_{e}$ is the total number of avalanche electrons, $ADC_{pedestal}$) is the pedestal (300 ADC, $\mathrm{ADC_{Max}}$ is the maximum allowed ADC value (4096), and $f_c$ is the dynamic range setting (\SI{120}{\femto\coulomb}). The pulse shape given in Fig.~\ref{fig:pulseshape} is multiplied by the pulse height $Q$ giving the full time bucket estimate of the TPC response. Random Gaussian noise is added to each time bucket, where the root-mean-squared value of the electronics noise was measured to be around 6 ADC. The timing information of the pulse is calculated from Eq.~\ref{eq:electronTime}. The coefficient $f_G$ corresponds to a factor which allows for fine tuning of the ADC calibration. This factor is calculated by
 
 \begin{equation}
 f_G^p = \frac{\langle dE/dx\rangle_{Data}^p}{\langle dE/dx\rangle_{MC}^p}
@@ -675,75 +767,6 @@ f_G^p = \frac{\langle dE/dx\rangle_{Data}^p}{\langle dE/dx\rangle_{MC}^p}
 \end{equation}
 
 where $\langle dE/dx\rangle_{MC}^p$ and $\langle dE/dx\rangle_{Data}^p$  are the energy loss values for a particle in a given momentum bin $p$. The calibration will be discussed later in more detail. 
-
-\subsection{Simulating Saturation}
-\label{sec:simSat}
-
-There are several types of saturation that must be simulated or accounted for to correctly model the TPC response. They all are varying degrees of the same effect which manifest in different ways in the detector. In general all amplifiers have a finite range of output values set by a positive and negative rail (typically -12V and +12V). If the input charge into a charge sensitive pre-amplifier causes the output voltage to reach the max (or min) output voltage, the electronics is considered saturated and the response may be non-linear. The picture is complicated by the fact that there is usually an RC feedback loop which dissipates the input charge. The time a pre-amplifier returns to linear behavior depends on the input charge and how quickly it can be dissipated \cite{akiGET}. The pad is otherwise considered dead and no further charge can be measured until the channel can recover. 
- 
-Due to the long, high energy tail in  the energy loss distribution of a particle traversing matter, it is common to see pads along the track which have collected large energy loss values saturating the electronics of that pad. This occurs for all tracks, even for minimum ionizing tracks; saturation in this case is infrequent and not an issue as there are many other clusters are not saturated. Yet as the charge of the particle gets higher, or the momentum gets lower, the most probable energy loss value also becomes higher, and a significant fraction of pads in a track may be saturated. In Section~\ref{sec:desat}, we outlined an algorithm to correct for the saturation for a track, where as here we are interested in the effects saturation has on surrounding tracks to properly simulate the effect in the MC simulation.
-
-Pads that saturate have no signal or ''dead" for a given amount of time which depends on the amount of input charge. For charges that are relatively at or above the level of saturation, the pad will certainly be dead for the remainder of time after the saturating event. Signals that would have arrived later in time from other tracks passing underneath the saturating track will therefore not be measured; the saturated pad is ``shaddowing" any future signals. As the track multiplicity of an event increases, the probability earlier tracks shaddow later tracks increases. This will change event by event and is very difficult to simulate except through a MC track embedding approach which will be discussed later. 
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=\linewidth]{satpulsepz.png} 
-\caption{Pole zero correction} 
-\label{fig:pulseSatTag}
-\end{figure}
-
-
-In the case where the input signal is very large, the electronics can be dead for up to \SI{35}{\milli\second} \cite{akiGET}. The beam rate in the experiment was about \SI{10}{\kilo\hertz}, which corresponds to an average of \SI{100}{\micro\second} between subsequent beams. In this case channels can be effectively dead for several events before recovering. Due to the large charge of the beam, a large amount of very high energy electrons --delta rays-- are produced from the beam passing through the gas. In the presence of the magnetic field the radius of curvature of most of the electrons are within several \si{cm} in the xz-plane. Figure~\ref{fig:deltaE} shows the horizontal extent of the delta rays in a top down view of the TPC. While some of the electrons can stop in the gas, some electrons have a high enough kinetic energy going in the vertical direction, penetrating the gating grid without being blocked. They then either terminate on the pad or possibly deposit their charge directly in the pad. The charge induced on the pad is large enough to kill the pad for a time long enough to last until at least the next event. This type of saturation is randomly distributed for pads sitting directly in the beam path and are dead for that event and the next event. 
-
-
-\begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{deltaE_topview_neg} 
-        \caption{Top view} \label{fig:deltaE_topview}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{deltaE_sideview_neg} 
-        \caption{Side view} \label{fig:deltaE_sideview}
-    \end{subfigure}
-    \caption{Geant4 simulation of ${}^{108}$Sn beam at 270 MeV/A in P10 gas. Notice the extent of the delta electrons in the vertical direction as compared to the horizontal extent. }
-\label{fig:deltaE}
-\end{figure}
-
-
-\begin{figure}[!htb]
-\includegraphics[width=\textwidth]{padplane_sat.png}
-\caption{Tagging the saturated pads.}
-\label{fig:satTag}
-\end{figure}
-
-The simulation of these saturation effects is handled naturally by embedding MC tracks into real data. Once the time bucket of the saturating signal has been identified, no further signals are embedded since the pad is assumed to be dead. In the case a pad is dead for the whole event, the time of saturation is set to the first time bucket and no signal is embedded at all. 
-
-The characteristic signature of a saturated signal is the fast fall time of a pulse, which quickly reaches zero, as opposed to the long tail of normal pulses as seen in Fig.~\ref{fig:pulseshape}. The long exponential tail can be effectively removed by a simple software technique which is similar to the electronics concept of ``pole-zero compensation". If the raw ADC value at a particular time, $i$, is represented as $f_i$, the corrected pulse which differentiates out the exponential tail, $f_i^{'}$ can be expressed as, 
-
-\begin{equation}
-f_i^{'} = \frac{-b_1\cdot f_{i-1}^{'} + a_o\cdot f_i + a_1 \cdot f_{i-1}}{b_o}
-\label{eq:satpolez}
-\end{equation}
-
-where $a_o$ = .9723, $a_1$=-.9453, $b_o$=.9545, and $b_1$=-.9203. These coefficients correspond to the case where the long tail of the standard non-saturating goes to zero, without producing any negative undershoots. In the case of applying this technique to the saturated pulse, the correction produces a negative undershoot since there was no long exponential tail to begin with. Figure~\ref{fig:pulseshape} shows the pulses as the red curves, and after the pole-zero compensation as the blue curves for both the normal and saturated pulses. 
-
-By applying this technique to the real data we can identify whether a pad has a saturating pulse in it and what is the time bucket location by looking for this negative undershoot. A negative peak is identified as a saturated signal if it exceeds the threshold of less than -20$\cdot G$ for more than 8 time buckets and the max ADC value is > $G\cdot$500 where $G$ is the gain calibration of the pad. The max ADC condition eliminates false positives which come from  dead pads where the gating grid subtraction is still applied introducing false negative peaks. The pad is then flagged as saturated and the data time bucket position of saturation is set to $t_{peak} - 5$, where $t_{peak}$ is the time bucket of the negative peak, since the falling edge is around 5 time buckets after the beginning of the saturation. A separate time is also stored called the MC time bucket position which sets the point in time in which a signal cannot be embedded any further. This time is set to $t_{peak} - 30$ to ensure that the MC embedded signals do not overlap the real saturating data signal, which would be impossible. 
-
-Saturation can also occur if of all the pulse heights within the time bucket spectrum add to a value over the max ADC threshold of 3500 ADC. This arises because the fall time of the pre-amplifier circuit is much longer than the time bucket measurement window and pulses are allowed to pile up in the pre-amplifier. In this case no single pulse will reach over the max ADC value yet the last pulse to create saturation will have a pulse shape that has no long tail but otherwise look like a normal pulse. These pulses are also identified by the algorithm described above since there is still no long tail. When embedding tracks into pads, we do not consider the previous amount of total charge in the pad. We assume this method of saturation is a higher order correction and the current algorithm approximates most of the saturation effects which progress through the first process.  Figure~\ref{fig:satTag} shows all of the pads tagged by the algorithm as saturated for an event in the TPC. The max ADC values in a given pad are colored and the black dots represent saturated pads. Some pads appear to be below 3500 ADC, but upon further inspection they satisfy the second process of saturation where the sum is greater than the max ADC value.  
-
-Dead pads are identified earlier in the software in the STCore class. A dead pad is simply a pad which only contains electronic noise and no signals. A dead pad is identified by having a total ADC r.m.s. value  of less than 50 ADC and a max ADC < 50 over the full time bucket spectrum. Here the dead pad is also tagged as saturated and the time bucket position of saturation is set to the first time bucket. 
-
-NEED TO ADDRESS WHY THE MAX ADC THRESHOLD IS 3500
-%maybe simple pream fig
-%maybe example from aki paper about times
-%maybe 
-
-%Add figure showing saturated time bucket spectra with location of saturation identified and with pulse shape from embedding I would like to add and how it blocks it.
-%Add Figure with 2D pad plane response with and without saturation flag
 
 
 \section{Monte Carlo Track Embedding}
@@ -772,7 +795,7 @@ For all of the sources of biases in the TPC, it is clear that a MC type approach
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{FlowEmbedding.pdf}
-\caption{Flow of embedding implementation in the software.}
+\caption{Flow diagram of the embedding software.}
 \label{fig:flow}
 \end{figure}
 
@@ -792,8 +815,7 @@ For all of the sources of biases in the TPC, it is clear that a MC type approach
         \includegraphics[width=\linewidth]{event5.png} 
         \caption{Experimental data event.} \label{fig:dataevent}
     \end{subfigure}
-    \caption{A 200 MeV/c $\pi^-$ embedded into a nuclear collision type event. The embedded track identified by the software is highlighted by the solid green line. }
-
+    \caption{}
 \label{fig:embedtrack}
 \end{figure}
 
@@ -804,19 +826,19 @@ For all of the sources of biases in the TPC, it is clear that a MC type approach
     \begin{subfigure}[t]{0.49\textwidth}
         \centering
         \includegraphics[width=\linewidth]{perspective_embed}
-        \caption{Generic} \label{fig:persEmbed}
+        \caption{Perspective view.} \label{fig:persEmbed}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{.3\textwidth}
         \centering
         \includegraphics[width=\linewidth]{top_embed} 
-        \caption{Competitors} \label{fig:topEmbed}
+        \caption{Top down view.} \label{fig:topEmbed}
     \end{subfigure}
      \hfill
     \begin{subfigure}[t]{\textwidth}
         \centering
         \includegraphics[width=\linewidth]{side_embed} 
-        \caption{Competitors} \label{fig:sideEmbed}
+        \caption{Side view.} \label{fig:sideEmbed}
     \end{subfigure}
     \caption{A 200 MeV/c $\pi^-$ embedded into a nuclear collision type event. The embedded track identified by the software is highlighted by the solid green line. }
 
@@ -839,43 +861,111 @@ The surviving hits are then compared with the MC hit data set, where the criteri
 If the embedded track is split into multiple tracks, the user must select what they believe to be the track which most represents the original track, for the purposes of calculating efficiency. Typically only one of the tracks in the set will satisfy one of the reasonable quality cut conditions in an analysis. For example the most reasonable assumption is the track originating from the vertex is the most correct in this case, where as the split fraction of the track wont originate from the vertex but instead have a large distance to vertex value. In this thesis, the track with the minimum distance to vertex is identified as the track in which the efficiency analysis will be performed.
 
 
+
+\subsection{Simulating Saturation}
+\label{sec:simSat}
+
+In general all amplifiers have a finite range of output values set by a positive and negative rail (typically -12V and +12V). If the input charge into a charge sensitive pre-amplifier causes the output voltage to reach the max (or min) output voltage, the electronics is considered saturated and the response may be non-linear. The picture is complicated by the fact that there is usually an RC feedback loop which dissipates the input charge. The time a pre-amplifier returns to linear behavior depends on the input charge and how quickly it can be dissipated \cite{akiGET}. The pad is otherwise considered dead and no further charge can be measured until the channel can recover. There are several types of saturation that must be simulated or accounted for to correctly model the TPC response. They all are varying degrees of the same effect which manifest in different ways in the detector. 
+ 
+Due to the long, high energy tail in  the energy loss distribution of a particle traversing matter, it is common to see pads along the track which have collected large energy loss values saturating the electronics of a couple of pads. This occurs for all tracks, even for minimum ionizing tracks. Saturation in this case is infrequent and not an issue as there are many other clusters are not saturated. As the charge of the particle gets higher, or the momentum gets lower, the  energy loss value also becomes higher, and a significant fraction of pads in a track may be saturated. In Section~\ref{sec:desat}, we outlined an algorithm to correct for the saturation for a  particular track, but this saturation also affects surrounding tracks. In order to make an accurate MC simulation, we must understand how saturation affects surrounding tracks. 
+
+Pads that saturate have no signal or ''dead" for a given amount of time  after the saturating signal, which depends on the amount of input charge. For charges that are at or above the level of the dynamic range, the pad will certainly be dead for the remaining time of the measurement.  Signals from tracks passing directly underneath this pad, with signals that would arrive later in time,  will therefore not be observed. In a sense the saturated pad is ``shadowing" any future tracks. As the track multiplicity of an event increases, the probability of track shadowing increases. This will change event by event and is very difficult to simulate except through a MC track embedding approach, which will be discussed in Section~\ref{sec:embedding}. 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth]{satpulsepz.png} 
+\caption{Example of the pole zero correction when applied to the normal pulse and saturated pulse.} 
+\label{fig:pulseSatTag}
+\end{figure}
+
+
+When the input signal is very large, the electronics can be dead for up to \SI{35}{\milli\second} \cite{akiGET}. The beam rate in the experiment was about \SI{10}{\kilo\hertz}, which corresponds to an average of \SI{100}{\micro\second} between subsequent beams. In this case, channels can be effectively dead for several events before recovering. There is a large amount of high energy electrons, commonly referred to as ``delta rays",  which are produced from the beam passing through the gas, due to the high atomic charge of the beam. Horizontally almost all of the electrons cannot travel very far, even for very high energy electrons, due to the vertical magnetic field causing them to curl in tight circles. Figure~\ref{fig:deltaE} shows the horizontal and vertical extent of the delta rays in a top down and side views of the TPC. While many electrons can stop in the gas, some electrons have a high enough kinetic energy in the vertical direction where they can penetrate the gating grid without being blocked. Then they either terminate on the anode wire or possibly deposit their charge directly in the pad. In either case, the charge induced on the pad is large enough to kill the pad for a time long enough to last until at least the next event. This manifests as random dead pads in the experiment, that follow the beam path.  
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{deltaE_topview_neg} 
+        \caption{Top view} \label{fig:deltaE_topview}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{deltaE_sideview_neg} 
+        \caption{Side view} \label{fig:deltaE_sideview}
+    \end{subfigure}
+    \caption{Geant4 simulation of ${}^{108}$Sn beam at 270 MeV/A in P10 gas. Notice the extent of the delta electrons in the vertical direction as compared to the horizontal extent. }
+\label{fig:deltaE}
+\end{figure}
+
+
+\begin{figure}[!htb]
+\includegraphics[width=\textwidth]{padplane_sat.png}
+\caption{Results of the algorithm to tag saturated pads, where the black dot denotes a pad was saturated. The charge values plotted is the maximum charge in the pad plane for the entire event.}
+\label{fig:satTag}
+\end{figure}
+
+The simulation saturation effects is handled naturally by embedding MC tracks into real data; once the time bucket of the saturating signal has been identified, simply no further signals are embedded since the pad is assumed to be dead. In the case a pad is dead for the whole event, the time of saturation is set to the first time bucket and no signal is embedded for any time bucket. We only need to identify where the time of saturation occurs. The characteristic signature of a saturated signal is the fast fall time of a pulse, which quickly reaches zero, as opposed to the long tail of normal pulses as seen in Fig.~\ref{fig:pulseshape}. The long exponential tail can be effectively removed by a simple software technique which is similar to the electronics concept of ``pole-zero compensation". If the raw ADC value at a particular time, $i$, is represented as $f_i$, the corrected pulse which differentiates out the exponential tail, $f_i^{'}$ can be expressed as, 
+
+\begin{equation}
+f_i^{'} = \frac{-b_1\cdot f_{i-1}^{'} + a_o\cdot f_i + a_1 \cdot f_{i-1}}{b_o}
+\label{eq:satpolez}
+\end{equation}
+
+where $a_o$ = .9723, $a_1$=-.9453, $b_o$=.9545, and $b_1$=-.9203. These coefficients were tuned to remove the long tail of the standard non-saturating pulse, without producing any negative undershoots. If the same procedure is applied to the saturated pulse, the correction produces a negative undershoot, since there was no long exponential tail to begin with. Figure~\ref{fig:pulseshape} shows the pulses as the red curves, and after the pole-zero correction as the blue curves for both the normal and saturated pulses. 
+
+By applying this technique to the real data we can identify whether a pad has a saturating pulse in it by looking for this negative undershoot. A negative peak is identified as a saturated signal if it exceeds the threshold of less than -20$\cdot G$ ADC for more than 8 time buckets and the max ADC value is > $G\cdot$500; $G$ is the gain calibration coming from low gain sections discussed in Section~\ref{sec:anodeCalib}. The max ADC condition eliminates false positives which come from  dead pads where the gating grid subtraction is still applied, introducing large false negative peaks, but have no positive signals. After meeting these two conditions, the pad is flagged as saturated and the time bucket position of saturation is set to $t_{peak} - 5$, where $t_{peak}$ is the time bucket position of the negative peak. This is because the falling edge since the falling edge is around 5 time buckets after the beginning of the saturation. A separate time is also stored called the MC time bucket position, which sets the point in time in which a signal cannot be embedded any further. This time is set to $t_{peak} - 30$ to ensure that the MC embedded signals do not overlap the real saturating data signal, which would be impossible. These two positions are also shown in Fig.~\ref{fig:pulseSatTag}.
+
+There is another way a pad can saturate which occurs when all the pulse heights within the time bucket spectrum add to more than the max ADC threshold of 3500 ADC. This arises because the fall time of the pre-amplifier circuit is much longer than the time bucket measurement window, and pulses are allowed to pile up in the pre-amplifier. In this case no single pulse will reach over the max ADC value yet the last pulse will have a pulse shape that is missing the long characteristic tail, but otherwise looks like a normal pulse. These pulses are also identified by the algorithm described above, since this type of saturated pulse is still no long tail.  When embedding signals into pads, we do not consider the previous amount of total charge in the pad. We assume this type of saturation is a higher order correction, where and the current algorithm approximates most of the saturation effects.  Figure~\ref{fig:satTag} shows all of the pads in an event which are tagged by the algorithm as saturated, denoted by the black dots. The max ADC values in a pad are shown in the z-axis color scale, to give a sense of the success of the algorithm. It may appear that the ADC values of some pads appear to be lower than 3500 ADC, but upon further inspection they all satisfy the mode of saturation where the total sum of heights is greater than the max ADC value as described earlier. 
+
+Dead pads are identified earlier in the software when reading in the raw data (STCore class). A dead pad is simply a pad which only contains electronic noise and no signals. A dead pad is identified by having a total ADC r.m.s. value  of less than 50 ADC and a max ADC < 50 over the full time bucket spectrum. Here the dead pad is also tagged as saturated and the time bucket position of saturation is set to the first time bucket, or time zero. 
+
+%NEED TO ADDRESS WHY THE MAX ADC THRESHOLD IS 3500
+%maybe simple pream fig
+%maybe example from aki paper about times
+%maybe 
+
+%Add figure showing saturated time bucket spectra with location of saturation identified and with pulse shape from embedding I would like to add and how it blocks it.
+%Add Figure with 2D pad plane response with and without saturation flag
+
 \subsection{MC and Data Comparison}
 
-Here we compare several important observables to ensure the MC is simulating the data. These observables will be relevant for the quality cuts and efficiency analysis discussed in Section~\ref{sec:efficiency}. The most important observable is the total number of clusters. The number of clusters in a track depends on the geometry of the TPC, the spherical angles of the track, and the clustering algorithm. MC tracks were embedded into data for several particle types; the input angular and momentum distribution was uniform and the final distributions were weighted such that the angular and momentum distribution matched that of the data for a fair comparison. Figure~\ref{fig:clustcomp} shows the normalized cluster distributions for the MC and data for several particle types. There is no data below 20 clusters because this is the minimum cut to ensure quality PID lines in the data. The normalization is changed for each particle type to display them on the same scale. Very good agreement is seen between the MC and data over a wide range of particle species. 
+Here we compare several important observables to ensure the MC is simulating the data sufficiently. These observables will be relevant later in the discussion of quality cuts and efficiency analysis discussed in Section~\ref{sec:efficiency}. The most important observable is the total number of clusters. The number of clusters in a track depends on the geometry of the TPC, the spherical angles of the track, and the clustering algorithm. MC tracks were embedded into data for several particle types. The input angular and momentum distribution was uniform where the final distributions were weighted such that the angular and momentum distribution matched that of the data for a fair comparison. Figure~\ref{fig:clustcomp} shows the normalized cluster distributions for the MC and data for several particle types. There is no data below 20 clusters because this is the minimum cut to ensure quality PID lines in the data. The normalization is changed for each particle type to display them on the same scale. Very good agreement is seen between the MC and data over a wide range of particle species. 
 
 \begin{figure}[!hbt]
 \includegraphics[width=\linewidth]{numcluster.png}
-\caption{Comparison of MC to data.}
+\caption{Comparing the distribution of the number of clusters in MC embedded tracks to experimental data.}
 \label{fig:clustcomp}
 \end{figure}
 
-The second most important observable is the distance to vertex. Figure~\ref{fig:pocacomp} shows the distance to vertex distributions for the MC embedded tracks and the data for the same range of particle species. The distributions were again normalized to different values to display on the same scale. Both data sets here are track number of clusters > 20. It is also worth mentioning the data plotted is also after the space charge correction. Before the space charge correction the distributions would be much wider. Since we correct for the space charge in the data we compare here to the embedded MC without any space charge effects, making a fair comparison. 
+The second most important observable is the distance-of-closest-approach (dOCA) to the vertex. Figure~\ref{fig:pocacomp} shows the dOCA distributions for the MC embedded tracks and the data, for the same range of particle species. The distributions were again normalized to different values to display on the same scale. Here the only other cut was the  track number of clusters cut > 20, which cleaned up the background spectrum. It is also worth mentioning the data plotted is also after the space charge correction. Before the space charge correction the distributions would be much wider. Since we correct for the space charge in the data we compare here to the embedded MC without any space charge effects, making a fair comparison. 
 
 \begin{figure}[!hbt]
 \includegraphics[width=\linewidth]{poca.png}
-\caption{Comparison of MC to data.}
+\caption{Comparison of the dOCA distribution of MC embedded tracks to data.}
 \label{fig:pocacomp}
 \end{figure}
 
 
-We can see good agreement between the MC PRF for $\pi^-$ in Figure~\ref{mcdataPRF}, and the data PRF, Fig.~\ref{prfpimData}, where the black line is the PRF fit to the experimental data. It is sufficient to use such a simple universal PRF function as we can describe all the crossing angle effects discussed in \ref{sec:prf}. Therefore these effects must arise from geometric effects related to the track angle, the amount of charge distributed over an anode wire, and the superposition of the PRF from neighboring anode wires which contribute to the appearance of a changing PRF.
+We can also see good agreement between the MC PRF for $\pi^-$ in Figure~\ref{mcdataPRF}, and the data PRF, Fig.~\ref{prfpimData}, where the black line is the PRF fit to the experimental data. It is sufficient to use such a simple universal PRF function as we can describe all the crossing angle effects discussed in \ref{sec:prf}. Therefore these effects must arise from geometric effects related to the track angle, the amount of charge distributed over an anode wire, and the superposition of the PRF from neighboring anode wires which contribute to the appearance of a changing PRF.
 
 \begin{figure}[!htb]
          \centering
          \includegraphics[width=\textwidth]{PRFs_MC_wcut.png}
-         \caption{PRF response of Monte Carlo simulation of $\pi^-$}
+         \caption{PRF response of the MC $\pi^-$ tracks.}
          \label{fig:prfpimMC}
 \end{figure}
 
 
 %Add Figure of Pad response function for pion,proton.... for MC vs Data vs angles...
 %Add Figure of Number of clusters of MC vs Data
-Add Figure of dEdx MC vs Data
-Add Figure of Momentum resolution MC vs Data
-Add Figure of track residuals? MC vs data?
+%Add Figure of dEdx MC vs Data
+%Add Figure of Momentum resolution MC vs Data
+%Add Figure of track residuals? MC vs data?
 
 
-\section{Aligning TPC}
+%\section{Aligning TPC}
 
 %explain the different shifts in the TPC
 %BDC shift
@@ -883,50 +973,9 @@ Add Figure of track residuals? MC vs data?
 
 
 
-\section{CoBo timing correction}
-The arrival time of signals originating from each pad may differ due to timing delays in the electronics and cabling. The timing differences will affect the y-position measurement of each track. The y-residuals reveal that the timing differences correspond to about $\pm$\SI{2}{\milli\metre} in position differences. The timing difference is stable for each pad across several runs.
-
-\begin{figure}[!htb]
-  \begin{center}
-    \includegraphics[width=0.33\textwidth]{run2907_yoffset6before_row_at_layer10.png}
-    \includegraphics[width=0.33\textwidth]{run2907_yoffset5before_row_at_layer30.png}
-    \includegraphics[width=0.33\textwidth]{run2907_yoffset4before_row_at_layer50.png}
- 
-    \includegraphics[width=0.33\textwidth]{run2907_yoffset6after_row_at_layer10.png}
-    \includegraphics[width=0.33\textwidth]{run2907_yoffset5after_row_at_layer30.png}
-    \includegraphics[width=0.33\textwidth]{run2907_yoffset4after_row_at_layer50.png}
- 
-    \caption{TBW\label{TBD}}
-  \end{center}
-  \label{fig:coboCorr}
-\end{figure}
-
-
-
-\begin{figure}[!htb]
-    \begin{subfigure}[t]{.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{run2905_yoffset1before_all.jpg} 
-        \caption{Distribution for all pads before correction.} \label{fig:yoff_allBefore}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{run2905_yoffset1after_all.png}
-        \caption{Distribution for all pads after correction.} \label{fig:yoff_allAfter}
-    \end{subfigure}
-    \caption{ }
-\label{fig:yoff}
-\end{figure}
-
-
- Figure~\ref{fig:coboCorr} shows the y-residuals, across all the rows , for three different layers. Before the correction one can see large deviations in the y-residuals which correspond to timing differences. The mean value of the y-residual distribution is fitted and a map is constructed for each pad. The data is then reconstructed subtracting the value of that map, $dy$, for each pad. The resulting corrected distribution is shown in Fig.~\ref{fig:coboCorr} for the same layer set. Figure~\ref{fig:yoff} also show the summary of all the pads before the correction and after the correction. There is a significant improvement in the width of the distribution going from \SI{1.5}{\milli\metre} to \SI{0.6}{\milli\metre}. 
-
 
 \section{Efficiency Corrections}
 \label{sec:efficiency}
-Add Figures of efficiency vs angles in TPC polar angle plot for pions
-
 
 Since the \spirit TPC is a fixed target experiment it's angular coverage is certainly not 4$\pi$. Because the target is several cm away from the widow of the field cage the geometric acceptance is not even 2$\pi$. The rectangular design complicates the calculation of the geometric acceptance, or the efficiency. Because of this there are regions of the TPC where it is impossible to reconstruct a track due to the geometric in these regions the efficiency is exactly 0. In the regions of non-zero efficiency, the efficiency is a function of at least three main parameters that define the phase space of a track, momentum $p$ and the two spherical lab angles $\theta_{Lab}$ and $\phi_{Lab}$. 
 
@@ -951,7 +1000,7 @@ where $n_{reco}$ is the number of embedded tracks which are successfully reconst
     \begin{subfigure}[t]{.49\textwidth}
         \centering
         \includegraphics[width=\linewidth]{pim_200_efficiency.png} 
-        \caption{Flattened angle plot} \label{fig:pim_flat_eff_ex}
+        \caption{Cartesian representation of the same efficiency plot  as in the polar plot.} \label{fig:pim_flat_eff_ex}
     \end{subfigure}
   
 \caption{Efficiency calculations for $\pi^-$ particle traveling at \SI{200}{\mega\eVperc}.}
@@ -1004,10 +1053,11 @@ The area enclosed by the red lines represent the region of the highest efficienc
 \label{fig:108_eff}
 \end{figure}
 
-The efficiency correction is applied track-by-track, where the efficiency of the i-th track $\epsilon_i$ is retrieved from the database. The correction factor $C_i$ is defined as,
 
-\begin{equation}
-C_i = \epsilon_i^{-1}.
-\end{equation}
+\section{PID Analysis}
+\label{sec:pid}
+%PID lines over all
+%PID of pion cut
+%background estimation
 
-The track is then weighted by the factor $C_i$ when plotting in any type of graph for any observable. 
+

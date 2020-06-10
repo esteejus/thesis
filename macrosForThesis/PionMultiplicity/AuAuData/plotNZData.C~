@@ -1,0 +1,240 @@
+
+
+void plotNZData()
+{
+  double gev_4_nz[4]     = {1,1.179,1.398,1.493};
+  double gev_4_pion[4]     = {1.02,1.536,2.474,3.00};
+  
+  double gev_4_x[7]     = {0,0,0,0,0,0};
+  double gev_4_y[7]     = {.002,.004,.007,.01,.015,.03};
+
+  
+  double gev_8_nz[7]     = {1.053,1.0564,1.1089,1.1409,1.327,1.3285,1.399};
+  double gev_8_pion[7]   = {1.1189,1.144,1.1659,1.3977,1.4759,1.8643,1.958};
+  
+  double gev_8_x[7]     = {0,0,0,0,0,0,0};
+  double gev_8_y[7]     = {.002,.004,.007,.01,.015,.03,.01};
+
+  double gev_1_nz[4]     = {1.006,1.186,1.408,1.502};
+  double gev_1_pion[4]   = {1.00,1.266,1.527,1.652};
+  
+  double gev_1_x[4]     = {0,0,0,0};
+  double gev_1_y[4]     = {.002,.004,.007,.01};
+
+
+  double error = .01;
+  TGraphErrors *paper_4 = new TGraphErrors(1);
+  paper_4->SetPoint(1,1.56,3.08);
+  paper_4->SetPointError(1,0,error);
+  paper_4->SetMarkerColor(1);
+  paper_4->SetMarkerStyle(47);
+  paper_4->SetMarkerSize(2.);
+  paper_4->SetLineWidth(2);
+  paper_4->SetLineColor(1);
+
+  TGraphErrors *paper_8 = new TGraphErrors(1);
+  paper_8->SetPoint(1,1.56,2.1255);
+  paper_8->SetPointError(1,0,error);
+  paper_8->SetMarkerColor(1);
+  paper_8->SetMarkerStyle(47);
+  paper_8->SetMarkerSize(2.);
+  paper_8->SetLineWidth(2);
+  paper_8->SetLineColor(1);
+
+  TGraphErrors *paper_1 = new TGraphErrors(1);
+  paper_1->SetPoint(1,1.56,1.721);
+  paper_1->SetPointError(1,0,error);
+  paper_1->SetMarkerColor(1);
+  paper_1->SetMarkerStyle(47);
+  paper_1->SetMarkerSize(2.);
+  paper_1->SetLineWidth(2);
+  paper_1->SetLineColor(1);
+
+
+  TGraphErrors *my_4 = new TGraphErrors(1);
+  my_4->SetPoint(1,1.56,3.39);
+  my_4->SetPointError(1,0,error);
+  my_4->SetMarkerColor(3);
+  my_4->SetMarkerStyle(33);
+  my_4->SetMarkerSize(2.);
+  my_4->SetLineWidth(2);
+  my_4->SetLineColor(1);
+
+  TGraphErrors *my_8 = new TGraphErrors(1);
+  my_8->SetPoint(1,1.56,2.235);
+  my_8->SetPointError(1,0,error);
+  my_8->SetMarkerColor(3);
+  my_8->SetMarkerStyle(33);
+  my_8->SetMarkerSize(2.);
+  my_8->SetLineWidth(2);
+  my_8->SetLineColor(1);
+
+  TGraphErrors *my_1 = new TGraphErrors(1);
+  my_1->SetPoint(1,1.56,1.748);
+  my_1->SetPointError(1,0,error);
+  my_1->SetMarkerColor(3);
+  my_1->SetMarkerStyle(33);
+  my_1->SetMarkerSize(2.);
+  my_1->SetLineWidth(2);
+  my_1->SetLineColor(1);
+
+
+  
+  TGraphErrors *gev_4 = new TGraphErrors(4,gev_4_nz,gev_4_pion,gev_4_x,gev_4_y);
+  TGraphErrors *gev_8 = new TGraphErrors(7,gev_8_nz,gev_8_pion,gev_8_x,gev_8_y);
+  TGraphErrors *gev_1 = new TGraphErrors(4,gev_1_nz,gev_1_pion,gev_1_x,gev_1_y);
+
+  
+  TF1 *fit_4 = new TF1("fit_4","[0] + [1]*(x) + [2]*pow(x,2)",1,2);
+  fit_4->SetParameter(0,2.38);
+  fit_4->SetParameter(1,-4.9576);
+  fit_4->SetParameter(2,3.5954);
+
+  TF1 *fit_4_lin = new TF1("fit_4_lin","[0] + [1]*(x)",1,2);
+  fit_4_lin->SetParameter(0,-2.6211);
+  fit_4_lin->SetParameter(1,3.62335);
+
+  TF1 *fit_8 = new TF1("fit_8","[0] + [1]*(x) + [2]*pow(x,2)",1,2);
+  fit_8->SetParameter(0,2.397);
+  fit_8->SetParameter(1,-3.839);
+  fit_8->SetParameter(2,2.4969);
+
+  TF1 *fit_8_lin = new TF1("fit_8_lin","[0] + [1]*(x)",1,2);
+  fit_8_lin->SetParameter(0,-1.197);
+  fit_8_lin->SetParameter(1,2.2);
+
+  TF1 *fit_1 = new TF1("fit_1","[0] + [1]*(x)",1,2);
+  fit_1->SetParameter(0,-.351);
+  fit_1->SetParameter(1,1.3459);
+
+
+  cout<<"gev .4 "<<fit_4_lin->Eval(1.56)<<" "<<fit_4->Eval(1.56)<<endl;
+  cout<<"gev .8 "<<fit_8_lin->Eval(1.56)<<" "<<fit_8->Eval(1.56)<<endl;
+  cout<<"gev 1. "<<fit_1->Eval(1.56)<<" "<<fit_1->Eval(1.56)<<endl;
+  //  gev_4->Fit(fit_4_lin);
+  //  gev_8->Fit(fit_8_lin);
+  //  gev_1->Fit(fit_1);
+    
+  //linear
+  //  TF1 *fit_2 = new TF1("fit_2","TMath::Exp([0] + [1]/x)",0,.7);
+  //  fit_2->SetParameters(-1.4,-1.15);
+  //  cout<<"Fit "<<  fit_2->Eval(.27)<<endl;
+
+  TLatex label_4;
+
+  TCanvas *c1 = new TCanvas("c1","c1",1200,400);
+  c1->Divide(3,1,0,0);
+  gStyle->SetLineWidth(4);
+  c1->cd(1)->SetFrameLineWidth(3);
+  c1->cd(2)->SetFrameLineWidth(3);
+  c1->cd(3)->SetFrameLineWidth(3);
+  c1->SetTopMargin(.01);
+  c1->cd(1)->SetTopMargin(.01);
+  c1->cd(2)->SetTopMargin(.01);
+  c1->cd(3)->SetTopMargin(.01);
+  c1->cd(1)->SetBottomMargin(.2);
+  c1->cd(2)->SetBottomMargin(.2);
+  c1->cd(3)->SetBottomMargin(.2);
+
+  c1->SetLeftMargin(.3);
+  c1->SetRightMargin(.06);
+  c1->SetBottomMargin(.2);
+
+  /*  
+  litdata->SetMarkerColor(4);
+  litdata->SetMarkerStyle(21);
+  litdata->SetMarkerSize(2.);
+  litdata->GetYaxis()->SetTitle("M(#pi)/A_{part}");
+  litdata->GetYaxis()->CenterTitle();
+  litdata->GetXaxis()->SetTitle("E (AGeV)");
+  litdata->GetXaxis()->CenterTitle();
+  litdata->SetTitle("");
+  litdata->GetXaxis()->SetTitleSize(.06);
+  litdata->GetYaxis()->SetTitleSize(.06);
+  litdata->GetXaxis()->SetTitleOffset(1);
+  litdata->GetYaxis()->SetTitleOffset(1.1);
+
+  litdata->GetXaxis()->SetLabelSize(.06);
+  litdata->GetYaxis()->SetLabelSize(.06);
+  
+  litdata->GetYaxis()->SetRangeUser(1e-3,3e-1);
+  litdata->GetXaxis()->SetLimits(0,1.6);
+  litdata->SetLineWidth(3);
+  litdata->Draw("AP E ");
+  */
+
+
+  gev_4->SetTitle("");
+  gev_4->GetYaxis()->SetRangeUser(.9,4.2);
+  gev_4->GetXaxis()->SetLimits(.95,1.59);
+  gev_4->GetYaxis()->SetTitle("#pi^{-}/#pi^{+}");
+  gev_4->GetYaxis()->CenterTitle();
+  gev_4->GetYaxis()->SetTitleSize(.08);
+  gev_4->SetMarkerColor(4);
+  gev_4->SetMarkerStyle(20);
+  gev_4->SetMarkerSize(2);
+      
+  gev_8->SetTitle("");
+  gev_8->GetYaxis()->SetRangeUser(.9,4.2);
+  gev_8->GetXaxis()->SetLimits(.95,1.59);
+  gev_8->SetMarkerColor(4);
+  gev_8->SetMarkerStyle(20);
+  gev_8->SetMarkerSize(2);
+
+  gev_1->SetTitle("");
+  gev_1->GetYaxis()->SetRangeUser(.9,4.2);
+  gev_1->GetXaxis()->SetLimits(.95,1.59);
+  gev_1->SetMarkerColor(4);
+  gev_1->SetMarkerStyle(20);
+  gev_1->SetMarkerSize(2);
+
+  fit_4_lin->SetLineColor(1);
+  fit_4_lin->SetLineStyle(2);
+  fit_8_lin->SetLineColor(1);  
+  fit_8_lin->SetLineStyle(2);
+  
+  auto leg = new TLegend(.1,.5,.89,.9,"","NDC");
+
+  leg->AddEntry(gev_4,"Measured data Reisdorf et al.","ep");
+  leg->AddEntry(fit_4_lin,"Reisdorf et al. linear fit","l");
+  leg->AddEntry(paper_4,"Linear extrapolation Reisdorf et al.","p");
+  leg->AddEntry(fit_4," 2^{nd} order Polynomial fit", "l");
+  leg->AddEntry(my_4,"2^{nd} order Polynomial extrapolation","p");
+  leg->SetBorderSize(0);
+
+  c1->cd(1);
+  c1->cd(1)->SetLeftMargin(.2);
+  gev_4->GetXaxis()->SetLabelSize(.08);
+  gev_4->GetYaxis()->SetLabelSize(.08);
+  gev_4->GetYaxis()->SetLabelOffset(.02);
+  gev_4->SetTitle(".4 A GeV");
+  //  gev_4->SetTitleSize(.08);
+  gev_4->Draw("APO");
+  fit_4->Draw("same");
+  fit_4_lin->Draw("same");
+  paper_4->Draw("same PO");
+  my_4->Draw("same PO");
+  
+  c1->cd(2);
+  gev_8->GetXaxis()->SetLabelSize(.08);
+  gev_8->GetXaxis()->SetTitle("N/Z");
+  gev_8->GetXaxis()->CenterTitle();
+  gev_8->GetXaxis()->SetTitleSize(.08);  
+  gev_8->SetTitle(".8 A GeV");
+  gev_8->Draw("APO");
+  fit_8->Draw("same");
+  fit_8_lin->Draw("same");
+  paper_8->Draw("same PO");
+  my_8->Draw("same PO");
+  leg->Draw("same");
+
+  
+  c1->cd(3);
+  gev_1->GetXaxis()->SetLabelSize(.08);
+  gev_1->Draw("APO");
+  gev_1->SetTitle("1 A GeV");
+  fit_1->Draw("same");
+  paper_1->Draw("same PO");
+  my_1->Draw("same PO");
+    
+}

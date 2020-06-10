@@ -1,0 +1,49 @@
+
+
+void plotLeftRight()
+{
+
+  TFile *sn108_exbf = TFile::Open("analysis-Sn108-exb_LR.root");
+  TFile *sn108_minusf = TFile::Open("analysis-Sn108-minus_LR.root");
+  TFile *sn108_plusf = TFile::Open("analysis-Sn108-plus_LR.root");
+
+  TFile *sn132_exbf = TFile::Open("analysis-Sn132-exb_LR.root");
+  TFile *sn132_minusf = TFile::Open("analysis-Sn132-minus_LR.root");
+  TFile *sn132_plusf = TFile::Open("analysis-Sn132-plus_LR.root");
+
+  TH1D *pim_108_exb_L = (TH1D *)sn108_exbf->Get("pimkecm_ec_L")
+  TH1D *pip_108_exb_L = (TH1D *)sn108_exbf->Get("pipkecm_ec_L")
+  TH1D *pim_108_exb_R = (TH1D *)sn108_exbf->Get("pimkecm_ec_R")
+  TH1D *pip_108_exb_R = (TH1D *)sn108_exbf->Get("pipkecm_ec_R")
+
+  TH1D *pim_108_minus_L = (TH1D *)sn108_minusf->Get("pimkecm_ec_L")
+  TH1D *pip_108_minus_L = (TH1D *)sn108_minusf->Get("pipkecm_ec_L")
+  TH1D *pim_108_minus_R = (TH1D *)sn108_minusf->Get("pimkecm_ec_R")
+  TH1D *pip_108_minus_R = (TH1D *)sn108_minusf->Get("pipkecm_ec_R")
+
+  TH1D *pim_108_plus_L = (TH1D *)sn108_plusf->Get("pimkecm_ec_L")
+  TH1D *pip_108_plus_L = (TH1D *)sn108_plusf->Get("pipkecm_ec_L")
+  TH1D *pim_108_plus_R = (TH1D *)sn108_plusf->Get("pimkecm_ec_R")
+  TH1D *pip_108_plus_R = (TH1D *)sn108_plusf->Get("pipkecm_ec_R")
+
+  TH1D *pim_132_exb_L = (TH1D *)sn132_exbf->Get("pimkecm_ec_L")
+  TH1D *pip_132_exb_L = (TH1D *)sn132_exbf->Get("pipkecm_ec_L")
+  TH1D *pim_132_exb_R = (TH1D *)sn132_exbf->Get("pimkecm_ec_R")
+  TH1D *pip_132_exb_R = (TH1D *)sn132_exbf->Get("pipkecm_ec_R")
+
+  TH1D *pim_132_minus_L = (TH1D *)sn132_minusf->Get("pimkecm_ec_L")
+  TH1D *pip_132_minus_L = (TH1D *)sn132_minusf->Get("pipkecm_ec_L")
+  TH1D *pim_132_minus_R = (TH1D *)sn132_minusf->Get("pimkecm_ec_R")
+  TH1D *pip_132_minus_R = (TH1D *)sn132_minusf->Get("pipkecm_ec_R")
+
+  TH1D *pim_132_plus_L = (TH1D *)sn132_plusf->Get("pimkecm_ec_L")
+  TH1D *pip_132_plus_L = (TH1D *)sn132_plusf->Get("pipkecm_ec_L")
+  TH1D *pim_132_plus_R = (TH1D *)sn132_plusf->Get("pimkecm_ec_R")
+  TH1D *pip_132_plus_R = (TH1D *)sn132_plusf->Get("pipkecm_ec_R")
+
+
+    pim_108_minus_L->Draw();
+    pim_108_minus_L->Draw();
+
+
+}

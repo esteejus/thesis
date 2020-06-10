@@ -54,7 +54,7 @@ void style::init() {
   gStyle->SetStatX(fXStat);
   gStyle->SetStatY(fYStat);
   gStyle->SetTitleFontSize(fMainTitleSize);
-  gStyle->SetLineWidth(10);
+  //  gStyle->SetLineWidth(10);
 
 }
 
