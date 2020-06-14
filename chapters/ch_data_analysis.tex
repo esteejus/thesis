@@ -249,7 +249,7 @@ The electronics were calibrated by measuring the response of each channel to an 
 As discussed in Section~\ref{sec:wireplanes} the voltage of the anode sections 12 and 14 were reduced during the experiment due to high currents being observed on the wires. Out of all the runs used in the analysis in this thesis \ref{tb:runList}, the anode sections 12 and 14 were lowered to \SI{1085}{\volt} for runs 2272-2371 and set to \SI{1214}{\volt} for all the other runs. By lowering the voltage on these anode wires, the gas gain is lowered as compared with all the other anode wire plane sections which operate at \SI{1460}{\volt}. To account for the drop in gain, we increase the gain of the pads which lie above these anode wires  in the software gain of the other channels. The gain factor is found by plotting the energy loss in the high gain sections to the low gain sections.
 
 
-\begin{figure}[H]
+\begin{figure}[!htb]
 \includegraphics[width=\linewidth]{highlowcal.png}
 \caption{Calibration of low and high gain sections of the anode wires.}
 \label{fig:highlowcal}
@@ -408,7 +408,7 @@ NEED TO PUT IN ABOUT THE GATING GRID LEAK
  
  \begin{comment}
  
- \begin{table}[!htp] % not just 'h!'
+ \begin{table}[!htb] % not just 'h!'
 \centering % not a center environment
 \begin{tabular}{
   @{}
@@ -440,6 +440,7 @@ $\si{\kilo\eV\per\centi\meter}$ & 11.2   &.034  &5.43   &  903   &150     \\
 
 
 \begin{figure}[!htb]
+\centering
 \includegraphics[width=\linewidth]{spacechg_cartoon.png}
 \caption{Location of space charge in 132 Sn}
 \label{fig:spacechg_cartoon}
@@ -447,6 +448,7 @@ $\si{\kilo\eV\per\centi\meter}$ & 11.2   &.034  &5.43   &  903   &150     \\
 
 
 \begin{figure}[!htb]
+\centering
 \includegraphics[width=\linewidth]{beampath.png}
 \caption{Beam path of the experiments}
 \label{fig:beampaths}
@@ -472,7 +474,8 @@ An example of the distortion map in the TPC is shown in Fig.~\ref{fig:sc_shift} 
  
 
 \begin{figure}[!htb]
-\includegraphics[width=\linewidth]{Effect_SC.pdf}
+\centering
+\includegraphics[scale=.5]{Effect_SC.pdf}
 \caption{Example of the map of the electron shift. The effect is also shown on left-going (blue) and right-going (green) tracks. The original tracks are shown in the solid line and the shifted track in the dotted line.}
 \label{fig:sc_shift}
 \end{figure}
@@ -480,13 +483,16 @@ An example of the distortion map in the TPC is shown in Fig.~\ref{fig:sc_shift} 
 The inset figure of Fig.~\ref{fig:sc_shift} shows the effects of the space charge have on the x-component of the dOCA to the vertex for the displaced left-going track given by $\Delta\mathrm{V}_\mathrm{x}$, with the opposite direction for right-going tracks. Figure~\ref{fig:VLR} shows the amount of distortion caused by the space charge effect as a new observable $\Delta\mathrm{V}_\mathrm{LR} = \Delta\mathrm{V}_\mathrm{x}^L - \Delta\mathrm{V}_\mathrm{x}^R$ , where  $V_x^L$ and $V_x^R$ are the most probable value of the dOCA distribution for left and right-going tracks respectively. 
 
 \begin{figure}[!htb]
-\includegraphics[width=\linewidth]{DVTP_raw.pdf}
+\centering
+\includegraphics[scale=.5]{DVTP_raw.pdf}
 \caption{$\Delta\mathrm{V}_\mathrm{x}$ distribution for left-going and right-going tracks. }
 \label{fig:VLR}
 \end{figure}
 
 
+
 \begin{figure}[!htb]
+\centering
 \includegraphics[width=\linewidth]{VLR_beamrate.png}
 \caption{ $\Delta V_{LR}$ versus the beam rate for all systems with the fitted function.}
 \label{fig:vlr_br}
@@ -495,11 +501,11 @@ The inset figure of Fig.~\ref{fig:sc_shift} shows the effects of the space charg
 
 
 \begin{figure}[!htb]
+\centering
 \includegraphics[width=\linewidth]{sc_beamrate.png}
 \caption{Space charge fit function versus the beam rate for all systems. These are the assumed functions we use for interpolating the space charge value from the beam rate.}
 \label{fig:spacechg_br_all}
 \end{figure}
-
 
 The average beam rate was recorded in each experimental run and slightly varied from run to run, due to beam production variations. The amount of space charge present in the field cage is directly proportional to the beam rate; therefore $\Delta\mathrm{V}_\mathrm{LR}$ is also proportional to the beam rate as shown in Fig.~\ref{fig:VLR_br}. The only parameter in the space charge correction algorithm is the surface charge density $\sigma_{\mathrm{SC}}$. Varying $\sigma_{\mathrm{SC}}$ for a wide range of values the $\Delta\mathrm{V}_\mathrm{LR}$ observable is measured and plotted in the left panel of Fig.~\ref{fig:spacechg_relation}. The surface charge density which gives $\Delta\mathrm{V}_\mathrm{LR} = 0$ is taken to be the estimate for the average amount of space charge present. 
 
@@ -779,7 +785,7 @@ As discussed in Section~\ref{sec:software}, the software is composed of several 
 
 For all of the sources of biases in the TPC, it is clear that a MC type approach to solving for the response of the TPC would be the most practical method. Also by embedding MC events into real data we can take into account the effects of the experimental setup as well as the software and the detector system all together at once. 
 
-%\begin{sidewaysfigure}[H]
+%\begin{sidewaysfigure}[!htb]
 %\centering
 %\includegraphics[width=\textwidth]{FlowEmbedding.pdf}
 %\caption{Flow of embedding implementation in the software.}
@@ -792,7 +798,7 @@ For all of the sources of biases in the TPC, it is clear that a MC type approach
 %\begin{landscape}
 % your landscape table(s) or figure(s) here
 %CONSIDER ROTATING THIS FIGURE IF ALLOWED
-\begin{figure}[H]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{FlowEmbedding.pdf}
 \caption{Flow diagram of the embedding software.}
@@ -1056,8 +1062,82 @@ The area enclosed by the red lines represent the region of the highest efficienc
 
 \section{PID Analysis}
 \label{sec:pid}
-%PID lines over all
+%PID lines over all picture
+
+
 %PID of pion cut
 %background estimation
 
+The energy loss curve in Eq.~\ref{eq:bb} can be described as a 5-parameter general function as, 
 
+\begin{equation}
+\frac{dE}{dx} = \frac{p_0}{\beta^{p_3}}(p_1 - \beta^{p_3} + \ln(p_2 + {\beta\gamma}^{-p_4})),
+\label{eq:5par_bb}
+\end{equation}
+
+where the parameters $p_0-p_4$ are free parameters, $\beta= p/\sqrt{p^2 + m^2c^4}$, where $m$ is the mass of the particle and $p$ is the momentum. The PID lines vary slightly as a function of the emission angle of each track. The PID was subdivided into 6 pitch angles, $\theta_P = \arctan(p_y/p_z)$, and 6 yaw angles, $\theta_Y = \arctan(p_x/p_z)$, ranging from \ang{-90} to \ang{90} for both. The pion spectra of each yaw-pitch bin was fit with Eq.~\ref{eq:5par_bb} to get the PID line which best describes the data. The distribution around this mean value is not a Gaussian distribution. The variable $z$ has been used before to transform the energy loss of a particular track $dE/dx$ into a more Guassian variable, defined as
+
+\begin{equation}
+z_i = \ln\Big(\frac{\langle dE/dx\rangle}{\langle dE/dx\rangle_i}\Big),
+\end{equation}
+
+where $\langle dE/dx\rangle_i$ is the mean energy loss curve fit from Eq.~\ref{eq:5par_bb} for a given particle type $i$. The $z_i$ distribution of the particle of interest will be centered around 0 in this new variable. Figure~\ref{fig:pidpion_raw} shows the typical PID lines zoomed in on the pions. Figure~\ref{fig:pidpion} shows the corresponding $z_i$ distribution after all the pitch-yaw bins have been merged. Both charged pions lie on $z_i=0$, where other particle species rapidly diverge. 
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pidPion.png}
+        \caption{Output PID pions.} \label{fig:pidpion_raw}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pidPion_zi.png} 
+        \caption{PID plot for $\pi^-$ and $\pi^+$ species in $z_i$. } \label{fig:pipion_zi}
+    \end{subfigure}
+  
+    \caption{$\langle dE/dx\rangle$ versus p/q for $\tin{132}{124}$ system.}
+\label{fig:pidpion}
+\end{figure}
+
+Now that the pion distribution is flattened, we take bin slices along $p/q$ to determine the particle yield in a certain bin and also estimate the background contribution. The background relevant to  the charged pions comes from the $e^+$ and $e^-$ resulting from the $\pi^0$ Dalitz decay described in Appendix~\ref{appen:dalitz}. Figure~\ref{fig:pimmom_flat} shows the Gaussian fits to the $z_i$ distribution for two different $p/q$ binned cuts around the $\pi^-$ particles, where as Fig.~\ref{fig:pipmom_flat} shows the background $\pi^+$ particles. A Gaussian fit is performed to the pions and to the $e$ spectrum to estimate the background contribution. 
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pim_mom2.png}
+        \caption{Bin -54 MeV/c < p/q < -52. } \label{fig:pimmom2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pim_mom1.png} 
+        \caption{Bin -68 MeV/c < p/q < -66.} \label{fig:pimmom1}
+    \end{subfigure}
+  
+    \caption{$z_i$ projection for binned slices in p/q around the $\pi^-$.}
+\label{fig:pimmom_flat}
+\end{figure}
+
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pip_mom1.png}
+        \caption{Bin 74 MeV/c < p/q < 76. } \label{fig:pipmom1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pip_mom2.png} 
+        \caption{Bin 94 MeV/c < p/q < 86.} \label{fig:pipmom2}
+    \end{subfigure}
+  
+    \caption{$z_i$ projection for binned slices in p/q around the $\pi^+$.}
+\label{fig:pipmom_flat}
+\end{figure}
