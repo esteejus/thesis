@@ -10,7 +10,7 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
   if (!C) return;
 
   // Setup Pad layout:
-  Float_t vSpacing = 0.0;
+  Float_t vSpacing = 0.05;
   Float_t vStep  = (1.- bMargin - tMargin - (Ny-1) * vSpacing) / Ny;
 
   Float_t hSpacing = 0.0;
@@ -117,12 +117,12 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
 
   TCanvas *C = (TCanvas*) gROOT->FindObject("C");
   if (C) delete C;
-  C = new TCanvas("C","canvas",1024,640);
+  C = new TCanvas("C","canvas",1200,1000);
   C->SetFillStyle(4000);
 
   // Number of PADS
   const Int_t Nx = 1;
-  const Int_t Ny = 4;
+  const Int_t Ny = 3;
 
   // Margins
   Float_t lMargin = 0.12;
@@ -166,7 +166,6 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
 	{
 	  for (Int_t iBin = 0 ;iBin < Ny; iBin++)
 	    {
-	      iVar = iBin;
 	      C->cd(0);
 	      // Get the pads previously created.
 	      char pname[16];
@@ -203,11 +202,16 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
 	      box[i ][iBin] = new TBox(-.5,y-ye,6.5,y+ye);
 	      line[i ][iBin] = new TLine(-.5,y,6.5,y);
 	      singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
+	      if(iBin == 2)
+		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac*8,y+ye*frac*8);
+	      if(iBin == 0)
+		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac*5,y+ye*frac*5);
+
 	      singleRatio[i ][iBin]->GetXaxis()->SetLimits(-.5,6.5);
 
 	      singleRatio[i ][iBin]->SetLineWidth(4);
 	      singleRatio[i ][iBin]->GetYaxis()->SetNdivisions(ndiv);
-	      singleRatio[i ][iBin]->GetYaxis()->SetTitle(Form("Bin %d",i ));
+	      singleRatio[i ][iBin]->GetYaxis()->SetTitle("#pi^{-}");
 	      singleRatio[i ][iBin]->GetYaxis()->CenterTitle();
 	      singleRatio[i ][iBin]->GetYaxis()->SetTitleFont(43);
 	      singleRatio[i ][iBin]->GetYaxis()->SetTitleSize(30);
@@ -232,7 +236,8 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
 	      singleRatio[i ][iBin]->SetMarkerSize(markSz);
 	      singleRatio[i ][iBin]->SetMarkerColor(markCl);	  
 
-	      singleRatio[i ][iBin]->Draw("APO");
+
+	      singleRatio[i ][iBin]->Draw("APO"); 
 
 
 	      box[i ][iBin]->SetFillColorAlpha(kRed, .2);

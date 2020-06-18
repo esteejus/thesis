@@ -51,8 +51,9 @@
 \usepackage{rotating}
 \usepackage{mathtools}
 \usepackage{comment}\renewcommand{\arraystretch}{1.5}
+\usepackage[version=3]{mhchem}
 
-\graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} {images/dynamicrange/} {images/dataAnalysis/} {images/experiment/} {images/results/} }
+\graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} {images/dynamicrange/} {images/dataAnalysis/} {images/experiment/} {images/results/}  {images/intro/} }
 
 %
 % If the thesis office requires Times, we'll give them Times
@@ -101,12 +102,12 @@
 \DeclareSIUnit\gauss{G}
 
 \includeonly{
-%chapters/ch_intro,
-%/ch_theory,
-chapters/ch_experiment,
+chapters/ch_intro,
+%ch_theory,
+%chapters/ch_experiment,
 %chapters/ch_data_analysis,
 %chapters/ch_data_analysis_2,
-%chapters/ch_results
+chapters/ch_results
 }
 
 
@@ -158,12 +159,12 @@ Your acknowledgements here.
 % May violate thesis office rules
 %\addtocontents{toc}{\protect\renewcommand{\protect\cftchapterdotsep} {\cftnodots}}
 
-%\include{chapters/ch_intro}
+\include{chapters/ch_intro}
 %\include{chapters/ch_theory}
-\include{chapters/ch_experiment}
+%\include{chapters/ch_experiment}
 %\include{chapters/ch_data_analysis}
 %\include{chapters/ch_data_analysis_2}
-%\include{chapters/ch_results}
+\include{chapters/ch_results}
 
 
 

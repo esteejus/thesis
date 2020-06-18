@@ -3,9 +3,6 @@
 using namespace style;
 
 
-
-
-
 void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
                      Float_t lMargin, Float_t rMargin,
                      Float_t bMargin, Float_t tMargin)
@@ -13,7 +10,7 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
   if (!C) return;
 
   // Setup Pad layout:
-  Float_t vSpacing = 0.0;
+  Float_t vSpacing = 0.05;
   Float_t vStep  = (1.- bMargin - tMargin - (Ny-1) * vSpacing) / Ny;
 
   Float_t hSpacing = 0.0;
@@ -90,13 +87,17 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
 
 
 
-void publishCutVariations_sn108(int this_var = 0)
+void publishCutVariations_sn132_NOEff_pip(int this_var = 3,TString filename = "blank")
 {
+  //  vector< vector<int>> labels = { {14,16,18,20,22,24,26}, {14,16,18,20,22,24,26}, {48,49,50,51,52,53,54}, {47,48,49,50,51,52,53} };
 
-  int bins = 6;
+  vector< vector<int>> labels = { {14,16,18,20,22,24,26}, {14,16,18,20,22,24,26}, {35,40,45,51,55,60,65}, {35,40,45,50,55,60,65} };
+  vector<TString> labels_n = {"# Clusters","POCA","{}^{132}Sn Multiplicity","{}^{108}Sn Multiplicity"};
+    
+  int bins = 1;
   int var  = 4;
   int default_p = 3;
-  double frac = 1.2;
+  double frac = 4.;
 
   int lineSt = 6;
   int markCl = 1;
@@ -105,23 +106,23 @@ void publishCutVariations_sn108(int this_var = 0)
   int linew = 4;
   int ndiv = 405;
 
-  TFile *f = TFile::Open("cutVariaiton_singleRatio.root");
+  TFile *f = TFile::Open("../rootfiles/cutVariaiton_totalYields_NOEff.root");
   TGraphErrors *singleRatio[bins][var];
   TBox *box[bins][var];
   TLine *line[bins][var];
-  TArrow *arrowL = new TArrow(.25,.04,.3,.04,.02,"<|");
-  TArrow *arrowR = new TArrow(.75,.04,.8,.04,.02,"|>");
+  TArrow *arrowL = new TArrow(.22,.04,.28,.04,.02,"<|");
+  TArrow *arrowR = new TArrow(.78,.04,.84,.04,.02,"|>");
 
   gStyle->SetOptStat(0);
 
   TCanvas *C = (TCanvas*) gROOT->FindObject("C");
   if (C) delete C;
-  C = new TCanvas("C","canvas",1024,640);
+  C = new TCanvas("C","canvas",1200,1000);
   C->SetFillStyle(4000);
 
   // Number of PADS
   const Int_t Nx = 1;
-  const Int_t Ny = 6;
+  const Int_t Ny = 3;
 
   // Margins
   Float_t lMargin = 0.12;
@@ -147,16 +148,17 @@ void publishCutVariations_sn108(int this_var = 0)
   gStyle->SetFrameLineWidth(linew);
   gStyle->SetEndErrorSize(5);
 
-
-  for(int iBin = 1; iBin <= 6; iBin++)
+  for(int iBin = 0; iBin < 1; iBin++)
     {
       for(int iVar = 0; iVar < var; iVar++)
 	{
 
-	  singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn108_singleRatio_%d_%d",iBin,iVar));
+	  singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn132_totalpip_%d_%d",iBin,iVar));
 	}
     }
   
+  //  singleRatio[0][1]->Draw(); 
+
   TPad *pad[Nx][Ny];
 
   int iVar = this_var;
@@ -178,51 +180,71 @@ void publishCutVariations_sn108(int this_var = 0)
 	      // Size factors
 	      Float_t xFactor = pad[0][0]->GetAbsWNDC()/pad[i][iBin]->GetAbsWNDC();
 	      Float_t yFactor = pad[0][0]->GetAbsHNDC()/pad[i][iBin]->GetAbsHNDC();
+
+
+	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(1,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(0)));
+	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(2,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(1)));
+	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(3,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(2)));
+	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(4,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(3)));
+	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(5,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(4)));
+	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(6,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(5)));
+	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(-1,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(6)));
+  //singleRatio[i][iBin]->GetYaxis()->ChangeLabel(labels.at(iBin).at(0),labels.at(iBin).at(1),labels.at(iBin).at(2),labels.at(iBin).at(3),labels.at(iBin).at(4),labels.at(iBin).at(5),labels.at(iBin).at(6));
+
 	      // TICKS Y Axis
-	      singleRatio[Ny - iBin][iVar]->GetYaxis()->SetTickLength(xFactor*0.04/yFactor);
+	      singleRatio[i][iBin]->GetYaxis()->SetTickLength(xFactor*0.04/yFactor);
 	      // TICKS X Axis
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetTickLength(yFactor*0.06/xFactor);
+	      singleRatio[i ][iBin]->GetXaxis()->SetTickLength(yFactor*0.06/xFactor);
 	   
 	      double x,y,ye;
-	      singleRatio[Ny - iBin ][iVar] -> GetPoint(3,x,y);
-	      ye = singleRatio[Ny - iBin ][iVar] -> GetErrorY(3);
-	      box[Ny - iBin ][iVar] = new TBox(-.5,y-ye,6.5,y+ye);
-	      line[Ny - iBin ][iVar] = new TLine(-.5,y,6.5,y);
-	      //singleRatio[Ny - iBin ][iVar]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetLimits(-.5,6.5);
+	      singleRatio[i ][iBin] -> GetPoint(3,x,y);
+	      ye = singleRatio[i ][iBin] -> GetErrorY(3);
+	      box[i ][iBin] = new TBox(-.5,y-ye,6.5,y+ye);
+	      line[i ][iBin] = new TLine(-.5,y,6.5,y);
+	      singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
+	      if(iBin == 2)
+		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac*3,y+ye*frac*3);
+	      if(iBin == 0)
+		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac*3,y+ye*frac*3);
 
-	      singleRatio[Ny - iBin ][iVar]->SetLineWidth(4);
-	      singleRatio[Ny - iBin ][iVar]->GetYaxis()->SetNdivisions(ndiv);
-	      singleRatio[Ny - iBin ][iVar]->GetYaxis()->SetTitle(Form("Bin %d",Ny - iBin ));
-	      singleRatio[Ny - iBin ][iVar]->GetYaxis()->CenterTitle();
-	      singleRatio[Ny - iBin ][iVar]->GetYaxis()->SetTitleFont(43);
-	      singleRatio[Ny - iBin ][iVar]->GetYaxis()->SetTitleSize(30);
-	      singleRatio[Ny - iBin ][iVar]->GetYaxis()->SetTitleOffset(1);
-	      singleRatio[Ny - iBin ][iVar]->GetYaxis()->SetLabelFont(43);
-	      singleRatio[Ny - iBin ][iVar]->GetYaxis()->SetLabelSize(20);
-	      singleRatio[Ny - iBin ][iVar]->SetTitle("");
+	      singleRatio[i ][iBin]->GetXaxis()->SetLimits(-.5,6.5);
 
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetNdivisions(7);
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetTitle("Looser                       Tighter");
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->CenterTitle();
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetTitleFont(43);
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetTitleSize(30);
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetTitleOffset(3);
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetLabelFont(43);
-	      singleRatio[Ny - iBin ][iVar]->GetXaxis()->SetLabelSize(20);
+	      singleRatio[i ][iBin]->SetLineWidth(4);
+	      singleRatio[i ][iBin]->GetYaxis()->SetNdivisions(ndiv);
+	      singleRatio[i ][iBin]->GetYaxis()->SetTitle("#pi^{+}");
+	      singleRatio[i ][iBin]->GetYaxis()->CenterTitle();
+	      singleRatio[i ][iBin]->GetYaxis()->SetTitleFont(43);
+	      singleRatio[i ][iBin]->GetYaxis()->SetTitleSize(30);
+	      singleRatio[i ][iBin]->GetYaxis()->SetTitleOffset(1);
+	      singleRatio[i ][iBin]->GetYaxis()->SetLabelFont(43);
+	      singleRatio[i ][iBin]->GetYaxis()->SetLabelSize(20);
+	      singleRatio[i ][iBin]->SetTitle("");
+
+	      singleRatio[i ][iBin]->GetXaxis()->SetNdivisions(7);
+	      singleRatio[i ][iBin]->GetXaxis()->SetTitle("Looser      " + labels_n.at(iBin) + "        Tighter");
+
+	      singleRatio[i ][iBin]->GetXaxis()->CenterTitle();
+	      singleRatio[i ][iBin]->GetXaxis()->SetTitleFont(43);
+	      singleRatio[i ][iBin]->GetXaxis()->SetTitleSize(30);
+	      singleRatio[i ][iBin]->GetXaxis()->SetTitleOffset(3);
+	      singleRatio[i ][iBin]->GetXaxis()->SetLabelFont(43);
+	      singleRatio[i ][iBin]->GetXaxis()->SetLabelSize(20);
 
 
-	      singleRatio[Ny - iBin ][iVar]->SetPointError(default_p,0,0);
-	      singleRatio[Ny - iBin ][iVar]->SetMarkerStyle(markS);
-	      singleRatio[Ny - iBin ][iVar]->SetMarkerSize(markSz);
-	      singleRatio[Ny - iBin ][iVar]->SetMarkerColor(markCl);	  
+	      singleRatio[i ][iBin]->SetPointError(default_p,0,0);
+	      singleRatio[i ][iBin]->SetMarkerStyle(markS);
+	      singleRatio[i ][iBin]->SetMarkerSize(markSz);
+	      singleRatio[i ][iBin]->SetMarkerColor(markCl);	  
 
-	      singleRatio[Ny - iBin ][iVar]->Draw("APO");
 
-	      box[Ny - iBin ][iVar]->SetFillColorAlpha(kRed, .2);
-	      box[Ny - iBin ][iVar]->Draw("same");
-	      line[Ny - iBin ][iVar]->SetLineStyle(lineSt);
-	      line[Ny - iBin ][iVar]->Draw("same");
+	      singleRatio[i ][iBin]->Draw("APO"); 
+
+
+	      box[i ][iBin]->SetFillColorAlpha(kRed, .2);
+	      box[i ][iBin]->Draw("same");
+	      line[i ][iBin]->SetLineStyle(lineSt);
+	      line[i ][iBin]->Draw("same");
+
 	    }
 	}
       C->cd();
@@ -230,7 +252,7 @@ void publishCutVariations_sn108(int this_var = 0)
       arrowR->SetLineWidth(linew);
       arrowL->Draw();
       arrowR->Draw();    
-      C -> SaveAs(Form("cvs_%d.png",iVar));
+      C -> SaveAs(filename + "pimTotal.png");
    
   /*
     for(int iBin = 1; iBin <= 1; iBin++)

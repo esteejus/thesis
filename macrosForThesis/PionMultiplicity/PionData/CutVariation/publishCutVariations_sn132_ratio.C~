@@ -87,13 +87,13 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
 
 
 
-void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank")
+void publishCutVariations_sn132_ratio(int this_var = 3,TString filename = "blank")
 {
   //  vector< vector<int>> labels = { {14,16,18,20,22,24,26}, {14,16,18,20,22,24,26}, {48,49,50,51,52,53,54}, {47,48,49,50,51,52,53} };
 
   vector< vector<int>> labels = { {14,16,18,20,22,24,26}, {14,16,18,20,22,24,26}, {35,40,45,51,55,60,65}, {35,40,45,50,55,60,65} };
   vector<TString> labels_n = {"# Clusters","POCA","{}^{132}Sn Multiplicity","{}^{108}Sn Multiplicity"};
-  vector<TString> labels_f = {"Clusters","POCA","132Sn_Multiplicity","108Sn_Multiplicity"};    
+    
   int bins = 1;
   int var  = 4;
   int default_p = 3;
@@ -106,8 +106,9 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
   int linew = 4;
   int ndiv = 405;
 
-  TFile *f = TFile::Open("../rootfiles/cutVariaiton_totalYields_NOEff.root");
+  TFile *f = TFile::Open("../rootfiles/cutVariaiton_totalYields.root");
   TGraphErrors *singleRatio[bins][var];
+  TGraphErrors *pipsingleRatio[bins][var];
   TBox *box[bins][var];
   TLine *line[bins][var];
   TArrow *arrowL = new TArrow(.22,.03,.7,.03,.02,"<|");
@@ -156,11 +157,33 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
     {
       for(int iVar = 0; iVar < var; iVar++)
 	{
-
 	  singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn132_totalpim_%d_%d",iBin,iVar));
+	  pipsingleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn132_totalpip_%d_%d",iBin,iVar));
+	  //calculate ratio
+	  for(int i = 0; i < singleRatio[iBin][iVar]->GetN(); i++)
+	    {
+	      double pim, pip, pim_err, pip_err, x;
+	      singleRatio[iBin][iVar] -> GetPoint(i,x,pim);
+	      pipsingleRatio[iBin][iVar] -> GetPoint(i,x,pip);
+	      pim_err = singleRatio[iBin][iVar] -> GetErrorY(i);
+	      pip_err =  pipsingleRatio[iBin][iVar] -> GetErrorY(i);
+
+	      double err = pim/pip * sqrt( pow(pim_err/pim,2) + pow(pip_err/pip,2) );
+
+	      cout<<iVar <<" "<<pim/pip<<endl;
+	      singleRatio[iBin][iVar]->SetPoint(i,x,pim/pip);
+	      singleRatio[iBin][iVar]->SetPointError(i,0,err);
+	    }
 	}
     }
   
+
+
+
+
+  
+
+
   //  singleRatio[0][1]->Draw(); 
 
   TPad *pad[Nx][Ny];
@@ -188,15 +211,15 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
 	      line[i ][iBin] = new TLine(-.5,y,6.5,y);
 	      singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
 	      if(iBin == 2)
-		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac*8,y+ye*frac*8);
+		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac*3,y+ye*frac*3);
 	      if(iBin == 0)
-		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac*5,y+ye*frac*5);
+		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
 
 	      singleRatio[i ][iBin]->GetXaxis()->SetLimits(-.5,6.5);
 
 	      singleRatio[i ][iBin]->SetLineWidth(4);
 	      singleRatio[i ][iBin]->GetYaxis()->SetNdivisions(ndiv);
-	      singleRatio[i ][iBin]->GetYaxis()->SetTitle("Y(#pi^{-})");
+	      singleRatio[i ][iBin]->GetYaxis()->SetTitle("#pi^{-}/#pi^{+}");
 	      singleRatio[i ][iBin]->GetYaxis()->CenterTitle();
 	      singleRatio[i ][iBin]->GetYaxis()->SetTitleFont(43);
 	      singleRatio[i ][iBin]->GetYaxis()->SetTitleSize(30);
@@ -235,7 +258,7 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
 	      //   arrowR->SetLineWidth(linew);
 	      // arrowL->Draw();
 	      // arrowR->Draw();    
-	      C -> SaveAs(labels_f.at(iBin) + "_NoEC_pimTotal.png");
+	      C -> SaveAs(labels_n.at(iBin) + "_TotalRatio.png");
 	    }
 	}
     

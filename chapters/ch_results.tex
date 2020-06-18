@@ -2,7 +2,7 @@
 \cite{jon}
  
 \section{Pion Spectra}
-
+\label{sec:pionSpectra}
 The efficiency correction is applied track-by-track, where the efficiency of the i-th track $\epsilon_i$ is retrieved from the database, from the parameters discussed in Section~\ref{sec:efficiency}. The correction factor $C_i$ is defined as,
 
 \begin{equation}
@@ -88,12 +88,20 @@ Figure~\ref{fig:totalpiRatio} shows the total single pion ratio and the double r
 \section{Pion Spectral Ratio}
 
 
-\begin{figure}
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{singleRatio.png}
 \caption{Single ratio spectra}
 \label{fig:SRspectra}
 \end{figure}
+
+The pion spectral ratio is a promising observable in particular it may be more sensitive to the high density regions of the early collision. In theory the high energy pions are more likely to exit the nuclear medium earlier, and therefore be less prone to effects such as pion absorption and re-emission which dilute the sensitivity of the pion observable to the high density behavior. Also low energy pions are more likely to be affected by other effects such as the $\Delta$ potential in medium CITE HERE BAO AN. If we integrate the total pion yield we combine these two regions of low and high energy pions. Instead we can construct the $Y(\pi^-)/Y(\pi^+)$ ratio as a function of the kinetic energy in the CM system. 
+
+%Mention and cite appendix for systematics
+
+Figure~\ref{fig:SRspectra} shows the pion spectral ratio for both systems, which was measured with a high degree of accuracy. The general hyperbolic shape comes from the Coulomb force on the two charged pion spectra mentioned in Section~\ref{sec:pionSpectra}. Naturally the pion ratio is smaller for less neutron poor system, i.e. less neutron-neutron collisions produce less $\pi^-$. The bin size of the last bin was increased to reduce the statistical error bars since the number of pions, especially the $\pi^+$, is reaching the limits of the measured distribution. 
+
+
 
 %Add figure of Theory for pion ratios
 
@@ -107,18 +115,102 @@ Figure~\ref{fig:totalpiRatio} shows the total single pion ratio and the double r
 \label{fig:spectraDR}
 \end{figure}
 
+Another promising observable is the spectral double ratio. In a similar way described in Section~\ref{sec:doubleRatio} we would expect systematic uncertainties in the experiment, and even in the theory, to cancel out. For the same reasons as the pion spectral ratio, we would expect the high energy pions to be more sensitive to the high density region of the early collision. 
 
 
 
 \section{Comparison to Previous Data Sets (FOPI)}
-asdfasdfasd
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.4]{fopi_pionratio_comp}
+\caption{Comparing the total $\pi^-/\pi^+$ ratio of the $\tin{132}{124}$ system to the ${}^{197}$Au + ${}^{197}$Au data from the FOPI collaboration. The \spirit TPC data was scaled by a factor to compare to the lower N/Z of the Au + Au system. This was extracted from measuring the N/Z dependence measured in the experiment. }
+\label{fig:fopiPionRatio}
+\end{figure}
+
+The FOPI collaboration has measured the total pion multiplicity resulting from ${}^{197}Au + {}^{197}Au$ collisions at several, higher beam energies. In the $\tin{132}{124}$ data  $N/Z=1.56$ where as in the ${}^{197}Au + {}^{197}Au$, $N/Z=1.493$. The pion ratio is proportional to the $N/Z$ of the system. Since 4 beams were measured in this experiment, the $N/Z$ dependence was measured as seen in Fig.~\ref{fig:totalpiRatio}. Here the dependence is fitted with a 2-nd order polynomial fit. The pion ratio in the $\tin{132}{124}$ data  was scaled by the ratio between $N/Z=1.56$ and 1.493. Figure~\ref{fig:fopiPionRatio} shows the scaled pion ratio as compared with the FOPI pion ratio from literature CITE HERE. The fitted function has the functional form of $p_1(E - p_2)^{-2}$ where $p_1$ and $p_2$ are free parameters, and is meant to guide the eye. It is worth mentioning that the pion ratio observed in the FOPI \SI{400}{\MeVA} setting was already considerably higher than what is expected from the $(N/Z)^2$ delta resonance model CITE HERE. Scaling the other systems in the \spirit TPC data leads to almost the exact same value of $\mathrm{Y}(\pi^-)/\mathrm{Y}(\pi^+) = \num{4.82}$.
+
+
+
 \section{Comparison to Theory}
 %Add figure of Pion spectra for different theory 
 %Reference paper for multiple theories
-asdfasdf
+
+Here we will compare with 7 different commonly used transport theoretical codes. These codes took part in a large collaboration effort to compare the codes to each other. The goal of these comparison projects was to standardize the input into each code to systematically go through the details in each code comparing things such as initialization of nuclei, stability of the code, numerical handing of pauli-blocking, etc CITE HERE. These codes were taken in their best state, without any prior knowledge of the experimental data, and simulated the 4 systems measured in the \spirit TPC at an impact parameter of \SI{3}{\femto\metre} at \SI{270}{\MeVA} beam energy. Each code differs in its treatment of pion and $\Delta$ dynamics. Some codes contain modifications to the pion in nuclear matter, usually by including a pion optical potential. Some codes include the iso-scalar and the iso-vector delta potential which are not very well constrained but are important in the production of pions CITE HERE.
+
 
 \section{Systematic Errors and Cut Variations}
 \label{sec:cutvar}
-dfsadfsaf
-\section{Constraint on the Symmetry Energy}
-%maybe not...
+The particular track quality cuts described in Section~\ref{sec:qualitycut} are there to reduced the contamination from poorly reconstructed tracks which contribute to the background in the PID spectra. The best set of values were found for all the data sets which include the charged particle multiplicity of the event, dOCA, and the number of clusters cut. By varying the cuts in both the data and the MC efficiency, we can evaluate the analysis to see if there are any systematic dependencies on the observable we plot. But varying the cuts undoutably means as the cut get tighter, and less data is included, the statistical error bar will increase making it difficult to compare to more loose cuts. This is mitigated by looking at the uncorrelated error described in \cite{dataAnalysis}. Here if the systematic trend of the observable is much larger than the statistical error bars on the default cuts and the uncorrelated error bars, then there is some systematic trend that either exists due to physics or some error or miscalculation in the analysis. It is usually not recommended to estimated systematic error bars using this method, but sometimes is the only way. 
+
+Here we will discuss the particular analysis using the total pion ratio as the example. Figure~\ref{fig:totalRatioError} shows the total pion as a function of several cut variations, where one cut is varied and all the others are held constant. Three cuts are of particular interest, the event multiplicity, dOCA, and the number of cluster cut. Figure~\ref{fig:clustTotalRatio} shows the variation as the number of cluster cut is varied. The default cut used is > 20 clusters which is represented by the middle point. The red bars represent the statistical error of this default value. The error bars on the other points are the uncorrelated error bars as described by the prescription in \cite{dataAnalysis}. Here it is clear that there is a systematic bias in the pion ratio as a function 
+
+%show the pim total yield 
+%discuss others in the apendix 
+
+
+\begin{figure}[!htb]
+     \centering
+     \begin{subfigure}[b]{\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{132Sn_Multiplicity_NoEC_pimTotal}
+         \caption{No efficiency correction.}
+         \label{fig:multCutVar}
+     \end{subfigure}
+     \hfill
+    \begin{subfigure}[b]{\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{132Sn_Multiplicity_pimTotal}
+         \caption{Efficiency corrected.}
+         \label{fig:multCutVar}
+     \end{subfigure}
+     \hfill
+\caption{Y($\pi^-$) when varying the ${}^{132}$Sn charged particle multiplicity cut. }
+\label{fig:cutVar}
+\end{figure}
+
+
+
+\begin{figure}[!htb]
+     \centering
+     \begin{subfigure}[b]{\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{Clusters_NoEC_pimTotal}
+         \caption{Before efficiency correction.}
+         \label{fig:pim_clustVar_NoEC}
+     \end{subfigure}
+     \hfill
+    \begin{subfigure}[b]{\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{Clusters_pimTotal}
+         \caption{After efficiency correction.}
+         \label{fig:pim_clustVar_EC}
+     \end{subfigure}
+     \hfill
+\caption{Y($\pi^-$) when varying the number of cluster cut of the tracks.}
+\label{fig:pim_clustVar}
+\end{figure}
+
+
+
+
+\begin{figure}[!htb]
+     \centering
+     \begin{subfigure}[b]{\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{POCA_NoEC_pimTotal}
+         \caption{No efficiency correction.}
+         \label{fig:pim_cutVarPOCA_NoEC}
+     \end{subfigure}
+     \hfill
+    \begin{subfigure}[b]{\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{POCA_pimTotal}
+         \caption{Efficiency corrected.}
+         \label{fig:pim_cutVarPOCA_EC}
+     \end{subfigure}
+     \hfill
+\caption{Y($\pi^-$) when varying the dOCA cut.}
+\label{fig:pim_cutVarPOCA}
+\end{figure}

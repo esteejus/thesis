@@ -10,7 +10,7 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
   if (!C) return;
 
   // Setup Pad layout:
-  Float_t vSpacing = 0.1;
+  Float_t vSpacing = 0.05;
   Float_t vStep  = (1.- bMargin - tMargin - (Ny-1) * vSpacing) / Ny;
 
   Float_t hSpacing = 0.0;
@@ -87,13 +87,14 @@ void CanvasPartition(TCanvas *C,const Int_t Nx,const Int_t Ny,
 
 
 
-void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank")
+void publishCutVariations_sn132_pip(int this_var = 3,TString filename = "blank")
 {
   //  vector< vector<int>> labels = { {14,16,18,20,22,24,26}, {14,16,18,20,22,24,26}, {48,49,50,51,52,53,54}, {47,48,49,50,51,52,53} };
 
   vector< vector<int>> labels = { {14,16,18,20,22,24,26}, {14,16,18,20,22,24,26}, {35,40,45,51,55,60,65}, {35,40,45,50,55,60,65} };
   vector<TString> labels_n = {"# Clusters","POCA","{}^{132}Sn Multiplicity","{}^{108}Sn Multiplicity"};
-  vector<TString> labels_f = {"Clusters","POCA","132Sn_Multiplicity","108Sn_Multiplicity"};    
+  vector<TString> labels_f = {"Clusters","POCA","132Sn_Multiplicity","108Sn_Multiplicity"};
+  
   int bins = 1;
   int var  = 4;
   int default_p = 3;
@@ -106,19 +107,24 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
   int linew = 4;
   int ndiv = 405;
 
-  TFile *f = TFile::Open("../rootfiles/cutVariaiton_totalYields_NOEff.root");
+  TFile *f = TFile::Open("../rootfiles/cutVariaiton_totalYields.root");
   TGraphErrors *singleRatio[bins][var];
   TBox *box[bins][var];
   TLine *line[bins][var];
-  TArrow *arrowL = new TArrow(.22,.03,.7,.03,.02,"<|");
+   TArrow *arrowL = new TArrow(.22,.03,.7,.03,.02,"<|");
   TArrow *arrowR = new TArrow(5.3,.03,5.7,.03,.02,"|>");
 
   arrowL->SetNDC();
   arrowR->SetNDC();
-  
+
   gStyle->SetOptStat(0);
 
-    TCanvas *C = new TCanvas("c1","",1000,300);
+
+  TCanvas *C = new TCanvas("c1","",1000,300);
+
+  // Number of PADS
+  const Int_t Nx = 1;
+  const Int_t Ny = 3;
 
   // Margins
   Float_t lMargin = 0.1;
@@ -131,10 +137,7 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
   C->SetBottomMargin(bMargin);
   C->SetLeftMargin(lMargin);
   C->SetRightMargin(rMargin);
-
-  // Number of PADS
-  const Int_t Nx = 1;
-  const Int_t Ny = 3;
+  
 
 
   /*
@@ -157,20 +160,19 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
       for(int iVar = 0; iVar < var; iVar++)
 	{
 
-	  singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn132_totalpim_%d_%d",iBin,iVar));
+	  singleRatio[iBin][iVar] = (TGraphErrors *)f->Get(Form("sn132_totalpip_%d_%d",iBin,iVar));
 	}
     }
   
   //  singleRatio[0][1]->Draw(); 
-
-  TPad *pad[Nx][Ny];
 
   int iVar = this_var;
       for (Int_t i=0;i<Nx;i++)
 	{
 	  for (Int_t iBin = 0 ;iBin < Ny; iBin++)
 	    {
-	     
+	      iVar = iBin;
+
 	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(1,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(0)));
 	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(2,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(1)));
 	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(3,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(2)));
@@ -180,23 +182,20 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
 	      singleRatio[i][iBin]->GetXaxis()->ChangeLabel(-1,-1,-1,-1,-1,-1,Form("%d",labels.at(iBin).at(6)));
   //singleRatio[i][iBin]->GetYaxis()->ChangeLabel(labels.at(iBin).at(0),labels.at(iBin).at(1),labels.at(iBin).at(2),labels.at(iBin).at(3),labels.at(iBin).at(4),labels.at(iBin).at(5),labels.at(iBin).at(6));
 
-
+	   
 	      double x,y,ye;
 	      singleRatio[i ][iBin] -> GetPoint(3,x,y);
-	      ye = singleRatio[i ][iBin] -> GetErrorY(3);
+	      ye = singleRatio[i ][iBin] -> GetErrorY(3)*3;
 	      box[i ][iBin] = new TBox(-.5,y-ye,6.5,y+ye);
 	      line[i ][iBin] = new TLine(-.5,y,6.5,y);
 	      singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac,y+ye*frac);
 	      if(iBin == 2)
-		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac*8,y+ye*frac*8);
-	      if(iBin == 0)
-		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac*5,y+ye*frac*5);
-
+		singleRatio[i ][iBin]->GetYaxis()->SetRangeUser(y-ye*frac*2,y+ye*frac*2);
 	      singleRatio[i ][iBin]->GetXaxis()->SetLimits(-.5,6.5);
 
 	      singleRatio[i ][iBin]->SetLineWidth(4);
 	      singleRatio[i ][iBin]->GetYaxis()->SetNdivisions(ndiv);
-	      singleRatio[i ][iBin]->GetYaxis()->SetTitle("Y(#pi^{-})");
+	      singleRatio[i ][iBin]->GetYaxis()->SetTitle("Y(#pi^{+})");
 	      singleRatio[i ][iBin]->GetYaxis()->CenterTitle();
 	      singleRatio[i ][iBin]->GetYaxis()->SetTitleFont(43);
 	      singleRatio[i ][iBin]->GetYaxis()->SetTitleSize(30);
@@ -206,13 +205,14 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
 	      singleRatio[i ][iBin]->SetTitle("");
 
 	      singleRatio[i ][iBin]->GetXaxis()->SetNdivisions(7);
-	      //	      singleRatio[i ][iBin]->GetXaxis()->SetTitle("Looser      " + labels_n.at(iBin) + "        Tighter");
+	      //  singleRatio[i ][iBin]->GetXaxis()->SetTitle("Looser      " + labels_n.at(iBin) + "        Tighter");
+
 	      singleRatio[i ][iBin]->GetXaxis()->SetTitle(labels_n.at(iBin));
 
 	      singleRatio[i ][iBin]->GetXaxis()->CenterTitle();
 	      singleRatio[i ][iBin]->GetXaxis()->SetTitleFont(43);
 	      singleRatio[i ][iBin]->GetXaxis()->SetTitleSize(30);
-	      singleRatio[i ][iBin]->GetXaxis()->SetTitleOffset(1.);
+	      singleRatio[i ][iBin]->GetXaxis()->SetTitleOffset(1);
 	      singleRatio[i ][iBin]->GetXaxis()->SetLabelFont(43);
 	      singleRatio[i ][iBin]->GetXaxis()->SetLabelSize(20);
 
@@ -222,8 +222,10 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
 	      singleRatio[i ][iBin]->SetMarkerSize(markSz);
 	      singleRatio[i ][iBin]->SetMarkerColor(markCl);	  
 
+	      if(iBin == 3)
+		continue;
 
-	      singleRatio[i ][iBin]->Draw("APO"); 
+	      singleRatio[i ][iBin]->Draw("APO");
 
 
 	      box[i ][iBin]->SetFillColorAlpha(kRed, .2);
@@ -231,14 +233,14 @@ void publishCutVariations_sn132_NOEff(int this_var = 3,TString filename = "blank
 	      line[i ][iBin]->SetLineStyle(lineSt);
 	      line[i ][iBin]->Draw("same");
 
-	      // arrowL->SetLineWidth(linew);
-	      //   arrowR->SetLineWidth(linew);
+	      //  arrowL->SetLineWidth(linew);
+	      // arrowR->SetLineWidth(linew);
 	      // arrowL->Draw();
-	      // arrowR->Draw();    
-	      C -> SaveAs(labels_f.at(iBin) + "_NoEC_pimTotal.png");
+	      //  arrowR->Draw();    
+	      C -> SaveAs(labels_f.at(iBin) + "_pipTotal.png");
 	    }
 	}
-    
+
    
   /*
     for(int iBin = 1; iBin <= 1; iBin++)
