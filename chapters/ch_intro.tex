@@ -4,16 +4,16 @@ Rutherford discovered in 1911 that the atomic nuclei are composed of a dense nuc
 
 
 
-The nucleus itself accounts for 99.9\% of the mass of the atom and only \num{e-12} of the total volume, making it incredibly dense. Without a balancing force the Coulomb force between protons would render the nucleus unstable. The nuclear strong interaction is the fundamental force governing the interactions between the constituent quarks in the nucleons, deriving its name from the large force which acts only over small distances. The strong force is attractive only for a small regions approximately \SIrange{1}{2}{\femto\metre} and becomes very repulsive at even shorter distances. It is for this reason that the distance between nuclei is a near constant value, and therefore the density is remarkably constant over a wide range of nuclei CITE HERE. This density is referred to as the  \emph{saturation density}, $\rho_0 = \SI{1.7e14}{\gram\per\centi\metre\cubed}$.  
+The nucleus itself accounts for 99.9\% of the mass of the atom and only \num{e-12} of the total volume, making it incredibly dense. Without a balancing force the Coulomb force between protons would render the nucleus unstable. The nuclear strong interaction is the fundamental force governing the interactions between the constituent quarks in the nucleons, deriving its name from the large force which acts only over small distances. The strong force is attractive only for a small regions approximately \SIrange{1}{2}{\femto\metre} and becomes very repulsive at even shorter distances. It is for this reason that the distance between nuclei is a near constant value, and therefore the density is remarkably constant over a wide range of nuclei CITE HERE. This density is referred to as the  \emph{saturation density}, $\rho_0 = \SI{1.7e14}{\gram\per\centi\metre\cubed}$ or \SI{0.16}{\per\femto\metre\cubed}.  
 
- In this way nuclei can be thought of as an in-compressible liquid. This picture was remarkably successful at describing the binding energies of nuclei at saturation density. The Bethe-Weizsacker semi-empirical formula predicts the binding energy as a function of the number of neutrons $N$, protons $Z$, and total nucleons $A = Z + N$, where the binding energy per nucleon is $\epsilon/A$:
+ In this way nuclei can be thought of as an in-compressible liquid. This picture was remarkably successful at describing the binding energies of nuclei at saturation density. The Bethe-Weizsacker semi-empirical formula \cite{awayforward}, predicts the binding energy as a function of the number of neutrons $N$, protons $Z$, and total nucleons $A = Z + N$, where the binding energy per nucleon is $\epsilon/A$:
  
 \begin{equation}
-\frac{\epsilon}{A} = a_vA - a_s A^{2/3} - a_c \frac{Z^2}{A^{1/3}} - a_A\frac{(N - Z)^2}{A} + \mathcal{O}
+\frac{\epsilon}{A} = a_vA - a_s A^{2/3} - a_c \frac{Z^2}{A^{1/3}} - a_A\frac{(N - Z)^2}{A} + ...
 \label{eq:semiEmp}
 \end{equation}
 
-Since the number of nucleons is related to the volume of the nucleus, the volume term ,$a_V$, originates from the the saturation of the strong force and its short range nature. There are correction terms accounting for the surface, $a_s$, since nucleons near the surface do not have as many neighbors as nucleons inside, and the coulomb term which is related to the size of the nucleus which scales as $A^{1/3}$. The asymmetry term, $a_A$, is related to the cost in energy one pays to become more neutron or proton rich; it is typically referred to as the \emph{Symmetry Energy}. This originates from pauli blocking where it is more energetically favorable to form neutron-proton pairs since their isospin numbers are different. The di-neutron and di-proton form part of the isospin triplet only allowing for the total isospin $T=1$, where as the deuteron (neutron-proton) system may form $T={0,1}$ in the singlet or the triplet, with the singlet being more energetically favorable. 
+Since the number of nucleons is related to the volume of the nucleus, the volume term ,$a_V$, originates from the the saturation of the strong force and its short range nature. There are correction terms accounting for the surface, $a_s$, since nucleons near the surface do not have as many neighbors as nucleons inside, and the coulomb term which is related to the size of the nucleus which scales as $A^{1/3}$. The asymmetry term, $a_A$, is related to the cost in energy one pays to become more neutron or proton rich; it is typically referred to as the \emph{symmetry energy}. This originates from pauli blocking where it is more energetically favorable to form neutron-proton pairs since their isospin numbers are different. The di-neutron and di-proton form part of the isospin triplet only allowing for the total isospin $T=1$, where as the deuteron (neutron-proton) system may form $T={0,1}$ in the singlet or the triplet, with the singlet being more energetically favorable. 
 
 Large macroscopic objects such as neutron stars are composed of mostly pure neutron matter CITE HERE, which is normally not stable. The large extent of the star allows for the gravitational force to balance the strong force creating a compact dense star. The pressures vary in the neutron star from low densities near the crust to the dense interior which can reach up to 9$\rho_o$ CITE HERE. To understand these exotic systems, the energy density of the system must be described in a more general way than Eq.~\ref{eq:semiEmp} to describe matter over a wide range of densities. 
 
@@ -38,7 +38,7 @@ P = \Big(\frac{\delta E}{\delta V}\Big)\vert_{T=0,N} = -\rho^2 \frac{\delta E}{\
 \label{eq:pressEos}
 \end{equation}
 
-for a fixed number of particles $N$ and zero temperature. One can extend to higher temperatures by adding the Boltzman dependence CITE HERE. The partial derivative with respects to volume can be rewritten in terms of density:
+for a fixed number of particles $N$ and zero temperature. One can extend to higher temperatures by adding the Boltzman dependence. The partial derivative with respects to volume can be rewritten in terms of density:
 
 \begin{equation}
 P = -\rho^2 \frac{\delta E}{\delta \rho}\vert_{T=0,N}.
@@ -48,7 +48,7 @@ P = -\rho^2 \frac{\delta E}{\delta \rho}\vert_{T=0,N}.
 To understand macroscopic pressures in the neutron star, which balance the gravitational force, we must understand the density dependence of the symmetry energy. 
 
 \section{Density Dependence of the Symmetry Energy}
-In the last couple decades, the symmetric term of Eq.~\ref{eq:energyEos} has been determined for a wide range of densities ranging from $\rho_0 - 9\rho_0$ CITE HERE. In contrast, the symmetry energy has only been experimentally constrained for densities at or below $\rho_0$. Figure~\ref{fig:symDen} shows some of the experimental constraints which have been performed by a series of independent measurements and observables CITE HERE ALL. Typically an effective interaction is used to describe the phenomenological observations of nucleon-nucleon interactions observed in nuclei. One of such interactions is described by the Skyrme interaction, which typically is described by a multi-parameter function which takes into account momentum dependence (through an effective mass), 2-body interactions, and correlations CITE HERE. Several Skyrme parameterizations are shown as lines in Fig.~\ref{fig:symDen}. Though most of the functional forms satisfy the experimental constraints at low densities there is a considerable uncertainty at high densities, which are more relevant to neutron stars. 
+In the last couple decades, the symmetric term of Eq.~\ref{eq:energyEos} has been determined for a wide range of densities ranging from $\rho_0 - 9\rho_0$ CITE HERE. In contrast, the symmetry energy has only been experimentally constrained for densities at or below $\rho_0$. Figure~\ref{fig:symDen} shows some of the experimental constraints which have been performed by a series of independent measurements and observables CITE HERE ALL. Typically an effective interaction is used to describe the phenomenological observations of nucleon-nucleon interactions observed in nuclei. One of such interactions is described by the Skyrme interaction, which typically is described by a multi-parameter function which takes into account momentum dependence (through an effective mass), 2-body interactions, and correlations \cite{skyrme}. Several Skyrme parameterizations are shown as lines in Fig.~\ref{fig:symDen}. Though most of the functional forms satisfy the experimental constraints at low densities there is a considerable uncertainty at high densities, which are more relevant to neutron stars. 
 
 
 
@@ -56,30 +56,32 @@ In the last couple decades, the symmetric term of Eq.~\ref{eq:energyEos} has bee
 \section{Heavy Ion Collisions}
 Besides observing neutron stars directly, heavy-ion collisions (HIC) provide the only way we can probe the density dependence of the symmetry energy in the laboratory setting. When two nuclei collide in a collision, in the very early stages they compress to form a high density region where the nuclei overlap. This momentary density can reach up to $3\rho_0$ depending on the incident beam energy. HICs provide the only way we can probe the isospin asymmetry dependence of the nuclear EoS. This is accomplished by using radioactive neutron-rich beams to collide on stable targets. 
 
-The pressure arising from the symmetry energy depends on the curvature of the symmetry energy at a given density. If the density dependence of the symmetry energy is positive at high densities the symmetry energy would work to force neutrons out of the system. Where as if the derivative was negative the symmetry energy would attract neutrons. It is this pressure that is driving the dynamics of neutrons and protons. By measuring protons and neutrons we can see signatures of the effects of the symmetry energy in the final spectra of these particles. Measuring neutrons experimentally can be quite challenging and space is limited by large neutron wall arrays CITE HERE. Also, though the overlap region temporarily reaches a high density, the neutrons which participated in this region also evolve through regions of lower densities until they reach their final state, diluting the signal from the dense region. 
+The pressure arising from the symmetry energy depends on the curvature of the symmetry energy at a given density. If the density dependence of the symmetry energy is positive at high densities the symmetry energy would work to force neutrons out of the system. Where as if the derivative was negative the symmetry energy would attract neutrons. It is this pressure that is driving the dynamics of neutrons and protons. By measuring protons and neutrons we can see signatures of the effects of the symmetry energy in the final spectra of these particles. Measuring neutrons experimentally can be quite challenging and space is limited by large neutron wall arrays. Also, though the overlap region temporarily reaches a high density, the neutrons which participated in this region also evolve through regions of lower densities until they reach their final state, diluting the signal from the dense region. 
 
 
-\begin{figure}
+\begin{figure}[!htb]
 \centering
-\includegraphics[scale=.01]{place}
-\caption{Experimental constraints of the density dependence of the symmetry energy}
+\includegraphics[scale=.5]{constraints}
+\caption{Experimental constraints of the density dependence of the symmetry energy taken from \cite{awayforward}}
 \label{fig:symDen}
 \end{figure}
 
 
 \section{Pion Observable}
-It is preferable to find an observable that is easier to measure experimentally than neutrons, and is more sensitive to the high density region. Pions are produced though and intermediate process where nucleon-nucleon collisions form an excited $\Delta$ baryon resonance from one of the nucleons, which then decay decay shortly after into a pion:
+It is preferable to find an observable that is easier to measure experimentally than neutrons, and is more sensitive to the high density region. Pions are produced though and intermediate process where nucleon-nucleon collisions form an excited $\Delta$(1232) baryon resonance from one of the nucleons, which then decay decay shortly after into a pion:
 
 \begin{equation}
 \ce{ NN <=> \Delta N <=> \pi NN}.
 \end{equation}
+
+The threshold for $\Delta$ resonance production, with a mass of \SI{1232}{\mega\electronvolt\per\clight\squared}, corresponds to a laboratory beam of \SI{290}{\MeVA} kinetic energy. In large nuclei the nucleons exist in orbitals which have large amounts of energy (Fermi energy), allowing for $\Delta$ production even at sub-threshold beam energies \cite{fermiEnergy}.
 
 
 It has been shown in \cite{mingzhang} that most of the $\Delta$'s are produced in the early dense regions of the collision. Figure~\ref{fig:deltaProduction} shows the average local density (c) which $\Delta$'s are produced and the number in the system (b), as a function of time in the simulation of Au + Au collisions at \SI{400}{\MeVA}. Panel (a) shows the density distribution of the density at the moment of creation for $\Delta$'s. Since the average lifetime of the $\Delta$  is $\tau_{\Delta} = \SI{1.7}{\femto\metre\per\clight}$, the $\Delta$ resonance has very little time to be affected by the medium before decaying into a $\pi$ and nucleon. Thus the outgoing $\pi$ is contains information on the high density region of the collision. 
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=.2]{deltaProduction.png}
+\includegraphics[width=.6\textwidth]{deltaProduction.png}
 \caption{Figure taken from \cite{mingzhang} for Au + Au collisions at \SI{400}{\MeVA}. Panel (a) shows the density in the region of the $\Delta$ resonance creation for two different symmetry energies (x=0 soft) and (x=1 stiff). Panel (b) and (c) show the evolution of collision in time steps, where (b) shows the number of deltas in the system as a function of time and (c) shows the mean local baryon density in the region where $\Delta$ resonances are produced. The blue line in (c) represents the average baryon density in the most central region of the collision. This evidence shows that a majority of $\Delta$'s are produced in the high density region of the early collision.}
 \label{fig:deltaProduction}
 \end{figure}
@@ -91,7 +93,11 @@ The branching ratio of the various flavors of $\Delta$'s is given by the Clebsh-
 \label{eq:deltaModel}
 \end{equation}
 
-In this $\Delta$ resonance model, $\pi^-/\pi^+ \approx (N/Z)^2$ where $N/Z$ is the neutron-proton ratio of the dense central collision where they are produced. Pions can be reabsorbed into a $\Delta$ resonance after colliding with the another nucleon in the froward and backwards process $\ce{\Delta <=> \pi N}$. This process generally dilutes the pion sensitivity to the high density region, since with each absorption and re-emission would change the pion dynamics or even the charge of the pion which would reflect the asymmetry at the point of creation and eventual re-emission. Total pion absorption back into two nucleons requires a three body process where a pion is absorbed creating a $\Delta$ resonance, then another nucleon must collide with the resonance to create two nucleons. Because of this, the total pion absorption (removing pions totally) is a less frequent effect than the absorption re-emission process. Yet in general by measuring the $\pi^-$ and $\pi^+$ is connected with n-n and p-p collisions. Instead of measuring neutrons we can measure the $\pi^-$ which is much easier to measure experimentally. 
+In this $\Delta$ resonance model, $\pi^-/\pi^+ \approx (N/Z)^2$ where $N/Z$ is the neutron-proton ratio of the dense central collision where they are produced. Pions can be reabsorbed into a $\Delta$ resonance after colliding with the another nucleon in the froward and backwards process $\Delta <=> \pi + N$. This process generally dilutes the pion sensitivity to the high density region, since with each absorption and re-emission would change the pion dynamics or even the charge of the pion which would reflect the asymmetry at the point of creation and eventual re-emission. Total pion absorption back into two nucleons requires a three body process where a pion is absorbed creating a $\Delta$ resonance, then another nucleon must collide with the resonance to create two nucleons. Because of this, the total pion absorption (removing pions totally) is a less frequent effect than the absorption re-emission process. Yet in general by measuring the $\pi^-$ and $\pi^+$ is connected with n-n and p-p collisions. Instead of measuring neutrons we can measure the $\pi^-$ which is much easier to measure experimentally. 
+
+\section{Motivation for Thesis}
+In an effort to answer the high density behavior of the symmetry energy, we designed a new detector and a set of experiments of Sn + Sn collision utilizing inverse kinematics where the beam is made of a radio-active neutron rich beam. This allows for the neutron-proton asymmetry of the system to be changed depending on the beam. Pion production has been studied in stable beams for beam energies of \SI{400}{\MeVA} and above CITE HERE. Here only total pion yields were published and no pion spectra were published. The goals of this Thesis were to measure the pion spectra efficiently, to low pion energies. To do this a new Time Projection Chamber (TPC) was made, where we measured pions and light charged particles (up to Li) in neutron-rich heavy ion collisions at \SI{270}{\MeVA} 
+
 
 %nuclear chart
 %Dense nuclear matter 
@@ -107,22 +113,7 @@ In this $\Delta$ resonance model, $\pi^-/\pi^+ \approx (N/Z)^2$ where $N/Z$ is t
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\begin{comment}
 
 \section{From Nuclear Forces to the Equation of State}
 Isospin as a good quantum number at low energies 
@@ -184,3 +175,4 @@ High efficiency for detecting pions and other light charged particles
 Effort to reduce the experimental error bars on such spectra which theory could use
 
 
+\end{comment}

@@ -93,7 +93,8 @@ void publishCutVariations_sn132_ratio(int this_var = 3,TString filename = "blank
 
   vector< vector<int>> labels = { {14,16,18,20,22,24,26}, {14,16,18,20,22,24,26}, {35,40,45,51,55,60,65}, {35,40,45,50,55,60,65} };
   vector<TString> labels_n = {"# Clusters","POCA","{}^{132}Sn Multiplicity","{}^{108}Sn Multiplicity"};
-    
+  vector<TString> labels_f = {"Clusters","POCA","132Sn_Multiplicity","108Sn_Multiplicity"};
+  
   int bins = 1;
   int var  = 4;
   int default_p = 3;
@@ -261,7 +262,7 @@ void publishCutVariations_sn132_ratio(int this_var = 3,TString filename = "blank
 	      //   arrowR->SetLineWidth(linew);
 	      // arrowL->Draw();
 	      // arrowR->Draw();    
-	      C -> SaveAs(labels_n.at(iBin) + "_TotalRatio.png");
+	      C -> SaveAs(labels_f.at(iBin) + "_TotalRatio.png");
 	    }
 	}
     
