@@ -95,7 +95,7 @@ The fit of each individual pulse contains the height of the pulse and the timing
  
 
 \paragraph{Definition of clustering}
-The hits within a helix track are dense and the position resolution of an individual hit is not very precise. As mentioned in Section~\ref{sec:padResponse}, the TPC can achieve sub-millimeter position resolution by utilizing the PRF. In the helix track finding task, the hits are further reduced into more precise clusters. A brief description of the method of clustering is illustrated in Figure \ref{fig:topview}. As will be seen, it is sufficient to simply cluster hits along one direction, either along the x or z-direction, which ever is most perpendicular to the local track region. For example, the three clusters at the bottom of Figure \ref{fig:topview} are clustered along the x-axis, and the upper three are along the z-axis. The bold pads highlight the hits belonging to an example cluster from each set. Since we decide to cluster only in one direction, there is a natural inflection point in a track at which the direction of clustering must switch. This depends on the crossing angle of the track $\theta$, which is defined as the angle between the tangent of the track  at that cluster and the x-axis. In this definition $\theta = \ang{90}$ when the track is going along the z-axis and $\theta = \ang{0}$ for a track going along the x-axis.  The clustering direction in the case $\ang{45} < \theta \leq \ang{90} $ is along the x-direction. For $\ang{0} < \theta \leq \ang{45}$ we cluster along the z-axis. 
+The hits within a helix track are dense and the position resolution of an individual hit is not very precise. As mentioned in Section~\ref{sec:prf}, the TPC can achieve sub-millimeter position resolution by utilizing the PRF. In the helix track finding task, the hits are further reduced into more precise clusters. A brief description of the method of clustering is illustrated in Figure \ref{fig:topview}. As will be seen, it is sufficient to simply cluster hits along one direction, either along the x or z-direction, which ever is most perpendicular to the local track region. For example, the three clusters at the bottom of Figure \ref{fig:topview} are clustered along the x-axis, and the upper three are along the z-axis. The bold pads highlight the hits belonging to an example cluster from each set. Since we decide to cluster only in one direction, there is a natural inflection point in a track at which the direction of clustering must switch. This depends on the crossing angle of the track $\theta$, which is defined as the angle between the tangent of the track  at that cluster and the x-axis. In this definition $\theta = \ang{90}$ when the track is going along the z-axis and $\theta = \ang{0}$ for a track going along the x-axis.  The clustering direction in the case $\ang{45} < \theta \leq \ang{90} $ is along the x-direction. For $\ang{0} < \theta \leq \ang{45}$ we cluster along the z-axis. 
 
  
 
@@ -401,7 +401,7 @@ The success of the desaturation becomes more clear when looking at the particle 
 
 %MAYBE ADD A LITTLE NAPKIN CALCULATION OF SPACE CHARGE TO SHOW ORDER OF EFFECT. 
 
-As the beam passes through the field cage it ionizes the gas creating electron-ion pairs. The drift velocities of the ions are typically \SI{e4} times slower than electron drift velocities \cite[blumrol]. Any source of ions have the potential to build up in the drift volume, creating a positive space charge, distorting the drifting electrons and  biasing the track momentum measurement. There are several regions of the TPC in which ions are created. The largest source of positive ions is created in the avalanche process near the anode wires. But as discussed in Section~\ref{sec:wireplanes}, the gating grid captures all of the ions from this region. The other source of ions come from the primary ionization produced by the beam and reaction products in the detector gas. The energy loss  $\langle dE/dx\rangle \propto Z^2$, where Z is the charge of the particle type. Because the charge of the un-reacted beam is around Z~50, the ionization due to the beam is a factor of \num{2e3} times that of the light charged particles which mostly are of charge Z~1. Therefore the ions resulting from the un-reacted beam is the largest source of positive ions in the TPC. 
+As the beam passes through the field cage it ionizes the gas creating electron-ion pairs. The drift velocities of the ions are typically \SI{e4} times slower than electron drift velocities \cite{blumrol}. Any source of ions have the potential to build up in the drift volume, creating a positive space charge, distorting the drifting electrons and  biasing the track momentum measurement. There are several regions of the TPC in which ions are created. The largest source of positive ions is created in the avalanche process near the anode wires. But as discussed in Section~\ref{sec:wireplanes}, the gating grid captures all of the ions from this region. The other source of ions come from the primary ionization produced by the beam and reaction products in the detector gas. The energy loss  $\langle dE/dx\rangle \propto Z^2$, where Z is the charge of the particle type. Because the charge of the un-reacted beam is around Z~50, the ionization due to the beam is a factor of \num{2e3} times that of the light charged particles which mostly are of charge Z~1. Therefore the ions resulting from the un-reacted beam is the largest source of positive ions in the TPC. 
 
 
 NEED TO PUT IN ABOUT THE GATING GRID LEAK 
@@ -495,7 +495,7 @@ The inset figure of Fig.~\ref{fig:sc_shift} shows the effects of the space charg
 \centering
 \includegraphics[width=\linewidth]{VLR_beamrate.png}
 \caption{ $\Delta V_{LR}$ versus the beam rate for all systems with the fitted function.}
-\label{fig:vlr_br}
+\label{fig:VLR_br}
 \end{figure}
 
 
@@ -613,6 +613,7 @@ Adding the BDC vertex greatly improves the momentum resolution of the track fitt
         \includegraphics[width=\linewidth]{sn108_SC} 
         \caption{$\tin{108}{112}$ system.} \label{fig:108momdist_sc}
     \end{subfigure}
+\caption{Momentum distributions of the Left and Right sides of the TPC for $\pi^+$ and $\pi^-$ particles.}
 \label{fig:sc_momdist}
 \end{figure}
 
@@ -637,8 +638,8 @@ The arrival time of signals originating from each pad may differ due to timing d
     \includegraphics[width=0.33\textwidth]{run2907_yoffset5after_row_at_layer30.png}
     \includegraphics[width=0.33\textwidth]{run2907_yoffset4after_row_at_layer50.png}
  
-    \caption{Cobo timing correction.}
   \end{center}
+  \caption{Cobo timing correction.}
   \label{fig:coboCorr}
 \end{figure}
 
@@ -822,7 +823,7 @@ For all of the sources of biases in the TPC, it is clear that a MC type approach
         \caption{Experimental data event.} \label{fig:dataevent}
     \end{subfigure}
     \caption{}
-\label{fig:embedtrack}
+\label{fig:mcDataEmbedtrack}
 \end{figure}
 
 
@@ -954,7 +955,7 @@ The second most important observable is the distance-of-closest-approach (dOCA) 
 \end{figure}
 
 
-We can also see good agreement between the MC PRF for $\pi^-$ in Figure~\ref{mcdataPRF}, and the data PRF, Fig.~\ref{prfpimData}, where the black line is the PRF fit to the experimental data. It is sufficient to use such a simple universal PRF function as we can describe all the crossing angle effects discussed in \ref{sec:prf}. Therefore these effects must arise from geometric effects related to the track angle, the amount of charge distributed over an anode wire, and the superposition of the PRF from neighboring anode wires which contribute to the appearance of a changing PRF.
+We can also see good agreement between the MC PRF for $\pi^-$ in Figure~\ref{fig:prfpimMC}, and the data PRF, Fig.~\ref{fig:prfpimData}, where the black line is the PRF fit to the experimental data. It is sufficient to use such a simple universal PRF function as we can describe all the crossing angle effects discussed in \ref{sec:prf}. Therefore these effects must arise from geometric effects related to the track angle, the amount of charge distributed over an anode wire, and the superposition of the PRF from neighboring anode wires which contribute to the appearance of a changing PRF.
 
 \begin{figure}[!htb]
          \centering

@@ -3,10 +3,11 @@
 \section{Operational Principles of Time Projection Chambers}
 
 
-\begin{figure}
+\begin{figure}[!htb]
 \includegraphics[width=\textwidth]{tpcPrinciple.pdf}
-\label{fig:tpcPrinciple}
 \caption{Operation principle of the TPC}
+\label{fig:tpcPrinciple}
+
 \end{figure}
 %explain in breif the basics of a time projection chamber 
 Time projection chambers are a class of detectors which reconstruct charged particles in all 3-dimensions. Here we will outline the physical principles involved in the TPC measurement and discuss the particular details of the TPC used in this thesis. Figure~\ref{fig:tpcPrinciple} depicts the inside of a TPC, specifically the field cage, which holds the detector gas and also sets up a constant electric field. As charged particles resulting from a heavy ion collision pass through the gas, electron-ion pairs are created from neutral gas molecules. The electrons are accelerated opposite to the electric field and the ions along with it. Since the mean free path of the electrons inside the gas is very small, they quickly collide with other gas molecules; slowing down, or even stopping the electron, which is then accelerated again, starting a repeating cycle of stop and go motion. This microscopic behavior manifests as a constant drift velocity when averaged over several gas collisions. The electrons drift up towards a set of wire planes eventually reaching a set of high voltage anode wires where they quickly accelerate in the presence of the high electric field, liberating more electron-ion pairs from the gas, creating an avalanche process to occur. The avalanche electrons eventually terminate either on the anode wire or the grounded pad readout plane,  while the ions from the avalanche move slowly away from the anode wires, creating a large signal which is distributed over the pad-plane. The charge and timing  information of these electrons are calculated from the induced signal measured by the  electronics. 
@@ -78,7 +79,7 @@ The field cage was constructed from several panels of printed circuit boards (PC
 \label{fig:TPC_schematic}
 \end{figure}
 
-Figure~\ref{TPC_schematic} shows the schematic of the effective resistances and capacitance of the TPC subsystem. The cathode is connected to the HV supply through a \SI{10}{\mega\ohm} resistor and has an effective capacitance to ground of \SI{4}{\nano\farad}, $C_{VSD}$. The cathode voltage $V_{cath}$ can be calculated as,
+Figure~\ref{fig:TPC_schematic} shows the schematic of the effective resistances and capacitance of the TPC subsystem. The cathode is connected to the HV supply through a \SI{10}{\mega\ohm} resistor and has an effective capacitance to ground of \SI{4}{\nano\farad}, $C_{VSD}$. The cathode voltage $V_{cath}$ can be calculated as,
 \begin{equation}
 V_{cath} = \frac{V_{HV}}{ 1 + \frac{10}{ \left( (245 + R_p)^{-1} + 700^{-1} \right)^{-1} } },
 \end{equation}
@@ -531,8 +532,8 @@ As seen in Fig.~\ref{fig:aux}, the Kyoto Multiplicity Array consists of two arra
 
 \begin{figure}[!htb]
 \includegraphics[width=\textwidth]{TPCAux.png}
-\label{fig:aux}
 \caption{Exploded views of Kyoto and KATANA arrays.}
+\label{fig:aux}
 \end{figure}
 
 
