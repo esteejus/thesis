@@ -677,6 +677,8 @@ The arrival time of signals originating from each pad may differ due to timing d
 
 
 \section{Monte Carlo Simulation}
+\label{sec:monteCarlo}
+
 The MC simulation is composed of two separate simulations. The first simulation models the interactions of a particle passing through the various materials in the TPC using Geant4. A scale model of the field cage, and its materials, where the gas mixture is P-10 gas at a density of 1 atm. The magnetic field map of the SAMURAI dipole magnet was imported into Geant4 as well after assuming rotational symmetry along the axis perpendicular to the pole face. Along with the energy loss and particle transport, Geant4 also handles multiple scattering, and particle decay, which are all important effects for pions. The output of Geant4 is a series of energy loss points which contain the amount of energy lost in $\si{\kilo\electronvolt\per\centi\metre}$ and the location of the energy loss in Cartesian space $(x,y,z)$. 
 
 In the second part of the MC simulation, the physical processes of the TPC measurement are simulated, such as the electron drift, avalanche process, and all processes involved in the signal creation in the electronics. This is separated into three software tasks, the drift, pad response, and electronics tasks. In the following section we will discuss these tasks in more detail, the discussion of Geant4 is not covered here and the reader is refered to \cite{geant4}.  
