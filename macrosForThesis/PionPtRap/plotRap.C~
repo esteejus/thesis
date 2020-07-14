@@ -1,0 +1,19 @@
+
+
+
+void plotRap()
+{
+
+
+  TFile *f = TFile::Open("analysis-Sn132-merge.root");
+  TFile *g = TFile::Open("analysis-Sn108-merge.root");
+
+
+
+
+
+
+
+
+
+}

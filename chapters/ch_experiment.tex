@@ -6,7 +6,7 @@
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=.5]{tpcPrinciple.pdf}
-\caption{Operation principle of the TPC}
+\caption{Cartoon depicting the operating principles of the TPC is.}
 \label{fig:tpcPrinciple}
 \end{figure}
 
@@ -25,7 +25,7 @@ The pad plane is perpendicular to the electric field of the field cage and is di
 
 \begin{figure}[!htb]
 \includegraphics[width=\textwidth]{exploded.png}
-\caption{Overview of the \spirit TPC}
+\caption{Exploded overview of the of the \spirit TPC}
 \label{fig:tpcExplode}
 \end{figure}
 
@@ -50,7 +50,7 @@ dE/dx range        & Z=1-3, $\pi$, p, d, t, He, Li \\
 Drift length       & 50 cm \\
 \bottomrule
 \end{tabular}
-\caption{An overview of the properties of the \spirit TPC}
+\caption{Summary of general properties of the \spirit TPC.}
 \label{tb:spiritoverview}
 \end{table*}
 
@@ -66,14 +66,14 @@ The skeleton of the enclosure is composed of a rigid rectangular aluminum angle-
 \begin{figure}[!htb]
 \includegraphics[width=\textwidth]{fc_overview.png}
 \label{fig:fc_overview}
-\caption{FC overview}
+\caption{Overview of the field cage mechanical components.}
 \end{figure}
 
 
 \begin{figure}[!htb]
 \includegraphics[width=\textwidth]{fc_overview2.png}
 \label{fig:fc_overview2}
-\caption{FC overview 2}
+\caption{Schematic of the field cage.}
 \end{figure}
 
 
@@ -82,7 +82,7 @@ The field cage was constructed from several panels of two-layer printed circuit 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{TPC_schematic.pdf}
-\caption{Schematic of the TPC system}
+\caption{Schematic of the resistive elements in the TPC system.}
 \label{fig:TPC_schematic}
 \end{figure}
 
@@ -104,7 +104,7 @@ is the effective resistance of the last resistor, and $V_{HV}$ is the high volta
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=.6]{FC_schematic.pdf}
-\caption{Schematic of the electric connections relevant to the Field Cage system. The strip thickness is exaggerated in the figure to show the detail}
+\caption{Schematic of the electric connections relevant to the field cage system. The strip thickness is exaggerated in the figure to show the detail.}
 \label{fig:FC_schematic}
 \end{figure}
 
@@ -147,7 +147,7 @@ There are three wire planes that are mounted underneath the pad-plane. The wire 
  Gating & BeCu          &  75  &  1  &  14   &  1.2 &  -110$\pm$ 70\\ 
  \bottomrule
 \end{tabular}
-\caption{Wire plane properties}
+\caption{Wire plane properties.}
 \label{tb:wireplane}
 \end{table*}
 
@@ -168,6 +168,7 @@ Figure~\ref{fig:gg_onoff} shows a Garfield simulation of the drift lines of elec
         \includegraphics[width=\linewidth]{wires_closed.pdf} 
         \caption{Wires closed.} \label{fig:wires_closed}
     \end{subfigure}
+\caption{Cartoon depiction of electron drift lines going through the various wire planes.}
 \label{fig:wires}
 \end{figure}
 
@@ -176,7 +177,7 @@ Figure~\ref{fig:gg_onoff} shows a Garfield simulation of the drift lines of elec
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{gg_onoff.pdf}
-\caption{On and off configurations of the gating grid.}
+\caption{Garfield simulations of the on and off configuration of the gating grid.}
 \label{fig:gg_onoff}
 \end{figure}
 
@@ -190,14 +191,16 @@ To measure the electron transparency as a function of the difference voltage $\D
     \begin{subfigure}[t]{0.49\textwidth}
         \centering
         \includegraphics[width=\linewidth]{averageTransparency.png} 
-        \caption{Electron transparency for the conditions of all wires are the same voltage.} \label{fig:ggAvgTrans}
+        \caption{On configurations where all wires are the same voltage.} \label{fig:ggAvgTrans}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.49\textwidth}
         \centering
         \includegraphics[width=\linewidth]{transparencyDeltaV.png} 
-        \caption{Electrons transparency for the mode where adjacent wires have a voltage difference of $2 \Delta V$.} \label{fig:ggDeltaVTrans}
+        \caption{Off configuration where adjacent wires have a voltage difference of $2 \Delta V$.} \label{fig:ggDeltaVTrans}
     \end{subfigure}
+    
+\caption{Electron transparency as measured and simulated in the on and off configurations of the gating grid.}    
 \label{fig:ggTrans}
 \end{figure}
 
@@ -281,7 +284,7 @@ Time bucket range   & 512\\
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=.5\textwidth]{GET_and_ZAP.pdf}
-\caption{•}
+\caption{Drawing of the ZAP and AsAd board which is connected to the surface pads on the backside of the pad-plane.}
 \label{fig:getzap}
 \end{figure}
 
@@ -309,13 +312,13 @@ After each AsAd board has digitized the data it is sent to the Concentration Boa
 
 The average energy loss in a material can be described by the Bethe-Bloch equation,
 \begin{equation}\label{eq:bb}
-\frac{dE}{dx} = \frac{4\pi NZ^2e^4}{mc^2\beta^2} (ln \frac{2mc^2\beta^2\gamma^2}{I} - \beta^2),
+\frac{dE}{dx} = \frac{4\pi NZ^2e^4}{mc^2\beta^2} (\ln \frac{2mc^2\beta^2\gamma^2}{I} - \beta^2),
 \end{equation}
 where $N$ is the number density of electrons in the medium, $e$ the elementary charge, $mc^2$ is the rest mass of the electron, $Z$ is the charge of the traversing particle, $I$ is the mean excitation energy of the medium, and $\beta$ is the velocity of the particle \cite{blumrol}. Yet there is a large variation in energy loss around this mean value. The statistical variation of energy loss in a material was described by Landau \cite{landau} and later better described by Shulek \cite{shulek} and Bichsel \cite{bichsel1}. In both approximations it is described by a most probable energy loss value, with a long, high-energy loss tail. The solid curve in Fig.~\ref{fig:straggling} shows the energy loss distribution in Ar gas for a proton with momentum \SI{3.4}{\giga\eVperc} \cite{bichsel}. The dashed line is the distribution under the Landau assumptions. The mean energy loss $\langle\Delta\rangle$ is significantly shifted from the most probable value $\Delta_p$, due to the long high energy tail.  Because of this long tail, for a finite set of energy loss measurements along a given track, the mean value is a very unreliable. The most probable energy loss is the better observable which can be obtained either through fitting of the observed distribution or through the truncated mean method. 
 
 \begin{figure}
 \includegraphics[width=\textwidth]{bichsel.png}
-\caption{Energy loss of a $\beta\gamma$ = 3.6 particle in Ar gas taken from \cite{bichsel}}
+\caption{Energy loss distribution of a $\beta\gamma$ = 3.6 particle in Ar gas taken from \cite{bichsel}}
 \label{fig:straggling}
 \end{figure}
 
@@ -346,7 +349,7 @@ The gas used was a mixture of 90\% Ar and 10\% Methane ($\mathrm{CH_4}$) by volu
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{driftvel.png}
-\caption{Drift velocity of electrons in P10 gas.}
+\caption{Drift velocity of electrons in P10 gas as a function of the reduced electric field.}
 \label{fig:driftvel}
 \end{figure}
 
@@ -602,6 +605,7 @@ Signals from all of the auxiliary detectors were combined into several logic com
         \includegraphics[width=\linewidth]{DataTrigger2.png} 
         \caption{${}^{238}$U primary beam trigger.} \label{fig:dataTrigger2}
     \end{subfigure}
+\caption{Master triggers in each primary beam setting.}    
 \label{fig:datatrigger}
 \end{figure}
 

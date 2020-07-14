@@ -1,37 +1,6 @@
 \chapter{Data Analysis II}
+As Chapter~\ref{chap:data1} covered the corrections and various calibrations to the data, this Chapter will cover the various cuts taken to improve the signal in the experimental data. Some cuts which identify the incoming beam and the event on target are the minimum cut in order to perform an analysis. The cuts pertaining to the track reconstruction quality are also required to suppress as much of the background noise as possible, most of which comes from reconstruction inefficiencies which the cuts presented here address. 
 
-\section{Radio Isotope Beam Factory (RIBF) Facility }
-\label{sec:beam}
-%Cyclotron facility overview.
-%Samurai line overview.
-%Beam line element overview.
-%Big rips beam PID. reference 
-The primary and secondary beams were produced at the Radioactive Isotope Beam Factory (RIFB) facility at RIKEN, in Wako-shi, Japan. The RIBF facility starts with two primary beam types, ${}^{132}$Xe and ${}^{238}$U, which are produced by an ion-source and accelerated to progressively higher kinetic energies by a linear accelerator (RILAC), and 4 different cyclotrons (RRC, fRC, IRC, and SRC), until they reach a beam energy of \SI{345}{\MeVA}. Figure~\ref{fig:samuraiBeamLine} shows the later stages of the cyclotrons and the following beam lines they feed into.
-
-\begin{figure}[!htb]
-\includegraphics[width=\linewidth]{SAMURAI-beamline.png}
-\caption{Overview of the RIBF, BigRIPS, and SAMURAI beamline.}
-\label{fig:samuraiBeamLine}
-\end{figure}
-
-After the SCR, the primary beams impinge on a rotating \SI{3}{\milli\metre} Be target which produces many different species by fragmentation. These fragments are then separated by the BigRIPS spectrometer which is tuned to the particular secondary fragment of interest. This is accomplished through several dipole magnets, slits, and wedge degraders. The resulting secondary beam is not pure and the purity depends on the capability of BigRIPS to deliver the secondary beam of choice and the primary beam used. 
-
-In these set of experiments several beams were produced with varying intensities and purities. Table~\ref{tb:beams} summarizes the average qualities of the 4 secondary beams produced in the two experimental campaigns where most beams were delivered with an intensity of \SI{10}{\kilo\hertz}. 
-
- \begin{table*}\centering
-\ra{1.3}
-\begin{tabular}{@{}ccccc@{}}\toprule 
- Primary Beam & Secondary Beam & Energy at mid target \si{\MeVA} & Intensity \si{\kilo\hertz} & Purity (\%) \\ [0.5ex] 
- \midrule
- ${}^{238}$U   & ${}^{132}$Sn   &  269.2  &  9.5  &  54   \\
- ${}^{238}$U   & ${}^{124}$Sn   &  270.3  &  9.1  &  10  \\
- ${}^{124}$Xe  & ${}^{112}$Sn   &  270.4  &  7.6  &  48  \\
- ${}^{124}$Xe  & ${}^{108}$Sn   &  269.3  &  7.5  &  52   \\
- \bottomrule
-\end{tabular}
-\caption{Primary and secondary beam properties produced in the \spirit TPC experimental campaigns. }
-\label{tb:beams}
-\end{table*}
 
 
 \section{Beam Particle Identification}
@@ -439,3 +408,26 @@ C_a = \frac{4\pi}{\Delta\Omega},
 for $\pi^+$ that is \num{6.15} and $\pi^-$ \num{6.05}. We assume the pion emission is isotropic for a couple of reasons. The symmetry of very central collisions is invariant with respects to any rotations. Also the mass of the pion is smaller than the nucleons mass and therefore collective motion leading to anisotropies would be small for the pion, i.e. most of the motion would be thermal. We also measured two systems $\tin{112}{124}$ and its inverse $\tin{124}{112}$. The forward emission in the $\tin{124}{112}$ system is really the same as the backward emission of the $\tin{112}{124}$ system and vice versa. It was shown for pions emitted in central collisions the forward and backward emission was the same \cite{jon}, proving that at least for central collisions pions are emitted isotropically to a good approximation. 
 
 
+\subsection{Correcting Pion Spectra (Efficiency and Acceptance)}
+
+
+To correct for the efficiency, we apply a track-by-track correction, where the efficiency of the i-th track $\epsilon_i$ is retrieved from the efficiency database, from the parameters discussed in Section~\ref{sec:efficiency}. The correction factor $C_i$ is defined as,
+
+\begin{equation}
+C_i = \epsilon_i^{-1}.
+\end{equation}
+
+Each track that is identified as a pion as described in Section~\ref{sec:pid}, is then weighted by the correction factor $C_i$, when filling the histogram of any observable. In this way, we can correct for the efficiency on a track-by-track basis, allowing for any transformation of the track of interest into any observable, notably transforming from the lab frame into the center-of-mass (CM) frame. Before performing the transformation to the CM system, recall there is a small, but non-negligible, beam angle in the Lab frame discussed in Section~\ref{sec:beamangle}. First we rotate each event so that the beam will align with the z-axis. Doing so makes the transformation into the CM system much simpler to describe. If the beam direction is defined by a unit vector $\hat{b}$, we can define the rotation that rotates the beam into the z-axis as a rotation about an arbitrary vector $\hat{v} = \hat{b}\times\hat{z}$ where the angle between the two is given by $\cos \theta = \hat{b}\cdot\hat{z}$. A rotation with the angle $\theta$ is then applied around the vector $\hat{v}$.
+
+Once all the events have been rotated to align with the z-axis, transforming from the Lab to the CM frame is done by a Lorentz transformation. The 4-momentum vector in the lab frame is defined as $\textbf{P} = (E/c,p_x,p_y,p_z)$. Where the corresponding Lorentz transform into the CM frame along the beam (z-axis) is defined as the Lorentz transformation matrix $A$,
+
+\begin{equation}
+A = \begin{pmatrix}
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & \gamma & -\beta \gamma\\
+0 & 0 & -\beta \gamma & \gamma
+\end{pmatrix},
+\end{equation}
+
+where $\beta$, describes the velocity of the CM system, and $\gamma=\sqrt{1-\beta^2}^{-1}$. The parameter $\beta$ can be determined from the total momentum of the system in the Laboratory frame $P = \sqrt{ T_{P}^2 + 2M_{T}T_{T}}$ and the total energy of the system $E = T_{P} + M_{P} + M_{T}$ -- where $T_{P}$ is the projectile kinetic energy in the Lab frame, $M_{T}$, and $M_{P}$ are the total mass of the target and projectile, where $\beta = -P/E$; the (-) sign denotes the correct direction for transforming from the Lab to the CM frame. The transformation of each  track is defined as $p^{CM} = \textbf{A}p^{Lab}$.
