@@ -50,6 +50,7 @@
 \usepackage{cleveref}
 \usepackage{rotating}
 \usepackage{mathtools}
+\usepackage{appendix}
 \usepackage{comment}\renewcommand{\arraystretch}{1.5}
 \usepackage[version=3]{mhchem}
 
@@ -108,7 +109,8 @@ chapters/ch_experiment,
 chapters/ch_data_analysis,
 chapters/ch_data_analysis_2,
 chapters/ch_results,
-chapters/ch_summary
+chapters/ch_summary,
+chapters/ch_appendix
 }
 
 
@@ -191,7 +193,8 @@ Your acknowledgements here.
   % \end{appendices}
   
 \appendix
-\input{chapters/ch_appendix}
+%\addappheadtotoc
+\include{chapters/ch_appendix}
 
 %
 \backmatter

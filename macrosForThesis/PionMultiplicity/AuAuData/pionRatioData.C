@@ -5,7 +5,8 @@ void pionRatioData()
   gStyle->SetEndErrorSize(10);
   
   double global_e[7] = {.27,.4,.6,.8,1,1.2,1.5};
-  double global_r[7] = {4.22,2.96,2.3,2.04,1.92,1.78,1.65};
+  //  double global_r[7] = {4.22,2.96,2.3,2.04,1.92,1.78,1.65}; //b < 3fm
+  double global_r[7] = {4.74,2.96,2.3,2.04,1.92,1.78,1.65};
   double global_x[7] = {0,0,0,0,0,0,0};
   double global_y[7] = {.1,.15,.11,.11,.1,.09,.08};
   
@@ -23,11 +24,15 @@ void pionRatioData()
   //  double pip_m = .12; //as of 06/10/19
   //  double pim_m = .59; //as of 06/10/19
 
-  double pim_m = .6968; //as of 08/30/19
-  double pip_m = .1486;  //as of 08/30/19
+  //  double pim_m = .6968; //as of 08/30/19
+  //  double pip_m = .1486;  //as of 08/30/19
+
+  //  double pim_m = .6968; //as of 08/30/19
+  //  double pip_m = .1486;  //as of 08/30/19
 
   TGraphErrors *tpc = new TGraphErrors(1);
-  tpc->SetPoint(1,.27,4.22);
+  //  tpc->SetPoint(1,.27,4.22); //previous b < 3fm
+  tpc->SetPoint(1,.27,4.74); //b_o < .15
   tpc->SetPointError(1,0,.1);
   tpc->SetMarkerColor(kRed - 4);
   tpc->SetMarkerStyle(20);
@@ -35,10 +40,11 @@ void pionRatioData()
   tpc->SetMarkerSize(3);
 
   TF1 *fit_global = new TF1("fit","[0] + [1]/(x - [2])",0,3);
-  fit_global->SetParameters(1.318,5.0268e-1,9.56644e-2);
+  //  fit_global->SetParameters(1.318,5.0268e-1,9.56644e-2); //b < 3fm
+  fit_global->SetParameters(1.386,4.109e-1,1.473e-1); //b_o < .15
 
   TF1 *fit_my = new TF1("fit","[0] + [1]/x",0,2);
-  fit_my->SetParameters(1.1973,6.8879e-1);
+  //  fit_my->SetParameters(1.1973,6.8879e-1);// b < 3fm
   //  fit_my->SetParameters(1.09,.929);
 
   //  globaldata->Fit(fit_global);
@@ -87,7 +93,7 @@ void pionRatioData()
   mydata->GetYaxis()->SetLabelSize(.06);
   
 
-  mydata->GetYaxis()->SetRangeUser(1.2,4.5);
+  mydata->GetYaxis()->SetRangeUser(1.2,5.2);
   mydata->GetXaxis()->SetLimits(.2,1.6);
   mydata->SetMarkerStyle(21);
   mydata->SetMarkerColor(kBlue - 4); 
