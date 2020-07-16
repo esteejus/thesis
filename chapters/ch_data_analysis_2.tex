@@ -4,7 +4,7 @@ As Chapter~\ref{chap:data1} covered the corrections and various calibrations to 
 
 
 \section{Beam Particle Identification}
-
+\label{sec:beam}
 
 \begin{figure}[!htb]
 \centering
@@ -93,7 +93,7 @@ Figure~\ref{fig:beampid132} shows a zoomed in view of the PID centered around th
         \includegraphics[width=\linewidth]{clusterBottom.png} 
         \caption{Side view of the TPC showing the edge effect near the bottom.} \label{fig:clusterBottom}
     \end{subfigure}
-\caption{}    
+\caption{Example showing the edge effect has on the cluster positions near the extreme edges of the TPC volume. }    
 \label{fig:edge}
 \end{figure}
 
@@ -198,7 +198,7 @@ The incoming secondary beam is deflected by the magnetic field and impinges on t
 \end{figure}
 
 
-Figure~\ref{fig:beamangle} shows the distribution of beam angles for ${}^{132}$Sn and ${}^{108}$Sn systems. Graphical cuts represented by the red lines where events lying in the cuts represent beams that were reconstructed correctly by the beam tracking software outlined in \cite{jon}. This helped to eliminate some of the poorly reconstructed beam events. The angle rotation becomes important in the discussion of transforming back to the center-of-mass system as will be discussed in Section~\ref{sec:pionspectra}.
+Figure~\ref{fig:beamangle} shows the distribution of beam angles for ${}^{132}$Sn and ${}^{108}$Sn systems. Graphical cuts represented by the red lines where events lying in the cuts represent beams that were reconstructed correctly by the beam tracking software outlined in \cite{jon}. This helped to eliminate some of the poorly reconstructed beam events. The angle rotation becomes important in the discussion of transforming back to the center-of-mass system as will be discussed in Section~\ref{sec:pionSpectra}.
 
 
 
@@ -218,27 +218,27 @@ Figure~\ref{fig:beamangle} shows the distribution of beam angles for ${}^{132}$S
     \begin{subfigure}[t]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{vertex-Sn108.png} 
-        \caption{$\tin{108}{124}$ vertex distributon for all runs.} \label{fig:vertex108}
+        \caption{$\tin{108}{124}$ system.} \label{fig:vertex108}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{vertex-Sn112.png} 
-        \caption{$\tin{112}{124}$ vertex distributon for all runs.} \label{fig:vertex112}
+        \caption{$\tin{112}{124}$ system.} \label{fig:vertex112}
     \end{subfigure}
     
     \begin{subfigure}[t]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{vertex-Sn124.png} 
-        \caption{$\tin{124}{112}$ vertex distributon for all runs.} \label{fig:vertex124}
+        \caption{$\tin{124}{112}$ system.} \label{fig:vertex124}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{vertex-Sn132.png} 
-        \caption{$\tin{132}{124}$ vertex distributon for all runs.} \label{fig:vertex132}
+        \caption{$\tin{132}{124}$ system.} \label{fig:vertex132}
     \end{subfigure}
-\caption{}
+\caption{Vertex distributions, around the target region, of all experimental runs for each secondary beam system. }
 \label{fig:vertexdist}
 \end{figure}
 
@@ -341,17 +341,17 @@ Since the TPC does not have spherical symmetry, there are regions of bad geometr
      \begin{subfigure}[b]{0.49\textwidth}
          \centering
          \includegraphics[width=\textwidth]{angularCut-pim-Sn108.png}
-         \caption{$y=x$}
+         \caption{$\pi^-$ angular cuts in the $\tin{108}{112}$ system. $\theta_{CM} < 90$ and < $\phi$ <}
          \label{fig:pim108angle}
      \end{subfigure}
      \hfill
      \begin{subfigure}[b]{0.49\textwidth}
          \centering
          \includegraphics[width=\textwidth]{angularCut-pim-Sn132.png}
-         \caption{$\tin{132}{124}$ $\pi^-$ angular spectra.}
+         \caption{$\pi^-$ angular cuts in the $\tin{132}{124}$ system. $\theta_{CM} < 90$ and < $\phi$ <}
          \label{fig:pim132angle}
      \end{subfigure}
-        \caption{Three simple graphs}
+        \caption{Measured $\pi^-$ angular distribution for the two spherical angles $\theta$ and $\phi$.}
         \label{fig:pim}
 \end{figure}
 
@@ -361,17 +361,17 @@ Since the TPC does not have spherical symmetry, there are regions of bad geometr
      \begin{subfigure}[b]{0.49\textwidth}
          \centering
          \includegraphics[width=\textwidth]{angularCut-pip-Sn108.png}
-         \caption{$\tin{108}{112}$ $\pi^-$ angular spectra.}
+         \caption{$\pi^+$ angular cuts in the $\tin{108}{112}$ system. $\theta_{CM} < 90$ and < $\phi$ <}
          \label{fig:pip108angle}
      \end{subfigure}
      \hfill
      \begin{subfigure}[b]{0.49\textwidth}
          \centering
          \includegraphics[width=\textwidth]{angularCut-pip-Sn132.png}
-         \caption{$\tin{132}{124}$ $\pi^-$ angular spectra.}
+         \caption{$\pi^+$ angular cuts in the $\tin{132}{124}$ system. $\theta_{CM} < 90$ and < $\phi$ <}
          \label{fig:pip132angle}
      \end{subfigure}
-        \caption{Three simple graphs}
+        \caption{Measured $\pi^+$ angular distribution for the two spherical angles $\theta$ and $\phi$.}
         \label{fig:pip}
 \end{figure}
 

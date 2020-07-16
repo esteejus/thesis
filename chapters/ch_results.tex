@@ -31,7 +31,7 @@ The pion rapidity in the COM system $y_{\pi CM}$ is normalized,
 y_o = \frac{y_{\pi CM}}{y_{beam} - y_{CM}},
 \end{equation}
 
-where $y_{beam}$ is the beam rapidity in the lab frame and $y_{CM}$ is the CM system rapidity. This is keeping with the same notation of $y_o$ in Reference \cite{fopi}. Here $y_o = 1$ corresponds to a particle moving at beam rapidity. The   $P_T - y_o$ phase space of the \spirit TPC is plotted for both charged pions in the $\tin{132}{124}$ system , in Figure~\ref{ptrap_sn132}, and the $\tin{108}{112}$ system , in Figure~\ref{ptrap_sn108}. Good efficiency down to very low $P_T$ avoided any need for extrapolations. There was good acceptance of pions $y_o > 0$ -- corresponding to $\theta_{CM} < \ang{90}$ -- where we cut off the lower rapidities. This marks the first time that pions have been measured to such low $P_T$. 
+where $y_{beam}$ is the beam rapidity in the lab frame and $y_{CM}$ is the CM system rapidity. This is keeping with the same notation of $y_o$ in Reference \cite{fopi}. Here $y_o = 1$ corresponds to a particle moving at beam rapidity. The   $P_T - y_o$ phase space of the \spirit TPC is plotted for both charged pions in the $\tin{132}{124}$ system , in Figure~\ref{fig:ptrap_sn132}, and the $\tin{108}{112}$ system , in Figure~\ref{fig:ptrap_sn108}. Good efficiency down to very low $P_T$ avoided any need for extrapolations. There was good acceptance of pions $y_o > 0$ -- corresponding to $\theta_{CM} < \ang{90}$ -- where we cut off the lower rapidities. This marks the first time that pions have been measured to such low $P_T$. 
 
 \begin{figure}[!htb]
 \centering
@@ -45,7 +45,7 @@ where $y_{beam}$ is the beam rapidity in the lab frame and $y_{CM}$ is the CM sy
 \centering
 \includegraphics[width=\textwidth]{ypt_sn108.png}
 \caption{Rapidity and transverse momentum plot for $\pi^-$ and $\pi^+$ in the $\tin{108}{112}$ system.}
-\label{fig:ptrap_sn132}
+\label{fig:ptrap_sn108}
 \end{figure}
 
 The integrated pion yield for both systems, and the $\pi^-/\pi^+$ ratio, is listed in Table~\ref{tb:pionyield}, where the systematic errors are the first error bar and the statistical error is listed next. Notice that the pion ratio is significantly greater than the $N/Z$ of the system.  This is not completely unexpected; in the Delta Resonance model where $\pi^-$ come primarily from neutron-neutron collisions and $\pi^+$ from proton-proton collisions, we expect  $\pi^-/\pi^+ = (N/Z)^2$ \cite{baoan_piprod1,baoan_piprod2}, where N/Z is the ratio of neutron to protons in the dense region where pions are produced. For the $\tin{132}{124}$ system $(N/Z)^2$ = 2.56 and for $\tin{108}{112}$ $(N/Z)^2$ = 1.44, but this naive scaling assumes no migration of nucleons in or out of the high density region where the isovector mean field and other transport properties may a impact that approximation significantly. 
@@ -112,7 +112,7 @@ The FOPI collaboration has measured the total pion multiplicity resulting from $
 \label{sec:pionSpectra}
 
 
-
+\begin{comment}
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{pionSpectra.png}
@@ -120,8 +120,7 @@ The FOPI collaboration has measured the total pion multiplicity resulting from $
 \label{fig:pionspectra}
 \end{figure}
 %need to add error analysis
-%systematic error analysis
-
+\end{comment}
 
 \begin{figure}[!htb]
 \centering
@@ -139,7 +138,7 @@ The FOPI collaboration has measured the total pion multiplicity resulting from $
 \end{figure}
 
 
-Figure~\ref{fig:pionspectra} shows pion CM kinetic energy spectra for both the $\tin{132}{124}$ and $\tin{108}{112}$ systems; corrected for efficiency and accounting for the solid angle of 4$\pi$. This data marks the first time pion spectral data has been measured at sub-threshold energies. In the pion spectra, we can see the effect of the coulomb potential, which accelerates $\pi^+$ and decelerates $\pi^-$ particles, due to the positive charge of the nuclear medium. The low $\pi^+$ production at low energy is caused by the coulomb barrier between protons which limits $\pi^+$ production at low energies. The Coulomb force has the largest effect on the spectra of the pions and will play an important role when observing the general shape of the pion spectral ratio. Besides the initial coulomb barrier for $\pi^+$ production, the coulomb force affects only the final energy of produced pions, and has almost no role in the total pion yield. 
+Figures~\ref{fig:pionspectraSn132} and \ref{fig:pionspectraSn108} shows pion CM kinetic energy spectra for both the $\tin{132}{124}$ and $\tin{108}{112}$ systems respectively; corrected for efficiency and accounting for the solid angle of 4$\pi$. This data marks the first time pion spectral data has been measured at sub-threshold energies. In the pion spectra, we can see the effect of the coulomb potential, which accelerates $\pi^+$ and decelerates $\pi^-$ particles, due to the positive charge of the nuclear medium. The low $\pi^+$ production at low energy is caused by the coulomb barrier between protons which limits $\pi^+$ production at low energies. The Coulomb force has the largest effect on the spectra of the pions and will play an important role when observing the general shape of the pion spectral ratio. Besides the initial coulomb barrier for $\pi^+$ production, the coulomb force affects only the final energy of produced pions, and has almost no role in the total pion yield. 
 
 
 
@@ -149,13 +148,15 @@ Figure~\ref{fig:pionspectra} shows pion CM kinetic energy spectra for both the $
 \section{Pion Spectral Ratio}
 
 
+\begin{comment}
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{singleRatio.png}
 \caption{Single ratio spectra}
 \label{fig:SRspectra}
 \end{figure}
-
+\end{comment}
 
 
 \begin{figure}[!htb]
@@ -176,19 +177,20 @@ The pion spectral ratio is a rather promising observable. In particular, it may 
 
 %Mention and cite appendix for systematics
 
-Figure~\ref{fig:SRspectra} shows the pion spectral ratio for both systems, which was measured with a high degree of efficiency and accuracy. The general hyperbolic shape arises from the Coulomb force on the two charged pion spectra mentioned earlier in Section~\ref{sec:pionSpectra}. Also notice the pion ratio is smaller for less neutron poor system, as we would expect since less neutron-neutron collisions produce less $\pi^-$. 
+Figure~\ref{fig:SRsn132} and \ref{fig:SRsn108} shows the pion spectral ratio for the $\tin{132}{124}$ and $\tin{108}{112}$ system respectively, which was measured with a high degree of efficiency and accuracy. The general hyperbolic shape seen in both figures arises from the Coulomb force on the two charged pion spectra mentioned earlier in Section~\ref{sec:pionSpectra}. Also notice the pion ratio is smaller for less neutron poor system, as we would expect since less neutron-neutron collisions produce less $\pi^-$. 
 
 
 
 %Add figure of Theory for pion ratios
 
 \section{Pion Double Ratio}
+\label{sec:doubleRatio}
 %Add figure of Theory for pion ratios
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{doubleRatio_sum.png}
-\caption{}
+\caption{Comparing the double spectral ratio, $R_{\tin{132}{124}}/R_{\tin{108}{112}}$, to the 7 theoretical transport simulations.}
 \label{fig:spectraDR}
 \end{figure}
 

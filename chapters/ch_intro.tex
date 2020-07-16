@@ -1,14 +1,14 @@
 \chapter{Introduction}
-On August 17, 2017, a collision of two presumptive neutron stars produced gravitational waves which were measured by the LIGO and Advanced Virgo detectors, in combination with several other Astronomical telescopes, marking a new era of advanced multi-messenger observations, reinvigorating the question about the nature of dense matter in the universe.
+On August 17, 2017, a collision of two presumptive neutron stars produced gravitational waves which were measured by the LIGO and Advanced Virgo detectors, in combination with several other Astronomical telescopes, marking a new era of advanced multi-messenger observations \cite{ns_2017}, reinvigorating the question about the nature of dense matter in the universe.
 
 Mankind has been interested in what is the nature of the matter which composes the visible universe, and what are the constituents that make it up. The most significant discovery on the study of fundamental sub-atomic particles was Rutherford's discovery in 1911 in which he concluded that atomic nuclei are composed of a dense nucleus surrounded by an electron cloud. Later it was discovered that the nucleus is composed of nucleons, a positive charge (protons) and a neutral charge (neutrons). The nucleus itself accounts for 99.9\% of the mass of the atom and only \num{e-12} of the total volume, making it incredibly dense. 
 
-Without a balancing force the Coulomb force between protons would render the nucleus unstable. This balancing force is called the strong nuclear force which exerts a large attractive force over a very short range. The strong force itself is the fundamental interaction between the fundamental quarks which make up the nucleons. At low energies the quark structure of nucleons is less important and nucleons can be thought of as fundamental particles. The strong force is attractive only for a small regions approximately \SIrange{1}{2}{\femto\metre} and becomes very repulsive at even shorter distances, making the nucleus very difficult to compress. It is for this reason that the distance between nuclei is a near constant value, and therefore the density distribution over a wide range of nuclei is remarkably constant CITE HERE. This density is referred to as the  \emph{saturation density}, $\rho_0 = \SI{1.7e14}{\gram\per\centi\metre\cubed}$ or \num{0.16} nucleons \si{\per\femto\metre\cubed}.  
+Without a balancing force the Coulomb force between protons would render the nucleus unstable. This balancing force is called the strong nuclear force which exerts a large attractive force over a very short range. The strong force itself is the fundamental interaction between the fundamental quarks which make up the nucleons. At low energies the quark structure of nucleons is less important and nucleons can be thought of as fundamental particles. The strong force is attractive only for a small regions approximately \SIrange{1}{2}{\femto\metre} and becomes very repulsive at even shorter distances, making the nucleus very difficult to compress. It is for this reason that the distance between nuclei is a near constant value, and therefore the central density value is relatively constant over a wide range of nuclei, from the heavist to the light \cite{krane}. This density is referred to as the  \emph{saturation density}, $\rho_0 = \SI{1.7e14}{\gram\per\centi\metre\cubed}$ or \num{0.16} nucleons \si{\per\femto\metre\cubed}.  
 
-Due to the nature of the strong force, nuclei can be thought of as an in-compressible liquid, in much the same way water exhibits incompressibility. This picture was remarkably successful at describing the binding energies of normal nuclea matter at saturation density. The Bethe-Weizsacker semi-empirical formula \cite{awayforward}, predicts the binding energy as a function of the number of neutrons $N$, protons $Z$, and total nucleons $A = Z + N$, where the binding energy per nucleon is $\epsilon/A$:
+Due to the nature of the strong force, nuclei can be thought of as an in-compressible liquid, in much the same way water exhibits incompressibility. This picture was remarkably successful at describing the binding energies of normal nuclea matter at saturation density. The Bethe-Weizsacker semi-empirical formula \cite{awayforward}, predicts the binding energy as a function of the number of neutrons $N$, protons $Z$, and total nucleons $A = Z + N$, where the binding energy per nucleon is $E/A$:
  
 \begin{equation}
-\frac{\epsilon}{A} = a_vA - a_s A^{2/3} - a_c \frac{Z^2}{A^{1/3}} - a_A\frac{(N - Z)^2}{A} + ...
+\frac{E}{A} = a_vA - a_s A^{2/3} - a_c \frac{Z^2}{A^{1/3}} - a_A\frac{(N - Z)^2}{A} + ...
 \label{eq:semiEmp}
 \end{equation}
 
@@ -47,7 +47,18 @@ P = -\rho^2 \frac{dE}{d\rho}\vert_{T=0,N}.
 The picture that is built up here is the gravitational force is attempting to compress and in-compressible matter, and the fundamental forces of the strong force build up a competing pressure which is related to the derivative w.r.t density of the symmetry energy \cite{tovEq}.  
 
 \section{Density Dependence of the Symmetry Energy}
-In the last couple decades, the symmetric term of Eq.~\ref{eq:energyEos} has been determined for a wide range of densities ranging from $\rho_0 - 9\rho_0$ CITE HERE. In contrast, the symmetry energy has only been experimentally constrained for densities at or below $\rho_0$. Figure~\ref{fig:symDen} shows some of the experimental constraints which have been performed by a series of independent measurements and observables \cite{awayforward}. Typically the density dependence of the symmetry energy can be described through an effective interaction used to describe the phenomenological observations of nucleon-nucleon interactions observed in nuclei. One of such interactions is the Skyrme interaction, which typically is described by a multi-parameter function which takes into account momentum dependence (through an effective mass), 2-body interactions, and correlations \cite{skyrme}. Several Skyrme parameterizations are shown as lines in Fig.~\ref{fig:symDen}. Though most of the functional forms satisfy the experimental constraints at low densities there is a considerable uncertainty at high densities, which are more relevant to neutron stars. The goal of the nuclear EoS community over the last decade have been particularly focused on constraining the symmetry energy at these high densities. 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.3]{densityDep.png}
+\caption{Current experimental constraints on the density dependence of the symmetry energy. The measured data points are discussed in the text. The 4 polygonal and shaded regions are constraints from: 1.) pion analysis from Ref. \cite{xia2009,xie2013}, 2.) a separate pion analysis from Ref. \cite{feng2010}, 3.) ASYEOS experiment \cite{russo2011, russo2016, cozma2013} and 4.) isobaric analog states \cite{dan2014} }
+\label{fig:symDen}
+\end{figure}
+
+
+In the last couple decades, the symmetric term of Eq.~\ref{eq:energyEos} has been determined for a wide range of densities ranging from $\rho_0 - 9\rho_0$ \cite{neutronstar}. In contrast, the symmetry energy has only been experimentally constrained for densities at or below $\rho_0$. Figure~\ref{fig:symDen} shows the current status of laboratory constrains on on the density dependence of the symmetry energy. The red region labeled 4.) for $\rho < \rho_o$, corresponds to constraints from isobaric analog states \cite{dan2014}. Notice the symmetry energy is consistent across  a series of independent measurements and observables, but not at higher densities \cite{awayforward}. At higher densities, the two green sections correspond to constriants obtained from total pion yields, and pion ratio $\pi^-/\pi^+$, from Au + Au collisions at various beam energies \cite{fopi}. Region 1.) is obtained from analysis performed in References~\cite{xia2009,xie2013}. Region 2.) corresponds to Reference~\cite{feng2010}. The blue shaded region (labeled 3.) corresponds to constraints obtained through proton and neutron elliptical flow reported in References~\cite{russo2016,cozma2016,cozma2017}. 
+
+ Though most of the functional forms satisfy the experimental constraints at low densities there is a considerable uncertainty at high densities, which are more relevant to neutron stars. The goal of the nuclear EoS community over the last decade have been particularly focused on constraining the symmetry energy at these high densities. 
 
 
 
@@ -58,12 +69,6 @@ Besides observing neutron stars directly, heavy-ion collisions (HIC) provide the
 The pressure arising from the symmetry energy depends on the curvature of the symmetry energy at a given density as described in Eq.~\ref{eq:densEos}. If the density dependence of the symmetry energy is positive at high densities the symmetry energy would in general force neutrons out of the high density system. Where as if the derivative was negative the symmetry energy would attract neutrons. The curvature of the symmetry energy at a particular density is commonly referred to as \emph{soft} in the case the curvatures turns over, and \emph{stiff} in the case of a strong positive curvature. It is the symmetry energy pressure that is driving the relative dynamics of neutrons and protons, where a strong symmetry energy expels neutrons from dense matter and vice versa. By measuring protons and neutrons, we can see signatures of the symmetry energy in the final spectra of these particles. There are two experimental challenges. First,  measuring neutrons can be quite challenging and space and acceptance is limited by large neutron wall arrays. Lastly, though the overlap region of the two nuclei temporarily reaches a high density, the nucleons which participated in this region continue to evolve throughout the collision, even into regions of lower densities until they reach their final state. They are continuously interacting with the rest of the nuclear matter, covering a wide range of densities, diluting any symmetry energy effects and complicating the high density constraint.   
 
 
-\begin{figure}[!htb]
-\centering
-\includegraphics[scale=.5]{constraints}
-\caption{Experimental constraints of the density dependence of the symmetry energy taken from \cite{awayforward}}
-\label{fig:symDen}
-\end{figure}
 
 
 \section{Pion Observable}

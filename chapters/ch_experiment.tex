@@ -11,7 +11,7 @@
 \end{figure}
 
 %explain in breif the basics of a time projection chamber 
-A Time Projection Chamber (TPC) is a detector that reconstructs the energy loss of charged particles and the location of that energy loss as in all 3 dimensions within the detector. TPCs have been employed in gases, liquid, and even solid detectors CITE HERE. In the following, we outline the physical principles involved in measurements within a gaseous TPC, and discuss the particular details of the TPC used in this thesis. Figure~\ref{fig:tpcPrinciple} depicts the interior of a gaseous TPC and its field cage. The field cage holds the detector gas and also defines a constant electric field that is typically aligned with the magnetic field of a magnet that surrounds the TPC. In this Spirit TPC, both these electric and magnetic fields are vertical.  
+A Time Projection Chamber (TPC) is a detector that reconstructs the energy loss of charged particles and the location of that energy loss as in all 3 dimensions within the detector. TPCs have been employed in gases, liquid, and even solid detectors \cite{starTPC,arTPC,eosTPC}. In the following, we outline the physical principles involved in measurements within a gaseous TPC, and discuss the particular details of the TPC used in this thesis. Figure~\ref{fig:tpcPrinciple} depicts the interior of a gaseous TPC and its field cage. The field cage holds the detector gas and also defines a constant electric field that is typically aligned with the magnetic field of a magnet that surrounds the TPC. In this Spirit TPC, both these electric and magnetic fields are vertical.  
 
 As a charged particle resulting from a heavy ion collision passes through the field cage, energetic \emph{primary} electrons are knocked out of neutral gas molecules and atoms in the detector gas. These primary electrons further ionize the detector gas until there is a distribution of \emph{secondary} electrons and positive ions that lie along the track's path. The electric field of the field cage separates these electrons and ions, where the electrons are accelerated upward by the electric field in the direction against the electric field, and the positive ions are accelerated along the electric field. Since the mean free path of the electrons inside the gas is very small, they quickly collide with other gas molecules, which slow down, or even stop the electron; only to be re-accelerated by the electric field, continuing a repeating cycle of stop and go motion. This microscopic behavior results in a constant drift velocity when averaged over multiple gas collisions. 
 
@@ -64,7 +64,7 @@ The skeleton of the enclosure is composed of a rigid rectangular aluminum angle-
 %The field cage contains the detector gas and defines a uniform electric field in which electrons can drift upwards toward the anode wires. It was designed to hang from the top plate and therefore needed to be of a lightweight construction and the materials needed to be thin to allow for light charged particle and neutrons to pass through to ancillary trigger detectors without significant energy loss or scattering .  
 
 \begin{figure}[!htb]
-\includegraphics[width=\textwidth]{fc_overview.png}
+\includegraphics[width=.9\textwidth]{fc_overview.png}
 \label{fig:fc_overview}
 \caption{Overview of the field cage mechanical components.}
 \end{figure}
@@ -88,7 +88,7 @@ The field cage was constructed from several panels of two-layer printed circuit 
 
 
 
-Figure~\ref{TPC_schematic} shows the schematic of the effective resistances and capacitance of the TPC subsystem. The cathode is connected to the high voltage (HV) supply through a \SI{10}{\mega\ohm} resistor and has an effective capacitance to ground of \SI{4}{\nano\farad}, $C_{VSD}$. The cathode voltage $V_{cath}$ can be calculated as,
+Figure~\ref{fig:TPC_schematic} shows the schematic of the effective resistances and capacitance of the TPC subsystem. The cathode is connected to the high voltage (HV) supply through a \SI{10}{\mega\ohm} resistor and has an effective capacitance to ground of \SI{4}{\nano\farad}, $C_{VSD}$. The cathode voltage $V_{cath}$ can be calculated as,
 \begin{equation}
 V_{cath} = \frac{V_{HV}}{ 1 + \frac{10}{ \left( (245 + R_p)^{-1} + 700^{-1} \right)^{-1} } },
 \end{equation}
@@ -397,7 +397,7 @@ Gas properties &
 \bottomrule
 \end{tabular}
 
-\caption{}
+\caption{Gas properties of P-10 gas at 1 atm pressure.}
 \label{tb:gasprop}
 \end{table}
 
@@ -541,7 +541,7 @@ The origin of the \spirit TPC was defined to be at the center of the TPC pad pla
 \section{Beam Drift Chambers (BDC)}
 \label{sec:bdc}
 
-There were two beam drift chambers (BDC) located along the beam pipe upstream of the magnet and after the last focusing quadropole magnet. These beam drift chambers contained two sets of parallel plate avalanche counters (PPAC) which could get the (x,y) coordinates of the beam. Since they were places approximately \SI{1}{\metre} apart, we were able to track the direction of the beam in the beam line using a linear extrapolation. The resolution of the initial angle the beam enters the SAMURAI dipole was estimated to be \SI{0.64}{\milli\radian} and \SI{0.24}{\milli\radian} for the two angles defining the beam vector \cite{jon}. The initial angle, energy, and charge of the beam is then propogated through the magnetic field map until the angle on target is found. The angle on target though small will be important later for transforming back into the center of mass system as will be seen in Sections~\ref{sec:beamangle,sec:pionSpectra}.
+There were two beam drift chambers (BDC) located along the beam pipe upstream of the magnet and after the last focusing quadropole magnet. These beam drift chambers contained two sets of parallel plate avalanche counters (PPAC) which could get the (x,y) coordinates of the beam. Since they were places approximately \SI{1}{\metre} apart, we were able to track the direction of the beam in the beam line using a linear extrapolation. The resolution of the initial angle the beam enters the SAMURAI dipole was estimated to be \SI{0.64}{\milli\radian} and \SI{0.24}{\milli\radian} for the two angles defining the beam vector \cite{jon}. The initial angle, energy, and charge of the beam is then propogated through the magnetic field map until the angle on target is found. The angle on target though small will be important later for transforming back into the center of mass system as will be seen in Section~\ref{sec:beamangle} and Section~\ref{sec:pionSpectra}.
 
 
 \section{Ancillary Detectors }
