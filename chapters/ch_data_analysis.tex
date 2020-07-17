@@ -134,7 +134,7 @@ In the following subsections we will discuss in detail the calibrations and corr
 
 \subsection{Gating grid noise subtraction}
 \label{sec:ggnoisesub}
-Opening the gating grid is essentially done by shorting the adjacent wires in the gating grid together, and allowing them to reach equilibrium as fast as possible. Due to coupling between the gating grid, the ground plane, and other effects, the impedance of the supply cables was not perfectly matched, causing an imbalance in the current where one side discharged faster than the other side. This caused an underdamped oscillating current in the grid, which created and  oscillating residual noise early in the time bucket spectrum. Figure~\ref{fig:ggNoiseSub} shows in the upper panel shows the ADC time bucket spectrum after averaging over 2000 events in a given pad. 
+Opening the gating grid is essentially done by shorting the adjacent wires in the gating grid together, and allowing them to reach equilibrium as fast as possible. Due to coupling between the gating grid, the ground plane, and other effects, the impedance of the supply cables was not perfectly matched, causing an imbalance in the current where one side discharged faster than the other side. This caused an under-damped oscillating current in the grid, which created and  oscillating residual noise early in the time bucket spectrum. Figure~\ref{fig:ggNoiseSub} shows in the upper panel shows the ADC time bucket spectrum after averaging over 2000 events in a given pad. 
  %The ground grid shielded some of the noise, but the path to ground was on two ends and was not sufficiency for this frequency.
  
 \begin{figure}[!htb]
@@ -474,7 +474,7 @@ Once the amount of charge is known, the electric potential can be calculated by 
 \nabla^2 \phi = \rho,
 \end{equation}
 
- where $\phi$ is the electric potential and $\rho$ is the free charge. The numerical solution is provided by the Jacobi method \cite{poisson}, provided all 6 sides have defined Dirchlet boundary conditions for the potentials. We neglect the wire plane region since the drift details around it are not significant for the space charge effects we are discussing here. The pad plane and cathode are trivial, where the side walls of the field cage are given linearly varying potentials on the surface, such that the electric field is the same strength as the real TPC with no space charge present. Once the electric potential is solved, the electric field is simply the gradient of the potential  $\vec{E}= -\nabla \phi$. 
+ where $\phi$ is the electric potential and $\rho$ is the free charge. The numerical solution is provided by the Jacobi method \cite{poisson}, provided all 6 sides have defined Dirichlet boundary conditions for the potentials. We neglect the wire plane region since the drift details around it are not significant for the space charge effects we are discussing here. The pad plane and cathode are trivial, where the side walls of the field cage are given linearly varying potentials on the surface, such that the electric field is the same strength as the real TPC with no space charge present. Once the electric potential is solved, the electric field is simply the gradient of the potential  $\vec{E}= -\nabla \phi$. 
  
 It has been shown before that the amount of space charge present in the chamber is related to observables such as the Distance-Of-Closest-Approach (DOCA) of each track to the vertex point \cite{starSC}. In the presence of no space charge, the DOCA distribution of each track would be a centered around the true vertex location. Because of the left right symmetry in the TPC, the space charge affects different regions of the TPC differently, and a bias is introduced to the measured vertex location and widening the distribution to vertex of each track.  
 
@@ -523,7 +523,7 @@ This is done for several runs which vary in beam intensity. Since the surface ch
 
 \begin{figure}[!htb]
 \includegraphics[width=\linewidth]{SC_Relation.pdf}
-\caption{Space charge relation}
+\caption{Relationship between the observable  $\Delta\mathrm{V}_\mathrm{LR}$ and the estimated charge density, and the beam intensity for each run. The blue and green line represents two separate runs at different beam intensities. The condition for  $\Delta\mathrm{V}_\mathrm{LR} = 0$ is solved for for each run. These values are then plotted against the beam intensity where finally a linear fit provides the interpolation for all beam intensities in between.}
 \label{fig:spacechg_relation}
 \end{figure}
 
@@ -649,7 +649,7 @@ The arrival time of signals originating from each pad may differ due to timing d
     \includegraphics[width=0.33\textwidth]{run2907_yoffset4after_row_at_layer50.png}
  
   \end{center}
-  \caption{Cobo timing correction.}
+  \caption{Cobo timing correction for three different layers. One singe pad is represented by a unique layer and row number. The $dy$ residual of the track fitting shows, in the upper panel, that there is a timing calibration issue. This offset is fixed over several runs for a given pad. Therefore we can correct using a time correction map for each pad; the bottom panels show the distribution after correction. }
   \label{fig:coboCorr}
 \end{figure}
 
@@ -866,7 +866,7 @@ There are several effects in a complex experimental set up that influence the da
 \end{figure}
 
 
-The detailed software flow diagram of the embedding algorithm is shown in Fig.~\ref{fig:flow}. Starting from Geant4 and passing through the 3 MC digitization tasks described above, the output response of the MC track in the TPC is created. From here we directly embed the MC signals into experimental data by adding the MC signals directly into the experimental time bucket spectrum, pad-by-pad. As will be described in Sec.~\ref{sec:simSat}, prior to embedding the MC signals, all pads which are saturated in the experimental data are identified and flagged. MC signals are forbidden to be embedded after the (MC) saturation time bucket position identified in the procedure outlined in Section~\ref{sec:simSat}. Figure~\ref{fig:mcevent} shows the response of a \SI{200}{\mega\electronvolt\per\clight} $\pi^-$ track in the TPC. Figure~\ref{fig:dataevent} shows this track embedded into an experimental event. In the following, here I will refer to experimental data with embedded MC signals as ``embedded data" for short, the MC generated response as ``MC data", and data only containing only the experimental signals as ``experimental data". The three sets of data are each independently analyzed by the PSA algorithm described in Section~\ref{sec:psa},  which finds all the hits associated with each data set. These three independent hit data sets are temporarily stored. 
+The detailed software flow diagram of the embedding algorithm is shown in Figure~\ref{fig:flow}. Starting from Geant4 and passing through the 3 MC digitization tasks described above, the output response of the MC track in the TPC is created. From here we directly embed the MC signals into experimental data by adding the MC signals directly into the experimental time bucket spectrum, pad-by-pad. As will be described in Sec.~\ref{sec:simSat}, prior to embedding the MC signals, all pads which are saturated in the experimental data are identified and flagged. MC signals are forbidden to be embedded after the (MC) saturation time bucket position identified in the procedure outlined in Section~\ref{sec:simSat}. Figure~\ref{fig:mcevent} shows the response of a \SI{200}{\mega\electronvolt\per\clight} $\pi^-$ track in the TPC. Figure~\ref{fig:dataevent} shows this track embedded into an experimental event. In the following, here I will refer to experimental data with embedded MC signals as \emph{embedded data} for short, the MC generated response as \emph{MC data}, and data only containing only the experimental signals as \emph{experimental data}. The three sets of data are each independently analyzed by the PSA algorithm described in Section~\ref{sec:psa},  which finds all the hits associated with each data set. These three independent hit data sets are temporarily stored. 
 
 Here within the PSA algorithm, is the first and most important part of the embedding software. If the embedding portion of the PSA task is turned on,  it has the job to identify which hits in the embedded data set originate from the MC hits set and which are from the experimental data. Once the MC hits are identified, these embedded hits can be tagged and tracked through the entire software. 
 
@@ -928,7 +928,7 @@ When the input signal is very large, the electronics can be dead for up to \SI{3
 \label{fig:satTag}
 \end{figure}
 
-Simulating the saturation effects is handled naturally by embedding. Once the time bucket of the saturating signal has been identified, no further signals are embedded since the pad is assumed to be dead. In the case a pad is dead for the whole event, the time of saturation is set to the first time bucket and no signal is embedded for any time bucket. We only need to identify where the time of saturation occurs. The characteristic signature of a saturated signal is the fast fall time of a pulse, which quickly reaches zero, as opposed to the long tail of normal pulses as seen in Fig.~\ref{fig:pulseshape}. The long exponential tail can be effectively removed by a software technique which is similar to the electronics concept of pole-zero compensation \cite{polezero}. If the raw ADC value at a particular time, $i$, is represented as $f_i$, the corrected pulse which differentiates out the exponential tail, $f_i^{'}$ can be expressed as, 
+Simulating the saturation effects is handled naturally by embedding. Once the time bucket of the saturating signal has been identified, no further signals are embedded since the pad is assumed to be dead. In the case a pad is dead for the whole event, the time of saturation is set to the first time bucket and no signal is embedded for any time bucket. We only need to identify where the time of saturation occurs. The characteristic signature of a saturated signal is the fast fall time of a pulse, which quickly reaches zero, as opposed to the long tail of normal pulses as seen in Figure~\ref{fig:pulseshape}. The long exponential tail can be effectively removed by a software technique which is similar to the electronics concept of pole-zero compensation \cite{polezero}. If the raw ADC value at a particular time, $i$, is represented as $f_i$, the corrected pulse which differentiates out the exponential tail, $f_i^{'}$ can be expressed as, 
 
 \begin{equation}
 f_i^{'} = \frac{-b_1\cdot f_{i-1}^{'} + a_o\cdot f_i + a_1 \cdot f_{i-1}}{b_o}
@@ -937,7 +937,7 @@ f_i^{'} = \frac{-b_1\cdot f_{i-1}^{'} + a_o\cdot f_i + a_1 \cdot f_{i-1}}{b_o}
 
 where $a_o$ = .9723, $a_1$=-.9453, $b_o$=.9545, and $b_1$=-.9203. These coefficients were tuned to remove the long tail of the standard non-saturating pulse, without producing any negative undershoots. If the same procedure is applied to the saturated pulse, the correction produces a negative undershoot, since there was no long exponential tail to begin with. Figure~\ref{fig:pulseshape} shows the pulses as the red curves, and after the pole-zero correction as the blue curves for both the normal and saturated pulses. 
 
-By applying this technique to the real data, we can identify whether a pad has a saturating pulse by looking for this negative undershoot. A negative peak is identified as a saturated signal if it exceeds the threshold of less than -20$\cdot G$ ADC for more than 8 time buckets, and if the max ADC value is > $G\cdot$500, where $G$ is the gain calibration coming from low gain sections discussed in Section~\ref{sec:anodeCalib}. The max ADC condition eliminates false positives which come from  the dead pads where the gating grid subtraction is still applied, introducing large false negative peaks, but have no positive signals. After meeting these two conditions, the pad is flagged as saturated and the time bucket position of saturation is set to $t_{peak} - 5$, where $t_{peak}$ is the time bucket position of the negative peak. This is because the falling edge is around 5 time buckets after the rising edge of the saturation. A separate time is also stored called the MC time bucket position, which sets the point in time in which a signal cannot be embedded any further. This time is set to $t_{peak} - 30$ to ensure that the MC embedded signals do not overlap the real saturating data signal, which would be impossible. These two positions are also shown in Fig.~\ref{fig:pulseSatTag}.
+By applying this technique to the real data, we can identify whether a pad has a saturating pulse by looking for this negative undershoot. A negative peak is identified as a saturated signal if it exceeds the threshold of less than -20$\cdot G$ ADC for more than 8 time buckets, and if the max ADC value is > $G\cdot$500, where $G$ is the gain calibration coming from low gain sections discussed in Section~\ref{sec:anodeCalib}. The max ADC condition eliminates false positives which come from  the dead pads where the gating grid subtraction is still applied, introducing large false negative peaks, but have no positive signals. After meeting these two conditions, the pad is flagged as saturated and the time bucket position of saturation is set to $t_{peak} - 5$, where $t_{peak}$ is the time bucket position of the negative peak. This is because the falling edge is around 5 time buckets after the rising edge of the saturation. A separate time is also stored called the MC time bucket position, which sets the point in time in which a signal cannot be embedded any further. This time is set to $t_{peak} - 30$ to ensure that the MC embedded signals do not overlap the real saturating data signal, which would be impossible. These two positions are also shown in Figure~\ref{fig:pulseSatTag}.
 
 There is another way a pad can saturate which occurs when all the pulse heights within the time bucket spectrum add to more than the max ADC threshold of 3500 ADC. This arises since the fall time of the preamplifier circuit is much longer than the time bucket measurement window, and pulses are allowed to pile up in the preamplifier. In this case, no single pulse will reach over the max ADC value yet the last pulse will have a pulse shape that is missing the long characteristic tail, but otherwise looking like a normal pulse. These pulses are also identified by the algorithm described above, since this type of saturated pulse  still has no long tail. 
 
@@ -972,7 +972,7 @@ The second most important observable is the distance-of-closest-approach (DOCA) 
 \end{figure}
 
 
-The other important cut which is made inside of the software is on the PRF distribution of each cluster discussed in Section~\ref{sec:corrTask}. We can also see good agreement between the MC PRF for $\pi^-$ in Figure~\ref{fig:prfpimMC}, and the data PRF, Fig.~\ref{fig:prfpimData}, where the black line is the PRF fit to the experimental data. It is sufficient to use such a simple universal PRF function as we can describe all the crossing angle effects discussed in \ref{sec:prf}. Therefore these effects must arise from geometric effects related to the track angle, the amount of charge distributed over an anode wire, and the superposition of the PRF from neighboring anode wires which contribute to the appearance of a changing PRF.
+The other important cut which is made inside of the software is on the PRF distribution of each cluster discussed in Section~\ref{sec:corrTask}. We can also see good agreement between the MC PRF for $\pi^-$ in Figure~\ref{fig:prfpimMC}, and the data PRF, Figure~\ref{fig:prfpimData}, where the black line is the PRF fit to the experimental data. It is sufficient to use such a simple universal PRF function as we can describe all the crossing angle effects discussed in \ref{sec:prf}. Therefore these effects must arise from geometric effects related to the track angle, the amount of charge distributed over an anode wire, and the superposition of the PRF from neighboring anode wires which contribute to the appearance of a changing PRF.
 
 \begin{figure}[!htb]
          \centering
@@ -1035,7 +1035,7 @@ where $n_{reco}$ is the number of embedded tracks which are successfully reconst
  
 Figure~\ref{fig:pim_eff_ex} shows the efficiency calculated for $\pi^-$ tracks traveling with momentum \SI{200}{\mega\eVperc} as a function of the two laboratory angles. It is easiest to visualize the efficiency distribution first in a polar representation which is most like viewing the actual TPC and progressing to a visualization that is easier to see the values. Figure~\ref{fig:pim_pol_eff_ex} shows the efficiency values plotted in a polar representation where $\theta_{Lab}$ is represented as the radial dimension and $\phi$ is represented as the polar angle. This representation is best understood as if one looked at the tracks in the TPC from the downstream point of view. Of course the vertical direction of the TPC,$\phi$=\ang{90}, is limited in vertical space, therefore tracks are not reconstructed well. The same is the case in downward going tracks, the region centered around $\phi$=\ang{270}. The most efficient regions left and right in the TPC where it has the most acceptance. Though this view is the most intuitive to think about in geometric sense, the values of the efficiency in each bin are difficult to see. Figure~\ref{fig:pim_flat_eff_ex} shows the same efficiency plot but in a Cartesian plot. Here we can see even better the acceptance of downward going tracks , $\phi$=\ang{270}, is greater than the dip in upward going tracks, $\phi$=\ang{90}, resulting from the field cage being shorter in the top than in the bottom, this was due to the space the electronics took up on the top of the TPC, making the field cage asymmetric up and down. 
 
-The area enclosed by the red lines represent the region of the highest efficiency over the full region in $\theta_{Lab}$.  Since we take cuts similar to these in the real data, we assume the efficiency is independent of $\phi$ over these small regions. The efficiency then can be represented as just a function of the two remaining variables. Figure~\ref{fig:132_eff} shows the efficiency of $\pi^-$ and $\pi^+$ particles in the $\tin{132}{124}$ system and Fig.~\ref{fig:108_eff} for the $\tin{108}{112}$ system as a function of $\theta_{Lab}$ and momentum $p_{Lab}$. 
+The area enclosed by the red lines represent the region of the highest efficiency over the full region in $\theta_{Lab}$.  Since we take cuts similar to these in the real data, we assume the efficiency is independent of $\phi$ over these small regions. The efficiency then can be represented as just a function of the two remaining variables. Figure~\ref{fig:132_eff} shows the efficiency of $\pi^-$ and $\pi^+$ particles in the $\tin{132}{124}$ system and Figure~\ref{fig:108_eff} for the $\tin{108}{112}$ system as a function of $\theta_{Lab}$ and momentum $p_{Lab}$. 
 
 
 
@@ -1093,7 +1093,7 @@ The energy loss curve in Eq.~\ref{eq:bb} can be described as a 5-parameter gener
 \label{eq:5par_bb}
 \end{equation}
 
-where the parameters $p_0-p_4$ are free parameters, $\beta= p/\sqrt{p^2 + m^2c^4}$, where $m$ is the mass of the particle and $p$ is the momentum. The PID lines vary slightly as a function of the emission angle of each track. The PID was subdivided into 6 pitch angles, $\theta_P = \arctan(p_y/p_z)$, and 6 yaw angles, $\theta_Y = \arctan(p_x/p_z)$, ranging from \ang{-90} to \ang{90} for both. The pion spectra of each yaw-pitch bin was fit with Eq.~\ref{eq:5par_bb} to get the PID line which best describes the data. The distribution around this mean value is not a Gaussian distribution. The variable $z$ has been used before to transform the energy loss of a particular track $dE/dx$ into a more Guassian variable, defined as
+where the parameters $p_0-p_4$ are free parameters, $\beta= p/\sqrt{p^2 + m^2c^4}$, where $m$ is the mass of the particle and $p$ is the momentum. The PID lines vary slightly as a function of the emission angle of each track. The PID was subdivided into 6 pitch angles, $\theta_P = \arctan(p_y/p_z)$, and 6 yaw angles, $\theta_Y = \arctan(p_x/p_z)$, ranging from \ang{-90} to \ang{90} for both. The pion spectra of each yaw-pitch bin was fit with Eq.~\ref{eq:5par_bb} to get the PID line which best describes the data. The distribution around this mean value is not a Gaussian distribution. The variable $z$ has been used before to transform the energy loss of a particular track $dE/dx$ into a more Gaussian variable, defined as
 
 \begin{equation}
 z_i = \ln\Big(\frac{\langle dE/dx\rangle}{\langle dE/dx\rangle_i}\Big),
@@ -1115,11 +1115,11 @@ where $\langle dE/dx\rangle_i$ is the mean energy loss curve fit from Eq.~\ref{e
         \caption{PID plot for $\pi^-$ and $\pi^+$ species in $z_i$. } \label{fig:pipion_zi}
     \end{subfigure}
   
-    \caption{$\langle dE/dx\rangle$ versus p/q for $\tin{132}{124}$ system.}
+    \caption{The charged pion PID plot achieved in the $\tin{132}{124}$ system. PID is achieve by plotting $\langle dE/dx\rangle$ versus particle rigidity, $p/q$. Unique hyperbolic lines show different particle species, where negatively charged particles are plotted as negative rigidity.  }
 \label{fig:pidpion}
 \end{figure}
 
-Now that the pion distribution is flattened, we take bin slices along $p/q$ to determine the particle yield in a certain bin and also estimate the background contribution. The background relevant to  the charged pions comes from the $e^+$ and $e^-$ resulting from the $\pi^0$ Dalitz decay described in Appendix~\ref{appen:dalitz}. Figure~\ref{fig:pimmom_flat} shows the Gaussian fits to the $z_i$ distribution for two different $p/q$ binned cuts around the $\pi^-$ particles, where as Fig.~\ref{fig:pipmom_flat} shows the background $\pi^+$ particles. A Gaussian fit is performed to the pions and to the $e$ spectrum to estimate the background contribution. 
+Now that the pion distribution is flattened, we take bin slices along $p/q$ to determine the particle yield in a certain bin and also estimate the background contribution. The background relevant to  the charged pions comes from the $e^+$ and $e^-$ resulting from the $\pi^0$ Dalitz decay described in Appendix~\ref{appen:dalitz}. Figure~\ref{fig:pimmom_flat} shows the Gaussian fits to the $z_i$ distribution for two different $p/q$ binned cuts around the $\pi^-$ particles, where as Figure~\ref{fig:pipmom_flat} shows the background $\pi^+$ particles. A Gaussian fit is performed to the pions and to the $e$ spectrum to estimate the background contribution. 
 
 
 \begin{figure}[!htb]
@@ -1136,7 +1136,7 @@ Now that the pion distribution is flattened, we take bin slices along $p/q$ to d
         \caption{Bin -68 MeV/c < p/q < -66.} \label{fig:pimmom1}
     \end{subfigure}
   
-    \caption{$z_i$ projection for binned slices in p/q around the $\pi^-$.}
+    \caption{Flattened PID $z_i$ distribution for binned slices in $p/q$ around the $\pi^-$.}
 \label{fig:pimmom_flat}
 \end{figure}
 
@@ -1156,6 +1156,6 @@ Now that the pion distribution is flattened, we take bin slices along $p/q$ to d
         \caption{Bin 94 MeV/c < p/q < 86.} \label{fig:pipmom2}
     \end{subfigure}
   
-    \caption{$z_i$ projection for binned slices in p/q around the $\pi^+$.}
+    \caption{Flattened PID $z_i$ distribution  for binned slices in p/q around the $\pi^+$.}
 \label{fig:pipmom_flat}
 \end{figure}

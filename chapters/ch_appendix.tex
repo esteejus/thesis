@@ -77,7 +77,7 @@ Here we can see that that proton-proton collisions are connected with $\pi^+$ an
       & & 2509 \\
       \hline
     \end{tabular}
-    \caption{List of runs for the analysis. \label{tb:runList}}
+    \caption{List of all run numbers used in this analysis. \label{tb:runList}}
   \end{center}
 \end{table}
 
@@ -131,9 +131,7 @@ Here we can see that that proton-proton collisions are connected with $\pi^+$ an
 \section{Cut Variation Analysis}
 \label{sec:cutvar}
 
-We employ a variety of track quality cuts described in Section~\ref{sec:qualitycut} to reduce the contamination from poorly reconstructed tracks which contribute to the background in the PID spectra. The best set of values were found for all the data sets which include the charged particle multiplicity of the event, the distance of closest approach to the vertex (DOCA), and the minimum number of clusters required for a track to be analyzed. By varying the cuts in both the data and in our MC efficiency calculations, we can evaluate the analysis to see how stable are the results with respect to these cuts. It is intuitive that while varying the cuts we will find that as the cut get tighter, and less data is included, the statistical error bar will increase. This problem is mitigated by looking at the uncorrelated error described in \cite{dataAnalysis}. Here if the systematic trend of the observable is much larger than the statistical error bars on the default cuts, with respects to the uncorrelated error bars, then there truly is some systematic trend that either exists due to physics or some error or miscalculation in the analysis. It is usually not recommended to estimated systematic error bars using this method, but sometimes it is the only way. 
-
-Here we will discuss the particular analysis using the total pion ratio as the example. Figure~\ref{fig:totalRatioError} shows the total pion ratio as a function of several cut variations, where one cut is varied and all the others are held constant. Three cuts are of particular interest, the event multiplicity, DOCA, and the number of cluster cut.
+We employ a variety of track quality cuts described in Section~\ref{sec:qualitycut} to reduce the contamination from poorly reconstructed tracks which contribute to the background in the PID spectra. The best set of values were found for all the data sets which include the charged particle multiplicity of the event, the distance of closest approach to the vertex (DOCA), and the minimum number of clusters required for a track to be analyzed. By varying the cuts in both the data and in our MC efficiency calculations, we can evaluate the analysis to see how stable are the results with respect to these cuts. It is intuitive that while varying the cuts we will find that as the cut get tighter, and less data is included, the statistical error bar will increase. This problem is mitigated by looking at the uncorrelated error described in \cite{dataAnalysis}. Here if the systematic trend of the observable is much larger than the statistical error bars on the default cuts, with respects to the uncorrelated error bars, then there truly is some systematic trend that either exists due to physics or some error or miscalculation in the analysis. It is usually not recommended to estimated systematic error bars using this method, but sometimes it is the only way. Here we will discuss the particular analysis using the $\pi^-$ yield as an example and then discuss the $\pi^+$ the total pion ratio, and the spectral pion ratios. The three cuts used in our results are the event multiplicity, DOCA, and the number of cluster cut.
 
 
  Figure~\ref{fig:pim_clustVar_NoEC} shows the variation as the number of clusters cut is varied before the efficiency analysis. The default cut for the number of clusters in a track is $N_c$ > 20 clusters which is represented by the middle point. The red bars represent the statistical error of this default value. The error bars on the other points are the uncorrelated error bars as described by the prescription in \cite{dataAnalysis}. Here it is clear that there is a systematic bias in the $\pi^-$ yield as we increase the number of cluster cut. This expected since cutting on the number of clusters eventually throws away short tracks that may be in the large angular regions of acceptance, thus biasing the yield. As seen in Figure~\ref{fig:pim_clustVar_EC}, this is corrected mostly be the efficiency analysis, though there seems to be some residual over correction for above 20 clusters and under correction under it, but still approximately within the statistical error bar of the default cut value of 20. 
@@ -167,7 +165,7 @@ The analysis becomes more interesting when analyzing the total pion ratio for th
          \centering
          \includegraphics[width=\textwidth]{132Sn_Multiplicity_pimTotal}
          \caption{Efficiency corrected.}
-         \label{fig:pim_multCutVar}
+         \label{fig:pim_multCutVar_EC}
      \end{subfigure}
      \hfill
 \caption{Y($\pi^-$) when varying the ${}^{132}$Sn charged particle multiplicity cut. }
@@ -236,7 +234,7 @@ The analysis becomes more interesting when analyzing the total pion ratio for th
          \centering
          \includegraphics[width=\textwidth]{132Sn_Multiplicity_pipTotal}
          \caption{Efficiency corrected.}
-         \label{fig:pip_multCutVar}
+         \label{fig:pip_multCutVar_EC}
      \end{subfigure}
      \hfill
 \caption{Y($\pi^+$) when varying the ${}^{132}$Sn charged particle multiplicity cut. }
@@ -307,7 +305,7 @@ The analysis becomes more interesting when analyzing the total pion ratio for th
          \centering
          \includegraphics[width=\textwidth]{132Sn_Multiplicity_TotalRatio}
          \caption{Efficiency corrected.}
-         \label{fig:ratio_multCutVar}
+         \label{fig:ratio_multCutVar_EC}
      \end{subfigure}
      \hfill
 \caption{Y($\pi^+$)/Y($\pi^-$) when varying the ${}^{132}$Sn charged particle multiplicity cut. }

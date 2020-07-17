@@ -1,7 +1,5 @@
 \chapter{Results}
-%\section{Comparison to Theory}
-%Add figure of Pion spectra for different theory 
-%Reference paper for multiple theories
+\label{chap:results}
 
  The data taken has been compared with 7 commonly used transport theoretical models. These models took part in a large collaborative effort in order to standardize certain common elements of each models \cite{theoryComp1,theoryComp2}. To reduce uncertainties in the pion production mechanism, each model simulated nuclear matter in a box type simulation with fixed, well defined, initial conditions. Though these box calculations model an equilibrated system at finite density, which is  not replicated by experiment, the solutions  of  pion and $\Delta$ yields can be analytically calculated from the ansatz of statistical equilibrium, providing a good benchmark. This allowed for each model to systematically go through the numerical treatment and details in each model such as initialization of nuclei, stability of the model, numerical handing of pauli-blocking, etc. After satisfying these benchmark calculations, each model was used with what each author considered the most reliable input and model assumption.  These models were taken in their best configuration, without any prior knowledge of the experimental data. We then simulated the 4 systems measured in the \spirit TPC at an impact parameter of \SI{3}{\femto\metre} at \SI{270}{\MeVA} beam energy. While the numerical treatments of each model are reasonably similar, each model differs considerably in their treatment of pion and $\Delta$ dynamics. Some models contain modifications to how the pion behaves in nuclear matter, i.e. \emph{in-medium effects}, typically introduced by including a pion optical potential, which describes the pion scattering and absorption. Some models include the iso-scalar and the iso-vector delta potential, which are not very well constrained, but can be important in the production of pions \cite{baoan_deltapotential,inmedPionKo,inmedPionFeng}. 
 
@@ -65,7 +63,7 @@ $\tin{108}{112}$ & 0.399(14)(3) & 0.200(8)(2) & 1.99(4)(3)  \\
 %$\tin{108}{112}$ & \numerr{0.399}{0.014}{0.003} & \numerr{0.200}{0.008}{0.002} & \numerr{1.99}{0.04}{0.03}  \\
 \bottomrule
 \end{tabular}
-\caption{Total pion yield.}
+\caption{Measured total pion yield in the $\tin{132}{124}$ and $\tin{108}{112}$ systems.}
 \label{tb:pionyield}
 \end{table*}
 
@@ -103,7 +101,7 @@ Figure~\ref{fig:totalpiRatio} shows the total single pion ratio, $R = Y(\pi^-)/Y
 \label{fig:fopiPionRatio}
 \end{figure}
 
-The FOPI collaboration has measured the total pion multiplicity resulting from ${}^{197}Au + {}^{197}Au$ collisions at several, higher, beam energies. In the $\tin{132}{124}$ data the asymmetry is $N/Z=1.56$ where as in the ${}^{197}Au + {}^{197}Au$ the $N/Z=1.493$. Since 4 beams were measured in this experiment, the $N/Z$ dependence was measured as seen in Fig.~\ref{fig:totalpiRatio}. Here the dependence is fitted with a 2-nd order polynomial fit. To compare the pion ratio in the $\tin{132}{124}$ data with that of the lower N/Z in the FOPI experiment, we scaled by the pion ratio between $N/Z=1.56$ and 1.493 as given from the fitted polynomial line. Figure~\ref{fig:fopiPionRatio} shows the scaled pion ratio as compared with the FOPI pion ratio \cite{fopi}. The fitted function has the functional form of $p_1(E - p_2)^{-2}$ where $p_1$ and $p_2$ are free parameters, and only is meant to guide the eye. It is also worth mentioning that the pion ratio observed in the FOPI \SI{400}{\MeVA} setting was already considerably higher than what is expected from the $(N/Z)^2$ delta resonance model \cite{baoan_piprod1,baoan_piprod2}. It it worth mentioning that the two experiments differ considerably in their efficiencies as was mentioned before. The FOPI results heavily relied on extrapolations to lower pion energies which the \spirit TPC did not rely on \cite{fopi}. Without a systematic error calculation or discussion with the FOPI collaboration no further detail can be given except that the \spirit TPC data seems to be reasonable expectation and in general agreement with the FOPI data set. Scaling the other systems in the \spirit TPC data leads to almost the exact same scaled value of $\mathrm{Y}(\pi^-)/\mathrm{Y}(\pi^+) = \num{4.82}$ and would be redundant. 
+The FOPI collaboration has measured the total pion multiplicity resulting from ${}^{197}Au + {}^{197}Au$ collisions at several, higher, beam energies. In the $\tin{132}{124}$ data the asymmetry is $N/Z=1.56$ where as in the ${}^{197}Au + {}^{197}Au$ the $N/Z=1.493$. Since 4 beams were measured in this experiment, the $N/Z$ dependence was measured as seen in Figure~\ref{fig:totalpiRatio}. Here the dependence is fitted with a 2-nd order polynomial fit. To compare the pion ratio in the $\tin{132}{124}$ data with that of the lower N/Z in the FOPI experiment, we scaled by the pion ratio between $N/Z=1.56$ and 1.493 as given from the fitted polynomial line. Figure~\ref{fig:fopiPionRatio} shows the scaled pion ratio as compared with the FOPI pion ratio \cite{fopi}. The fitted function has the functional form of $p_1(E - p_2)^{-2}$ where $p_1$ and $p_2$ are free parameters, and only is meant to guide the eye. It is also worth mentioning that the pion ratio observed in the FOPI \SI{400}{\MeVA} setting was already considerably higher than what is expected from the $(N/Z)^2$ delta resonance model \cite{baoan_piprod1,baoan_piprod2}. It it worth mentioning that the two experiments differ considerably in their efficiencies as was mentioned before. The FOPI results heavily relied on extrapolations to lower pion energies which the \spirit TPC did not rely on \cite{fopi}. Without a systematic error calculation or discussion with the FOPI collaboration no further detail can be given except that the \spirit TPC data seems to be reasonable expectation and in general agreement with the FOPI data set. Scaling the other systems in the \spirit TPC data leads to almost the exact same scaled value of $\mathrm{Y}(\pi^-)/\mathrm{Y}(\pi^+) = \num{4.82}$ and would be redundant. 
 
 
 
@@ -112,20 +110,10 @@ The FOPI collaboration has measured the total pion multiplicity resulting from $
 \label{sec:pionSpectra}
 
 
-\begin{comment}
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=\textwidth]{pionSpectra.png}
-\caption{Pion spectra. }
-\label{fig:pionspectra}
-\end{figure}
-%need to add error analysis
-\end{comment}
-
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{pionSpectra_sn108_sum.png}
-\caption{Pion spectra $\tin{108}{112}$ system. }
+\caption{Pion spectra for the $\tin{108}{112}$ system and comparisons to 7 theoretical models. }
 \label{fig:pionspectraSn108}
 \end{figure}
 
@@ -133,7 +121,7 @@ The FOPI collaboration has measured the total pion multiplicity resulting from $
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{pionSpectra_sn132_sum.png}
-\caption{Pion spectra $\tin{132}{124}$ system. }
+\caption{Pion spectra for the $\tin{132}{124}$ system and comparisons to 7 theoretical models. }
 \label{fig:pionspectraSn132}
 \end{figure}
 
@@ -147,14 +135,14 @@ Figures~\ref{fig:pionspectraSn132} and \ref{fig:pionspectraSn108} shows pion CM 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{singleRatio108_log.png}
-\caption{Single ratio $\tin{108}{112}$ system.}
+\caption{Pion spectral ratio $\tin{108}{112}$ system and comparisons to 7 theoretical models.}
 \label{fig:SRsn108}
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{singleRatio132_sum.png}
-\caption{Single ratio $\tin{132}{124}$ system.}
+\caption{Pion spectral ratio $\tin{132}{124}$ system and comparisons to 7 theoretical models.}
 \label{fig:SRsn132}
 \end{figure}
 

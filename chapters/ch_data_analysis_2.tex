@@ -1,4 +1,6 @@
-\chapter{Data Analysis II}
+\chapter{Data Analysis II: Cuts and final PID}
+\label{chap:data2}
+
 As Chapter~\ref{chap:data1} covered the corrections and various calibrations to the data, this Chapter will cover the various cuts taken to improve the signal in the experimental data. Some cuts which identify the incoming beam and the event on target are the minimum cut in order to perform an analysis. The cuts pertaining to the track reconstruction quality are also required to suppress as much of the background noise as possible, most of which comes from reconstruction inefficiencies which the cuts presented here address. 
 
 
@@ -20,25 +22,24 @@ As Chapter~\ref{chap:data1} covered the corrections and various calibrations to 
      \begin{subfigure}[b]{0.49\textwidth}
          \centering
          \includegraphics[width=\textwidth]{beam-Sn132.png}
-         \caption{$\tin{132}{124}$ Beam particle identification.}
+         \caption{$\tin{132}{124}$ system.}
          \label{fig:beampid132}
      \end{subfigure}
      \hfill
      \begin{subfigure}[b]{0.49\textwidth}
          \centering
          \includegraphics[width=\textwidth]{beam-Sn108.png}
-         \caption{$\tin{132}{124}$ $\pi^-$ angular spectra.}
+         \caption{$\tin{108}{112}$ system.}
          \label{fig:beampid108}
      \end{subfigure}
-        \caption{$\tin{108}{112}$ Beam particle identification. }
+        \caption{Beam PID achieved of the the neutron rich and poor systems, from analysis of the BigRIPs spectrometer \cite{jon} }
         \label{fig:beampidTwo}
-
 \end{figure}
 
 
 %Figures of beam contaminants in our beam PID line. 
 %Table of beam purity reference to Jon's thesis paper
-The secondary beam is produced through the projectile fragmentation of the primary beam off of a \SI{3}{\milli\metre} thick, rotating Be target \cite{inflightsep}. The resulting fragments are filtered in-flight to the desired seconary beam. The in-flight separation is handled by the BigRIPS fragment separator which is shown in Fig.~\ref{fig:samuraiBeamLine}. The dipole magnets D1 and D2 act as a velocity filter, selecting on certain magnetic rigidities $\beta\rho$. Several sets of slits further purify the secondary beam quality by discarding particles which do not focus on the right focal planes. These are the areas where the particles with different velocities focus to different locations in space, which occur at F3,F5, and F7 positions.  Each beam is tracked with the remaining part of the BigRIPS spectrometer tracking system. The particle identification of each beam is achived by the TOF-B$\rho$-$\Delta$E method described in \cite{bigrips}, where the Time of Flight (TOF) information is given by the time it takes to cross two plastic scintilators at F3 and F7 focal planes, and the $\Delta$E information is given by the MUlti-Sampling Ionization Chamber (MUSIC) \cite{music}. From this method the atomic charge, Z, and mass to charge ratio, A/Q, of each particle was measured and separate species represent two-dimensional Gaussian in this space. 
+The secondary beam is produced through the projectile fragmentation of the primary beam off of a \SI{3}{\milli\metre} thick, rotating Be target \cite{inflightsep}. The resulting fragments are filtered in-flight to the desired seconary beam. The in-flight separation is handled by the BigRIPS fragment separator which is shown in Figure~\ref{fig:samuraiBeamLine}. The dipole magnets D1 and D2 act as a velocity filter, selecting on certain magnetic rigidities $\beta\rho$. Several sets of slits further purify the secondary beam quality by discarding particles which do not focus on the right focal planes. These are the areas where the particles with different velocities focus to different locations in space, which occur at F3,F5, and F7 positions.  Each beam is tracked with the remaining part of the BigRIPS spectrometer tracking system. The particle identification of each beam is achived by the TOF-B$\rho$-$\Delta$E method described in \cite{bigrips}, where the Time of Flight (TOF) information is given by the time it takes to cross two plastic scintilators at F3 and F7 focal planes, and the $\Delta$E information is given by the MUlti-Sampling Ionization Chamber (MUSIC) \cite{music}. From this method the atomic charge, Z, and mass to charge ratio, A/Q, of each particle was measured and separate species represent two-dimensional Gaussian in this space. 
 
 Figure~\ref{fig:beampid} shows the beam PID for all the systems for events which satisfied the trigger, several contaminants other than the desired secondary beams still passed through the BigRIPS spectrometer and made it into the TPC. The beam purity of each desired secondary beam is listed in Table~\ref{tb:beams}. The desired secondary beam of interest can be selected by using an appropriate gate around the corresponding particle. Each particle gate is selected by fitting a multivariate normal distribution with two variables defined as,
 
@@ -48,7 +49,7 @@ Figure~\ref{fig:beampid} shows the beam PID for all the systems for events which
   xy/\sigma_x\sigma_y}{2(1-\rho^2)}\right\},
    \label{multiGauss}
 \end{equation}
-where x=A/Q, y=Z, $\mu$ is the mean values, and $\sigma$ are the Gaussian widths of the two variables. The gates drawn in Fig.~\ref{fig:beampidTwo} are summarized in Table~\ref{beamParameters}. 
+where x=A/Q, y=Z, $\mu$ is the mean values, and $\sigma$ are the Gaussian widths of the two variables. The gates drawn in Figure~\ref{fig:beampidTwo} are summarized in Table~\ref{beamParameters}. 
 
 \begin{table}[!htb]
   \begin{center}
@@ -63,12 +64,12 @@ where x=A/Q, y=Z, $\mu$ is the mean values, and $\sigma$ are the Gaussian widths
       ${}^{108}$Sn & 2.16 & 0.0015 & 49.99 & 0.207 & -0.059 \\
       \hline
     \end{tabular}
-    \caption{Multivariate normal distribution fit parameters for four beams.
+    \caption{2D Gaussian cuts parameters for all four systems beam PID.
     \label{beamParameters}}
   \end{center}
 \end{table}
 
-Figure~\ref{fig:beampid132} shows a zoomed in view of the PID centered around the ${}^{132}$Sn beam and Fig.~\ref{fig:beampid108} the ${}^{108}$Sn beam. The red lines represent the cut where particles identified inside the circle represent the beam events which are identified as the good beam events. For both ${}^{132}$Sn an ${}^{108}$Sn a 2.83$\sigma$ cut is taken around the mean values.  
+Figure~\ref{fig:beampid132} shows a zoomed in view of the PID centered around the ${}^{132}$Sn beam and Figure~\ref{fig:beampid108} the ${}^{108}$Sn beam. The red lines represent the cut where particles identified inside the circle represent the beam events which are identified as the good beam events. For both ${}^{132}$Sn an ${}^{108}$Sn a 2.83$\sigma$ cut is taken around the mean values.  
 
 
 \section{Edge Cuts}
@@ -97,7 +98,7 @@ Figure~\ref{fig:beampid132} shows a zoomed in view of the PID centered around th
 \label{fig:edge}
 \end{figure}
 
-Near the edges of the detection volume, the clusters of tracks significantly deviate from the trend of the fitted track as seen in different view of the reconstructed clusters in Fig.~\ref{fig:edge}.  This happens because the last pads on the edges of the pad-plane have no neighboring pads containing charge, and therefore the last pad represents the last known position of the collected charge. In this case the cluster position is biased towards the inside of the TPC. This also occurs for the first and last time bucket in the vertical direction. While the number of affected clusters is small, compared with the total number in the track, the deviation at the end of the track is enough cause issues in the momentum reconstruction. Simple cuts were taken to graphically remove these clusters around the left,right, top, and bottom of the TPC. The hits that were cut out satisfied the following conditions, 
+Near the edges of the detection volume, the clusters of tracks significantly deviate from the trend of the fitted track as seen in different view of the reconstructed clusters in Figure~\ref{fig:edge}.  This happens because the last pads on the edges of the pad-plane have no neighboring pads containing charge, and therefore the last pad represents the last known position of the collected charge. In this case the cluster position is biased towards the inside of the TPC. This also occurs for the first and last time bucket in the vertical direction. While the number of affected clusters is small, compared with the total number in the track, the deviation at the end of the track is enough cause issues in the momentum reconstruction. Simple cuts were taken to graphically remove these clusters around the left,right, top, and bottom of the TPC. The hits that were cut out satisfied the following conditions, 
 
 \begin{equation*}
   |x|\geq420~\mathrm{mm},\quad y\leq-522+\mathrm{y_o}~\mathrm{mm},
@@ -164,7 +165,7 @@ The incoming secondary beam is deflected by the magnetic field and impinges on t
       \hline
     \end{tabular}
     \caption{2D Gaussian fit parameters for $^{132}$Sn, $^{112}$Sn and
-      $^{108}$Sn beam angle. \label{beamAngleParameters}}
+      $^{108}$Sn beam angle cuts. \label{beamAngleParameters}}
   \end{center}
 \end{table}
 
@@ -244,7 +245,7 @@ Figure~\ref{fig:beamangle} shows the distribution of beam angles for ${}^{132}$S
 
 The vertex information of an event, described in \ref{sec:vertex}, is estimated from reconstructing the tracks of an event to one common point. The secondary beam encounters several solid and gaseous materials along the beam line where a nuclear reaction can occur. Figure~\ref{fig:overviewVertex} shows the z-component of the reconstructed vertex for all events in the ${}^{132}$Sn system. Several peaks are seen in the spectrum which correspond to several dense materials in the beam line such as the entrance windows, target frame, Active Veto, with the largest peak representing the target. Collisions also happen with the detector gas inside the TPC volume where the gas acts as a target. To ensure that the secondary beam is really on the target of choice we perform a vertex cut around where we believe the vertex location of the target to be.
  
- The target position was physically expected to be \SI{-13.2}{\milli\metre} in the TPC coordinate frame. The z-component of all runs in each beam type are plotted around the the target region in Fig.~\ref{fig:vertexdist}. The mean position of the vertex from the reconstructed data is around \SI{-14.76}{\milli\metre} which is about \SI{1.6}{\milli\metre} off from the expected target position. The mean position for each system is listed in Table~\ref{tb:vertexresol}. Since the target thickness was less than \SI{1}{\milli\metre} for all targets, we can assume the thickness of the target has a minimal effect on the vertex resolution of the TPC. Therefore the measured width of the vertex distribution can be interpreted directly as the vertex resolution of the TPC. The extracted vertex resolutions of each system are summarized in Table~\ref{tb:vertexresol}, with an average vertex resolution of \SI{1.2}{\centi\metre}. The difference between the measured and actual target location is 10 times smaller than the intrinsic vertex resolution of the detector and is an insignificant difference.  
+ The target position was physically expected to be \SI{-13.2}{\milli\metre} in the TPC coordinate frame. The z-component of all runs in each beam type are plotted around the the target region in Figure~\ref{fig:vertexdist}. The mean position of the vertex from the reconstructed data is around \SI{-14.76}{\milli\metre} which is about \SI{1.6}{\milli\metre} off from the expected target position. The mean position for each system is listed in Table~\ref{tb:vertexresol}. Since the target thickness was less than \SI{1}{\milli\metre} for all targets, we can assume the thickness of the target has a minimal effect on the vertex resolution of the TPC. Therefore the measured width of the vertex distribution can be interpreted directly as the vertex resolution of the TPC. The extracted vertex resolutions of each system are summarized in Table~\ref{tb:vertexresol}, with an average vertex resolution of \SI{1.2}{\centi\metre}. The difference between the measured and actual target location is 10 times smaller than the intrinsic vertex resolution of the detector and is an insignificant difference.  
 
 
 
@@ -261,7 +262,7 @@ $\tin{112}{124}$ & -14.78  & 1.2 \\
 $\tin{108}{112}$ & -14.75  & 1.3 \\ 
 \bottomrule
 \end{tabular}
-\caption{Summary of measured verticies and their resolution.}
+\caption{Summary of the mean vertex location for the target position in all systems and the measured vertex resolution.}
 \label{tb:vertexresol}
 \end{table*}
 
@@ -316,7 +317,7 @@ In this section we will discuss cuts which address the quality of the reconstruc
 \centering
 \includegraphics[scale=1.]{distancetovertex.pdf}
 \label{fig:poca}
-\caption{Distance to vertex for tracks.}
+\caption{Example diagram of the Distance of Closest Approach (DOCA) cut for tracks.}
 \end{figure}
 
 For very long tracks, such as low momentum pions, which can make a complete circular path in the TPC, it can happen that the software incorrectly identifies the track as several separate tracks. This can happen due to discontinuities in the track due to missing hits from low energy loss, shadowing due to saturation, or possibly the software algorithm itself. Including all of the tracks would be counting the track several times over, and would lead to incorrect particle yields. The software can also occasionally associate random disassociated clusters and construct a false track, or a so called \emph{ghost track}. These type of tracks contribute to the background in the PID. In both of these situations the track origin cannot be traced back to anywhere near the vertex of the event, and the distance-Of-Closest-Approach (dOCA) between the track and vertex is very large. 
@@ -326,7 +327,7 @@ To reduce the number of false tracks, a simple cut on the dOCA can be used. The 
 
 \section{Angular Quality Cuts}
 
-Since the TPC does not have spherical symmetry, there are regions of bad geometric acceptance that effect the efficiency of track reconstruction. Most notably upward and downward-going tracks will have the shortest track length and will correspond to low regions of efficiency as seen in \ref{sec:efficiency}. The relevant geometries which determine these regions are the corners of the field cage. Figure~\ref{fig:angleEffExplanation} shows a cartoon drawing of the front of the field cage were the angles of each corner is given. Since the window to the field cage was slightly higher, the upper angles are smaller than the lower angles. These angles are actually the same as the spherical $\phi$ angle, where the left and right, are most efficient regions, correspond to  $\ang{0}\substack{+24 \\ -34}$ and $\ang{180}\substack{+34 \\ -24}$.  While the exact area of zero efficiency depends on polar angle $\theta_{Lab}$, a clear cut off around these angles can be seen in Fig.~\ref{fig:angleEffExplanation} in the angular distribution of the measured tracks. Here, the experimental data was fitted with a Fermi distribution to find the inflection point of where the efficiency drops off significantly. The angular cuts applied to the data is listed by particle type in Table~\ref{tb:anglecuts}. The values are very close to the simple calculation outlined previously. 
+Since the TPC does not have spherical symmetry, there are regions of bad geometric acceptance that effect the efficiency of track reconstruction. Most notably upward and downward-going tracks will have the shortest track length and will correspond to low regions of efficiency as seen in \ref{sec:efficiency}. The relevant geometries which determine these regions are the corners of the field cage. Figure~\ref{fig:angleEffExplanation} shows a cartoon drawing of the front of the field cage were the angles of each corner is given. Since the window to the field cage was slightly higher, the upper angles are smaller than the lower angles. These angles are actually the same as the spherical $\phi$ angle, where the left and right, are most efficient regions, correspond to  $\ang{0}\substack{+24 \\ -34}$ and $\ang{180}\substack{+34 \\ -24}$.  While the exact area of zero efficiency depends on polar angle $\theta_{Lab}$, a clear cut off around these angles can be seen in Figure~\ref{fig:angleEffExplanation} in the angular distribution of the measured tracks. Here, the experimental data was fitted with a Fermi distribution to find the inflection point of where the efficiency drops off significantly. The angular cuts applied to the data is listed by particle type in Table~\ref{tb:anglecuts}. The values are very close to the simple calculation outlined previously. 
 
 
 \begin{figure}[!htb]
@@ -394,7 +395,7 @@ $\pi^-$  & $\theta_{CM}$ < \ang{90}   &  \ang{-40} < $\phi$ < \ang{25} $\cap$ \a
 
 
 
-These regions can also be seen in the earlier discussion in the MC embedded efficiency in Fig.~\ref{fig:pim_eff_ex}.  We could of course include a larger region where the efficiency is small, but not zero, but it is not good practice to  correct using small efficiency values. Instead we apply a reasonable $\phi$ cut in the good areas of reasonable efficiency and correct for the regions excluded from the cut. The solid angle covered by the cut is written as,
+These regions can also be seen in the earlier discussion in the MC embedded efficiency in Figure~\ref{fig:pim_eff_ex}.  We could of course include a larger region where the efficiency is small, but not zero, but it is not good practice to  correct using small efficiency values. Instead we apply a reasonable $\phi$ cut in the good areas of reasonable efficiency and correct for the regions excluded from the cut. The solid angle covered by the cut is written as,
 
 \begin{equation}
 \Delta\Omega = \Delta\phi(\cos(\theta_1) - \cos(\theta_2)),
