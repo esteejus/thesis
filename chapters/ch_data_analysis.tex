@@ -1159,3 +1159,25 @@ Now that the pion distribution is flattened, we take bin slices along $p/q$ to d
     \caption{Flattened PID $z_i$ distribution  for binned slices in p/q around the $\pi^+$.}
 \label{fig:pipmom_flat}
 \end{figure}
+
+
+We can write the Gaussian fit for the pions as, 
+
+\begin{equation}
+G_\pi(z) = A_\pi e^{-\frac{(x-\mu_\pi)^2}{2\sigma_\pi^2}},
+\end{equation}
+
+and for the background spectra, in the pion cases $e^+$ and $e^-$:
+
+\begin{equation}
+G_B(z) = A_B e^{-\frac{(x-\mu_\pi)^2}{2\sigma_\pi^2} }.
+\end{equation}
+
+The probability that a particle is a pion can be described as,
+
+\begin{equation}
+P(\pi) = \left( 1 + \frac{A_B}{A_\pi} e^{-\frac{(x-\mu_\pi)^2}{2\sigma_\pi^2}  + \frac{(x-\mu_B)^2}{2\sigma_B^2} } \right)^{-1}
+\label{eq:pionProbs}
+\end{equation}
+
+The probability value will be used later as a weighting factor when filling the histogram track-by-track as will be discussed in Section~\ref{sec:corrSpectra}. 
