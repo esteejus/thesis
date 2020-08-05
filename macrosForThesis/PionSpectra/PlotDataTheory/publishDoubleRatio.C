@@ -211,6 +211,27 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   urQMD_104_DR->SetLineWidth(urQMD_Stiff_lw);
   urQMD_104_DR->SetLineColor(urQMD_Stiff_mc);
 
+
+  imQMD_05_DR->SetFillColorAlpha(urQMD_Soft_fc,.75);
+  imQMD_05_DR->SetFillStyle(urQMD_Soft_fs);
+  imQMD_05_DR->SetMarkerStyle(urQMD_Soft_ms);
+  imQMD_05_DR->SetMarkerColor(urQMD_Soft_mc);
+  imQMD_05_DR->SetMarkerSize(urQMD_Soft_msz);
+  imQMD_05_DR->SetLineStyle(urQMD_Soft_ls);
+  imQMD_05_DR->SetLineWidth(urQMD_Soft_lw);
+  imQMD_05_DR->SetLineColor(urQMD_Soft_mc);
+
+  imQMD_20_DR->SetFillColorAlpha(urQMD_Stiff_fc,.5);
+  imQMD_20_DR->SetFillStyle(urQMD_Stiff_fs);
+  imQMD_20_DR->SetMarkerStyle(urQMD_Stiff_ms);
+  imQMD_20_DR->SetMarkerColor(urQMD_Stiff_mc);
+  imQMD_20_DR->SetMarkerSize(urQMD_Stiff_msz);
+  imQMD_20_DR->SetLineStyle(urQMD_Stiff_ls);
+  imQMD_20_DR->SetLineWidth(urQMD_Stiff_lw);
+  imQMD_20_DR->SetLineColor(urQMD_Stiff_mc);
+
+
+
   amdJAM55_DR->SetFillColorAlpha(amdSoft_fc,.75);
   amdJAM55_DR->SetFillStyle(amdSoft_fs);
   amdJAM55_DR->SetMarkerStyle(amdSoft_ms);
@@ -265,6 +286,7 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   leg_soft->AddEntry(tuQMD_05_DR,"TuQMD","lpe");
   //  leg_soft->AddEntry(amdJAM55_DR,"AMD+JAM","lpe");
   //  leg_soft->AddEntry(urQMD_46_DR,"urQMD","lpe");
+  leg_soft->AddEntry(imQMD_05_DR,"IQMD","lpe");
 
   leg_soft->SetBorderSize(0);
   leg_soft->SetFillStyle(0);
@@ -278,33 +300,41 @@ TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K265EM070/input
   leg_stiff->AddEntry(tuQMD_20_DR,"TuQMD","lpe");
   //  leg_stiff->AddEntry(amdJAM152_DR,"AMD+JAM","lpe");
   //  leg_stiff->AddEntry(urQMD_104_DR,"urQMD","lpe");
+  leg_stiff->AddEntry(imQMD_20_DR,"IQMD","lpe");
 
   leg_stiff->SetFillStyle(0);
   leg_stiff->SetBorderSize(0);
 
+
   //  cvs_2->cd(1);
   doubleRatio->Draw("E1");
+
+
   //  pBUU_stiff_no_DR->Draw("same  LPO ");
   //  amdJAM152_DR->Draw("same  LPO ");
-  //  urQMD_104_DR->Draw("same  LPO");
+  imQMD_20_DR->Draw("same  LPO");
   xbuu120_DR->Draw("same  LPO");
   tuQMD_20_DR->Draw("same   LPO");
   p_stiff->Draw();
   
   leg_stiff->Draw();
   //  doubleRatio->DrawCopy("same E1");
-  //  cvs_2->SaveAs("doubleRatio_stiff.png");
+  //  cvs_2->SaveAs("doubleRatio_stiff.
 
+
+  /*
+  
   //  cvs_2->cd(2);
   //  doubleRatio->Draw("E1");
   tuQMD_05_DR->Draw("same  LPO");
   xbuu_DR->Draw("same  LPO ");
+  imQMD_05_DR->Draw("same  LPO");
   //  urQMD_46_DR->Draw("same  LPO");
   //  amdJAM55_DR->Draw("same  LPO ");
   //  pBUU_soft_no_DR->Draw("same  LPO ");
   leg_soft->Draw();
   p_soft->Draw();
-  
+  */
   doubleRatio->DrawCopy("same E1");
   cvs_2->SaveAs("doubleRatio_pannel.png");
 

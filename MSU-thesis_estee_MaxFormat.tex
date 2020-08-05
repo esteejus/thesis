@@ -1,0 +1,256 @@
+%%This is the final version of the template I ended up using - your milage may vary.
+%%In particular, the class file with this is set up to play nice with the hyperref
+%%package and produce good bookmarks in the PDF file, as well as conform slightly better
+%%to the grad school formatting guidelines than the original by Cliff Weil.  
+%%Cliff did do the vast bulk of the work on this, however, and I would be remiss
+%%if I didn't explictly point out that this is his file with some minor modifications
+%%that I added.  - Dan Alt
+
+%% Before beginning to type your dissertation, read the formatting guide, 
+%% which can be found at http://grad.msu.edu/etd/docs/formattingguide.pdf
+%% Also get the latest version of  msuphddissertation.cls and the template file
+%% at http://www.math.msu.edu/~weil/MSU_Ph.D._Dissertation.zip
+%% Send questions to weil@math.msu.edu
+\documentclass{altmsuphddissertation}
+
+%% Insert packages you wish to use except setspace and subfig. 
+%% Those packages are loaded automatically.
+%% IMPORTANT: Load only those packages you know you will use.
+%% Some packages can cause conflicts resulting in improper formatting.
+
+%% These are the ones I used - you probably don't need them all.  I'd keep hyperref, though. - DMA
+
+
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{overpic}
+\usepackage{contour}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{cleveref}
+\usepackage{rotating}
+\usepackage{mathtools}
+\usepackage{comment}\renewcommand{\arraystretch}{1.5}
+\usepackage[version=3]{mhchem}
+\usepackage{newtxtext,newtxmath,booktabs,siunitx}
+\usepackage[export]{adjustbox}
+
+\sisetup{input-uncertainty-signs}
+
+
+%User defined commands
+\newcommand{\spirit}{S$\pi$RIT }
+\newcommand{\numerr}[3]{ \num[parse-numbers=false]{#1 \pm #2 (sys.) \pm #3 (stat.)}  }
+\newcommand{\tin}[2]{{}^{#1}\mathrm{Sn} + {}^{#2}\mathrm{Sn}}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+
+\renewcommand{\floatpagefraction}{.8}%
+\makeatletter
+\DeclareTextCommand{\textprime}{\encodingdefault}{%
+  \mbox{$\m@th'\kern-\scriptspace$}% 
+}
+\setlength{\@fptop}{0pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+\newcolumntype{s}{>{\hsize=.5\hsize}X}
+
+\DeclareSIUnit\torr{Torr}
+\DeclareSIUnit\eVperc{\eV\per\clight}
+\DeclareSIUnit\MeVA{A \mega\eV }
+\DeclareSIUnit\clight{\text{\ensuremath{c}}}
+\DeclareSIUnit\micron{\micro\metre}
+\DeclareSIUnit\mrad{\milli\rad}
+\DeclareSIUnit\gauss{G}
+
+%% Use this if you want to put all your graphics in a specific directory - it's a relative path from
+%% wherever you store this template. - DMA
+\graphicspath{{images/spacecharge/} {images/} {images/mccomparison/}  {images/dataAnalysis_2/} {images/dynamicrange/} {images/dataAnalysis/} {images/experiment/} {images/results/}  {images/intro/} {images/appendix/} }
+
+
+
+\author{Justin Brian Estee} %% Put your name in full as it is officially recognized by Michigan State University here.
+\title{Charged pion emission from neutron-rich heavy ion collisions for studies on the symmetry energy} %% Put the title of your dissertation here.
+\unit{Physics --- Doctor of Philosophy}
+%%GRADUATE DEGREE GRANTING UNIT/PROGRAM
+%% and the DEGREE  from the complete list of these at
+%% http://grad.msu.edu/etd/docs/DegreeGrantingUnits.pdf
+
+%% Put additional preamble items here.
+
+%%%%%% LANDSCAPE PAGES  %%%%%%
+%% To produce text, graphics or tables in
+%% landscape mode, use the following template.
+%\begin{landscape}
+%\thispagestyle{empty}
+%\begin{minipage}{\linewidth}
+%% Insert the graphics or table that is to be
+%% in landscape mode. Use the figure or table
+%% environment. You may wish to center 
+%% the float. 
+%\end{minipage}
+%\end{landacape}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%  NOTE   %%%%%%%%%%%%%%
+%% PREPARING A DISSERTATION WITH THIS CLASS FILE DOES NOT %%%
+%% GUARANTEE THAT THE GRADUATE SCHOOL WILL APPROVE IT %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% WARNING %%%%%%%%%%%%%%%
+%% The Graduate School requires that all text, except superscripts %%
+%% and subscripts, but including text in imported %%
+%% graphics files be in 12 point. For that reason it's recommended %%
+%% that no text be part of any imported files. %%
+
+%% Once your document has been filed with the Graduate School,
+%% if you wish to produce a version of it whose subscripts and superscripts
+%% are in traditional smaller proportion, remove the "%" sign 
+%% in front of following command. 
+%\DeclareMathSizes{12}{12}{10}{8}
+%% To single space your document, find and remove the 
+%% two commands \begin{doublespace}
+%% and \end{doublespace} below.
+
+%%\includeonly{TeX_files/chapter1,TeX_files/chapter2,TeX_files/chapter3}
+
+\begin{document}
+\bibliographystyle{altbibstyle}  %%This is my  custom bibliography style file.  Change if you like. - DMA
+\frontmatter
+\maketitlepage %%This command will produce the title page of your thesis.
+\begin{abstract}
+
+Recent astronomical measurements of neutron star mergers have reinvigorated questions about the nature of dense matter in the universe. The densities reached in these stars range from normal nuclear densities $\rho_o$ to upwards of $4\rho_o$ or even $9\rho_o$ in some models, where $\rho_o = \SI{1.7e14}{\gram\per\centi\metre\cubed}$; representing extremely dense, neutrons rich matter. The symmetry energy describes the difference in binding energy between pure neutron matter and symmetric matter with equal number of neutrons and protons. It is the density dependence of the symmetry energy that is related to the outward pressure, which supports the star, preventing it from collapsing under its own gravitation force. For years, theory and experiment  have combined to progressively constrain the Equation of State (EoS) of symmetric matter, and it was only in the last decade that the density dependence of pure neutron matter, the symmetry energy, had been constrained at normal nuclear densities and lower, $\rho < \rho_o$. Still large uncertainties, and discrepancies on preliminary constraints,  still remain at densities around 2$\rho_o$ which are critical importance to the understanding the properties of neutron stars.
+
+Besides measuring neutrons stars directly, the laboratory provides the only way to study dense nuclear matter at different densities and proton-neutron asymmetries. It has been shown that charged pions are produced from nucleon-nucleon collisions through the short-lived intermediate $\Delta$ resonances, in the early, dense parts of Heavy Ion Collisions (HICs). Yet, existing pion experimental data tailored to answering questions about the symmetry energy was lacking and suffers from unknown systematic errors. this prompted the construction of the \spirit Time Projection Chamber (TPC) which was constructed to measure charged pions produced in neutron-rich HICs with a high efficiency. This Dissertation encompasses the first pion spectra from the most neutron-rich ($\tin{132}{124}$), and neutron-poor ($\tin{108}{112}$) systems measured at \SI{270}{\MeVA} taken at the RIBF facility at RIKEN. The total pion ratio was measured to within 4\% and the pion spectra was measured with a high degree of accuracy, marking the first time pion spectra  -- at energies relevant to the symmetry energy -- have been published.  Also, we will compare the results with the most recent transport models which can simulate pion production. We will highlight some of the successes and hope to motivate a discussion in the theoretical community on how to better reproduce the pion phenomena in neutron-rich HICs, which is important for not only constraining the density dependence of the symmetry energy, but also for understanding the $\Delta$ and pion roles in neutron stars. 
+\end{abstract}
+
+%% If you wish to have a copyright page, remove the "%" in front of \begin{copyrt}
+%% and remove the "%" in front of \end{copyrt}.
+%% The mandatory form of the Copyright will be generated automatically. 
+%% A copyright statement is optional.
+
+%\begin{copyrt}
+%\end{copyrt}
+
+%% If you wish to have a dedication, remove the "%" in front of
+%% \begin{dedication}
+%% and remove the "%" in front of 
+%% \end{dedication}
+%% A dedication must be single-spaced and 
+%% centered on the page.  Both will be done automatically. 
+
+\begin{dedication}
+\centering
+{\it
+}
+\end{dedication}
+
+%% If you wish to have an acknowledgment, remove the "%" in front of  \begin{acknowledgment}
+%% and remove the "%" in front of  \end{acknowledgment}  
+\begin{acknowledgment}
+
+\end{acknowledgment}
+
+%% If you wish to have a preface, remove the "%" in front of \begin{preface}
+%% and remove the "%" in front of \end{preface}. The formatting of
+%% a preface isn't specified.
+%\begin{preface}
+%% Type your preface here. A preface is optional.
+%\end{preface}
+
+\TOC %% This command produces the Table of Contents. DO NOT REMOVE!
+
+%% Remove \addvspace (extra space) between figures/tables of different chapters
+%%\let\origaddvspace\addvspace
+%%\renewcommand{\addvspace}[1]{}
+%% If your document contains tables, remove the "%" in front of 
+%%  the following line.
+\LOT
+
+%% If your document contains figures, remove the "%" in front of
+%% the following line.
+\LOF
+%%\renewcommand{\addvspace}[1]{\origaddvspace{#1}}
+%% If any of your figures contain color, you must
+%% include the following disclaimer in the caption of your first figure.
+%% "For interpretation of the references to color in this and all other figures, 
+%% the reader is referred to the electronic version of this thesis."
+
+%%%% LIST OF SYMBOLS OR LIST OF ABBREVIATIONS %%%%
+%% If you wish to have a list of symbols or a list of abbreviations, 
+%% it should be here. For a list of symbols remove the "%" in front of 
+%% \begin{symbols} and remove the "%" in front of \end{symbols}.
+%\begin{symbols}
+%% Type your list using a list environment here.
+%\end{symbols}
+%% Similarly for a list of abbreviations remove the "%" in front of 
+%% \begin{abbrev} and remove the "%" in front of \end{abbrev}.
+
+
+%% Replace ANL and ARTEMIS with your own abbreviations.  Or leave them in.  It's up to you! - DMA
+%\begin{abbrev}
+%\begin{itemize}
+%\end{itemize}
+%\end{abbrev}
+
+%% The list will be included in the TOC as
+%% KEY TO SYMBOLS or KEY TO ABBREVIATIONS
+%%%%%%%%%%
+
+\newpage
+\pagenumbering{arabic}
+\begin{doublespace}
+
+%%If the introduction is to be an unnumbered chapter, put it here.
+
+%% Put the body of your dissertation here. 
+%% DO NOT include  the bibliography
+
+\mainmatter
+%%I chose to have each of my chapters in a separate file in a subdirectory called ``chapters''.  If you want to do that, 
+%%here's how: - DMA
+\include{chapters_altFormat/ch_intro}
+\include{chapters_altFormat/ch_experiment}
+\include{chapters_altFormat/ch_data_analysis}
+\include{chapters_altFormat/ch_data_analysis_2}
+\include{chapters_altFormat/ch_results}
+\include{chapters_altFormat/ch_summary}
+%%%%%%%    APPENDICES    %%%%%%%%%%
+%% Uncomment ``\appendix'' for one appendix, ``\appendices'' for more than one, and neither for none.
+%%\appendix
+\appendices
+\include{chapters_altFormat/ch_appendix}
+%%If you're not using the \include method, 
+%% just type \chapter{<appendix 1 name>}
+%% and enter the text of the appendix as you would a chapter.
+
+\end{doublespace}
+
+%%%%%%  Bibliography %%%%%
+%% A bibliography is required. By default it is called, "Bibliography"
+%% You may use \UTF{00D2}Literature Cited\UTF{00D3}, \UTF{00D2}Works Cited\UTF{00D3} or \UTF{00D2}References\UTF{00D3} 
+%% instead of \UTF{00D2}Bibliography\UTF{00D3} if that is the convention in your discipline. 
+%% To do so, place your choice in the  empty argument 
+%% of the following command and remove the "%".
+%\renewcommand{\bibname}{}
+
+%% The bibliography may be made using BibTeX.
+%% To do so the necessary commands must be entered in the 
+%% preamble and here. 
+%% Note - do NOT include an extension to the filename below - If your bibtex file is ``BibliographyFilename.bib'', do this: - DMA
+\bibliography{mybibfile}
+
+%% If the Bibliography is made from scratch,
+%% remove the "%" in front of "\begin{thebibliography}{???}"
+%% replacing the ??? with the appropriate entry and 
+%% remove the "%" in front of "\end{thebibliography}"
+%\begin{thebibliography}{}
+%%  Enter the bibliography here.
+%\end{thebibliography}
+%% In either case, the bibliography is automatically entered
+%% in the Table of Contents.
+\end{document}

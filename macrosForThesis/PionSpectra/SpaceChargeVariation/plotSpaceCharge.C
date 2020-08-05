@@ -26,9 +26,9 @@ void plotSpaceCharge()
   TH1D *pim_132_plus = (TH1D *)sn132_plus->Get("pimkecm_ec");
   TH1D *pip_132_plus = (TH1D *)sn132_plus->Get("pipkecm_ec");
 
-  //  pim_132_nom->Divide(pip_132_nom);
-  //  pim_132_minus->Divide(pip_132_minus);
-  //  pim_132_plus->Divide(pip_132_plus);
+  pim_132_nom->Divide(pip_132_nom);
+  pim_132_minus->Divide(pip_132_minus);
+  pim_132_plus->Divide(pip_132_plus);
 
   pim_108_nom->Divide(pip_108_nom);
   pim_108_minus->Divide(pip_108_minus);

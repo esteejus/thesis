@@ -1,0 +1,407 @@
+#include "/home/justin/mythesis/thesis_style.h"
+
+using namespace style;
+
+TGraphErrors * CombineGraph(TGraphErrors *a, TGraphErrors *b, double scale = 1)
+{
+  int a_num = a->GetN();
+  int b_num = b->GetN();
+
+  double x[a_num], y[a_num], ey[a_num], ex[a_num];
+
+  if(a_num != b_num)
+    cout<<"Graph points NOT EQUAL!!!"<<endl;
+
+  for(int i = 0; i < a_num; i++)
+    {
+      double xx,y_a,y_b;
+      a->GetPoint(i,xx,y_a);
+      b->GetPoint(i,xx,y_b);
+      y_a *= scale;
+      y_b *= scale;
+
+      x[i] = xx;
+      y[i] = (y_a + y_b)/2.;
+      ex[i] = 0;
+      ey[i] = abs(y[i] - y_a);
+    }
+
+  return (new TGraphErrors(a_num,x,y,ex,ey));
+}
+
+
+
+void publishPionsSpectra108Sn_matchHighEnergy()
+{
+
+ TFile *pBUU_soft_no_f = TFile::Open("/home/justin/Homework/pBUU/K210EM100/input_for_esym.info/pBUUSoft.root");
+  TGraphErrors *pBUU_soft_no_pim = (TGraphErrors *) pBUU_soft_no_f->Get("pim108");
+  TGraphErrors *pBUU_soft_no_pip = (TGraphErrors *) pBUU_soft_no_f->Get("pip108");
+  
+  TFile *pBUU_stiff_no_f = TFile::Open("/home/justin/Homework/pBUU/K210EM100/input_for_esym.info/pBUUStiff.root");
+  TGraphErrors *pBUU_stiff_no_pim = (TGraphErrors *) pBUU_stiff_no_f->Get("pim108");
+  TGraphErrors *pBUU_stiff_no_pip = (TGraphErrors *) pBUU_stiff_no_f->Get("pip108");
+  
+  TFile *amdJAM55_f = TFile::Open("/home/justin/Homework/AMDJAM/highStat/input_for_esym.info/AMDJAML55new.root");
+  TGraphErrors *amdJAM55_pim = (TGraphErrors *) amdJAM55_f->Get("pim108");
+  TGraphErrors *amdJAM55_pip = (TGraphErrors *) amdJAM55_f->Get("pip108");
+  
+  TFile *amdJAM152_f = TFile::Open("/home/justin/Homework/AMDJAM/highStat/input_for_esym.info/AMDJAML152new.root");
+  TGraphErrors *amdJAM152_pim = (TGraphErrors *) amdJAM152_f->Get("pim108");
+  TGraphErrors *amdJAM152_pip = (TGraphErrors *) amdJAM152_f->Get("pip108");
+
+  TFile *urQMD_46_f = TFile::Open("/home/justin/Homework/UrQMD/input_for_esym.info/UrQMDL46.root");
+  TGraphErrors *urQMD_46_pim = (TGraphErrors *) urQMD_46_f->Get("pim108");
+  TGraphErrors *urQMD_46_pip = (TGraphErrors *) urQMD_46_f->Get("pip108");
+  
+  TFile *urQMD_104_f = TFile::Open("/home/justin/Homework/UrQMD/input_for_esym.info/UrQMDL104.root");
+  TGraphErrors *urQMD_104_pim = (TGraphErrors *) urQMD_104_f->Get("pim108");
+  TGraphErrors *urQMD_104_pip = (TGraphErrors *) urQMD_104_f->Get("pip108");
+
+  TFile *imQMD_05_f = TFile::Open("/home/justin/Homework/IQMD-BNU/input_for_esym.info/IQMD-BNUg05.root");
+  TGraphErrors *imQMD_05_pim = (TGraphErrors *) imQMD_05_f->Get("pim108");
+  TGraphErrors *imQMD_05_pip = (TGraphErrors *) imQMD_05_f->Get("pip108");
+  
+  TFile *imQMD_20_f = TFile::Open("/home/justin/Homework/IQMD-BNU/input_for_esym.info/IQMD-BNUg20.root");
+  TGraphErrors *imQMD_20_pim = (TGraphErrors *) imQMD_20_f->Get("pim108");
+  TGraphErrors *imQMD_20_pip = (TGraphErrors *) imQMD_20_f->Get("pip108");
+
+  TFile *tuQMD_05_f = TFile::Open("/home/justin/Homework/TuQMD/new-highStat/input_for_esym.info/TuQMDg05.root");
+  TGraphErrors *tuQMD_05_pim = (TGraphErrors *) tuQMD_05_f->Get("pim108");
+  TGraphErrors *tuQMD_05_pip = (TGraphErrors *) tuQMD_05_f->Get("pip108");
+  
+  TFile *tuQMD_20_f = TFile::Open("/home/justin/Homework/TuQMD/new-highStat/input_for_esym.info/TuQMDg20.root");
+  TGraphErrors *tuQMD_20_pim = (TGraphErrors *) tuQMD_20_f->Get("pim108");
+  TGraphErrors *tuQMD_20_pip = (TGraphErrors *) tuQMD_20_f->Get("pip108");
+
+  TFile *xbuu_f = TFile::Open("/home/justin/Homework/xBUU/old/input_for_esym.info/xBUU.root");
+  TGraphErrors *xbuu_pim = (TGraphErrors *) xbuu_f->Get("pim108");
+  TGraphErrors *xbuu_pip = (TGraphErrors *) xbuu_f->Get("pip108");
+
+  TFile *xbuu120_f = TFile::Open("/home/justin/Homework/xBUU/new/input_for_esym.info/xBUU_skyrmeL120.root");
+  TGraphErrors *xbuu120_pim = (TGraphErrors *) xbuu120_f->Get("pim108");
+  TGraphErrors *xbuu120_pip = (TGraphErrors *) xbuu120_f->Get("pip108");
+  
+
+
+
+
+
+  auto xbuu_pim_sum = CombineGraph(xbuu_pim,xbuu120_pim,.9);
+  auto tuQMD_pim_sum = CombineGraph(tuQMD_05_pim,tuQMD_20_pim,1.1);
+  auto imQMD_pim_sum = CombineGraph(imQMD_05_pim,imQMD_20_pim,);
+  auto urQMD_pim_sum = CombineGraph(urQMD_46_pim,urQMD_104_pim);
+  auto amdJAM_pim_sum = CombineGraph(amdJAM55_pim,amdJAM152_pim);
+  auto pBUU_pim_sum = CombineGraph(pBUU_stiff_no_pim,pBUU_soft_no_pim);
+
+  auto xbuu_pip_sum = CombineGraph(xbuu_pip,xbuu120_pip,1e-1);
+  auto tuQMD_pip_sum = CombineGraph(tuQMD_05_pip,tuQMD_20_pip,1e-1);
+  auto imQMD_pip_sum = CombineGraph(imQMD_05_pip,imQMD_20_pip,1e-1);
+  auto urQMD_pip_sum = CombineGraph(urQMD_46_pip,urQMD_104_pip,1e-1);
+  auto amdJAM_pip_sum = CombineGraph(amdJAM55_pip,amdJAM152_pip,1e-1);
+  auto pBUU_pip_sum = CombineGraph(pBUU_stiff_no_pip,pBUU_soft_no_pip,1e-1);
+
+  cout<<"pim"<<endl;
+  cout<< xbuu_pim_sum->Integral(5,12)<<endl;
+  cout<< tuQMD_pim_sum->Integral(5,12)<<endl;
+  cout<< imQMD_pim_sum->Integral(5,12)<<endl;
+  cout<< urQMD_pim_sum->Integral(5,12)<<endl;
+  cout<< amdJAM_pim_sum->Integral(5,12)<<endl;
+  cout<< pBUU_pim_sum->Integral(5,12)<<endl;  
+
+  cout<<"pip"<<endl;
+  cout<< xbuu_pip_sum->Integral(5,12)<<endl;
+  cout<< tuQMD_pip_sum->Integral(5,12)<<endl;
+  cout<< imQMD_pip_sum->Integral(5,12)<<endl;
+  cout<< urQMD_pip_sum->Integral(5,12)<<endl;
+  cout<< amdJAM_pip_sum->Integral(5,12)<<endl;
+  cout<< pBUU_pip_sum->Integral(5,12)<<endl;  
+
+
+  gStyle->SetEndErrorSize(0);
+
+  int tuQMD_Soft_mc = kOrange - 0;
+  int tuQMD_Soft_fc = kOrange - 0;
+  int tuQMD_Soft_fs = 1;
+  int tuQMD_Soft_ms = 24;
+  int tuQMD_Soft_msz = 3;
+  int tuQMD_Soft_ls = 4;
+  int tuQMD_Soft_lw = 10;
+  
+  int xBUU_Soft_mc = kBlue - 4;
+  int xBUU_Soft_fc = kBlue - 4;
+  int xBUU_Soft_fs = 1;
+  int xBUU_Soft_ms = 28;
+  int xBUU_Soft_msz = 3;
+  int xBUU_Soft_lw = 10;
+  int xBUU_Soft_ls = 1;
+  
+  int urQMD_Soft_mc = kGreen - 7;
+  int urQMD_Soft_fc = kGreen - 7;
+  int urQMD_Soft_fs = 1;
+  int urQMD_Soft_ms = 26;
+  int urQMD_Soft_msz = 3;
+  int urQMD_Soft_lw = 10;
+  int urQMD_Soft_ls = 7;
+
+  int amdSoft_mc = kMagenta - 9;
+  int amdSoft_fc = kMagenta - 9;
+  int amdSoft_fs = 1;
+  int amdSoft_ms = 30;
+  int amdSoft_msz = 3;
+  int amdSoft_lw = 10;
+  int amdSoft_ls = 9;
+
+  int pBUUSoft_mc = kRed - 7;
+  int pBUUSoft_fc = kRed - 7;
+  int pBUUSoft_fs = 1;
+  int pBUUSoft_ms = 32;
+  int pBUUSoft_msz = 3;
+  int pBUUSoft_lw = 10;
+  int pBUUSoft_ls = 10;
+  
+  tuQMD_pim_sum->SetFillColorAlpha(tuQMD_Soft_fc,.5);
+  tuQMD_pim_sum->SetFillStyle(tuQMD_Soft_fs);
+  tuQMD_pim_sum->SetMarkerColor(tuQMD_Soft_mc);
+  tuQMD_pim_sum->SetMarkerSize(tuQMD_Soft_msz);
+  tuQMD_pim_sum->SetMarkerStyle(tuQMD_Soft_ms);
+  tuQMD_pim_sum->SetLineStyle(tuQMD_Soft_ls);
+  tuQMD_pim_sum->SetLineColor(tuQMD_Soft_mc);
+  tuQMD_pim_sum->SetLineWidth(tuQMD_Soft_lw);
+
+  xbuu_pim_sum->SetFillColorAlpha(xBUU_Soft_fc,.5);
+  xbuu_pim_sum->SetFillStyle(xBUU_Soft_fs);
+  xbuu_pim_sum->SetMarkerColor(xBUU_Soft_mc);
+  xbuu_pim_sum->SetMarkerStyle(xBUU_Soft_ms);
+  xbuu_pim_sum->SetMarkerSize(xBUU_Soft_msz);
+  xbuu_pim_sum->SetLineStyle(xBUU_Soft_ls);
+  xbuu_pim_sum->SetLineColor(xBUU_Soft_mc);
+  xbuu_pim_sum->SetLineWidth(xBUU_Soft_lw);
+
+  urQMD_pim_sum->SetFillColorAlpha(urQMD_Soft_fc,.5);
+  urQMD_pim_sum->SetFillStyle(urQMD_Soft_fs);
+  urQMD_pim_sum->SetMarkerStyle(urQMD_Soft_ms);
+  urQMD_pim_sum->SetMarkerColor(urQMD_Soft_mc);
+  urQMD_pim_sum->SetMarkerSize(urQMD_Soft_msz);
+  urQMD_pim_sum->SetLineStyle(urQMD_Soft_ls);
+  urQMD_pim_sum->SetLineWidth(urQMD_Soft_lw);
+  urQMD_pim_sum->SetLineColor(urQMD_Soft_mc);
+
+  amdJAM_pim_sum->SetFillColorAlpha(amdSoft_fc,.5);
+  amdJAM_pim_sum->SetFillStyle(amdSoft_fs);
+  amdJAM_pim_sum->SetMarkerStyle(amdSoft_ms);
+  amdJAM_pim_sum->SetMarkerColor(amdSoft_mc);
+  amdJAM_pim_sum->SetMarkerSize(amdSoft_msz);
+  amdJAM_pim_sum->SetLineStyle(amdSoft_ls);
+  amdJAM_pim_sum->SetLineColor(amdSoft_mc);
+  amdJAM_pim_sum->SetLineWidth(amdSoft_lw);
+
+  pBUU_pim_sum->SetFillColorAlpha(pBUUSoft_fc,.5);
+  pBUU_pim_sum->SetFillStyle(pBUUSoft_fs);
+  pBUU_pim_sum->SetMarkerStyle(pBUUSoft_ms);
+  pBUU_pim_sum->SetMarkerColor(pBUUSoft_mc);
+  pBUU_pim_sum->SetMarkerSize(pBUUSoft_msz);
+  pBUU_pim_sum->SetLineStyle(pBUUSoft_ls);
+  pBUU_pim_sum->SetLineColor(pBUUSoft_mc);
+  pBUU_pim_sum->SetLineWidth(pBUUSoft_lw);
+
+
+  tuQMD_pip_sum->SetFillColorAlpha(tuQMD_Soft_fc,.5);
+  tuQMD_pip_sum->SetFillStyle(tuQMD_Soft_fs);
+  tuQMD_pip_sum->SetMarkerColor(tuQMD_Soft_mc);
+  tuQMD_pip_sum->SetMarkerSize(tuQMD_Soft_msz);
+  tuQMD_pip_sum->SetMarkerStyle(tuQMD_Soft_ms);
+  tuQMD_pip_sum->SetLineStyle(tuQMD_Soft_ls);
+  tuQMD_pip_sum->SetLineColor(tuQMD_Soft_mc);
+  tuQMD_pip_sum->SetLineWidth(tuQMD_Soft_lw);
+
+  xbuu_pip_sum->SetFillColorAlpha(xBUU_Soft_fc,.5);
+  xbuu_pip_sum->SetFillStyle(xBUU_Soft_fs);
+  xbuu_pip_sum->SetMarkerColor(xBUU_Soft_mc);
+  xbuu_pip_sum->SetMarkerStyle(xBUU_Soft_ms);
+  xbuu_pip_sum->SetMarkerSize(xBUU_Soft_msz);
+  xbuu_pip_sum->SetLineStyle(xBUU_Soft_ls);
+  xbuu_pip_sum->SetLineColor(xBUU_Soft_mc);
+  xbuu_pip_sum->SetLineWidth(xBUU_Soft_lw);
+
+  urQMD_pip_sum->SetFillColorAlpha(urQMD_Soft_fc,.5);
+  urQMD_pip_sum->SetFillStyle(urQMD_Soft_fs);
+  urQMD_pip_sum->SetMarkerStyle(urQMD_Soft_ms);
+  urQMD_pip_sum->SetMarkerColor(urQMD_Soft_mc);
+  urQMD_pip_sum->SetMarkerSize(urQMD_Soft_msz);
+  urQMD_pip_sum->SetLineStyle(urQMD_Soft_ls);
+  urQMD_pip_sum->SetLineWidth(urQMD_Soft_lw);
+  urQMD_pip_sum->SetLineColor(urQMD_Soft_mc);
+
+  amdJAM_pip_sum->SetFillColorAlpha(amdSoft_fc,.5);
+  amdJAM_pip_sum->SetFillStyle(amdSoft_fs);
+  amdJAM_pip_sum->SetMarkerStyle(amdSoft_ms);
+  amdJAM_pip_sum->SetMarkerColor(amdSoft_mc);
+  amdJAM_pip_sum->SetMarkerSize(amdSoft_msz);
+  amdJAM_pip_sum->SetLineStyle(amdSoft_ls);
+  amdJAM_pip_sum->SetLineColor(amdSoft_mc);
+  amdJAM_pip_sum->SetLineWidth(amdSoft_lw);
+
+  pBUU_pip_sum->SetFillColorAlpha(pBUUSoft_fc,.5);
+  pBUU_pip_sum->SetFillStyle(pBUUSoft_fs);
+  pBUU_pip_sum->SetMarkerStyle(pBUUSoft_ms);
+  pBUU_pip_sum->SetMarkerColor(pBUUSoft_mc);
+  pBUU_pip_sum->SetMarkerSize(pBUUSoft_msz);
+  pBUU_pip_sum->SetLineStyle(pBUUSoft_ls);
+  pBUU_pip_sum->SetLineColor(pBUUSoft_mc);
+  pBUU_pip_sum->SetLineWidth(pBUUSoft_lw);
+
+
+  TFile *f = TFile::Open("../rootfiles/publishPions.root");
+  TH1D * pim_sn108 = (TH1D *)f->Get("pim_sn108");
+  TH1D * pip_sn108 = (TH1D *)f->Get("pip_sn108");
+
+  cout<<"Data"<<endl;
+  cout<<pim_sn108->Integral(5,12)<<endl;
+  cout<<pip_sn108->Integral(5,12)<<endl;
+  
+  make(pim_sn108);
+  make(pip_sn108);
+
+  int pim_marker = 20;
+  int pip_marker = 20;
+  int singlesn132 = 20;
+  int singlesn108 = 20;
+  int doubler = 20; 
+
+  gStyle->SetEndErrorSize(0);
+
+  //style
+  int lineS108pim = 1; 
+  int lineS108pip = 1;
+
+  int markS108pim = 21;
+  int markS108pip = 20;  
+
+  //color
+  int lineC108pim = 1; 
+  int lineC108pip = 1;
+
+  int markC108pim = 1;
+  int markC108pip = 1; 
+
+  //size
+  int markSz108pim = 2; //marker size
+  int markSz108pip = 2; //marker size 
+
+  //  TLegend *leg = new TLegend(.2,.2,.55,.5);
+  TLegend *leg = new TLegend(.75,.6,.9,.9);
+  leg->AddEntry(tuQMD_pim_sum,"TuQMD","FL");
+  leg->AddEntry(urQMD_pim_sum,"urQMD","FL");
+  leg->AddEntry(xbuu_pim_sum,"#chiBUU","FL");
+  leg->AddEntry(amdJAM_pim_sum,"AMD + JAM","FL");
+  leg->AddEntry(pBUU_pim_sum,"pBUU","FL");
+
+  TLegend *leg_2 = new TLegend(.55,.75,.8,.9);
+  leg_2->SetHeader("{}^{108}Sn +{}^{112}Sn");
+  leg_2->AddEntry(pim_sn108,"#pi^{-}","lpe");
+  leg_2->AddEntry(pip_sn108,"#pi^{+} (x10^{-1} )","lpe");
+  
+  TLegend *leg_3 = new TLegend(.55,.2,.7,.6);
+  leg_3->AddEntry(pip_sn108,"#pi^{+} (x10^{-1} )","lpe");
+
+  leg_2->SetFillStyle(0);
+  leg_3->SetFillStyle(0);
+
+  TCanvas *cvs = style::stdcvs();
+  cvs->SetLogy();
+
+  pim_sn108->GetYaxis()->SetTitle("dN/^{}dE (MeV^{-1})");
+  pim_sn108->GetYaxis()->CenterTitle();
+  pim_sn108->GetXaxis()->SetTitle("E_{#scale[.6]{COM}} (MeV)");
+  pim_sn108->GetXaxis()->CenterTitle();
+  
+  pim_sn108->GetYaxis()->SetRangeUser(1e-6,2e-2);
+  pim_sn108->SetLineWidth(5);
+  pim_sn108->SetLineStyle(lineS108pim);
+  pim_sn108->SetLineColor(lineC108pim);
+  pim_sn108->SetMarkerStyle(markS108pim);
+  pim_sn108->SetMarkerSize(markSz108pim);
+  pim_sn108->SetMarkerColor(markC108pim);
+  pim_sn108->Draw("E1");
+
+  /*
+  pim_sn108->SetLineWidth(5);
+  pim_sn108->SetLineStyle(lineS108pim);
+  pim_sn108->SetLineColor(lineC108pim);
+  pim_sn108->SetMarkerStyle(markS108pim);
+  pim_sn108->SetMarkerSize(markSz108pim);
+  pim_sn108->SetMarkerColor(markC108pim);
+  pim_sn108->Draw("same E1");
+  */
+  leg->SetBorderSize(0);
+  leg_2->SetBorderSize(0);
+  leg_3->SetBorderSize(0);
+
+  leg->Draw();
+  leg_2->Draw();
+  //  leg_3->Draw();
+
+  
+  //  TCanvas *cvs_2 = style::stdcvs("cvs_2");
+  //  cvs_2->SetLogy();
+
+
+  pip_sn108->GetYaxis()->SetTitle("d^2N/dEd#Omega");
+  pip_sn108->GetYaxis()->CenterTitle();
+  pip_sn108->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
+  pip_sn108->GetXaxis()->CenterTitle();
+
+  pip_sn108->Scale(1e-1);
+
+  //  pip_sn108->GetYaxis()->SetRangeUser(1e-5,3e-3);
+  pip_sn108->SetLineWidth(5);
+  pip_sn108->SetLineStyle(lineS108pip);
+  pip_sn108->SetLineColor(lineC108pip);
+  pip_sn108->SetMarkerStyle(markS108pip);
+  pip_sn108->SetMarkerSize(markSz108pip);
+  pip_sn108->SetMarkerColor(markC108pip);
+
+
+  tuQMD_pim_sum->Draw("same  LE3");
+  xbuu_pim_sum->Draw("same  LE3 ");
+  urQMD_pim_sum->Draw("same  LE3");
+  amdJAM_pim_sum->Draw("same  LE3 ");
+  pBUU_pim_sum->Draw("same  LE3 ");
+  tuQMD_pip_sum->Draw("same  LE3");
+  xbuu_pip_sum->Draw("same  LE3 ");
+  urQMD_pip_sum->Draw("same  LE3");
+  amdJAM_pip_sum->Draw("same  LE3 ");
+  pBUU_pip_sum->Draw("same  LE3 ");
+
+  /*
+  tuQMD_pim_sum->Draw("same  LE4");
+  xbuu_pim_sum->Draw("same  LE4 ");
+  urQMD_pim_sum->Draw("same  LE4");
+  amdJAM_pim_sum->Draw("same  LE4 ");
+  pBUU_pim_sum->Draw("same  LE4 ");
+
+  tuQMD_pip_sum->Draw("same  CE4");
+  xbuu_pip_sum->Draw("same CE4 ");
+  urQMD_pip_sum->Draw("same  CE4");
+  amdJAM_pip_sum->Draw("same  CE4 ");
+  pBUU_pip_sum->Draw("same  CE4 ");
+  */
+  pim_sn108->DrawCopy("same E1");
+
+  pip_sn108->DrawCopy("same E1");
+
+  /*
+  pip_sn108->SetLineWidth(5);
+  pip_sn108->SetLineStyle(lineS108pip);
+  pip_sn108->SetLineColor(lineC108pip);
+  pip_sn108->SetMarkerStyle(markS108pip);
+  pip_sn108->SetMarkerSize(markSz108pip);
+  pip_sn108->SetMarkerColor(markC108pip);
+  pip_sn108->Draw("same E1");
+  */
+
+  cvs->SaveAs("pionSpectra_sn108_sum_matchHE.png");
+
+
+}

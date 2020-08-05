@@ -4,12 +4,18 @@ using namespace style;
 
 void publishPionRatios()
 {
-
+  gStyle->SetFrameLineWidth(10);
+  gStyle->SetLineWidth(10);
+  
   TFile *f = TFile::Open("./rootfiles/publishPions_sm.root");
   TH1D *singleRatio_sn132 = (TH1D *)f->Get("singleRatio_sn132");
   TH1D *singleRatio_sn108 = (TH1D *)f->Get("singleRatio_sn108");
 
   TH1D *doubleRatio = (TH1D *)f->Get("doubleRatio");
+
+  singleRatio_sn108->GetXaxis()->SetNdivisions(505);
+  singleRatio_sn132->GetXaxis()->SetNdivisions(505);
+  doubleRatio->GetXaxis()->SetNdivisions(505);
 
   make(singleRatio_sn108);
   make(singleRatio_sn132);
@@ -22,14 +28,14 @@ void publishPionRatios()
   int lineS108 = 7;
 
   int markS132 = 21;
-  int markS108 = 25;  
+  int markS108 = 21;  
 
   //color
-  int lineC132 = kRed ; 
-  int lineC108 = kRed - 7;
+  int lineC132 = kBlue - 4; 
+  int lineC108 = kGreen - 4;
 
-  int markC132 = kRed ;
-  int markC108 = kRed - 7;  
+  int markC132 = kBlue - 4 ;
+  int markC108 = kGreen - 4;  
 
   //size
   int markSz132 = 2; //marker size
@@ -51,7 +57,7 @@ void publishPionRatios()
   doubleRatio->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
   doubleRatio->GetXaxis()->CenterTitle();
 
-  doubleRatio->GetYaxis()->SetRangeUser(1.8,3.5);
+  doubleRatio->GetYaxis()->SetRangeUser(.9,4.5);
   doubleRatio->SetLineWidth(5);
   doubleRatio->SetLineStyle(1);
   doubleRatio->SetLineColor(4);
@@ -62,11 +68,12 @@ void publishPionRatios()
 
   TCanvas *cvs = style::stdcvs();
 
-
+  gStyle->SetFrameLineWidth(10);
+  gPad->SetLineWidth(10);
   //  cvs->SetLogy();
   //  singleRatio_sn132->GetYaxis()->SetRangeUser(.5,20);
   
-  singleRatio_sn132->GetYaxis()->SetRangeUser(0,15);
+  singleRatio_sn132->GetYaxis()->SetRangeUser(.5,15);
   singleRatio_sn132->GetYaxis()->SetTitle("#pi^{-}/#pi^{+}");
   singleRatio_sn132->GetYaxis()->CenterTitle();
   singleRatio_sn132->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
@@ -91,7 +98,7 @@ void publishPionRatios()
   cvs->Update();
 
 
-
+  /*
   double rightmax = 1.1*singleRatio_sn132->GetMaximum();
   cout<<rightmax<<endl;
   double rightlow    = singleRatio_sn132->GetMinimum();
@@ -99,7 +106,8 @@ void publishPionRatios()
   double scale    = gPad->GetUymax()/(rightmax-rightlow);
   cout<<scale<<endl;
   doubleRatio->Scale(scale);
-  doubleRatio->Draw("same E1");
+*/
+  //  doubleRatio->Draw("same E1");
 
   //  singleRatio_sn108->DrawCopy("same hist L");
   leg->SetBorderSize(0);
@@ -107,19 +115,14 @@ void publishPionRatios()
 
 
 
-    TGaxis *axis = new TGaxis(gPad->GetUxmax(),gPad->GetUymin(),
-   gPad->GetUxmax(), gPad->GetUymax(),1.8,3.5,510,"+L");
 
-	axis->SetLineColor(kRed);
-	axis->SetLabelColor(kRed);
-	axis->Draw("");
-
-  
+  cvs->SetLogy();
   cvs->SaveAs("singleRatio.png");
 
   TCanvas *cvs_2 = style::stdcvs("cvs_2");
   doubleRatio->Draw("E1");
   //  doubleRatio->DrawCopy("same hist C");
+  cvs->SetLogy(false);
 
   cvs_2->SaveAs("doubleRatio.png");
 

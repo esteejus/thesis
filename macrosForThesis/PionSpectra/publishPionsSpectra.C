@@ -89,6 +89,11 @@ void publishPionsSpectra()
   pim_sn132->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
   pim_sn132->GetXaxis()->CenterTitle();
   
+  pim_sn108->GetYaxis()->SetTitle("dN/^{}dE (MeV^{-1})");
+  pim_sn108->GetYaxis()->CenterTitle();
+  pim_sn108->GetXaxis()->SetTitle("T_{#scale[.6]{COM}} (MeV)");
+  pim_sn108->GetXaxis()->CenterTitle();
+
   pim_sn132->GetYaxis()->SetRangeUser(1e-6,2e-2);
   pim_sn132->SetLineWidth(5);
   pim_sn132->SetLineStyle(lineS132pim);
@@ -96,9 +101,11 @@ void publishPionsSpectra()
   pim_sn132->SetMarkerStyle(markS132pim);
   pim_sn132->SetMarkerSize(markSz132pim);
   pim_sn132->SetMarkerColor(markC132pim);
-  pim_sn132->Draw("E1");
+  //  pim_sn132->Draw("E1");
+
 
   pim_sn108->SetLineWidth(5);
+  pim_sn108->GetYaxis()->SetRangeUser(1e-6,2e-2);
   pim_sn108->SetLineStyle(lineS108pim);
   pim_sn108->SetLineColor(lineC108pim);
   pim_sn108->SetMarkerStyle(markS108pim);
@@ -106,9 +113,9 @@ void publishPionsSpectra()
   pim_sn108->SetMarkerColor(markC108pim);
   pim_sn108->Draw("same E1");
 
-  leg->SetBorderSize(0);
-  leg->Draw("same");
-  
+//  leg->SetBorderSize(0);
+//  leg->Draw("same");
+
   //  TCanvas *cvs_2 = style::stdcvs("cvs_2");
   //  cvs_2->SetLogy();
 
@@ -131,7 +138,8 @@ void publishPionsSpectra()
   pip_sn132->SetMarkerStyle(markS132pip);
   pip_sn132->SetMarkerSize(markSz132pip);
   pip_sn132->SetMarkerColor(markC132pip);
-  pip_sn132->Draw("same E1");
+  //  pip_sn132->Draw("same E1");
+
 
   pip_sn108->SetLineWidth(5);
   pip_sn108->SetLineStyle(lineS108pip);

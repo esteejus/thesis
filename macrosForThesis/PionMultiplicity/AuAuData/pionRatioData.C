@@ -44,8 +44,10 @@ void pionRatioData()
   fit_global->SetParameters(1.386,4.109e-1,1.473e-1); //b_o < .15
 
   TF1 *fit_my = new TF1("fit","[0] + [1]/x",0,2);
-  //  fit_my->SetParameters(1.1973,6.8879e-1);// b < 3fm
+  fit_my->SetParameters(1.1973,6.8879e-1);// b < 3fm
   //  fit_my->SetParameters(1.09,.929);
+  fit_my->SetLineWidth(4);
+  fit_my->SetLineStyle(6);
 
   //  globaldata->Fit(fit_global);
   
@@ -105,6 +107,7 @@ void pionRatioData()
   fit_global->SetLineStyle(10);
   fit_global->SetLineWidth(6);
   fit_global->Draw("same");
+  fit_my->Draw("same");
   mydata->Draw("same P");
   tpc->Draw("same PO");
   
@@ -115,7 +118,7 @@ void pionRatioData()
   leg->AddEntry(tpc,"#splitline{{}^{132}Sn +{}^{124}Sn S#piRIT}{scaled to N/Z=1.493}","p");
   leg->AddEntry(mydata,"FOPI","p");
   leg->AddEntry(fit_global,"Global Fit to Data.","l");
-  //  leg->AddEntry(fit_my,"Fit to FOPI Data.","l");
+  leg->AddEntry(fit_my,"Fit to FOPI Data.","l");
   leg->SetBorderSize(0);
   leg->Draw("same");
 
