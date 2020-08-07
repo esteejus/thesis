@@ -78,14 +78,18 @@ void plotPulse()
   leg->SetBorderSize(0);
   leg->SetFillColor(0);
   
+  /*
   TLegend *leg2 = new TLegend(.5,.5,.92,.9);
   leg2->AddEntry(sat_b,"Saturated Signal Pole Zero","L");
   leg2->AddEntry(not_sat_b,"Normal Signal Pole Zero","L");
+  leg2->AddEntry(sat,"Saturated Signal","L");
+  leg2->AddEntry(not_sat,"Normal Signal","L");
   leg2->AddEntry(sat_tb_point,"Saturated Tb","P");
   leg2->AddEntry(sat_mc_tb_point,"Saturated Embedding Threshold","P");
   leg2->SetBorderSize(0);
   leg2->SetFillColor(0);
-
+  */
+  
   sat->SetNpx(10000);
   not_sat->SetNpx(10000);  
 
@@ -141,6 +145,17 @@ void plotPulse()
   style::make(not_sat_clone);
   c2->SaveAs("satpulse.png");
   
+  TLegend *leg2 = new TLegend(.5,.5,.92,.9);
+  leg2->AddEntry(sat_b,"Saturated Signal Pole Zero","L");
+  leg2->AddEntry(not_sat_b,"Normal Signal Pole Zero","L");
+  leg2->AddEntry(sat_clone,"Saturated Signal","L");
+  leg2->AddEntry(not_sat_clone,"Normal Signal","L");
+  leg2->AddEntry(sat_tb_point,"Saturated Tb","P");
+  leg2->AddEntry(sat_mc_tb_point,"Saturated Embedding Threshold","P");
+  leg2->SetBorderSize(0);
+  leg2->SetFillColor(0);
+
+
   c3->cd();
   sat_clone->GetXaxis()->SetRangeUser(0,100);
   sat_clone->GetYaxis()->SetRangeUser(-.05,.2); 
