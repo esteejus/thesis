@@ -1,7 +1,7 @@
 \chapter{Data Analysis II: Cuts and final PID}
 \label{chap:data2}
 
-As Chapter~\ref{chap:data1} covered the corrections and various calibrations to the data, this Chapter will cover the various cuts taken to improve the signal in the experimental data. Some cuts which identify the incoming beam and the event on target are the minimum cut in order to perform an analysis. The cuts pertaining to the track reconstruction quality are also required to suppress as much of the background noise as possible, most of which comes from reconstruction inefficiencies which the cuts presented here address. 
+As Chapter~\ref{chap:data1} covered the corrections and various calibrations to the data, this Chapter will cover the various cuts taken to improve the signal in the experimental data. Some cuts which identify the incoming beam and the event on target are the minimum cut required to perform an analysis. The cuts pertaining to the track reconstruction quality are also required to suppress as much of the background noise as possible, most of which comes from reconstruction inefficiencies which the cuts presented here address. 
 
 
 
@@ -22,7 +22,7 @@ As Chapter~\ref{chap:data1} covered the corrections and various calibrations to 
     \qquad
     \subfloat[$\tin{108}{112}$ system.]{{\includegraphics[width=.46\textwidth,valign=c]{beam-Sn108.png} \label{fig:beampid108}}}%
 
-	\caption{Beam PID achieved of the the neutron rich and poor systems, from analysis of the BigRIPs spectrometer \cite{jon} }
+	\caption{Beam PID achieved of the neutron rich and poor systems, from analysis of the BigRIPs spectrometer \cite{jon} }
 	\label{fig:beampidTwo}
 \end{figure}
 
@@ -143,20 +143,20 @@ The incoming secondary beam is deflected by the magnetic field and impinges on t
 
 \begin{figure}[!htb]%
     \centering
-    \subfloat[Beam angle of the $\tin{108}{124}$ system]{{\includegraphics[width=.45\textwidth,valign=c]{beamAngle-Sn108.png} \label{fig:beamangle108}}}%
+    \subfloat[$\tin{108}{124}$ system]{{\includegraphics[width=.45\textwidth,valign=c]{beamAngle-Sn108.png} \label{fig:beamangle108}}}%
     \qquad
-    \subfloat[Beam angle of the $\tin{112}{124}$ system]{{\includegraphics[width=.45\textwidth,valign=c]{beamAngle-Sn112.png} \label{fig:beamangle112}}}%
+    \subfloat[ $\tin{112}{124}$ system]{{\includegraphics[width=.45\textwidth,valign=c]{beamAngle-Sn112.png} \label{fig:beamangle112}}}%
     
-    \subfloat[Beam angle of the $\tin{124}{112}$ system]{{\includegraphics[width=.45\textwidth,valign=c]{beamAngle-Sn124.png} \label{fig:beamangle124}}}%
+    \subfloat[ $\tin{124}{112}$ system]{{\includegraphics[width=.45\textwidth,valign=c]{beamAngle-Sn124.png} \label{fig:beamangle124}}}%
     \qquad
-    \subfloat[Beam angle of the $\tin{132}{124}$ system]{{\includegraphics[width=.45\textwidth,valign=c]{beamAngle-Sn132.png} \label{fig:beamangle132}}}%
+    \subfloat[$\tin{132}{124}$ system]{{\includegraphics[width=.45\textwidth,valign=c]{beamAngle-Sn132.png} \label{fig:beamangle132}}}%
 
 	\caption{Beam angle at the face of the target in the TPC for all 4 systems.}
 	\label{fig:beamangle}
 \end{figure}
 
 
-Figure~\ref{fig:beamangle} shows the distribution of beam angles for ${}^{132}$Sn and ${}^{108}$Sn systems. Graphical cuts represented by the red lines where events lying in the cuts represent beams that were reconstructed correctly by the beam tracking software outlined in \cite{jon}. This helped to eliminate some of the poorly reconstructed beam events. The angle rotation becomes important in the discussion of transforming back to the center-of-mass system as will be discussed in Section~\ref{sec:pionSpectra}.
+Figure~\ref{fig:beamangle} shows the distribution of beam angles for all systems. Graphical cuts represented by the red lines where events lying in the cuts represent beams that were reconstructed correctly by the beam tracking software outlined in \cite{jon}. This helped to eliminate some of the poorly reconstructed beam events. The angle rotation becomes important in the discussion of transforming back to the center-of-mass system as will be discussed in Section~\ref{sec:pionSpectra}.
 
 
 
@@ -270,7 +270,7 @@ To reduce the number of false tracks, a simple cut on the dOCA can be used. The 
 
 \section{Angular Quality Cuts}
 
-Since the TPC does not have spherical symmetry, there are regions of bad geometric acceptance that effect the efficiency of track reconstruction. Most notably upward and downward-going tracks will have the shortest track length and will correspond to low regions of efficiency as seen in \ref{sec:efficiency}. The relevant geometries which determine these regions are the corners of the field cage. Figure~\ref{fig:angleEffExplanation} shows a cartoon drawing of the front of the field cage were the angles of each corner is given. Since the window to the field cage was slightly higher, the upper angles are smaller than the lower angles. These angles are actually the same as the spherical $\phi$ angle, where the left and right, are most efficient regions, correspond to  $\ang{0}\substack{+24 \\ -34}$ and $\ang{180}\substack{+34 \\ -24}$.  While the exact area of zero efficiency depends on polar angle $\theta_{Lab}$, a clear cut off around these angles can be seen in Figure~\ref{fig:angleEffExplanation} in the angular distribution of the measured tracks. Here, the experimental data was fitted with a Fermi distribution to find the inflection point of where the efficiency drops off significantly. The angular cuts applied to the data is listed by particle type in Table~\ref{tb:anglecuts}. The values are very close to the simple calculation outlined previously. 
+Since the TPC does not have spherical symmetry, there are regions of bad geometric acceptance that affect the efficiency of track reconstruction. Most notably upward and downward-going tracks will have the shortest track length and will correspond to low regions of efficiency as seen in \ref{sec:efficiency}. The relevant geometries which determine these regions are the corners of the field cage. Figure~\ref{fig:angleEffExplanation} shows a cartoon drawing of the front of the field cage were the angles of each corner is given. Since the window to the field cage was slightly higher, the upper angles are smaller than the lower angles. These angles are actually the same as the spherical $\phi$ angle, where the left and right, are most efficient regions, correspond to  $\ang{0}\substack{+24 \\ -34}$ and $\ang{180}\substack{+34 \\ -24}$.  While the exact area of zero efficiency depends on polar angle $\theta_{Lab}$, a clear cut around these angles can be seen in Figure~\ref{fig:angleEffExplanation} in the angular distribution of the measured tracks. Here, the experimental data was fitted with a Fermi distribution to find the inflection point of where the efficiency drops off significantly. The angular cuts applied to the data is listed by particle type in Table~\ref{tb:anglecuts}. The values are very close to the simple calculation outlined previously. 
 
 
 \begin{figure}[!htb]
@@ -283,9 +283,9 @@ Since the TPC does not have spherical symmetry, there are regions of bad geometr
 
 \begin{figure}[!htb]%
     \centering
-    \subfloat[$\pi^-$ angular cuts in the $\tin{108}{112}$ system. $\theta_{CM} < 90$ and < $\phi$ <]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pim-Sn108.png} \label{fig:pim108angle}}}%
+    \subfloat[ $\tin{108}{112}$ system. ]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pim-Sn108.png} \label{fig:pim108angle}}}%
     \qquad
-    \subfloat[$\pi^-$ angular cuts in the $\tin{132}{124}$ system. $\theta_{CM} < 90$ and < $\phi$ <]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pim-Sn132.png} \label{fig:pim132angle}}}%
+    \subfloat[$\tin{132}{124}$ system. ]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pim-Sn132.png} \label{fig:pim132angle}}}%
 
 	\caption{Measured $\pi^-$ angular distribution for the two spherical angles $\theta$ and $\phi$.}
     \label{fig:pim}
@@ -294,9 +294,9 @@ Since the TPC does not have spherical symmetry, there are regions of bad geometr
 
 \begin{figure}[!htb]%
     \centering
-    \subfloat[$\pi^+$ angular cuts in the $\tin{108}{112}$ system. $\theta_{CM} < 90$ and < $\phi$ <]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pip-Sn108.png} \label{fig:pip108angle}}}%
+    \subfloat[ $\tin{108}{112}$ system.]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pip-Sn108.png} \label{fig:pip108angle}}}%
     \qquad
-    \subfloat[$\pi^+$ angular cuts in the $\tin{132}{124}$ system. $\theta_{CM} < 90$ and < $\phi$ <]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pip-Sn132.png} \label{fig:pip132angle}}}%
+    \subfloat[$\tin{132}{124}$ system.]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pip-Sn132.png} \label{fig:pip132angle}}}%
      \caption{Measured $\pi^+$ angular distribution for the two spherical angles $\theta$ and $\phi$.}
         \label{fig:pip}
 \end{figure}
@@ -331,7 +331,7 @@ C_a = \frac{4\pi}{\Delta\Omega},
 \label{eq:acceptCorrFactor}
 \end{equation}
 
-for $\pi^+$ that is \num{6.15} and $\pi^-$ \num{6.05}. We assume the pion emission is isotropic for a couple of reasons. The symmetry of very central collisions is invariant with respects to any rotations. Also the mass of the pion is smaller than the nucleons mass and therefore collective motion leading to anisotropies would be small for the pion, i.e. most of the motion would be thermal. We also measured two systems $\tin{112}{124}$ and its inverse $\tin{124}{112}$. The forward emission in the $\tin{124}{112}$ system is really the same as the backward emission of the $\tin{112}{124}$ system and vice versa. It was shown for pions emitted in central collisions the forward and backward emission was the same \cite{jon}, proving that at least for central collisions pions are emitted isotropically to a good approximation. 
+for $\pi^+$ that is \num{6.15} and $\pi^-$ \num{6.05}. We assume the pion emission is isotropic for a couple of reasons. The symmetry of very central collisions is invariant with respects to any rotations. Also the mass of the pion is smaller than the nucleons mass and therefore collective motion leading to anisotropies would be small for the pion, i.e. most of the motion would be thermal. We also measured two systems $\tin{112}{124}$ and its inverse $\tin{124}{112}$. The forward emission in the $\tin{124}{112}$ system is the same as the backward emission of the $\tin{112}{124}$ system and vice versa. It was shown for pions emitted in central collisions the forward and backward emission was the same \cite{jon}, proving that at least for central collisions pions are emitted isotropically to a good approximation. 
 
 
 \subsection{Correcting Pion Spectra (Efficiency and Acceptance)}
