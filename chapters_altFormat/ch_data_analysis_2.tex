@@ -218,7 +218,7 @@ $\tin{108}{112}$ & -14.75  & 1.3 \\
 \begin{figure}[htb]
 \centering
 \includegraphics[scale=.5]{error_b_full.pdf}
-\caption{Estimate of the impact parameter from the track multiplicity.}
+\caption{Estimate of the impact parameter from the track multiplicity from \cite{jon}.}
 \label{fig:impactPar}
 \end{figure}
 
@@ -283,9 +283,9 @@ Since the TPC does not have spherical symmetry, there are regions of bad geometr
 
 \begin{figure}[!htb]%
     \centering
-    \subfloat[ $\tin{108}{112}$ system. ]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pim-Sn108.png} \label{fig:pim108angle}}}%
+    \subfloat[ $\tin{108}{112}$ system. ]{{\includegraphics[width=.8\textwidth,valign=c]{angularCut-pim-Sn108.png} \label{fig:pim108angle}}}%
     \qquad
-    \subfloat[$\tin{132}{124}$ system. ]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pim-Sn132.png} \label{fig:pim132angle}}}%
+    \subfloat[$\tin{132}{124}$ system. ]{{\includegraphics[width=.8\textwidth,valign=c]{angularCut-pim-Sn132.png} \label{fig:pim132angle}}}%
 
 	\caption{Measured $\pi^-$ angular distribution for the two spherical angles $\theta$ and $\phi$.}
     \label{fig:pim}
@@ -294,9 +294,9 @@ Since the TPC does not have spherical symmetry, there are regions of bad geometr
 
 \begin{figure}[!htb]%
     \centering
-    \subfloat[ $\tin{108}{112}$ system.]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pip-Sn108.png} \label{fig:pip108angle}}}%
+    \subfloat[ $\tin{108}{112}$ system.]{{\includegraphics[width=.8\textwidth,valign=c]{angularCut-pip-Sn108.png} \label{fig:pip108angle}}}%
     \qquad
-    \subfloat[$\tin{132}{124}$ system.]{{\includegraphics[width=.46\textwidth,valign=c]{angularCut-pip-Sn132.png} \label{fig:pip132angle}}}%
+    \subfloat[$\tin{132}{124}$ system.]{{\includegraphics[width=.8\textwidth,valign=c]{angularCut-pip-Sn132.png} \label{fig:pip132angle}}}%
      \caption{Measured $\pi^+$ angular distribution for the two spherical angles $\theta$ and $\phi$.}
         \label{fig:pip}
 \end{figure}
@@ -347,14 +347,19 @@ Each track that is identified as a pion as described in Section~\ref{sec:pid}, i
 
 Once all the events have been rotated to align with the z-axis, transforming from the Lab to the CM frame is done by a Lorentz transformation. The 4-momentum vector in the lab frame is defined as $\textbf{P} = (E/c,p_x,p_y,p_z)$. Where the corresponding Lorentz transform into the CM frame along the beam (z-axis) is defined by the matrix $A$,
 
-\begin{equation}
-A = \begin{pmatrix}
+
+
+\[ \left( \begin{array}{cccc}
 1 & 0 & 0 & 0\\
 0 & 1 & 0 & 0\\
-0 & 0 & \gamma & -\beta \gamma\\
+0 & 0 & \gamma & -\beta \gamma \\
 0 & 0 & -\beta \gamma & \gamma
-\end{pmatrix},
-\end{equation}
+\end{array} \right) \]
+
+
+
+
+
 
 where $\beta$, describes the velocity of the CM system, and $\gamma=1/ \sqrt{1-\beta^2}$. The parameter $\beta$ can be determined from the total momentum of the system in the Laboratory frame $P = \sqrt{ T_{P}^2 + 2M_{T}T_{T}}$ and the total energy of the system $E = T_{P} + M_{P} + M_{T}$ -- where $T_{P}$ is the projectile kinetic energy in the Lab frame, $M_{T}$, and $M_{P}$ are the total mass of the target and projectile, where $\beta = -P/E$; the (-) sign denotes the correct direction for transforming from the Lab to the CM frame. The transformation of each  track is defined as $p^{CM} = \textbf{A}p^{Lab}$.
 

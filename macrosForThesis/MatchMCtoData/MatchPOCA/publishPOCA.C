@@ -6,21 +6,44 @@ void publishPOCA()
 {
   gStyle->SetErrorX(0);
 
+
+  TFile *g = TFile::Open("../analysis-DOCA-Sn132-merge.root");
+
+  TH1D *data_p = (TH1D *)g->Get("doca_p");
+  TH1D *data_d = (TH1D *)g->Get("doca_d");
+  TH1D *data_t = (TH1D *)g->Get("doca_t");
+  TH1D *data_he3 = (TH1D *)g->Get("doca_he3");
+  TH1D *data_he4 = (TH1D *)g->Get("doca_he4");
+
+
   TFile *f = TFile::Open("../angles_poca.root");
-  TH1D *mc_p = (TH1D *)f->Get("poca_mc_p");
+  /*
   TH1D *data_p = (TH1D *)f->Get("poca_p");
-
-  TH1D *mc_d = (TH1D *)f->Get("poca_mc_d");
   TH1D *data_d = (TH1D *)f->Get("poca_d");
-
-  TH1D *mc_t = (TH1D *)f->Get("poca_mc_t");
   TH1D *data_t = (TH1D *)f->Get("poca_t");
-
-  TH1D *mc_he3 = (TH1D *)f->Get("poca_mc_he3");
   TH1D *data_he3 = (TH1D *)f->Get("poca_he3");
-
-  TH1D *mc_he4 = (TH1D *)f->Get("poca_mc_he4");
   TH1D *data_he4 = (TH1D *)f->Get("poca_he4");
+  */
+  
+  TH1D *mc_p = (TH1D *)f->Get("poca_mc_p");
+  TH1D *mc_d = (TH1D *)f->Get("poca_mc_d");
+  TH1D *mc_t = (TH1D *)f->Get("poca_mc_t");
+  TH1D *mc_he3 = (TH1D *)f->Get("poca_mc_he3");
+  TH1D *mc_he4 = (TH1D *)f->Get("poca_mc_he4");
+
+  int rebin_i = 4;
+  
+  data_p->Rebin(rebin_i);
+  data_d->Rebin(rebin_i);
+  data_t->Rebin(rebin_i);
+  data_he3->Rebin(rebin_i);
+  data_he4->Rebin(rebin_i);
+  
+  mc_p->Rebin(rebin_i);
+  mc_d->Rebin(rebin_i);
+  mc_t->Rebin(rebin_i);
+  mc_he3->Rebin(rebin_i);
+  mc_he4->Rebin(rebin_i);
 
   data_p->GetYaxis()->SetTitle("Probability");
   data_p->GetXaxis()->SetTitle("Dist. to Vertex [mm]");
@@ -180,19 +203,19 @@ void publishPOCA()
 
   auto leg = new TLegend(.2,.2,.35,.4);
   leg->AddEntry(data_p,"p","pe");
-  leg->AddEntry(data_d,"d","pe");
-  leg->AddEntry(data_t,"t","pe");
-  leg->AddEntry(data_he3,"{}^{3}He","pe");
-  leg->AddEntry(data_he4,"{}^{4}He","pe");
+  leg->AddEntry(data_d,"d x5","pe");
+  leg->AddEntry(data_t,"t x20","pe");
+  leg->AddEntry(data_he3,"{}^{3}He x50","pe");
+  leg->AddEntry(data_he4,"{}^{4}He x1000","pe");
   leg->SetBorderSize(0);
   leg->SetHeader("Data");
   
   auto leg2 = new TLegend(.3,.2,.4,.4);
   leg2->AddEntry(mc_p,"p","pe");
-  leg2->AddEntry(mc_d,"d","pe");
-  leg2->AddEntry(mc_t,"t","pe");
-  leg2->AddEntry(mc_he3,"{}^{3}He","pe");
-  leg2->AddEntry(mc_he4,"{}^{4}He","pe");
+  leg2->AddEntry(mc_d,"d x5","pe");
+  leg2->AddEntry(mc_t,"t x20","pe");
+  leg2->AddEntry(mc_he3,"{}^{3}He x50","pe");
+  leg2->AddEntry(mc_he4,"{}^{4}He x1000","pe");
   leg2->SetBorderSize(0);
   leg2->SetHeader("MC");
 

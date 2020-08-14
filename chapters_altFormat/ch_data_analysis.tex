@@ -44,7 +44,7 @@ The fit of each individual pulse contains the height of the pulse and the timing
     \subfloat[$\mathrm{2^{nd}}$ iteration]{{\includegraphics[width=.24\textwidth,valign=c]{psa1.png} \label{fig:psa1}}}%
     \subfloat[$\mathrm{3^{nd}}$ iteration]{{\includegraphics[width=.24\textwidth,valign=c]{psa2.png} \label{fig:psa2}}}%
     \subfloat[$\mathrm{4^{nd}}$ iteration]{{\includegraphics[width=.24\textwidth,valign=c]{psa3.png} \label{fig:psa3}}}%
-    \subfloat[Final output of the PSA]{{\includegraphics[width=.24\textwidth,valign=c]{psa4.png} \label{fig:psa}}}%
+    \subfloat[Final output of the PSA]{{\includegraphics[width=.24\textwidth,valign=c]{psa4.png} \label{fig:psa4}}}%
 
   	\caption{Example of the pulse shape algorithm through each step in processing a given pad. }
 	\label{fig:psaTask}
@@ -124,7 +124,7 @@ In the experiment the gating grid itself was quite stable in the  ${}^{132}$Sn a
 
 \begin{table*}\centering
 \ra{1.3}
-\begin{tabular}{@{}rrrrrrr@{}}\toprule
+\begin{tabular}{@{}ccccccc@{}}\toprule
 & \multicolumn{3}{c}{$100 MeV Target$}\\
 \cmidrule{2-4}
 Particle &\phantom{abc} & Measured & Corrected & \% Difference Raw & \% Difference Corrected\\
@@ -139,7 +139,7 @@ d   & 817.1 & 831.15 & 797.94 &  1.7  & -2.3\\
 
 \begin{table*}\centering
 \ra{1.3}
-\begin{tabular}{@{}rrrrrrr@{}}\toprule
+\begin{tabular}{@{}ccccccc@{}}\toprule
 & \multicolumn{3}{c}{$100 MeV$}\\
 \cmidrule{2-4}
 Particle & Expected & Measured & Corrected & \% Difference Raw & \% Difference Corrected\\
@@ -154,7 +154,7 @@ d   & 817.1 & 898.5 & 874.5 &  2.1   & -2.7\\
 
 \begin{table*}\centering
 \ra{1.3}
-\begin{tabular}{@{}rrrrrrr@{}}\toprule
+\begin{tabular}{@{}ccccccc@{}}\toprule
 & \multicolumn{3}{c}{$300 MeV$}\\
 \cmidrule{2-4}
 Particle & Expected & Measured & Corrected & \% Difference Raw & \% Difference Corrected\\
@@ -201,6 +201,7 @@ Momentum Resolution \% & <dE/dx> Resolution \% \\
 \label{sec:elecCalib}
 
 \begin{figure}[!htb]
+\centering
 \includegraphics[width=\linewidth]{gaincalib.png}
 \caption{Repose of each channel in the electronics to various input voltages of an input signal supplied by a pulse generator.}
 \label{fig:gaincalib}
@@ -217,6 +218,7 @@ As discussed in Section~\ref{sec:wireplanes} the voltage of the anode sections 1
 
 
 \begin{figure}[!htb]
+\centering
 \includegraphics[width=\linewidth]{highlowcal.png}
 \caption{Calibration of low and high gain sections of the anode wires.}
 \label{fig:highlowcal}
@@ -243,6 +245,7 @@ Figure~\ref{fig:intro} shows the theoretical energy loss curves for several part
 
   
 \begin{figure}[ht!]
+\centering
 \includegraphics[width=\linewidth]{intrographic}
 %\includegraphics[width=\linewidth]{intrographic_2}
 \caption{The expected $dE/dx$ lines of different particles are given in red as calculated by Geant4. The approximate dynamic range of the TPC is shown by the vertical bar for the gain setting used in the experiment. Anything outside of this region would be saturated to some degree.}
@@ -272,15 +275,6 @@ PRF_{\mathrm{Gaus}}(\lambda) = N_0 e^\frac{-\lambda^2}{2\sigma^2}.
 \end{equation}
 
 
-\begin{figure}[ht!]s
-\begin{overpic}[width=\linewidth]{fig5.pdf}
-\put(61,55){\contour{white}{ PRF${}_{\mathrm{Gaus}}(\lambda)$ eq. \ref{eq:gaus}  }}
-\put(61,49){\contour{white}{ PRF${}_{\mathrm{Gatti}}(\lambda)$ eq. \ref{eq:gatti} }}
-\end{overpic}
-\caption{Experimental pad response function of many events for a crossing angle of $85^{\circ} < \theta \leq 90^{\circ}$.  }
-\label{fig:expprf}
-\end{figure}
-
 
 
 The shape of the PRF depends on the crossing angle of the track, which determines how wide the charge is distributed along the wire \cite{gatti}. Figure~\ref{fig:prfpimData} shows the PRF for $\pi^-$ tracks versus the crossing angle $\theta$ of the track. The PRF gets wider starting from $90^{\circ}$  until where the clustering switches directions at $\ang{45}$. If we did not switch clustering directions the PRF would become wider until it was a uniform distribution and there was no position resolution. Switching shows the opposite trend where the PRF becomes narrower going from $45^{\circ}$ to $0^{\circ}$, as the position resolution gets better.
@@ -293,6 +287,7 @@ The shape of the PRF depends on the crossing angle of the track, which determine
 \end{figure}
 
 \begin{figure}[ht!]
+\centering
 \vspace{5mm}
 \includegraphics[width=\linewidth]{fig7}
 \caption{Parameters $N_{0}$ and $\sigma$ as a function of the crossing angle $\theta$ with the $4^{th}$ order polynomial fits.}
@@ -331,6 +326,7 @@ The Gaussian fit was performed on each PRF for a crossing angle steps of  $\ang{
 \label{sec:desat}
 
 \begin{figure}[ht!]
+\centering
 \includegraphics[width=\linewidth]{saturated_pads}
 \caption{A typical case of a saturating event. The red pulses represent the time bucket signal for each collected charge. The pads directly underneath the avalanche point, $q_{2'}$ and $q_{3'}$, are saturated while pads farther away, $q_1$ and $q_4$ are not saturated.}
 \label{fig:satpad}
@@ -417,7 +413,7 @@ $\si{\kilo\eV\per\centi\meter}$ & 11.2   &.034  &5.43   &  903   &150     \\
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=\linewidth]{spacechg_cartoon.png}
+\includegraphics[width=.8\linewidth]{spacechg_cartoon.png}
 \caption{Cartoon diagram of the location of space charge for the ${}^{132}$Sn beam.}
 \label{fig:spacechg_cartoon}
 \end{figure}
@@ -425,7 +421,7 @@ $\si{\kilo\eV\per\centi\meter}$ & 11.2   &.034  &5.43   &  903   &150     \\
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=\linewidth]{beampath.png}
+\includegraphics[width=.8\linewidth]{beampath.png}
 \caption{Beam path of the experiments}
 \label{fig:beampaths}
 \end{figure}
@@ -490,6 +486,7 @@ The only parameter in the space charge correction algorithm is the surface charg
 This is done for several runs which vary in beam intensity. Since the surface charge density is proportional to the beam rate, a linear fit gives good agreement for interpolating the surface charge values as a function of beam rate. Figure~\ref{fig:spacechg_relation} shows the relation of the dependence of the space charge as a function of beam rate for the ${}^{132}$Sn system.
 
 \begin{figure}[!htb]
+\centering
 \includegraphics[width=\linewidth]{SC_Relation.pdf}
 \caption{Relationship between the observable  $\Delta\mathrm{V}_\mathrm{LR}$ and the estimated charge density, and the beam intensity for each run. The blue and green line represents two separate runs at different beam intensities. The condition for  $\Delta\mathrm{V}_\mathrm{LR} = 0$ is solved for for each run. These values are then plotted against the beam intensity where finally a linear fit provides the interpolation for all beam intensities in between.}
 \label{fig:spacechg_relation}
@@ -507,6 +504,7 @@ To reduce the need to compute a new electric field for each space charge value, 
 %estimate of the error of VLR and how it corresponds to charge density
 
 \begin{figure}[!htb]
+\centering
 \includegraphics[width=\linewidth]{spaceChgDensity.png}
 \caption{Distribution of estimated space charge densities for each beam type.}
 \label{fig:scDensity}
@@ -515,6 +513,7 @@ To reduce the need to compute a new electric field for each space charge value, 
 
 
 \begin{figure}[!htb]
+\centering
 \includegraphics[width=\linewidth]{VLRresidual.png}
 \caption{Residuals in the fitted line of $\Delta V_{LR}$ observable for all systems.}
 \label{fig:vlrResidual}
@@ -525,7 +524,7 @@ Adding the BDC vertex greatly improves the momentum resolution of the track fitt
 
 \begin{figure}[!htb]%
     \centering
-    \subfloat[Compare the momentum before and after including the BDC vertex for tracks with $\theta_{Lab} < \ang{40}$, before the space charge correciton.]{{\includegraphics[width=.45\textwidth,valign=c]{BDC_P_small_angle.pdf} \label{fig:psa0}}}%
+    \subfloat[Compare the momentum before and after including the BDC vertex for tracks with $\theta_{Lab} < \ang{40}$, before the space charge correciton.]{{\includegraphics[width=.45\textwidth,valign=c]{BDC_P_small_angle.pdf} \label{fig:mom_S_before}}}%
     \qquad
     \subfloat[Comparison of the momentum before and after including the BDC vertex for tracks with $\theta_{Lab} > \ang{40}$, before the space charge correction.]{{\includegraphics[width=.45\textwidth,valign=c]{BDC_P_large_angle.pdf} \label{fig:mom_L_before}}}\\
     \subfloat[Compare the momentum before and after including the BDC vertex for tracks with $\theta_{Lab} < \ang{40}$, after the space charge correction.]{{\includegraphics[width=.45\textwidth,valign=c]{BDC_P_aftercor_small_angle.pdf} \label{fig:mom_S_after}}}%

@@ -142,11 +142,11 @@ There are three wire planes that are mounted underneath the pad-plane. The wire 
 
  \begin{table*}[!htb]
  \centering
-\ra{1.3}
-\begin{tabular}{@{}rrrrrrr@{}}\toprule 
-\multicolumn{2}{c}{GET electronics settings}\\
+\ra{1.1}
+\begin{tabular}{@{}ccccccc@{}}\toprule 
+\multicolumn{7}{c}{GET electronics settings}\\
 \midrule
- Plane & Material & Diameter \si{\micro\metre} & Pitch \si{\milli\metre} & Distance to pad-plane & Tension \si{\newton} & Voltage \si{\volt}\\ [0.5ex] 
+ Plane & Material & Diameter \si{\micro\metre} & Pitch \si{\milli\metre} & Distance to pad-plane \si{\milli\metre}& Tension \si{\newton} & Voltage \si{\volt}\\ [0.5ex] 
  Anode  & Au-plated W   &  20  &  4  &  4   &  0.5  &  1460  \\
  Ground & BeCu          &  75  &  1  &  8   &  1.2  &  0     \\ 
  Gating & BeCu          &  75  &  1  &  14   &  1.2 &  -110$\pm$ 70\\ 
@@ -156,7 +156,7 @@ There are three wire planes that are mounted underneath the pad-plane. The wire 
 \label{tb:wireplane}
 \end{table*}
 
-In the open configuration, the gating grid is transparent to electrons coming from the field cage volume and also allows for ions to move from the avalanche region into the TPC volume. In the closed configuration it is opaque to electrons and ions, when set to the right voltages. Typically the gating grid is always in the closed configuration, only opening it momentarily when the data acquisition trigger criteria is met to take data. By keeping it always closed the electrons which come from the un-reacted beam are blocked,  which if allowed to go to the anode wires, would quickly build up enormous amounts of positive ions, flooding the field cage with space charge, distorting the electrons represnting the track paths. We open the gating grid for about \SI{11}{\micro\second} which is more than the time it takes for the electrons to drift 1 TPC volume. After this, we close the gating grid to prevent the back-flow of ions from the avalanche region from that event. Since ions move with a velocity much slower than that of electrons \cite{blumrol}, the ions only move several \si{\micro\metre} in the time the gate is open. This allows for electrons to pass through while preventing the back-flow of ions into the FC volume, reducing or even eliminating the space charge resulting from the avalanche region.
+In the open configuration, the gating grid is transparent to electrons coming from the field cage volume and also allows for ions to move from the avalanche region into the TPC volume. In the closed configuration it is opaque to electrons and ions, when set to the right voltages. Typically the gating grid is always in the closed configuration, only opening it momentarily when the data acquisition trigger criteria is met to take data. By keeping it always closed the electrons which come from the un-reacted beam are blocked,  which if allowed to go to the anode wires, would quickly build up enormous amounts of positive ions, flooding the field cage with space charge, distorting the electrons represnting the track paths. We open the gating grid for about \SI{11}{\micro\second} which is more than the time it takes for the electrons to drift one TPC volume. After this, we close the gating grid to prevent the back-flow of ions from the avalanche region from that event. Since ions move with a velocity much slower than that of electrons \cite{blumrol}, the ions only move several \si{\micro\metre} in the time the gate is open. This allows for electrons to pass through while preventing the back-flow of ions into the FC volume, reducing or even eliminating the space charge resulting from the avalanche region.
 
 Figure~\ref{fig:gg_onoff} shows a Garfield simulation of the drift lines of electrons in both the on and off configurations. In the on configuration, all the wires share the same average voltage, $V_{g.g.}$, which is set to the optimal voltage that represents of 100\% electron transparency. Figure~\ref{fig:wires_open} shows the electrons are allowed to drift completely through the gating grid all the way to terminate on the anode wires. In the off configuration, the reference voltage $V_{g.g.}$ remains the same, but alternating wires get an offset voltage of $\pm \Delta V$, so that the electric field produced by the voltage difference $2\Delta V$ between wires is great enough to block incoming electrons. Figure~\ref{fig:wires_closed} shows this case were the electron drift lines are fully blocked, as they terminate on the more positive wires. Opening the grid from this closed bi-polar mode is simply done by removing the offset voltage and allowing the two wires to short which equilibrates their charges, coming back to the average voltage setting in the on configuration.
 
@@ -207,7 +207,8 @@ For the voltage of \SI{1460}{\volt} the parameters of the fit are $A_0=903.9$ an
 
 
 \begin{figure}[!htb]
-\includegraphics[width=\textwidth]{gain.png}
+\centering
+\includegraphics[width=.8\textwidth]{gain.png}
 \caption{Number of electrons produced in a single avalanche on an anode wire. Two different voltages were simulated using Garfield++ at 1470 $V$ and 1214 $V$. The expected Polya distribution fit is also given in yellow.}
 \label{fig:anodegain}
 \end{figure}
@@ -241,7 +242,7 @@ The pad-plane is a multi-layer circuit board which is segmented into \SI{11.5}{\
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=\textwidth]{3boards_ps.jpg}
+\includegraphics[width=.8\textwidth]{3boards_ps.jpg}
 \caption{Figure of the pad plane boards being glued to the top plate. }
 \label{fig:padplane}
 \end{figure}
@@ -605,7 +606,8 @@ Figure~\ref{fig:dataTrigger1} summarizes the ${}^{132}$Xe primary beam, where th
 Figure~\ref{fig:data} shows the example pad plane readout of the TPC from a central nuclear collision of Sn + Sn. Here we can see several tracks resulting from a single vertex location which is near the target region. The color values represent the max ADC observed in a given pad. The large amount of saturation that occurs in the electronics which is represented by the brightest yellow value. Also the lower voltage anode sections described in Section~\ref{sec:wireplanes} are denoted by red arrows. The pads directly over these wire planes have an effective gain reduction due to the lower anode voltage on the wires. Tracks with a high enough energy loss continue through these sections, but tracks with low energy loss values do not deposit enough energy and disappear, only to reappear in the higher gain section in between. 
 
 \begin{figure}[!htb]
-\includegraphics[width=\linewidth]{data.png}
+\centering
+\includegraphics[width=.8\linewidth]{data.png}
 \caption{Pad plane projection for a collision event in the TPC. Highlighted by red arrows are two regions of anode wires which had a reduced voltage of 1214 V. The voltage of the rest of the TPC anode wires are 1460 V. The reduction in voltage reduces the gain by a factor of about 10. }
 \label{fig:data}
 \end{figure}
@@ -615,7 +617,8 @@ Figure~\ref{fig:data} shows the example pad plane readout of the TPC from a cent
 Shown in Figure~\ref{fig:cocktail} is a typical calibration event, where one particle enters the TPC volume at a time and parallel to the pad plane, representing an ideal case for momentum and $dE/dx$ determination; as it does not suffer from inefficiencies of high multiplicity events seen in the collision experimental data. The primary goal of this data set was to calibrate the TPC in both momentum and dE/dx as will be discussed in Section~\ref{sec:cocktail}. 
 
 \begin{figure}[!htb]
-\includegraphics[width=\linewidth]{cocktail.png}
+\centering
+\includegraphics[width=.8\linewidth]{cocktail.png}
 \caption{Pad plane projection for a calibration event in the TPC.}
 \label{fig:cocktail}
 \end{figure}
