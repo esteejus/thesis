@@ -31,6 +31,9 @@ TGraphErrors * CombineGraph(TGraphErrors *a, TGraphErrors *b, double scale = 1)
 
 void publish108SingleSum()
 {
+  gStyle->SetLineWidth(8);
+
+
   TFile *pBUU_soft_no_f = TFile::Open("/home/justin/Homework/pBUU/K210EM100/input_for_esym.info/pBUUSoft_r-1.root");
   TGraphErrors *pBUU_soft_no_DR = (TGraphErrors *) pBUU_soft_no_f->Get("piRatio108");
 
@@ -270,10 +273,10 @@ void publish108SingleSum()
   TLegend *leg_soft = new TLegend(.67,.56,.97,.85);
   leg_soft->AddEntry(tuQMD_sum,"TuQMD","FL");
   leg_soft->AddEntry(urQMD_sum,"urQMD","FL");
-  //leg_soft->AddEntry(imQMD_sum,"ImQMD","FL");
+  leg_soft->AddEntry(imQMD_sum,"IQMD-BNU","FL");
   leg_soft->AddEntry(xbuu_sum,"#chiBUU","FL");
-  //  leg_soft->AddEntry(amdJAM_sum,"AMD + JAM","FL");
-  //  leg_soft->AddEntry(pBUU_sum,"pBUU","FL");
+  leg_soft->AddEntry(amdJAM_sum,"AMD + JAM","FL");
+  leg_soft->AddEntry(pBUU_sum,"pBUU","FL");
 
   leg_soft->SetBorderSize(0);
   leg_soft->SetFillStyle(0);
@@ -289,11 +292,11 @@ void publish108SingleSum()
 
   singleRatio_sn108->GetXaxis()->SetNdivisions(505);
   singleRatio_sn108->Draw("L E1");
-  //  pBUU_sum->Draw("same  LE3 ");
-  //  imQMD_sum->Draw("same  LE3");
+  pBUU_sum->Draw("same  LE3 ");
+  imQMD_sum->Draw("same  LE3");
   xbuu_sum->Draw("same  LE3 ");
   tuQMD_sum->Draw("same  LE3");
-  //  amdJAM_sum->Draw("same  LE3 ");
+  amdJAM_sum->Draw("same  LE3 ");
   urQMD_sum->Draw("same  LE3");
   singleRatio_sn108->DrawCopy("same L E1");  
   leg_soft->Draw();

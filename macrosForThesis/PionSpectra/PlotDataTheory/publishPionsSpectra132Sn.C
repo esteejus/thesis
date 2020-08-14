@@ -137,6 +137,33 @@ void publishPionsSpectra132Sn()
   int pBUUSoft_msz = 3;
   int pBUUSoft_lw = 10;
   int pBUUSoft_ls = 10;
+
+  int imQMD_Soft_mc = kCyan;
+  int imQMD_Soft_fc = kCyan;
+  int imQMD_Soft_fs = 1;
+  int imQMD_Soft_ms = 26;
+  int imQMD_Soft_msz = 3;
+  int imQMD_Soft_lw = 10;
+  int imQMD_Soft_ls = 7;
+
+  imQMD_pim_sum->SetFillColorAlpha(imQMD_Soft_fc,.5);
+  imQMD_pim_sum->SetFillStyle(imQMD_Soft_fs);
+  imQMD_pim_sum->SetMarkerStyle(imQMD_Soft_ms);
+  imQMD_pim_sum->SetMarkerColor(imQMD_Soft_mc);
+  imQMD_pim_sum->SetMarkerSize(imQMD_Soft_msz);
+  imQMD_pim_sum->SetLineStyle(imQMD_Soft_ls);
+  imQMD_pim_sum->SetLineWidth(imQMD_Soft_lw);
+  imQMD_pim_sum->SetLineColor(imQMD_Soft_mc);
+
+  imQMD_pip_sum->SetFillColorAlpha(imQMD_Soft_fc,.5);
+  imQMD_pip_sum->SetFillStyle(imQMD_Soft_fs);
+  imQMD_pip_sum->SetMarkerStyle(imQMD_Soft_ms);
+  imQMD_pip_sum->SetMarkerColor(imQMD_Soft_mc);
+  imQMD_pip_sum->SetMarkerSize(imQMD_Soft_msz);
+  imQMD_pip_sum->SetLineStyle(imQMD_Soft_ls);
+  imQMD_pip_sum->SetLineWidth(imQMD_Soft_lw);
+  imQMD_pip_sum->SetLineColor(imQMD_Soft_mc);
+
   
   tuQMD_pim_sum->SetFillColorAlpha(tuQMD_Soft_fc,.5);
   tuQMD_pim_sum->SetFillStyle(tuQMD_Soft_fs);
@@ -291,6 +318,7 @@ void publishPionsSpectra132Sn()
   leg->AddEntry(tuQMD_pim_sum,"TuQMD","FL");
   leg->AddEntry(urQMD_pim_sum,"urQMD","FL");
   leg->AddEntry(xbuu_pim_sum,"#chiBUU","FL");
+  leg->AddEntry(imQMD_pim_sum,"IQMD-BNU","FL");
   leg->AddEntry(amdJAM_pim_sum,"AMD + JAM","FL");
   leg->AddEntry(pBUU_pim_sum,"pBUU","FL");
 
@@ -370,6 +398,8 @@ void publishPionsSpectra132Sn()
   amdJAM_pim_sum->Draw("same  LE3 ");
   pBUU_pim_sum->Draw("same  LE3 ");
   tuQMD_pip_sum->Draw("same  LE3");
+  imQMD_pim_sum->Draw("same  LE3 ");
+  imQMD_pip_sum->Draw("same  LE3 ");
   xbuu_pip_sum->Draw("same  LE3 ");
   urQMD_pip_sum->Draw("same  LE3");
   amdJAM_pip_sum->Draw("same  LE3 ");

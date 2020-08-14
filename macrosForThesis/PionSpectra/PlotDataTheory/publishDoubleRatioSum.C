@@ -282,8 +282,8 @@ void publishDoubleRatioSum()
 
   TLegend *leg_soft = new TLegend(.2,.6,.6,.9);
   leg_soft->AddEntry(tuQMD_sum,"TuQMD","FL");
-  //  leg_soft->AddEntry(urQMD_sum,"urQMD","FL");
-  leg_soft->AddEntry(imQMD_sum,"ImQMD","FL");
+  leg_soft->AddEntry(urQMD_sum,"urQMD","FL");
+  leg_soft->AddEntry(imQMD_sum,"IQMD","FL");
   leg_soft->AddEntry(xbuu_sum,"#chiBUU","FL");
   leg_soft->AddEntry(amdJAM_sum,"AMD + JAM","FL");
   leg_soft->AddEntry(pBUU_sum,"pBUU","FL");
@@ -306,7 +306,7 @@ void publishDoubleRatioSum()
   xbuu_sum->Draw("same  LE3 ");
   tuQMD_sum->Draw("same  LE3");
   amdJAM_sum->Draw("same  LE3 ");
-  //  urQMD_sum->Draw("same  LE3");
+  urQMD_sum->Draw("same  LE3");
   doubleRatio->DrawCopy("same L E1");  
   leg_soft->Draw();
   leg_stiff->Draw();
