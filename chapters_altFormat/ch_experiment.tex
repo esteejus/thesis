@@ -76,7 +76,8 @@ The skeleton of the enclosure is composed of a rigid rectangular Aluminum angle-
 
 
 \begin{figure}[!htb]
-\includegraphics[width=\textwidth]{fc_overview2.png}
+\centering
+\includegraphics[width=.8\textwidth]{fc_overview2.png}
 \label{fig:fc_overview2}
 \caption{Schematic of the field cage.}
 \end{figure}
@@ -146,13 +147,13 @@ There are three wire planes that are mounted underneath the pad-plane. The wire 
 \begin{tabular}{@{}ccccccc@{}}\toprule 
 \multicolumn{7}{c}{GET electronics settings}\\
 \midrule
- Plane & Material & Diameter \si{\micro\metre} & Pitch \si{\milli\metre} & Distance to pad-plane \si{\milli\metre}& Tension \si{\newton} & Voltage \si{\volt}\\ [0.5ex] 
+ Plane & Material & Diameter \si{\micro\metre} & Pitch \si{\milli\metre} & $D_{p.p.}$ \si{\milli\metre}& Tension \si{\newton} & Voltage \si{\volt}\\ [0.5ex] 
  Anode  & Au-plated W   &  20  &  4  &  4   &  0.5  &  1460  \\
  Ground & BeCu          &  75  &  1  &  8   &  1.2  &  0     \\ 
  Gating & BeCu          &  75  &  1  &  14   &  1.2 &  -110$\pm$ 70\\ 
  \bottomrule
 \end{tabular}
-\caption{Wire plane properties.}
+\caption{Wire plane properties. Were $D_{p.p.}$ is the distance from the anode wire to the pad plane.}
 \label{tb:wireplane}
 \end{table*}
 
@@ -333,7 +334,7 @@ where $f_r$ is the cut off fraction. In this Dissertation, a value of 0.7 was us
 
 
 \subsection{Gas Properties}
-The gas used was a mixture of 90\% Ar and 10\% Methane ($\mathrm{CH_4}$) by volume (P10 gas), and operated just under atmospheric pressure 1 atm. The gas was continually flowed through the field cage and exited into the enclosure volume, finally passing through a bubbler to atmosphere. The gas purity was monitored with an oxygen and water monitor which are the two most concerning contaminants. The water never exceed  100 ppm  and the oxygen level never exceeded 10 ppm, which are the two main contaminants in the gas which can absorb primary electrons \cite{tpcAging}. Figure~\ref{fig:driftvel} shows the drift velocity of P10 gas at 1 atm (\SI{760}{\torr}) as a function of the reduced electric field value given in units of \si{\volt\per\centi\metre\per\torr}. Operating near the peak value of the drift velocity curve minimized the change in the drift velocity as the effective field slightly changes due to slight variations in the pressure. The electric field in the experiment was \SI{125}{\volt\per\centi\per\metre} at \SI{760}{\torr}, giving a reduced electric field \SI{0.17}{\volt\per\centi\metre\per\torr}.
+The gas used was a mixture of 90\% Ar and 10\% Methane ($\mathrm{CH_4}$) by volume (P10 gas), and operated just under atmospheric pressure 1 atm. The gas was continually flowed through the field cage and exited into the enclosure volume, finally passing through a bubbler to atmosphere. The gas purity was monitored with an oxygen and water monitor which are the two most concerning contaminants. The water never exceed  50 ppm  and the oxygen level never exceeded 50 ppm, which are the two main contaminants in the gas which can absorb primary electrons \cite{tpcAging}. Figure~\ref{fig:driftvel} shows the drift velocity of P10 gas at 1 atm (\SI{760}{\torr}) as a function of the reduced electric field value given in units of \si{\volt\per\centi\metre\per\torr}. Operating near the peak value of the drift velocity curve minimized the change in the drift velocity as the effective field slightly changes due to slight variations in the pressure. The electric field in the experiment was \SI{125}{\volt\per\centi\per\metre} at \SI{760}{\torr}, giving a reduced electric field \SI{0.17}{\volt\per\centi\metre\per\torr}.
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth]{driftvel.png}

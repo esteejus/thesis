@@ -1,0 +1,28 @@
+Dear Dan,
+Can you explain what the naming convention in the files are for each model parameter? For example:
+pispectra_SnSn_0.27_3.00_L060_dpdisvp025_efmisvm020_v53_200120_dpdiscm078_efmisc045_medel_mediel_s3p3_c111
+
+-Justin 
+
+
+
+
+
+Hi Justin,
+
+0.27 - projectile impact energy
+3.00 - impact parameter in fm
+L060 - L=60 MeV
+dpdisvp025- U_{sym,1}^\Delta=+25 Mev ("p"before 025 stands for +)- depth of the isovector potential at \rho_0 and p=0;
+efmisvm020-\delta m*=-0.20 ("m" before 020 stands for -) : at \rho_0 and beta=0.5
+dpdiscm078- U_isc^\Delta=-78 MeV (at \beta=0.0) - depth of isoscalar potential at \rho_0 and p=0
+efmisc045- m*=0.45 isoscalar mass - at \rho_0 and \beta=0.5
+medel - in-medium elastic cross-sections
+medinel- in-medium inelastic cross-section
+s3p3 - S and P wave pion potentials included (33 - a so called Batty-1 parametrization for both)
+c111 - treshold effects for 2-body collisions, resonance decay and pion-absorption inclued (111) using the total energy conservation  scenario "c" (the total energy of the system is conserved)
+v53_200120 -version of the code
+
+\beta= isospin asymmetry
+
+Dan

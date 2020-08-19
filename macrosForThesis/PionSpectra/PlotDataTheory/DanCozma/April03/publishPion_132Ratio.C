@@ -1,4 +1,3 @@
-
 #include "/home/justin/mythesis/thesis_style.h"
 
 using namespace style;
@@ -95,6 +94,55 @@ void publishPion_132Ratio()
   pBUU_stiff_no_DR->SetLineWidth(pBUUStiff_lw);
   */
 
+
+
+  vector<double> sim1_fit_px = {  285.881506,251.0998827,187.3693473,137.3000213,100.5199445,77.03844923,50.81524637,28.11100149,12.06138012};
+  vector<double> sim1_fit_py = {  0.7482802664,0.8396646683,1.281125567,2.110758638,3.282952952,4.506911428,6.522725689,9.216242126,11.77313837};
+
+  vector<double> sim2_fit_px = {282.71851,260.0595936,240.9136359,215.8996374,175.6299328,115.3930247,82.52519731,63.34857615,15.9856282,32.03524957,47.30095456,12.46267065};
+  vector<double> sim2_fit_py = {0.9838141425,1.002890058,1.042158691,1.152710485,1.486718509,2.657796648,3.958970246,5.130690395,10.341784,8.095750036,6.460393665,10.9026279};
+
+
+   vector<double> sim3_fit_px = { 286.903397,267.7767705,236.5381026,197.8628946,172.8508959,134.5376493,120.8511092,86.43011412,42.6087884,12.47466937};
+  vector<double> sim3_fit_py = {  2.203962346,1.992589245,1.836418494,1.881035484,2.050822996,2.582327692,2.870006018,3.997167706,6.681199585,10};
+
+
+  vector<double> sim4_fit_px = {  286.5647664,276.4105162,249.8493494,227.1877666,148.228189,105.9920275,65.70099189,47.70357828,12.09670968};
+  vector<double> sim4_fit_py = {  1.515545616,1.493873469,1.479597817,1.537532169,2.257509055,3.205083351,4.82025428,5.925538065,9.128170504};
+
+
+  vector<double> sim5_fit_px = {  286.9407263,247.8895584,167.3894785,133.7643985,96.60969497,73.52882359,12.49000107};
+  vector<double> sim5_fit_py = {  1.684381518,1.55236679,1.945326268,2.437757824,3.378897796,4.316317947,8.954544089};
+
+
+  vector<double> sim6_fit_px = {  287.3340177,266.2469337,230.6993921,200.2199765,173.2495201,130.6320659,98.17019518,42.61745414,12.48666809};
+  vector<double> sim6_fit_py = {1.652342992,1.57488752,1.582466802,1.708817432,1.936009059,2.569959542,3.427916654,6.276948794,9.172100606};
+
+
+  vector<double> sim7_fit_px = {  287.3006879,265.834311,231.8646011,174.040769,137.684647,109.1370254,88.79652837,63.36657423,33.62707978,12.10270904};
+  vector<double> sim7_fit_py = {2.100649085,1.845256415,1.660295034,1.801488081,2.203962346,2.775155638,3.395159031,4.506911428,6.554116865,8.742147877};
+
+
+  vector<double> sim8_fit_px = {  287.2666916,265.018398,241.2029384,204.0988961,155.6460644,121.6370254,89.5731122,69.23661476,30.90137052,12.51399851};
+  vector<double> sim8_fit_py = {2.683439953,2.368536939,2.162040903,2.080575006,2.323485132,2.775155638,3.511200136,4.17366863,6.157555306,7.533227768};
+
+
+
+  vector<double> sim9_fit_px = {286.4787756,244.7118974,191.9828552,143.9133159,102.859695,57.09790956,41.05762052,26.97312287,12.49600043};
+  vector<double> sim9_fit_py = {2.815415796,2.268373511,2.182900992,2.569959542,3.378897796,5.155382282,6.157555306,7.214653924,8.575863977};
+
+
+  TGraph *sim1_fitg = new TGraph(sim1_fit_px.size(),sim1_fit_px.data(),sim1_fit_py.data());
+  TGraph *sim2_fitg = new TGraph(sim2_fit_px.size(),sim2_fit_px.data(),sim2_fit_py.data());
+  TGraph *sim3_fitg = new TGraph(sim3_fit_px.size(),sim3_fit_px.data(),sim3_fit_py.data());
+  TGraph *sim4_fitg = new TGraph(sim4_fit_px.size(),sim4_fit_px.data(),sim4_fit_py.data());
+  TGraph *sim5_fitg = new TGraph(sim5_fit_px.size(),sim5_fit_px.data(),sim5_fit_py.data());
+  TGraph *sim6_fitg = new TGraph(sim6_fit_px.size(),sim6_fit_px.data(),sim6_fit_py.data());
+  TGraph *sim7_fitg = new TGraph(sim7_fit_px.size(),sim7_fit_px.data(),sim7_fit_py.data());
+  TGraph *sim8_fitg = new TGraph(sim8_fit_px.size(),sim8_fit_px.data(),sim8_fit_py.data());
+  TGraph *sim9_fitg = new TGraph(sim9_fit_px.size(),sim9_fit_px.data(),sim9_fit_py.data());  
+
+
   double xerr[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
   double x[12] = {12.5,37.5,62.5,87.5,112.5,137.5,162.5,187.5,212.5,237.5,262.5,287.5};
 
@@ -135,15 +183,42 @@ void publishPion_132Ratio()
   TGraphErrors *sim8_g = new TGraphErrors(12,x,sim8,xerr,sim8_err);
   TGraphErrors *sim9_g = new TGraphErrors(12,x,sim9,xerr,sim9_err);
 
-  sim1_g->SetLineColor(kRed);
-  sim2_g->SetLineColor(kRed);
-  sim3_g->SetLineColor(kRed);
-  sim4_g->SetLineColor(kRed);
-  sim5_g->SetLineColor(kRed);
-  sim6_g->SetLineColor(kRed);
-  sim7_g->SetLineColor(kRed);
-  sim8_g->SetLineColor(kRed);
-  sim9_g->SetLineColor(kRed);
+  int sim1_c = kBlue;
+  int sim1_ls = 1;
+
+  int sim2_c = kBlue;
+  int sim2_ls = 2;
+
+  int sim3_c = kRed;
+  int sim3_ls = 1;
+
+  int sim4_c = kRed;
+  int sim4_ls = 4;
+
+  int sim5_c = kRed;
+  int sim5_ls = 4;
+
+  int sim6_c = kRed;
+  int sim6_ls = 4;
+
+  int sim7_c = kRed;
+  int sim7_ls = 4;
+
+  int sim8_c = kGreen;
+  int sim8_ls = 1;
+
+  int sim9_c = kGreen;
+  int sim9_ls = 6;
+
+  sim1_g->SetLineColor(sim1_c);
+  sim2_g->SetLineColor(sim2_c);
+  sim3_g->SetLineColor(sim3_c);
+  sim4_g->SetLineColor(sim4_c);
+  sim5_g->SetLineColor(sim5_c);
+  sim6_g->SetLineColor(sim6_c);
+  sim7_g->SetLineColor(sim7_c);
+  sim8_g->SetLineColor(sim8_c);
+  sim9_g->SetLineColor(sim9_c);
   
   sim1_g->SetFillColorAlpha(kRed,.4);
   sim2_g->SetFillColorAlpha(kRed,.4);
@@ -155,16 +230,26 @@ void publishPion_132Ratio()
   sim8_g->SetFillColorAlpha(kRed,.4);
   sim9_g->SetFillColorAlpha(kRed,.4);
 
-  sim1_g->SetLineStyle(1);
-  sim2_g->SetLineStyle(2);
-  sim3_g->SetLineStyle(3);
-  sim4_g->SetLineStyle(4);
-  sim5_g->SetLineStyle(5);
-  sim6_g->SetLineStyle(6);
-  sim6_g->SetLineStyle(7);
-  sim7_g->SetLineStyle(8);
-  sim8_g->SetLineStyle(9);
-  sim9_g->SetLineStyle(10);
+  sim1_g->SetLineStyle(sim1_ls);
+  sim2_g->SetLineStyle(sim2_ls);
+  sim3_g->SetLineStyle(sim3_ls);
+  sim4_g->SetLineStyle(sim4_ls);
+  sim5_g->SetLineStyle(sim5_ls);
+  sim6_g->SetLineStyle(sim6_ls);
+  sim7_g->SetLineStyle(sim7_ls);
+  sim8_g->SetLineStyle(sim8_ls);
+  sim9_g->SetLineStyle(sim9_ls);
+
+  sim1_g->SetLineWidth(6);
+  sim2_g->SetLineWidth(6);
+  sim3_g->SetLineWidth(6);
+  sim4_g->SetLineWidth(6);
+  sim5_g->SetLineWidth(6);
+  sim6_g->SetLineWidth(6);
+  sim6_g->SetLineWidth(6);
+  sim7_g->SetLineWidth(6);
+  sim8_g->SetLineWidth(6);
+  sim9_g->SetLineWidth(6);
 
   //  TF1 *fit = new TF1("fit","[0] + [1]*x + [2]*x*x + [3]*pow(x,3) + [4]*pow(x,4) + [5]*pow(x,5) + [6]*pow(x,6)",0,300);
   //  fit->SetParameters(1,1,1,1,1,1,1);
@@ -175,29 +260,132 @@ void publishPion_132Ratio()
   singleRatio_sn132->GetXaxis()->SetRangeUser(0,300);
   singleRatio_sn132->Draw();
 
-  sim4_g->Draw("same E3");
-  /*
-  sim5_g->Fit(fit);
-  sim5_g->Draw("same E3");
+  cvs->SetLogy();
 
-  sim3_g->Draw("same E3");
-  sim4_g->Draw("same E3");
-  sim5_g->Draw("same E3");
-  sim6_g->Draw("same E3");
+  sim1_g->GetYaxis()->SetRangeUser(.5,20);
+  sim1_g->SetTitle("Sim 1");
+  sim1_g->Draw("ALE");
+  sim1_fitg->Fit(fit);
+  auto sim1_fit = (TF1 *)fit->Clone();
+  sim1_fit->SetLineWidth(3);
+  sim1_fit->SetLineColor(2);
+  sim1_fit->SetLineStyle(sim1_ls);
+  sim1_fit->Draw("same");
+  cvs->SaveAs("sim1_fit.png");
 
-  sim7_g->Draw("same E3");
-  */
-  sim8_g->Draw("same E3");
-  sim9_g->Draw("same E3");
+  sim2_g->GetYaxis()->SetRangeUser(.5,20);
+  sim2_g->SetTitle("Sim 2");
+  sim2_g->Draw("ALE");
+  sim2_fitg->Fit(fit);
+  auto sim2_fit = (TF1 *)fit->Clone();
+  sim2_fit->SetLineWidth(3);
+  sim2_fit->SetLineColor(2);
+  sim2_fit->SetLineStyle(sim2_ls);
+  sim2_fit->Draw("same");
+  cvs->SaveAs("sim2_fit.png");
+
+  sim3_g->GetYaxis()->SetRangeUser(.5,20);
+  sim3_g->SetTitle("Sim 3");
+  sim3_g->Draw("ALE");
+  sim3_fitg->Fit(fit);
+  auto sim3_fit = (TF1 *)fit->Clone();
+  sim3_fit->SetLineWidth(3);
+  sim3_fit->SetLineColor(2);
+  sim3_fit->SetLineStyle(sim3_ls);
+  sim3_fit->Draw("same");
+  cvs->SaveAs("sim3_fit.png");
+
+  sim4_g->GetYaxis()->SetRangeUser(.5,20);
+  sim4_g->SetTitle("Sim 4");
+  sim4_g->Draw("ALE");
+  sim4_fitg->Fit(fit);
+  auto sim4_fit = (TF1 *)fit->Clone();
+  sim4_fit->SetLineWidth(3);
+  sim4_fit->SetLineColor(2);
+  sim4_fit->SetLineStyle(sim4_ls);
+  sim4_fit->Draw("same");
+  cvs->SaveAs("sim4_fit.png");
 
 
+  sim5_g->GetYaxis()->SetRangeUser(.5,20);
+  sim5_g->SetTitle("Sim 5");
+  sim5_g->Draw("ALE");
+  sim5_fitg->Fit(fit);
+  auto sim5_fit = (TF1 *)fit->Clone();
+  sim5_fit->SetLineWidth(3);
+  sim5_fit->SetLineColor(2);
+  sim5_fit->SetLineStyle(sim5_ls);
+  sim5_fit->Draw("same");
+  cvs->SaveAs("sim5_fit.png");
+  
+
+  sim6_g->GetYaxis()->SetRangeUser(.5,20);
+  sim6_g->SetTitle("Sim 6");
+  sim6_g->Draw("ALE");
+  sim6_fitg->Fit(fit);
+  auto sim6_fit = (TF1 *)fit->Clone();
+  sim6_fit->SetLineWidth(3);
+  sim6_fit->SetLineColor(2);
+  sim6_fit->SetLineStyle(sim6_ls);
+  sim6_fit->Draw("same");
+  cvs->SaveAs("sim6_fit.png");
+  
+  sim7_g->GetYaxis()->SetRangeUser(.5,20);
+  sim7_g->SetTitle("Sim 7");
+  sim7_g->Draw("ALE");
+  sim7_fitg->Fit(fit);
+  auto sim7_fit = (TF1 *)fit->Clone();
+  sim7_fit->SetLineWidth(3);
+  sim7_fit->SetLineColor(2);
+  sim7_fit->SetLineStyle(sim7_ls);
+  sim7_fit->Draw("same");
+  cvs->SaveAs("sim7_fit.png");
+
+  sim8_g->GetYaxis()->SetRangeUser(.5,20);
+  sim8_g->SetTitle("Sim 8");
+  sim8_g->Draw("ALE");
+  sim8_fitg->Fit(fit);
+  auto sim8_fit = (TF1 *)fit->Clone();
+  sim8_fit->SetLineWidth(3);
+  sim8_fit->SetLineColor(2);
+  sim8_fit->SetLineStyle(sim8_ls);
+  sim8_fit->Draw("same");
+  cvs->SaveAs("sim8_fit.png");
+
+    
+  sim9_g->GetYaxis()->SetRangeUser(.5,20);
+  sim9_g->SetTitle("Sim 9");
+  sim9_g->Draw("ALE");
+  sim9_fitg->Fit(fit);
+  auto sim9_fit = (TF1 *)fit->Clone();
+  sim9_fit->SetLineWidth(3);
+  sim9_fit->SetLineColor(2);
+  sim9_fit->SetLineStyle(sim9_ls);
+  sim9_fit->Draw("same");
+  cvs->SaveAs("sim9_fit.png");
+
+
+  sim1_fit->GetYaxis()->SetRangeUser(.5,20);
+  sim1_fit->Draw("L");
+  sim2_fit->Draw("same L");
+  sim3_fit->Draw("same L");
+  sim4_fit->Draw("same L");
+  sim5_fit->Draw("same L");
+  sim6_fit->Draw("same L");
+  sim7_fit->Draw("same L");
+  sim8_fit->Draw("same L");
+  sim9_fit->Draw("same L");
+  cvs->SetLogy();
   singleRatio_sn132->DrawCopy("same E1");
-
+  cvs->SaveAs("allfits.png");
+  
+  /*
+  singleRatio_sn132->DrawCopy("same E1");
   cvs->SetLogy();
   //  cvs->SetLogx();
   cvs->SaveAs("singleRatio_sn132_boot.png");
 
-
+  */
 
 
 }

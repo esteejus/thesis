@@ -400,7 +400,7 @@
 	\phantomsection
 	\vspace*{\fill}
 	\begin{center}
-	\Huge{\textbf{APPENDIX}}
+	\large{\textbf{APPENDIX}}
 	\vspace{\baselineskip}%
 	\end{center}
 	\tocentry{APPENDIX}{APPENDIX}
@@ -424,7 +424,7 @@
 	\phantomsection
 	\vspace*{\fill}
 	\begin{center}
-	\Huge{\textbf{APPENDICES}}
+	\large{\textbf{APPENDIX}}
 	\vspace{\baselineskip}% 
 	\end{center}
 	\tocentry{APPENDICES}{Appendices}
@@ -446,14 +446,14 @@
 	\phantomsection
 	\vspace*{\fill}
 	\begin{center}
-	\Huge \textbf{\MakeUppercase{\bibname}}
+	\large \textbf{\MakeUppercase{\bibname}}
 	\vspace{\baselineskip}% 
 	\end{center}
 	\vfill
 	\addtocontents{toc}{\protect\setlength{\cftbeforechapskip}{\baselineskip}} %Double space before bibliography title in TOC
 	\tocentry{\MakeUppercase{\bibname}}{\bibname}%Must be BEFORE \newpage to make TOC number correct
 	\newpage
-	\chapter*{\vspace{-2.2\baselineskip}\centerline{\MakeUppercase{\bibname}}}%
+	\chapter*{\vspace{-2.2\baselineskip}\centerline{ \large{\MakeUppercase{\bibname}}}}%
 	\@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
        	\begin{singlespace}
 	\list{\@biblabel{\@arabic\c@enumiv}}%

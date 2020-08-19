@@ -5,6 +5,8 @@ using namespace style;
 void plotPulse()
 {
 
+  gStyle->SetLineWidth(3);
+  
   TFile *f = TFile::Open("pulses.root");
   TF1 *sat = (TF1 *)f->Get("sat");
   TF1 *not_sat = (TF1 *)f->Get("not_sat");  
@@ -65,7 +67,7 @@ void plotPulse()
   TCanvas *c2 = style::stdcvs("cvs_2",1000,500);
   TCanvas *c3 = style::stdcvs("cvs_3",1000,500);
   sat->SetLineWidth(6);
-  not_sat->SetLineWidth(6);
+  not_sat->SetLineWidth(9);
   not_sat->SetLineStyle(9);
 
   sat_b->SetLineWidth(6);
@@ -115,8 +117,9 @@ void plotPulse()
   
   sat->GetXaxis()->CenterTitle();
   sat->GetYaxis()->CenterTitle();
-
-
+  gStyle->SetLineWidth(3);
+  gPad->SetLineWidth(3);
+  gStyle->SetFrameLineWidth(3);
   //  not_sat->GetXaxis()->SetRangeUser(0,60);
   not_sat_b->GetXaxis()->SetRangeUser(0,40);
  

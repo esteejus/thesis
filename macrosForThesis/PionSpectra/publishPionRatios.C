@@ -86,6 +86,16 @@ void publishPionRatios()
   singleRatio_sn132->SetMarkerSize(markSz132);
   singleRatio_sn132->SetMarkerColor(markC132);
   singleRatio_sn132->Draw("L E1");
+
+  for(int i = 1; i <=singleRatio_sn132->GetNbinsX(); i++)
+    cout<<singleRatio_sn132->GetBinCenter(i)<<"\t";
+  cout<<endl;
+  for(int i = 1; i <=singleRatio_sn132->GetNbinsX(); i++)
+    cout<<singleRatio_sn132->GetBinContent(i)<<"\t";
+  cout<<endl;  
+  for(int i = 1; i <=singleRatio_sn132->GetNbinsX(); i++)
+    cout<<singleRatio_sn132->GetBinError(i)<<"\t";
+  cout<<endl;
   //singleRatio_sn132->DrawCopy("same hist L");
   
   singleRatio_sn108->SetLineWidth(5);
