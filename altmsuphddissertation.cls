@@ -409,9 +409,9 @@
 	\setcounter{chapter}{0}%
  	\setcounter{section}{0}%
 	\renewcommand{\chaptername}{\appendixname} 
- 	\gdef\chaptername{\appendixname}% 
- 	\gdef\thechapter{\c@chapter\alpha} %
-			%\gdef\thechapter{\@Alph\c@chapter}
+	\gdef\chaptername{\appendixname}% 
+	\gdef\thechapter{\c@chapter\alpha} %
+	\gdef\thechapter{\@Alph\c@chapter}
 	\clearpage
 }
 
@@ -453,8 +453,9 @@
 	\addtocontents{toc}{\protect\setlength{\cftbeforechapskip}{\baselineskip}} %Double space before bibliography title in TOC
 	\tocentry{\MakeUppercase{\bibname}}{\bibname}%Must be BEFORE \newpage to make TOC number correct
 	\newpage
-	\chapter*{\vspace{-2.2\baselineskip}\centerline{ \large{\MakeUppercase{\bibname}}}}%
+	\chapter*{\vspace{-2.65\baselineskip}\centerline{ \large{\MakeUppercase{\bibname}}}}%
 	\@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+        \vspace{-\baselineskip}
        	\begin{singlespace}
 	\list{\@biblabel{\@arabic\c@enumiv}}%
 	{\settowidth\labelwidth{\@biblabel{#1}}%
@@ -464,7 +465,7 @@
 	\usecounter{enumiv}%
 	\let\p@enumiv\@empty
 	\renewcommand\theenumiv{\@arabic\c@enumiv}}%
-	\setlength{\itemsep}{.2in}
+	\setlength{\itemsep}{.15in}
 	\sloppy
       	\clubpenalty4000
       	\@clubpenalty \clubpenalty

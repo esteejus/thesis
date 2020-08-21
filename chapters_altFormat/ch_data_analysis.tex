@@ -646,7 +646,9 @@ dl = e^{-\frac{t^2}{2\sigma_{l}^2}},
 
 where $\sigma_{l}=c_{l}\cdot\sqrt{L_{anode}}$. 
 
-The final position of the electron along the wire is calculated  $x' = x + dx$. The electron will terminate on the closest anode wire, that is the anode wire that is closest to the shifted z-position $z\textprime = z + dz$, and the final electron z position is then updated to be the same as the anode wire it terminated on. The total drift time of the electron $t$ is calculated as,
+The final position of the electron along the wire is calculated  $x' = x + dx$. The electron will terminate on the closest anode wire, that is the anode wire that is closest to the shifted z-position $z\textprime = z + dz$, and the final electron z position is then updated to be the same as the anode wire it terminated on.
+
+ The total drift time of the electron $t$ is calculated as,
 
 \begin{equation}
  t = \frac{L_{anode} + dl}{v_d} + t_{offset},
@@ -662,7 +664,9 @@ Once the electrons have terminated on a particular wire, the avalanche process i
 It is worth mentioning there is the possibility to simulate the space charge effects in this task. This is not used for calculating the response of the TPC for efficiency calculations since it is a trivial exercise to input the space charge map only to then correct for it using the inverse map.  
 
 \subsection{Pad Response Task}
-The total charge of each avalanche is then distributed according to the pad response function (PRF) described in Section~\ref{sec:prf}. The PRF is simulated as the double integral of a 2-dimensional Gaussian. The final output charge on all the pads are the superposition of the PRFs of all drifted electrons. The MC PRF is expressed as, 
+The total charge of each avalanche is then distributed according to the pad response function (PRF) described in Section~\ref{sec:prf}. The PRF is simulated as the double integral of a 2-dimensional Gaussian. The final output charge on all the pads are the superposition of the PRFs of all drifted electrons.
+
+ The MC PRF is expressed as, 
 
 \begin{equation}
 PRF(x,z) = \iint e^{-\frac{(x-x_o)^2}{2\sigma_x^2}} e^{-\frac{(z-z_o)^2}{2\sigma_z^2}}dxdz,
@@ -970,7 +974,7 @@ where $\langle dE/dx\rangle_i$ is the mean energy loss curve fit from Eq.~\ref{e
 \end{figure}
 
 
-Now that the pion distribution is flattened, we take bin slices along $p/q$ to determine the particle yield in a certain bin and also estimate the background contribution. The background relevant to  the charged pions comes from the $e^+$ and $e^-$ resulting from the $\pi^0$ Dalitz decay described in Appendix~\ref{appen:dalitz}. Figure~\ref{fig:pimmom_flat} shows the Gaussian fits to the $z_i$ distribution for two different $p/q$ binned cuts around the $\pi^-$ particles, whereas Figure~\ref{fig:pipmom_flat} shows the background $\pi^+$ particles. A Gaussian fit is performed to the pions and to the $e$ spectrum to estimate the background contribution. 
+Now that the pion distribution is flattened, we take bin slices along $p/q$ to determine the particle yield in a certain bin and also estimate the background contribution. The background relevant to  the charged pions comes from the $e^+$ and $e^-$ resulting from the $\pi^0 \rightarrow e^+ e^- \gamma$ Dalitz decay. Figure~\ref{fig:pimmom_flat} shows the Gaussian fits to the $z_i$ distribution for two different $p/q$ binned cuts around the $\pi^-$ particles, whereas Figure~\ref{fig:pipmom_flat} shows the background $\pi^+$ particles. A Gaussian fit is performed to the pions and to the $e$ spectrum to estimate the background contribution. 
 
 \begin{figure}[!htb]%
     \centering
