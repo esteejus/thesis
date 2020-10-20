@@ -1,0 +1,89 @@
+void getMean(TH1D *h)
+{
+  double low = 0, high = 0;
+  double total = 0, var = 0;
+
+  for(int i = 1; i <= h->GetNbinsX(); i++)
+    {
+      high += h->GetBinCenter(i)*(h->GetBinContent(i)+ abs( h->GetBinError(i)) );
+      low += h->GetBinCenter(i)*(h->GetBinContent(i)- abs( h->GetBinError(i)) );
+      total += h->GetBinContent(i);
+      var += h->GetBinContent(i)*pow(h->GetBinCenter(i)- h->GetMean(), 2);
+    }
+    high = high/total;
+    low = low/total;
+    var = var/total;
+    
+    cout << h->GetMean()<< " + " << high - h->GetMean()<< " - " << h->GetMean() - low<<endl;
+    //    cout<<"var "<<sqrt(var)<<endl;
+}
+
+
+
+void plotPt132(int run = 132)
+{
+  double sigma_pim = .5*119/360; //119 is the fraction in phi                                            
+  double sigma_pip = .5*117/360; 
+
+  double sn132_event = 414047;
+  double sn108_event = 229770;
+
+
+ vector<double> bin = {0, 20, 40, 60 , 80, 100, 120, 140, 160, 180, 200, 220, 240, 280, 320, 450}; // bestw
+
+  //  vector<double> bin = {0, 20, 40, 60 , 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 380, 450}; // bestw
+
+
+  TFile *f = TFile::Open("/home/justin/mythesis/macrosForThesis/PionSpectra/rootfiles/analysis-Sn132-finebin_pt_09_11.root");
+  
+  auto pim_fb = (TH1D *)f->Get("pimpt_ec");
+  auto pip_fb = (TH1D *)f->Get("pippt_ec");
+
+  pim_fb->Scale(1./sigma_pim/sn132_event,"width");
+  pip_fb->Scale(1./sigma_pip/sn132_event,"width");
+
+  auto pim_bin = (TH1D *)pim_fb->Rebin(bin.size()-1,"pim_bin",bin.data());
+  auto pip_bin = (TH1D *)pip_fb->Rebin(bin.size()-1,"pip_bin",bin.data());
+
+  
+  getMean(pim_bin);
+  getMean(pip_bin);
+
+  pim_bin->Scale(1,"width");
+  pip_bin->Scale(1,"width");
+  
+  pim_bin->Divide(pip_bin);
+  
+  TCanvas *c1 = new TCanvas("c1","c1",1);
+  //  c1->SetLogy();
+  pim_fb->GetYaxis()->SetRangeUser(.5,20);
+  pim_bin->GetXaxis()->SetRangeUser(0,450);
+  pim_bin->Draw();
+
+
+  cout<<"Pim "<<endl;
+ for(int i = 1; i <= pim_bin->GetNbinsX(); i++)
+    cout<<pim_bin->GetBinCenter(i)<<",";
+  cout<<endl;
+  for(int i = 1; i <= pim_bin->GetNbinsX(); i++)
+    cout<<pim_bin->GetBinContent(i)<<",";
+  cout<<endl;
+  for(int i = 1; i <= pim_bin->GetNbinsX(); i++)
+    cout<<pim_bin->GetBinError(i)<<",";
+  cout<<endl;
+  
+  cout<<endl;
+  cout<<"Pip "<<endl;
+ for(int i = 1; i <= pip_bin->GetNbinsX(); i++)
+    cout<<pip_bin->GetBinCenter(i)<<",";
+  cout<<endl;
+  for(int i = 1; i <= pip_bin->GetNbinsX(); i++)
+    cout<<pip_bin->GetBinContent(i)<<",";
+  cout<<endl;
+  for(int i = 1; i <= pip_bin->GetNbinsX(); i++)
+    cout<<pip_bin->GetBinError(i)<<",";
+  cout<<endl;
+
+
+  
+}

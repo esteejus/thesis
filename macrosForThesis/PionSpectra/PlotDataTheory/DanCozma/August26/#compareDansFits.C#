@@ -1,0 +1,393 @@
+#include "/home/justin/mythesis/thesis_style.h"
+
+using namespace style;
+
+void compareDansFits()
+{
+  TFile *f = TFile::Open("/home/justin/mythesis/macrosForThesis/PionSpectra/rootfiles/publishPions_sm.root");
+  TH1D *singleRatio_sn132 = (TH1D *)f->Get("singleRatio_sn132");
+  TH1D *singleRatio_sn108 = (TH1D *)f->Get("singleRatio_sn108");
+
+  TH1D *doubleRatio = (TH1D *)f->Get("doubleRatio");
+
+  make(singleRatio_sn108);
+  make(singleRatio_sn132);
+  make(doubleRatio);
+
+  gStyle->SetEndErrorSize(0);
+
+  //style
+  int lineS132 = 1; 
+  int lineS108 = 7;
+
+  int markS132 = 21;
+  int markS108 = 25;  
+
+  //color
+  int lineC132 = kRed ; 
+  int lineC108 = kRed - 7;
+
+  int markC132 = kRed ;
+  int markC108 = kRed - 7;  
+
+  //size
+  int markSz132 = 2; //marker size
+  int markSz108 = 2; //marker size 
+
+  //  TLegend *leg = new TLegend(.2,.2,.55,.5);
+  TLegend *leg = new TLegend(.3,.5,.8,.8);
+  leg->AddEntry(singleRatio_sn132,"{}^{132}Sn +{}^{124}Sn","lpe");
+  leg->AddEntry(singleRatio_sn108,"{}^{108}Sn +{}^{112}Sn","lpe");
+
+  /*  TLegend *leg_2 = new TLegend(.75,.75,.95,.9);
+  leg_2->SetHeader("{}^{108}Sn +{}^{112}Sn");
+  leg_2->AddEntry(pim_sn108,"#pi^{-}","lpe");
+  leg_2->AddEntry(pip_sn108,"#pi^{+} (x10^{-1} )","lpe");
+  */
+
+  TCanvas *cvs = style::stdcvs();
+  //  cvs->SetLogy();
+  //  singleRatio_sn132->GetYaxis()->SetRangeUser(.5,20);
+  
+  singleRatio_sn132->GetYaxis()->SetRangeUser(0,15);
+  singleRatio_sn132->GetYaxis()->SetTitle("#pi^{-}/#pi^{+}");
+  singleRatio_sn132->GetYaxis()->CenterTitle();
+  singleRatio_sn132->GetXaxis()->SetTitle("T_{#scale[.6]{CM}} (MeV)");
+  singleRatio_sn132->GetXaxis()->CenterTitle();
+  
+  singleRatio_sn132->SetLineWidth(5);
+  singleRatio_sn132->SetLineStyle(lineS132);
+  singleRatio_sn132->SetLineColor(lineC132);
+  singleRatio_sn132->SetMarkerStyle(markS132);
+  singleRatio_sn132->SetMarkerSize(markSz132);
+  singleRatio_sn132->SetMarkerColor(markC132);
+  
+  singleRatio_sn132->GetYaxis()->SetTitle("#pi^{-}/#pi^{+}");
+  singleRatio_sn132->GetYaxis()->CenterTitle();
+  singleRatio_sn132->GetXaxis()->SetTitle("T_{#scale[.6]{CM}} (MeV)");
+  singleRatio_sn132->GetXaxis()->CenterTitle();
+
+  singleRatio_sn132->GetYaxis()->SetRangeUser(1,14);
+  singleRatio_sn132->SetLineWidth(5);
+  singleRatio_sn132->SetLineStyle(1);
+  singleRatio_sn132->SetLineColor(1);
+  singleRatio_sn132->SetMarkerStyle(21);
+  singleRatio_sn132->SetMarkerSize(3);
+  singleRatio_sn132->SetMarkerColor(1);
+ 
+  /*  
+  int pBUUStiff_mc = kRed - 10;
+  int pBUUStiff_fc = kRed - 10;
+  int pBUUStiff_fs = 3018;
+  int pBUUStiff_ms = 23;
+  int pBUUStiff_msz = 3;
+  int pBUUStiff_lw = 5;
+  int pBUUStiff_ls = 1;
+
+  pBUU_stiff_no_DR->SetFillColorAlpha(pBUUStiff_fc,.75);
+  pBUU_stiff_no_DR->SetFillStyle(pBUUStiff_fs);
+  pBUU_stiff_no_DR->SetMarkerStyle(pBUUStiff_ms);
+  pBUU_stiff_no_DR->SetMarkerColor(pBUUStiff_mc);
+  pBUU_stiff_no_DR->SetMarkerSize(pBUUStiff_msz);
+  pBUU_stiff_no_DR->SetLineStyle(pBUUStiff_ls);
+  pBUU_stiff_no_DR->SetLineColor(pBUUStiff_mc);
+  pBUU_stiff_no_DR->SetLineWidth(pBUUStiff_lw);
+  */
+
+
+
+
+  double xerr[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  double x[20] = { 5, 15,	25,	35,	45,	55,	65,	75,	85,	95,	105,	115,	125,	135,	145,	155,	170,	190,	220,	270};
+
+  10.22767419,9.10868207,8.21544715,7.45481671,6.61234369,5.26930392,4.49326466,4.03643547,3.64519326,3.2881925,2.86409608,2.7546729,2.56332703,2.18743455,2.26258503,2.06546645,1.81034483,1.53269537,1.41434846,1.16918429,,,,
+,0.33558933,0.23963404,0.19604935,0.1635806,0.14273202,0.11210096,0.09880452,0.09462462,0.09163163,0.0887526,0.08364599,0.08970544,0.09304859,0.08555313,0.10012568,0.10177148,0.07411818,0.07864146,0.07063705,0.08759895,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,10.66598985,9.50322581,8.70271656,8.10092552,6.69856459,5.63586315,4.49140893,4.07512733,3.53512494,3.14324034,2.87709497,2.39026063,2.40325497,2.03137652,1.90157959,1.89099526,1.66322314,1.44257274,1.23895028,1.169279,,,,
+,0.35499186,0.25389219,0.20817404,0.1803973,0.14336591,0.12130681,0.09691842,0.09363936,0.08678901,0.08366334,0.08321321,0.07454447,0.08604812,0.07901277,0.08187024,0.09291674,0.06761884,0.07341857,0.0619454,0.08913221,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,10.88790233,10.0430791,9.55850144,8.80864811,7.10709677,5.77959853,4.76862583,4.09810823,3.58789062,3.01966874,2.65700185,2.54217791,2.08128079,1.9800995,1.69537137,1.60618847,1.37477954,1.2100955,0.96827262,0.81034483,,,,
+,0.37859226,0.27958267,0.24091426,0.20700286,0.1573086,0.12657715,0.10656371,0.09595422,0.08974793,0.07917272,0.0774218,0.08301464,0.07264767,0.07661329,0.07019135,0.07678998,0.05366821,0.06037387,0.04733049,0.06008349,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,9.57180617,8.2252899,7.70142857,7.1117837,5.73795073,5.10882353,4.56294821,3.94077834,3.64527027,3.5601907,3.16307278,3.21351126,2.98483316,2.68202765,2.81191223,2.43439716,2.56510067,2.12945591,2.22286822,2.11637931,,,,
+,0.29871927,0.20466763,0.17844647,0.15275031,0.11751779,0.10695037,0.10044358,0.09055662,0.09029123,0.09835398,0.09415971,0.10615589,0.10965655,0.10695197,0.12955926,0.12196348,0.1109229,0.11177787,0.11791381,0.16854148,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,9.41214351,8.43372781,7.75613346,7.3857868,5.93899302,5.27303625,4.3480226,3.95160617,3.58547009,3.26037118,3.15224681,3.01347068,2.66975023,2.50941423,2.42323651,2.60661765,2.112,2.05163511,1.76271186,1.6490566,,,,
+,0.30039811,0.21691533,0.18237344,0.16178099,0.12316691,0.11183535,0.09353458,0.09029752,0.08843834,0.08707291,0.09367814,0.09775354,0.09544157,0.09586013,0.10706648,0.1313294,0.08660038,0.10373453,0.09079767,0.12833978,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,9.95348837,9.70624571,8.49323621,8.01016166,6.70682566,5.64982374,4.64071623,4.36222628,3.64904961,3.32400431,2.98831488,2.83055757,2.93067426,2.35707121,2.29003783,2.17065868,1.95440415,1.875,1.60916031,1.5442623,,,,
+,0.33248258,0.26724658,0.20454648,0.18234539,0.14573887,0.12114495,0.10091173,0.10333292,0.08867466,0.08801541,0.08559616,0.08855896,0.10447399,0.08912529,0.09743657,0.10155799,0.07735222,0.09353742,0.08001079,0.11344634,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,9.23534269,7.44918378,6.72588389,6.16374046,5.35657023,4.70248227,4.29584639,3.97909408,3.88117284,3.42881452,3.49036403,3.26906957,3.37860963,3.15885417,3.06132075,3.03992016,2.84015852,2.53422053,2.87637969,2.38325991,,,,
+,0.2790357,0.18162161,0.1504702,0.12980756,0.10895301,0.09727954,0.09441923,0.09286847,0.09863165,0.09282771,0.10576186,0.10816672,0.12572251,0.13068891,0.13975536,0.15649519,0.1200542,0.13062754,0.15684841,0.18839387,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,8.96341463,8.00682982,7.42629108,6.77146312,5.86819696,5.11176906,4.43632166,4.12807245,3.86475814,3.45252637,3.33883752,3.28310864,3.21572581,2.92117647,2.67162162,2.4863124,2.87159533,2.32574431,2.62427746,2.22529644,,,,
+,0.27959033,0.20247832,0.17176512,0.14542962,0.12232218,0.10748475,0.09637254,0.09567828,0.09639372,0.0921919,0.09777202,0.1056388,0.11674103,0.11609876,0.11512097,0.11805802,0.12016977,0.11640335,0.13527316,0.16844888,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+,10.51612903,8.3075,7.78125,7.37718121,6.36429725,5.25320388,4.50771666,4.1008658,3.83648714,3.64370412,3.32252027,3.16306028,3.11172669,3.10714286,2.65952081,2.66025641,2.58576429,2.3344426,2.17504052,2.12333333,,,,
+    {0.36747009,0.21989503,0.18864886,0.16635759,0.13760885,0.11286769,0.09897378,0.09500424,0.09487964,0.09794078,0.09457554,0.10094304,0.10867094,0.12526808,0.11071049,0.12510835,0.10404625,0.11375944,0.10570812,0.14860589}
+
+  double sim1[7] = {10.09371158,6.84010152,4.0375712,2.77918759,1.78251907,1.16497761,0.86025};
+  double sim1_err[7] = {0.10280281,0.05552378,0.03501827,0.03037082,0.02258307,0.02433308,0.0428092};
+
+
+  double sim2[7] = {  8.89731124,6.09395013,3.82599407,2.79684523,1.96308812,1.34364821,1.04662379};
+  double sim2_err[7] = {  0.09332674,0.05172375,0.03560619,0.03347287,0.02745047,0.0320423,0.05873373};
+
+
+  double sim3[7] = {8.94316997,6.11982396,4.00191219,3.02769045,2.16886821,1.62485392,1.1752988};
+  double sim3_err[7] = {0.09605,0.0538117,0.03901276,0.03836745,0.03212224,0.04074131,0.07136874};
+
+
+  double sim4[7] = {8.92854629,6.23817778,3.99154433,3.00938673,2.2859809,1.71789302,1.30832196};
+  double sim4_err[7] = {0.08834301,0.04941208,0.03413084,0.03277797,0.02868281,0.03554059,0.06421134};
+
+
+  double sim5[7] = {8.0981977,5.76255956,3.88704642,3.10848369,2.44380898,1.91307524,1.58958333};
+  double sim5_err[7] = {0.08259763,0.04829899,0.03618655,0.03776566,0.03465093,0.04508382,0.0925370};
+
+
+  double sim6[7] = {8.03355886,5.68820834,4.05834922,3.31636232,2.61368241,2.03982477,1.82173913};
+  double sim6_err[7] = {0.08081772,0.04779994,0.03871201,0.04159434,0.03827397,0.04963645,0.10567781};
+
+ double sim7[7] = { 7.99444183,5.78792863,3.99729013,3.19164641,2.67354491,2.18159066,2.01494768};
+ double sim7_err[7] = { 0.07500963,0.0441796,0.03347236,0.03402926,0.03307978,0.04393653,0.09525417};
+
+ double sim8[7] = {8.21572248,5.84008489,4.08977248,3.4652381,2.88561633,2.3756487,2.29596413};
+ double sim8_err[7] = {0.0857599,0.0498929,0.03875936,0.04289701,0.04173644,0.05652494,0.13015737};
+
+ double sim9[7] = {  7.42420632,5.43922455,3.96732456,3.50131464,2.98390342,2.68223028,2.45363409};
+ double sim9_err[7] = {  0.07285886,0.04554561,0.03786236,0.044364,0.04457608,0.06681299,0.14567225};
+
+  
+
+  TGraphErrors *sim1_g = new TGraphErrors(7,x,sim1,xerr,sim1_err);
+  TGraphErrors *sim2_g = new TGraphErrors(7,x,sim2,xerr,sim2_err);
+  TGraphErrors *sim3_g = new TGraphErrors(7,x,sim3,xerr,sim3_err);
+  TGraphErrors *sim4_g = new TGraphErrors(7,x,sim4,xerr,sim4_err);
+  TGraphErrors *sim5_g = new TGraphErrors(7,x,sim5,xerr,sim5_err);
+  TGraphErrors *sim6_g = new TGraphErrors(7,x,sim6,xerr,sim6_err);
+  TGraphErrors *sim7_g = new TGraphErrors(7,x,sim7,xerr,sim7_err);
+  TGraphErrors *sim8_g = new TGraphErrors(7,x,sim8,xerr,sim8_err);
+  TGraphErrors *sim9_g = new TGraphErrors(7,x,sim9,xerr,sim9_err);
+
+  int sim1_c = kBlue;
+  int sim1_ls = 1;
+
+  int sim2_c = kBlue;
+  int sim2_ls = 2;
+
+  int sim3_c = kRed;
+  int sim3_ls = 1;
+
+  int sim4_c = kRed;
+  int sim4_ls = 4;
+
+  int sim5_c = kRed;
+  int sim5_ls = 4;
+
+  int sim6_c = kRed;
+  int sim6_ls = 4;
+
+  int sim7_c = kRed;
+  int sim7_ls = 4;
+
+  int sim8_c = kGreen;
+  int sim8_ls = 1;
+
+  int sim9_c = kGreen;
+  int sim9_ls = 6;
+
+  sim1_g->SetLineColor(sim1_c);
+  sim2_g->SetLineColor(sim2_c);
+  sim3_g->SetLineColor(sim3_c);
+  sim4_g->SetLineColor(sim4_c);
+  sim5_g->SetLineColor(sim5_c);
+  sim6_g->SetLineColor(sim6_c);
+  sim7_g->SetLineColor(sim7_c);
+  sim8_g->SetLineColor(sim8_c);
+  sim9_g->SetLineColor(sim9_c);
+  
+  sim1_g->SetFillColorAlpha(kRed,.4);
+  sim2_g->SetFillColorAlpha(kRed,.4);
+  sim3_g->SetFillColorAlpha(kRed,.4);
+  sim4_g->SetFillColorAlpha(kRed,.4);
+  sim5_g->SetFillColorAlpha(kRed,.4);
+  sim6_g->SetFillColorAlpha(kRed,.4);
+  sim7_g->SetFillColorAlpha(kRed,.4);
+  sim8_g->SetFillColorAlpha(kRed,.4);
+  sim9_g->SetFillColorAlpha(kRed,.4);
+
+  sim1_g->SetLineStyle(sim1_ls);
+  sim2_g->SetLineStyle(sim2_ls);
+  sim3_g->SetLineStyle(sim3_ls);
+  sim4_g->SetLineStyle(sim4_ls);
+  sim5_g->SetLineStyle(sim5_ls);
+  sim6_g->SetLineStyle(sim6_ls);
+  sim7_g->SetLineStyle(sim7_ls);
+  sim8_g->SetLineStyle(sim8_ls);
+  sim9_g->SetLineStyle(sim9_ls);
+
+  sim1_g->SetLineWidth(6);
+  sim2_g->SetLineWidth(6);
+  sim3_g->SetLineWidth(6);
+  sim4_g->SetLineWidth(6);
+  sim5_g->SetLineWidth(6);
+  sim6_g->SetLineWidth(6);
+  sim6_g->SetLineWidth(6);
+  sim7_g->SetLineWidth(6);
+  sim8_g->SetLineWidth(6);
+  sim9_g->SetLineWidth(6);
+
+  //  TF1 *fit = new TF1("fit","[0] + [1]*x + [2]*x*x + [3]*pow(x,3) + [4]*pow(x,4) + [5]*pow(x,5) + [6]*pow(x,6)",0,300);
+  //  fit->SetParameters(1,1,1,1,1,1,1);
+  TF1 *fit = new TF1("fit","[0]*TMath::Exp([1]*x + [2]*pow(x,2.5))",0,275);
+  fit->SetParameters(12,-1e-2,-1e-6);
+
+  singleRatio_sn132->GetYaxis()->SetRangeUser(.5,20);
+  singleRatio_sn132->GetXaxis()->SetRangeUser(0,300);
+  singleRatio_sn132->Draw();
+
+  cvs->SetLogy();
+
+  TH1D *junk = new TH1D("junk","",1,0,300);
+
+  junk->GetYaxis()->SetRangeUser(.5,20);
+  //  sim1_g->GetXaxis()->SetRangeUser(0,300);
+  //  sim1_g->GetYaxis()->SetRangeUser(.5,20);
+  sim1_g->SetTitle("Sim 1");
+  junk->Draw();
+  sim1_g->Draw("same LE");
+  sim1_fitg->Fit(fit,"","",15,275);
+  auto sim1_fit = (TF1 *)fit->Clone();
+  sim1_fit->SetLineWidth(3);
+  sim1_fit->SetLineColor(2);
+  sim1_fit->SetLineStyle(sim1_ls);
+  sim1_fit->Draw("same");
+  cvs->SaveAs("sim1_fit.png");
+
+  sim2_g->GetYaxis()->SetRangeUser(.5,20);
+  sim2_g->SetTitle("Sim 2");
+  sim2_g->Draw("ALE");
+  sim2_fitg->Fit(fit,"","",15,275);
+  auto sim2_fit = (TF1 *)fit->Clone();
+  sim2_fit->SetLineWidth(3);
+  sim2_fit->SetLineColor(2);
+  sim2_fit->SetLineStyle(sim2_ls);
+  sim2_fit->Draw("same");
+  cvs->SaveAs("sim2_fit.png");
+
+  sim3_g->GetYaxis()->SetRangeUser(.5,20);
+  sim3_g->SetTitle("Sim 3");
+  sim3_g->Draw("ALE");
+  sim3_fitg->Fit(fit,"","",15,275);
+  auto sim3_fit = (TF1 *)fit->Clone();
+  sim3_fit->SetLineWidth(3);
+  sim3_fit->SetLineColor(2);
+  sim3_fit->SetLineStyle(sim3_ls);
+  sim3_fit->Draw("same");
+  cvs->SaveAs("sim3_fit.png");
+
+  sim4_g->GetYaxis()->SetRangeUser(.5,20);
+  sim4_g->SetTitle("Sim 4");
+  sim4_g->Draw("ALE");
+  sim4_fitg->Fit(fit,"","",15,275);
+  auto sim4_fit = (TF1 *)fit->Clone();
+  sim4_fit->SetLineWidth(3);
+  sim4_fit->SetLineColor(2);
+  sim4_fit->SetLineStyle(sim4_ls);
+  sim4_fit->Draw("same");
+  cvs->SaveAs("sim4_fit.png");
+
+
+  sim5_g->GetYaxis()->SetRangeUser(.5,20);
+  sim5_g->SetTitle("Sim 5");
+  sim5_g->Draw("ALE");
+  sim5_fitg->Fit(fit,"","",15,275);
+  auto sim5_fit = (TF1 *)fit->Clone();
+  sim5_fit->SetLineWidth(3);
+  sim5_fit->SetLineColor(2);
+  sim5_fit->SetLineStyle(sim5_ls);
+  sim5_fit->Draw("same");
+  cvs->SaveAs("sim5_fit.png");
+  
+
+  sim6_g->GetYaxis()->SetRangeUser(.5,20);
+  sim6_g->SetTitle("Sim 6");
+  sim6_g->Draw("ALE");
+  sim6_fitg->Fit(fit,"","",15,275);
+  auto sim6_fit = (TF1 *)fit->Clone();
+  sim6_fit->SetLineWidth(3);
+  sim6_fit->SetLineColor(2);
+  sim6_fit->SetLineStyle(sim6_ls);
+  sim6_fit->Draw("same");
+  cvs->SaveAs("sim6_fit.png");
+  
+  sim7_g->GetYaxis()->SetRangeUser(.5,20);
+  sim7_g->SetTitle("Sim 7");
+  sim7_g->Draw("ALE");
+  sim7_fitg->Fit(fit,"","",15,275);
+  auto sim7_fit = (TF1 *)fit->Clone();
+  sim7_fit->SetLineWidth(3);
+  sim7_fit->SetLineColor(2);
+  sim7_fit->SetLineStyle(sim7_ls);
+  sim7_fit->Draw("same");
+  cvs->SaveAs("sim7_fit.png");
+
+  sim8_g->GetYaxis()->SetRangeUser(.5,20);
+  sim8_g->SetTitle("Sim 8");
+  sim8_g->Draw("ALE");
+  sim8_fitg->Fit(fit,"","",15,275);
+  auto sim8_fit = (TF1 *)fit->Clone();
+  sim8_fit->SetLineWidth(3);
+  sim8_fit->SetLineColor(2);
+  sim8_fit->SetLineStyle(sim8_ls);
+  sim8_fit->Draw("same");
+  cvs->SaveAs("sim8_fit.png");
+
+    
+  sim9_g->GetYaxis()->SetRangeUser(.5,20);
+  sim9_g->SetTitle("Sim 9");
+  sim9_g->Draw("ALE");
+  sim9_fitg->Fit(fit,"","",15,275);
+  auto sim9_fit = (TF1 *)fit->Clone();
+  sim9_fit->SetLineWidth(3);
+  sim9_fit->SetLineColor(2);
+  sim9_fit->SetLineStyle(sim9_ls);
+  sim9_fit->Draw("same");
+  cvs->SaveAs("sim9_fit.png");
+
+
+  junk->Draw();
+  sim1_fit->GetYaxis()->SetRangeUser(.5,20);
+  sim1_fit->Draw("same L");
+  sim2_fit->Draw("same L");
+  sim3_fit->Draw("same L");
+  sim4_fit->Draw("same L");
+  sim5_fit->Draw("same L");
+  sim6_fit->Draw("same L");
+  sim7_fit->Draw("same L");
+  sim8_fit->Draw("same L");
+  sim9_fit->Draw("same L");
+  cvs->SetLogy();
+  singleRatio_sn132->DrawCopy("same E1");
+  cvs->SaveAs("allfits.png");
+  
+  /*
+  singleRatio_sn132->DrawCopy("same E1");
+  cvs->SetLogy();
+  //  cvs->SetLogx();
+  cvs->SaveAs("singleRatio_sn132_boot.png");
+
+  */
+
+
+}

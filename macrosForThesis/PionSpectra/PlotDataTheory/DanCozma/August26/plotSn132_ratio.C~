@@ -1,0 +1,193 @@
+
+
+
+void plotSn132_ratio()
+{
+  //  TF1 *fit = new TF1("fit","(x < 100)*[0]*TMath::Exp([1]*abs(x-100) + [2]*pow(x-100,2))",0,300);
+  //  fit->SetParameters(3,-1e-2,-1);
+  TF1 *fit = new TF1("fit","(x < 150)*[0]*TMath::Exp([1]*abs(x-150) + [2]*pow(x-150,2)) + (x >= 150)*[0]*TMath::Exp([3]*(x-150) + [4]*pow(x-150,2))",0,300);
+  //  TF1 *fit = new TF1("fit","[0]*TMath::Exp([1]*x + [2]*pow(x,2))",0,275);
+  fit->SetParameters(3,1e-2,-2e-6,1.6e-5);
+
+  //   TF1 *fit= new TF1("fit","[0] + [1]/pow(x - [2],5)  ",0,300);
+  //    fit->SetParameters(12,1e-2,1);
+
+
+  vector<double> x = {  5.00,15.00,25.00,35.00,45.00,55.00,65.00,75.00,85.00,95.00,105.00,115.00,125.00,135.00,145.00,155.00,170.00,190.00,220.00,270.00};
+  vector<double> ex = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  
+  vector<double> sim1_y = {10.23,9.11,8.22,7.45,6.61,5.27,4.49,4.04,3.65,3.29,2.86,2.75,2.56,2.19,2.26,2.07,1.81,1.53,1.41,1.17};
+  vector<double> sim1_ey = {0.34,0.24,0.20,0.16,0.14,0.11,0.10,0.09,0.09,0.09,0.08,0.09,0.09,0.09,0.10,0.10,0.07,0.08,0.07,0.09};
+
+  vector<double> sim2_y = {    10.67,9.50,8.70,8.10,6.70,5.64,4.49,4.08,3.54,3.14,2.88,2.39,2.40,2.03,1.90,1.89,1.66,1.44,1.24,1.17};
+  vector<double> sim2_ey = {    0.35,0.25,0.21,0.18,0.14,0.12,0.10,0.09,0.09,0.08,0.08,0.07,0.09,0.08,0.08,0.09,0.07,0.07,0.06,0.09};
+
+  vector<double> sim3_y = {    10.89,10.04,9.56,8.81,7.11,5.78,4.77,4.10,3.59,3.02,2.66,2.54,2.08,1.98,1.70,1.61,1.37,1.21,0.97,0.81};
+  vector<double> sim3_ey = {    0.38,0.28,0.24,0.21,0.16,0.13,0.11,0.10,0.09,0.08,0.08,0.08,0.07,0.08,0.07,0.08,0.05,0.06,0.05,0.06};
+
+
+  vector<double> sim4_y = {    9.57,8.23,7.70,7.11,5.74,5.11,4.56,3.94,3.65,3.56,3.16,3.21,2.98,2.68,2.81,2.43,2.57,2.13,2.22,2.12};
+  vector<double> sim4_ey = {    0.30,0.20,0.18,0.15,0.12,0.11,0.10,0.09,0.09,0.10,0.09,0.11,0.11,0.11,0.13,0.12,0.11,0.11,0.12,0.17};
+
+
+  vector<double> sim5_y = {    9.41,8.43,7.76,7.39,5.94,5.27,4.35,3.95,3.59,3.26,3.15,3.01,2.67,2.51,2.42,2.61,2.11,2.05,1.76,1.65};
+  vector<double> sim5_ey = {    0.30,0.22,0.18,0.16,0.12,0.11,0.09,0.09,0.09,0.09,0.09,0.10,0.10,0.10,0.11,0.13,0.09,0.10,0.09,0.13};
+
+
+  vector<double> sim6_y = {    9.95,9.71,8.49,8.01,6.71,5.65,4.64,4.36,3.65,3.32,2.99,2.83,2.93,2.36,2.29,2.17,1.95,1.88,1.61,1.54};
+  vector<double> sim6_ey = {    0.33,0.27,0.20,0.18,0.15,0.12,0.10,0.10,0.09,0.09,0.09,0.09,0.10,0.09,0.10,0.10,0.08,0.09,0.08,0.11};
+
+
+  vector<double> sim7_y = {    9.24,7.45,6.73,6.16,5.36,4.70,4.30,3.98,3.88,3.43,3.49,3.27,3.38,3.16,3.06,3.04,2.84,2.53,2.88,2.38};
+  vector<double> sim7_ey = {    0.28,0.18,0.15,0.13,0.11,0.10,0.09,0.09,0.10,0.09,0.11,0.11,0.13,0.13,0.14,0.16,0.12,0.13,0.16,0.19};
+
+
+  vector<double> sim8_y = {    8.96,8.01,7.43,6.77,5.87,5.11,4.44,4.13,3.86,3.45,3.34,3.28,3.22,2.92,2.67,2.49,2.87,2.33,2.62,2.23};
+  vector<double> sim8_ey = {    0.28,0.20,0.17,0.15,0.12,0.11,0.10,0.10,0.10,0.09,0.10,0.11,0.12,0.12,0.12,0.12,0.12,0.12,0.14,0.17};
+
+
+  vector<double> sim9_y = {    10.52,8.31,7.78,7.38,6.36,5.25,4.51,4.10,3.84,3.64,3.32,3.16,3.11,3.11,2.66,2.66,2.59,2.33,2.18,2.12};
+  vector<double> sim9_ey = {    0.37,0.22,0.19,0.17,0.14,0.11,0.10,0.10,0.09,0.10,0.09,0.10,0.11,0.13,0.11,0.13,0.10,0.11,0.11,0.15};
+
+
+  TGraphErrors *sim1_g = new TGraphErrors(x.size(),x.data(),sim1_y.data(),ex.data(),sim1_ey.data() );
+  TGraphErrors *sim2_g = new TGraphErrors(x.size(),x.data(),sim2_y.data(),ex.data(),sim2_ey.data() );
+  TGraphErrors *sim3_g = new TGraphErrors(x.size(),x.data(),sim3_y.data(),ex.data(),sim3_ey.data() );
+  TGraphErrors *sim4_g = new TGraphErrors(x.size(),x.data(),sim4_y.data(),ex.data(),sim4_ey.data() );
+  TGraphErrors *sim5_g = new TGraphErrors(x.size(),x.data(),sim5_y.data(),ex.data(),sim5_ey.data() );
+  TGraphErrors *sim6_g = new TGraphErrors(x.size(),x.data(),sim6_y.data(),ex.data(),sim6_ey.data() );
+  TGraphErrors *sim7_g = new TGraphErrors(x.size(),x.data(),sim7_y.data(),ex.data(),sim7_ey.data() );
+  TGraphErrors *sim8_g = new TGraphErrors(x.size(),x.data(),sim8_y.data(),ex.data(),sim8_ey.data() );
+  TGraphErrors *sim9_g = new TGraphErrors(x.size(),x.data(),sim9_y.data(),ex.data(),sim9_ey.data() );
+
+
+
+  vector<double> data_y =  {38.7231,13.644,8.23447,5.69706,5.3565,4.10288,4.0542,3.50052,3.21723,3.03436,2.87445,2.8224,2.61712,	2.75384,2.54969,2.55573,2.75858,2.69063,2.28375,2.72452};
+  vector<double> data_ey =  {4.47259,0.826163,0.39017,0.243472,	0.228321,0.170054,0.179515,0.159231,0.155018,0.158384,0.167864,0.180565,0.179337,0.222586,0.229695,0.258261,0.244505,0.306295,0.263411,0.480283};
+  TGraphErrors *data = new TGraphErrors(x.size(),x.data(),data_y.data(),ex.data(),data_ey.data() );
+  data->SetMarkerSize(2);
+  data->SetMarkerStyle(22);
+  
+
+  sim1_g->SetLineWidth(4);
+  sim2_g->SetLineWidth(4);
+  sim3_g->SetLineWidth(4);
+  sim4_g->SetLineWidth(4);
+  sim5_g->SetLineWidth(4);
+  sim6_g->SetLineWidth(4);
+  sim7_g->SetLineWidth(4);
+  sim8_g->SetLineWidth(4);
+  sim9_g->SetLineWidth(4);
+	  
+  sim1_g->SetLineColor(kGreen);
+  sim2_g->SetLineColor(kGreen);
+  sim3_g->SetLineColor(kGreen);
+  sim4_g->SetLineColor(kBlue);
+  sim5_g->SetLineColor(kBlue);
+  sim6_g->SetLineColor(kBlue);
+  sim7_g->SetLineColor(kRed);
+  sim8_g->SetLineColor(kRed);
+  sim9_g->SetLineColor(kRed);
+
+  sim1_g->SetLineStyle(1);
+  sim2_g->SetLineStyle(2);
+  sim3_g->SetLineStyle(4);
+  sim4_g->SetLineStyle(1);
+  sim5_g->SetLineStyle(2);
+  sim6_g->SetLineStyle(4);
+  sim7_g->SetLineStyle(1);
+  sim8_g->SetLineStyle(2);
+  sim9_g->SetLineStyle(4);
+
+  TGraphSmooth *gs = new TGraphSmooth("normal");
+
+
+  TCanvas *c1 = new TCanvas("c1","c1",1);
+  c1->SetLogy();
+  sim1_g->GetYaxis()->SetRangeUser(.5,20);
+  
+  //  sim1_g->Draw("ALO");
+  sim1_g->Fit(fit);
+ auto sim1_fit = (TF1 *)fit->Clone();
+
+
+ sim2_g->Draw("ALO");
+  sim2_g->Fit(fit);
+  auto sim2_fit = (TF1 *)fit->Clone();
+  /*
+  //  sim3_g->Draw("same LO");
+  sim3_g->Fit(fit);
+  auto sim3_fit = (TF1 *)fit->Clone();
+
+
+  sim4_g->Draw("same CO");
+  sim4_g->Fit(fit);
+  auto sim4_fit = (TF1 *)fit->Clone();
+
+
+  //  sim5_g->Draw("same LO");
+  sim5_g->Fit(fit);
+  auto sim5_fit = (TF1 *)fit->Clone();
+
+
+  //  sim6_g->Draw("same LO");
+  sim6_g->Fit(fit);
+  auto sim6_fit = (TF1 *)fit->Clone();
+
+  sim7_g->Fit(fit);
+  auto sim7_fit = (TF1 *)fit->Clone();
+
+  //  sim8_g->Draw("same LO");
+  //  sim9_g->Draw("same LO");
+
+  sim8_g->Fit(fit);
+  auto sim8_fit = (TF1 *)fit->Clone();
+
+  sim9_g->Fit(fit);
+  auto sim9_fit = (TF1 *)fit->Clone();
+
+  sim1_fit->SetLineWidth(4);
+  sim2_fit->SetLineWidth(4);
+  sim3_fit->SetLineWidth(4);
+  sim4_fit->SetLineWidth(4);
+  sim5_fit->SetLineWidth(4);
+  sim6_fit->SetLineWidth(4);
+  sim7_fit->SetLineWidth(4);
+  sim8_fit->SetLineWidth(4);
+  sim9_fit->SetLineWidth(4);
+	  
+  sim1_fit->SetLineColor(kGreen);
+  sim2_fit->SetLineColor(kGreen);
+  sim3_fit->SetLineColor(kGreen);
+  sim4_fit->SetLineColor(kBlue);
+  sim5_fit->SetLineColor(kBlue);
+  sim6_fit->SetLineColor(kBlue);
+  sim7_fit->SetLineColor(kRed);
+  sim8_fit->SetLineColor(kRed);
+  sim9_fit->SetLineColor(kRed);
+
+  sim1_fit->SetLineStyle(1);
+  sim2_fit->SetLineStyle(2);
+  sim3_fit->SetLineStyle(4);
+  sim4_fit->SetLineStyle(1);
+  sim5_fit->SetLineStyle(2);
+  sim6_fit->SetLineStyle(4);
+  sim7_fit->SetLineStyle(1);
+  sim8_fit->SetLineStyle(2);
+  sim9_fit->SetLineStyle(4);
+
+  data->GetYaxis()->SetRangeUser(.5,20);
+  data->Draw("APO");
+  sim1_fit->Draw("same LO"); 
+  sim2_fit->Draw("same LO"); 
+  sim3_fit->Draw("same LO");
+  sim4_fit->Draw("same LO");
+  sim5_fit->Draw("same LO");
+  sim6_fit->Draw("same LO");
+  sim7_fit->Draw("same LO");
+  sim8_fit->Draw("same LO");
+  sim9_fit->Draw("same LO");
+  data->Draw("same PO");
+*/
+    
+}

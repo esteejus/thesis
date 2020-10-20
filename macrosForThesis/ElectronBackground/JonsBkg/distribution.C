@@ -21,7 +21,7 @@ void distribution(){
     cout << "fill done" << endl;
     cout << "lines: " << counter << endl;
     cout << widthintegral << endl;
-    //histDist->Draw();
+    histDist->Draw();
 }
 /*
 void intPion(){

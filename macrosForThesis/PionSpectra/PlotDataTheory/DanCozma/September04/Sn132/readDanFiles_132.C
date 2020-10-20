@@ -1,0 +1,167 @@
+
+vector<TH1D *> readData(string filename , vector<double> mombins , double x1 = 0.0, double x2 = 300.)
+{
+  ifstream infile;
+  infile.open(filename.c_str());
+  string line;
+  stringstream ss;
+
+  int bins = 0;
+  double pim, pip, err_pim, err_pip, ratio, err_ratio, junk;
+
+  //  std::getline(infile,line);
+  while(getline(infile,line))
+    bins++;
+
+ TH1D *pip_h = new TH1D("pip_h","pip_h",bins,x1,x2);
+ TH1D *pim_h = new TH1D("pim_h","pim_h",bins,x1,x2);
+ TH1D *ratio_h = new TH1D("ratio_h","ratio_h",bins,x1,x2);
+
+ bins = 0;
+
+ infile.close();
+ infile.open(filename.c_str());
+
+  while(getline(infile,line))
+    {
+      ss << line;
+      ss >> junk >> pim >> err_pim >> junk >> junk >> pip >> err_pip >> ratio >> err_ratio >> junk >> junk;
+    //    cout<<pim << " "<< err_pim << " " << pip << " "<< err_pip << " "<< ratio << " "<<err_ratio<<endl;
+    bins++;
+
+    //    cout<<bins<<" "<<pip<<" "<<err_pip<<endl;
+    pip_h->SetBinContent(bins,pip);
+    pip_h->SetBinError(bins,err_pip);
+
+    pim_h->SetBinContent(bins,pim);
+    pim_h->SetBinError(bins,err_pim);
+
+    ratio_h->SetBinContent(bins,ratio);
+    ratio_h->SetBinError(bins,err_ratio);
+    }
+
+  pip_h = (TH1D *) pip_h->Rebin(mombins.size() - 1,"pip_h",mombins.data());
+  pim_h =  (TH1D *) pim_h->Rebin(mombins.size() - 1,"pim_h",mombins.data());
+  
+ vector<TH1D *> out;
+ out.push_back(pip_h);
+ out.push_back(pim_h);
+
+ // pip_h->Draw();
+
+ return out;
+}
+
+
+
+void readDanFiles_132()
+{
+
+  vector<double> mombins  = {0, 5, 10,15, 20, 25,  30, 40, 50, 60, 70, 80, 90,  100, 110, 120, 130, 140, 150, 160, 170, 200, 240, 300};
+  
+  auto sim1 =  readData("pispectra_SnSn_0.27_3.00_L015_v53_050420_rapcut_medel_mediel_s3p3_misvm0165_c111.dat",mombins);
+
+  auto sim2 =  readData("pispectra_SnSn_0.27_3.00_L015_v53_050420_rapcut_medel_mediel_s3p3_misvp0000_c111.dat", mombins);
+  auto sim3 =  readData("pispectra_SnSn_0.27_3.00_L015_v53_050420_rapcut_medel_mediel_s3p3_misvp0165_c111.dat", mombins);
+ 
+  auto sim4 =  readData("pispectra_SnSn_0.27_3.00_L060_v53_050420_rapcut_medel_mediel_s3p3_misvm0165_c111.dat", mombins);
+  auto sim5 =  readData("pispectra_SnSn_0.27_3.00_L060_v53_050420_rapcut_medel_mediel_s3p3_misvp0000_c111.dat", mombins);
+  auto sim6 =  readData("pispectra_SnSn_0.27_3.00_L060_v53_050420_rapcut_medel_mediel_s3p3_misvp0165_c111.dat", mombins);
+ 
+  auto sim7 =  readData("pispectra_SnSn_0.27_3.00_L106_v53_050420_rapcut_medel_mediel_s3p3_misvm0165_c111.dat", mombins);
+  auto sim8 =  readData("pispectra_SnSn_0.27_3.00_L106_v53_050420_rapcut_medel_mediel_s3p3_misvp0000_c111.dat", mombins);
+  auto sim9 =  readData("pispectra_SnSn_0.27_3.00_L106_v53_050420_rapcut_medel_mediel_s3p3_misvp0165_c111.dat", mombins);
+
+
+  TFile *f = new TFile("../Cozma_132.root","RECREATE");
+
+  sim1.at(0)->SetName("sim1_pip");
+  sim1.at(1)->SetName("sim1_pim");
+
+  sim2.at(0)->SetName("sim2_pip");
+  sim2.at(1)->SetName("sim2_pim");
+
+  sim3.at(0)->SetName("sim3_pip");
+  sim3.at(1)->SetName("sim3_pim");
+
+  sim4.at(0)->SetName("sim4_pip");
+  sim4.at(1)->SetName("sim4_pim");
+  
+  sim5.at(0)->SetName("sim5_pip");
+  sim5.at(1)->SetName("sim5_pim");
+
+  sim6.at(0)->SetName("sim6_pip");
+  sim6.at(1)->SetName("sim6_pim");
+
+  sim7.at(0)->SetName("sim7_pip");
+  sim7.at(1)->SetName("sim7_pim");
+
+  sim8.at(0)->SetName("sim8_pip");
+  sim8.at(1)->SetName("sim8_pim");
+
+  sim9.at(0)->SetName("sim9_pip");
+  sim9.at(1)->SetName("sim9_pim");
+
+  sim1.at(0)->Write();
+  sim2.at(0)->Write();
+  sim3.at(0)->Write();
+  sim4.at(0)->Write();
+  sim5.at(0)->Write();
+  sim6.at(0)->Write();
+  sim7.at(0)->Write();
+  sim8.at(0)->Write();  
+  sim9.at(0)->Write();  
+  
+  sim1.at(1)->Write();
+  sim2.at(1)->Write();
+  sim3.at(1)->Write();
+  sim4.at(1)->Write();
+  sim5.at(1)->Write();
+  sim6.at(1)->Write();
+  sim7.at(1)->Write();
+  sim8.at(1)->Write();  
+  sim9.at(1)->Write();  
+
+  sim1.at(1)->Divide(sim1.at(0)); 
+  sim2.at(1)->Divide(sim2.at(0)); 
+  sim3.at(1)->Divide(sim3.at(0)); 
+  sim4.at(1)->Divide(sim4.at(0));
+  sim5.at(1)->Divide(sim5.at(0));
+  sim6.at(1)->Divide(sim6.at(0)); 
+  sim7.at(1)->Divide(sim7.at(0));
+  sim8.at(1)->Divide(sim8.at(0));
+  sim9.at(1)->Divide(sim9.at(0));
+
+  sim1.at(1)->SetName("sim1_ratio");
+  sim2.at(1)->SetName("sim2_ratio");
+  sim3.at(1)->SetName("sim3_ratio");  
+  sim4.at(1)->SetName("sim4_ratio");
+  sim5.at(1)->SetName("sim5_ratio");  
+  sim6.at(1)->SetName("sim6_ratio");  
+  sim7.at(1)->SetName("sim7_ratio");  
+  sim8.at(1)->SetName("sim8_ratio");
+  sim9.at(1)->SetName("sim9_ratio");
+  
+  sim1.at(1)->Write();
+  sim2.at(1)->Write();
+  sim3.at(1)->Write();
+  sim4.at(1)->Write();
+  sim5.at(1)->Write();
+  sim6.at(1)->Write();
+  sim7.at(1)->Write();
+  sim8.at(1)->Write();
+  sim9.at(1)->Write();  
+
+  sim1.at(1)->Draw("L");
+  sim2.at(1)->Draw("same L");
+  sim3.at(1)->Draw("same L");
+  sim4.at(1)->Draw("same L");
+  sim5.at(1)->Draw("same L");
+  sim6.at(1)->Draw("same L");
+  sim7.at(1)->Draw("same L");
+  sim8.at(1)->Draw("same L");
+  sim9.at(1)->Draw("same L");
+
+
+
+}

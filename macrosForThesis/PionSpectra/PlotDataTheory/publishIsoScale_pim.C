@@ -186,7 +186,7 @@ void publishIsoScale_pim()
   auto pBUU_sum_pip = CombineGraph(pBUU_stiff_pip,pBUU_soft_pip);
   
 
-  TFile *f = TFile::Open("/home/justin/mythesis/macrosForThesis/PionSpectra/rootfiles/publishPions_sm.root");
+  TFile *f = TFile::Open("/home/justin/mythesis/macrosForThesis/PionSpectra/rootfiles/publishPions_08_26_2020.root");
   TH1D *pim_sn132 = (TH1D *)f->Get("pim_sn132");
   TH1D *pip_sn132 = (TH1D *)f->Get("pip_sn132");
   TH1D *pim_sn108 = (TH1D *)f->Get("pim_sn108");
@@ -407,7 +407,13 @@ void publishIsoScale_pim()
   leg_stiff->Draw();
   cvs->SaveAs("pim_132_sum.png");
 
+  for(int i = 1; i <= pim_sn132->GetNbinsX(); i++)
+    cout<<pim_sn132->GetBinCenter(i)<<",";
+  cout<<endl;
 
+  for(int i = 1; i <= pim_sn132->GetNbinsX(); i++)
+    cout<<pim_sn132->GetBinContent(i)<<",";
+  cout<<endl;
 
 
 }

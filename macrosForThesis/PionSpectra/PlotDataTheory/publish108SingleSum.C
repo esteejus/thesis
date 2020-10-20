@@ -82,7 +82,7 @@ void publish108SingleSum()
   auto amdJAM_sum = CombineGraph(amdJAM55_DR,amdJAM152_DR);
   auto pBUU_sum = CombineGraph(pBUU_stiff_no_DR,pBUU_soft_no_DR);
 
-  TFile *f = TFile::Open("/home/justin/mythesis/macrosForThesis/PionSpectra/rootfiles/publishPions_sm.root");
+  TFile *f = TFile::Open("/home/justin/mythesis/macrosForThesis/PionSpectra/rootfiles/publishPions_08_26_2020.root");
   TH1D *singleRatio_sn108 = (TH1D *)f->Get("singleRatio_sn108");
 
   make(singleRatio_sn108);
@@ -289,6 +289,16 @@ void publish108SingleSum()
 
   leg_stiff->SetFillStyle(0);
   leg_stiff->SetBorderSize(0);
+
+ for(int i = 1; i <= singleRatio_sn108->GetNbinsX(); i++)
+    cout<<singleRatio_sn108->GetBinCenter(i)<<",";
+  cout<<endl;
+  for(int i = 1; i <= singleRatio_sn108->GetNbinsX(); i++)
+    cout<<singleRatio_sn108->GetBinContent(i)<<",";
+  cout<<endl;
+  for(int i = 1; i <= singleRatio_sn108->GetNbinsX(); i++)
+    cout<<singleRatio_sn108->GetBinError(i)<<",";
+  cout<<endl;
 
   singleRatio_sn108->GetXaxis()->SetNdivisions(505);
   singleRatio_sn108->Draw("L E1");

@@ -1,0 +1,17 @@
+
+
+
+void plotVarBin()
+{
+
+  TFile *f = TFile::Open("../rootfiles/analysis-Sn132-finebin_08_31.root");
+
+
+
+
+
+
+
+
+
+}
